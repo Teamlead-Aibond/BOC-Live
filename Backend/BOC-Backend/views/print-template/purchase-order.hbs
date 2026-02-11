@@ -1,0 +1,452 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>PDF</title>
+    <style type="text/css">
+      html { -webkit-print-color-adjust: exact; } html, body, html * {
+      font-family: 'Roboto', sans-serif; } * { margin: 10px 20px 10px 10px;
+      padding: 0; } .pdf-outer { background-color: #fff; background-clip:
+      border-box; padding: 0 0 32px; margin-bottom: 24px; border-radius:
+      0.25rem; width: 100%; float: left; } .pdfwrap { padding: 16px 2% 0px 1%;
+      margin: 0; float: left; width: 97%; } .pdfheader { width: 100%; float:
+      left; margin: 0; padding: 0; } .pdf-content { width: 100%; float: left;
+      margin: 0; padding: 0 0 0 16px !important; } .pdfheader-left { width:
+      33.3%; float: left; margin: 0; padding: 0; } .pdfheader-right { width:
+      66.7%; float: left; margin: 0; padding: 0; } .pdfheader-right h2 {
+      font-size: 32px !important; font-weight: 400; color: #09518e; margin: 10px
+      0 2px; font-family: "Roboto", sans-serif; text-align: right; }
+      .pdfheader-right h4 { font-size: 14px; text-align: right; font-weight:
+      500; margin: 0; padding: 0 0 1px; } .pdfheader-right p { font-size: 12px;
+      color: #000; padding-bottom: 5px; margin: 0; font-family: "Roboto",
+      sans-serif; text-align: right; line-height: 18px !important; padding-top:
+      0px; } .pdf-equal-cell { width: 31%; float: left; margin: 0 16px 0 0;
+      padding: 0; } .pdf-equal-cell h5 { font-size: 11px; margin: 10px 16px;
+      font-weight: 500; font-family: "Roboto", sans-serif; color: #000; padding:
+      0; } .pdf-equal-cell p { margin: 10px 16px 14px; padding: 0; font-size:
+      11px; font-family: "Roboto", sans-serif; color: #000; line-height: 18px; }
+      .table-responsive { display: block; width: 100%; margin: 0; overflow:
+      visible; -webkit-overflow-scrolling: touch; } .pdf-content.table { width:
+      100%; margin-bottom: 1.5rem; border-collapse: collapse; } .pdf-content
+      .table .thead-light th { color: #FFFFFF !important; background-color:
+      #38414A !important; border-color: #38414A !important; vertical-align:
+      middle; border-bottom: 2px solid #38414A !important; text-align: left;
+      padding: 8px; border: 1px solid #38414A; font-size: 11px; } .pdf-content
+      .thead-light { border: 1px solid #38414A !important; } .pdf-content
+      .print-table tbody { border: 1px solid #38414A !important; width: 100%
+      !important; padding: 0 !important; display: table; margin: 0 !important;
+      border-top: 0 !important; margin-top: -2px !important; }
+      table.table.print-table { width: 100%; margin: 0 !important; padding: 0
+      !important; } .pdf-content .print-table2 tbody { width: 100% !important;
+      padding: 0 !important; margin: 0 !important; border-top: 0 !important;
+      margin-top: -2px !important; } table.table.print-table2 { width: 98.5%;
+      margin: 0 !important; padding: 0 !important; border: 1px solid #38414A; }
+      table.table.print-table2 td { padding: 8px; line-height: 23px; font-size:
+      11px; border-right: 1px solid #38414A; } table.table.print-table2 td .desc
+      { font-size: 10px; } .pdfrow { display: flex; flex-wrap: wrap;
+      margin-right: 0px; margin-left: 0; padding-bottom: 20px; } .pdfrow td {
+      font-size: 12px; } .pdfrow label { color: #000; font-weight: 500;
+      font-size: 11px; font-family: "Roboto", sans-serif; line-height: 18px;
+      padding: 0 0 0 2px; margin: 0; } .w-25 { width: 25%; float: left; margin:
+      -2px !important; padding: 0px !important; } .w-25 p { font-size: 11px;
+      color: #000; margin: 10px 0 0 2px; padding-bottom: 5px; font-family:
+      "Roboto", sans-serif; line-height: 19px; padding-top: 0px; } .w-50 {
+      width: 47%; float: left; margin: 0 !important; padding: 0px !important; }
+      .w-50 p { font-size: 11px; color: #000; margin: 10px 0 0 20px;
+      padding-bottom: 5px; font-family: "Roboto", sans-serif; line-height: 19px;
+      padding-top: 0px; } .borderblack { border-top: 1px solid #000; margin:
+      -10px 18px 0 0px !important; padding: 0; height: 5px; } table.po-detail {
+      text-align: left; padding: 0 !important; margin: 0 !important; width:
+      100%; } .nopad { padding: 0 !important } table.po-detail th { font-size:
+      11px; font-weight: 500; margin: 0; padding: 5px; color: #000; } table {
+      border-collapse: collapse; } .noteswrap { margin: 0; padding: 0; }
+      .noteswrap h6 { font-size: 11px; color: #000; font-family: "Roboto",
+      sans-serif; } .noteswrap p { font-size: 11px; } .bill p { width: 100%;
+      float: left; line-height: 22px; font-weight: 400; font-size: 12px;
+      font-style: normal; margin: 0; padding: 0; } .grandouter p { font-size:
+      12px !important; padding: 7px 0 5px !important; } .grandouter {
+      border-top: 1px solid #dee2e6 !important; border-bottom: 2px solid #dee2e6
+      !important; background: #f0f4f6; } .linebreak { white-space: pre-line; }
+    </style>
+  </head>
+
+  <body>
+    <div class="pdf-outer">
+      <div class="pdfwrap">
+        <div class="pdfheader">
+          <div class="pdfheader-left">
+            <img class="logo" src="{{Logo}}" width="250" />
+          </div>
+          <div class="pdfheader-right">
+            <h2>Purchase Order</h2>
+            <h4>Purchase Order# {{PurchaseOrderInfo.PONo}}</h4>
+            <p>Approved Date :
+              {{formatDate PurchaseOrderInfo.ApprovedDate}}
+              <br />
+              Payment Terms :
+              {{PurchaseOrderInfo.TermsName}}
+            </p>
+          </div>
+        </div>
+        <div class="pdf-content">
+          <div class="pdfrow">
+            <div class="pdf-equal-cell">
+              <div class="table-responsive">
+                <table class="table table-bordered print-table">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>Supplier</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <h5>{{PurchaseOrderInfo.VendorName}}</h5>
+                        <p>
+                          {{VendorAddress.StreetAddress}},
+                          {{VendorAddress.SuiteOrApt}},
+                          {{VendorAddress.City}}<br
+                          />{{VendorAddress.StateName}},
+                          {{VendorAddress.CountryName}}
+                          -
+                          {{VendorAddress.Zip}}
+                        </p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="pdf-equal-cell">
+              <div class="table-responsive">
+                <table class="table table-bordered print-table">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>Sold To</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <h5>{{RemitToAddress.EntityName}} <br /></h5>
+                        <p>
+                          {{RemitToAddress.EntityAddress1}},
+                          {{#ifCond RemitToAddress.EntityAddress2 "!=" ""}}
+                            {{RemitToAddress.EntityAddress2}},
+                          {{/ifCond}}
+                          <br />
+                          {{RemitToAddress.EntityCity}},{{RemitToAddress.EntityState}}
+                          {{RemitToAddress.EntityZip}},<br />
+                          VAT No :
+                          {{RemitToAddress.EntityVATNo}}
+                        </p>
+                        {{!-- <b>{{BillName}}</b><br>
+                                            <p>{{BillingAddress.StreetAddress}}, {{BillingAddress.City}}<br>
+                                                {{BillingAddress.CountryName}}, {{BillingAddress.StateName}}-
+                                                {{BillingAddress.Zip}}
+                                            </p> --}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="pdf-equal-cell">
+              <div class="table-responsive">
+                <table class="table table-bordered print-table">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>Ship To</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <h5>{{ShipName}}<br /></h5>
+                        <p>
+                          {{ShippingAddress.StreetAddress}},
+                          {{ShippingAddress.SuiteOrApt}},
+                          {{ShippingAddress.City}}<br
+                          />{{ShippingAddress.StateName}},
+                          {{ShippingAddress.CountryName}}
+                          -
+                          {{ShippingAddress.Zip}}
+                        </p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="pdfrow">
+            <div class="w-25">
+              <label>Attention</label>
+              <p>{{PurchaseOrderInfo.VendorName}}</p>
+            </div>
+            <div class="w-25">
+              <label>Phone #</label>
+              <p>{{ContactAddress.PhoneNoPrimary}}</p>
+            </div>
+          </div>
+          <div class="borderblack">&nbsp;</div>
+          <div class="pdfrow nopad">
+            <div class="w-50">
+              <div class="table-responsive">
+                <table class="table table-borderless po-detail">
+                  <tbody>
+                    {{#ifCond PurchaseOrderInfo.RRId "!=" 0}}
+                      <tr>
+                        <th>Repair Request #</th>
+                        <td>: {{PurchaseOrderInfo.RRNo}}</td>
+                      </tr>
+                    {{/ifCond}}
+                    <tr>
+                      <th>Vendor Reference #</th>
+                      <td>: {{PurchaseOrderInfo.VendorRefNo}}</td>
+                    </tr>
+                    <tr>
+                      <th>Additional PO #</th>
+                      <td>:
+                        {{PurchaseOrderInfo.AdditionalPONo}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Due Date</th>
+                      <td>:
+                        {{formatDate PurchaseOrderInfo.DueDate}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="w-50">
+              <div class="table-responsive">
+                <table class="table table-borderless po-detail">
+                  <tbody>
+                    <tr>
+                      <th width="40%">Shipping A/c #</th>
+                      <td width="60%">:
+                        {{PurchaseOrderInfo.ShippingAccountNumber}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Ship Via</th>
+                      <td>: {{PurchaseOrderInfo.ShipViaName}}</td>
+                    </tr>
+                    {{#ifCond Status "==" 6}}
+                      <tr>
+                        <th>Approved By</th>
+                        <td>: {{PurchaseOrderInfo.ApprovedByName}}</td>
+                      </tr>
+                    {{/ifCond}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:25px;" class="table-responsive">
+            <table class="table table-bordered print-table2">
+              <thead class="thead-light">
+                {{#ifCond IsHideTax "==" "1"}}
+                  <tr>
+                    <th width="35%">Part # / Description</th>
+                    <th width="9%">Quantity</th>
+                    <th width="11%">Price</th>
+                    <th width="18%">Warranty Period</th>
+                    <th width="10%">Lead Time</th>
+                  </tr>
+                {{/ifCond}}
+
+                {{#ifCond IsHideTax "==" "0"}}
+                  <tr>
+                    <th width="30%">Part # / Description</th>
+                    <th width="9%">Quantity</th>
+                    <th width="11%">Unit Price</th>
+                    <th width="15%">Total Vat / Tax</th>
+                    <th width="11%">Price</th>
+                    <th width="18%">Warranty Period</th>
+                    <th width="10%">Lead Time</th>
+                  </tr>
+                {{/ifCond}}
+
+              </thead>
+              <tbody>
+
+                {{#ifCond IsHideTax "==" "1"}}
+                  {{#each PurchaseOrderItem}}
+                    <tr>
+                      <td><b>{{PartNo}}</b>
+                        {{#ifCond Description "!=" ""}}
+                          <br />{{Description}}
+                        {{/ifCond}}
+                        {{#ifCond SerialNo "!=" null}}
+                          {{#ifCond SerialNo "!=" ""}}
+                            <br />Serial No:
+                            {{SerialNo}}
+                          {{/ifCond}}
+                        {{/ifCond}}
+                      </td>
+                      <td>{{Quantity}}</td>
+                      <td>{{ItemLocalCurrencySymbol}}
+                        {{formatDecimal Price}}</td>
+                      {{#ifCond WarrantyPeriod "==" "0"}}<td>No Warranty</td>{{/ifCond}}
+                      {{#ifCond WarrantyPeriod ">" "0"}}<td>{{WarrantyPeriod}}
+                          Months</td>{{/ifCond}}
+                      {{#ifCond WarrantyPeriod "==" null}}<td>-</td>{{/ifCond}}
+
+                      {{#ifCond LeadTime "==" ""}}<td>-</td>{{/ifCond}}
+                      {{#ifCond LeadTime "!=" ""}}<td>{{LeadTime}}
+                          Days</td>{{/ifCond}}
+                    </tr>
+                  {{/each}}
+                {{/ifCond}}
+
+                {{#ifCond IsHideTax "==" "0"}}
+                  {{#each PurchaseOrderItem}}
+                    <tr>
+                      <td><b>{{PartNo}}</b>
+                        {{#ifCond Description "!=" ""}}
+                          <br />{{Description}}
+                        {{/ifCond}}
+                        {{#ifCond SerialNo "!=" null}}
+                          {{#ifCond SerialNo "!=" ""}}
+                            <br />Serial No:
+                            {{SerialNo}}
+                          {{/ifCond}}
+                        {{/ifCond}}
+                      </td>
+                      <td>{{Quantity}}</td>
+                      <td>{{ItemLocalCurrencySymbol}}
+                        {{formatDecimal Rate}}</td>
+                      <td>{{ItemLocalCurrencySymbol}}
+                        {{formatDecimal TotalTax}}</td>
+                      <td>{{ItemLocalCurrencySymbol}}
+                        {{formatDecimal Price}}</td>
+                      {{#ifCond WarrantyPeriod "==" "0"}}<td>No Warranty</td>{{/ifCond}}
+                      {{#ifCond WarrantyPeriod ">" "0"}}<td>{{WarrantyPeriod}}
+                          Months</td>{{/ifCond}}
+                      {{#ifCond WarrantyPeriod "==" null}}<td>-</td>{{/ifCond}}
+
+                      {{#ifCond LeadTime "==" ""}}<td>-</td>{{/ifCond}}
+                      {{#ifCond LeadTime "!=" ""}}<td>{{LeadTime}}
+                          Days</td>{{/ifCond}}
+                    </tr>
+                  {{/each}}
+                {{/ifCond}}
+
+              </tbody>
+            </table>
+            <table
+              class="table table-borderless bill mb-0"
+              style="float: right;"
+            >
+              <tbody>
+                {{!-- {{#ifCond PurchaseOrderInfo.SubTotal '>' 0}}
+                            <tr>
+
+                                <th align="right" scope="row">
+                                    <p><b>Sub Total :</b></p>
+                                </th>
+                                <td>
+                                    <p>$ {{formatDecimal PurchaseOrderInfo.SubTotal}}</p>
+                                </td>
+                            </tr>
+                            {{/ifCond}}
+                            {{#ifCond PurchaseOrderInfo.AHFees '>' 0}}
+                            <tr>
+
+                                <th align="right" scope="row">
+                                    <p><b>AH Processing Fee :</b></p>
+                                </th>
+                                <td>
+                                    <p>$ {{formatDecimal PurchaseOrderInfo.AHFees}}</p>
+                                </td>
+                            </tr>
+                            {{/ifCond}}
+                            {{#ifCond PurchaseOrderInfo.TotalTax '>' 0}}
+                            <tr>
+
+                                <th align="right" scope="row">
+                                    <p><b>Total Tax ({{formatDecimal PurchaseOrderInfo.TaxPercent}} %):</b></p>
+                                </th>
+                                <td>
+                                    <p>$ {{formatDecimal PurchaseOrderInfo.TotalTax}}</p>
+                                </td>
+                            </tr>
+                            {{/ifCond}}
+                            {{#ifCond PurchaseOrderInfo.Discount '>' 0}}
+                            <tr>
+
+                                <th align="right" scope="row">
+                                    <p><b>Discount :</b></p>
+                                </th>
+                                <td>
+                                    <p>$ {{formatDecimal PurchaseOrderInfo.Discount}}</p>
+                                </td>
+                            </tr>
+                            {{/ifCond}}
+                            {{#ifCond PurchaseOrderInfo.Shipping '>' 0}}
+                            <tr>
+
+                                <th align="right" scope="row">
+                                    <p><b>Shipping :</b></p>
+                                </th>
+                                <td>
+                                    <p>$ {{formatDecimal PurchaseOrderInfo.Shipping}}</p>
+                                </td>
+                            </tr>
+                            {{/ifCond}} --}}
+                <tr class="grandouter">
+
+                  <th align="right" scope="row">
+                    <p><b>Grand Total :</b></p>
+                  </th>
+                  <td>
+                    <p>{{PurchaseOrderInfo.CurrencySymbol}}
+                      {{formatDecimal PurchaseOrderInfo.GrandTotal}}</p>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+          <div style="clear: both;"></div>
+          <div class="pdfrow">
+            <div class="noteswrap">
+              <h6>Shipping Notes:</h6>
+              <p>
+                {{settingsView.DefaultPONote}}
+              </p>
+              {{#each NotesList}}
+                <p class="linebreak">
+                  {{Notes}}
+                </p>
+              {{/each}}
+              {{#each RRNotesList}}
+                <p class="linebreak">
+                  {{Notes}}
+                </p>
+              {{/each}}
+              <p>{{PurchaseOrderInfo.CustomerPONotes}}</p>
+            </div>
+          </div>
+          <div class="pdfrow">
+            <div class="noteswrap">
+              <div class="thank-txt">
+                <p class="leadtime">By accepting this purchase order from
+                  Aibond, you are agreeing that this part will not be scrapped
+                  by anyone within your organization without written approval
+                  from Aibond. Scrapping of this part without written approval
+                  may result in reimbursement of the part at fair market value.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+
+</html>

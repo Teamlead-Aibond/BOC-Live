@@ -1,0 +1,545 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>PDF</title>
+    <style type="text/css">
+        html {
+            -webkit-print-color-adjust: exact;
+        }
+
+        html,
+        body,
+        html * {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        * {
+            margin: 10px 20px 10px 10px;
+            padding: 0;
+        }
+
+        .pdf-outer {
+            background-color: #fff;
+            background-clip: border-box;
+            padding: 0 0 32px;
+            margin-bottom: 24px;
+            border-radius: 0.25rem;
+            width: 100%;
+            float: left;
+        }
+
+        .pdfwrap {
+            padding: 16px 2% 0px 1%;
+            margin: 0;
+            float: left;
+            width: 97%;
+        }
+
+        .pdfheader {
+            width: 100%;
+            float: left;
+            margin: 0;
+            padding: 0;
+        }
+
+        .pdf-content {
+            width: 100%;
+            float: left;
+            margin: 0;
+            padding: 0 0 0 16px !important;
+        }
+
+        .pdfheader-left {
+            width: 33.3%;
+            float: left;
+            margin: 0;
+            padding: 0;
+        }
+
+        .pdfheader-center {
+            width: 33.3%;
+            float: left;
+            margin: 0;
+            padding: 0;
+        }
+
+        .pdfheader-center p {
+            font-size: 12px;
+            color: #000;
+            padding-bottom: 5px;
+            margin: 0;
+            font-family: "Roboto", sans-serif;
+            text-align: right;
+            line-height: 18px !important;
+            padding-top: 0px;
+        }
+
+        .pdfheader-right {
+            width: 66%;
+            float: left;
+            margin: 0;
+            padding: 0;
+        }
+
+        .pdfheader-right h2 {
+            font-size: 32px !important;
+            font-weight: 400;
+            color: #09518e;
+            margin: 10px 0 2px;
+            font-family: "Roboto", sans-serif;
+            text-align: right;
+        }
+
+        .pdfheader-right h4 {
+            font-size: 14px;
+            text-align: right;
+            font-weight: 500;
+            margin: 0;
+            padding: 0 0 1px;
+        }
+
+        .pdfheader-right p {
+            font-size: 12px;
+            color: #000;
+            padding-bottom: 5px;
+            margin: 0;
+            font-family: "Roboto", sans-serif;
+            text-align: right;
+            line-height: 18px !important;
+            padding-top: 0px;
+        }
+
+        .pdf-equal-cell {
+            width: 31%;
+            float: left;
+            margin: 0 16px 0 0;
+            padding: 0;
+        }
+
+        .pdf-equal-cell h5 {
+            font-size: 11px;
+            margin: 10px 16px;
+            font-weight: 500;
+            font-family: "Roboto", sans-serif;
+            color: #000;
+            padding: 0;
+        }
+
+        .pdf-equal-cell p {
+            margin: 10px 16px 14px;
+            padding: 0;
+            font-size: 11px;
+            font-family: "Roboto", sans-serif;
+            color: #000;
+            line-height: 18px;
+        }
+
+        .table-responsive {
+            display: block;
+            width: 100%;
+            margin: 0;
+            overflow: visible;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .pdf-content.table {
+            width: 100%;
+            margin-bottom: 1.5rem;
+            border-collapse: collapse;
+        }
+
+        .pdf-content .table .thead-light th {
+            color: #FFFFFF !important;
+            background-color: #38414A !important;
+            border-color: #38414A !important;
+            vertical-align: middle;
+            border-bottom: 2px solid #38414A !important;
+            text-align: left;
+            padding: 8px;
+            border: 1px solid #38414A;
+            font-size: 11px;
+        }
+
+        .pdf-content .thead-light {
+            border: 1px solid #38414A !important;
+        }
+
+        .pdf-content .print-table tbody {
+            border: 1px solid #38414A !important;
+            width: 100% !important;
+            padding: 0 !important;
+            display: table;
+            margin: 0 !important;
+            border-top: 0 !important;
+            margin-top: -2px !important;
+        }
+
+        table.table.print-table {
+            width: 100%;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .pdf-content .print-table2 tbody {
+            width: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            border-top: 0 !important;
+            margin-top: -2px !important;
+        }
+
+        table.table.print-table2 {
+            width: 98.5%;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: 1px solid #38414A;
+        }
+
+        table.table.print-table2 td {
+            padding: 8px;
+            line-height: 23px;
+            font-size: 11px;
+            border-right: 1px solid #38414A;
+        }
+
+        table.table.print-table2 td .desc {
+            font-size: 10px;
+        }
+
+        .pdfrow {
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: 0px;
+            margin-left: 0;
+            padding-bottom: 20px;
+        }
+
+        .pdfrow td {
+            font-size: 12px;
+        }
+
+        .pdfrow label {
+            color: #000;
+            font-weight: 500;
+            font-size: 11px;
+            font-family: "Roboto", sans-serif;
+            line-height: 18px;
+            padding: 0 0 0 2px;
+            margin: 0;
+        }
+
+        .w-25 {
+            width: 25%;
+            float: left;
+            margin: -2px !important;
+            padding: 0px !important;
+            padding-top: 10px !important;
+        }
+
+        .w-25 label {
+            font-weight: bold;
+        }
+
+        .w-25 p {
+            font-size: 11px;
+            color: #000;
+            margin: 3px 0 0 2px;
+            padding-bottom: 5px;
+            font-family: "Roboto", sans-serif;
+            line-height: 19px;
+            padding-top: 0px;
+        }
+
+        .w-50 {
+            width: 47%;
+            float: left;
+            margin: 0 !important;
+            padding: 0px !important;
+        }
+
+        .w-50 p {
+            font-size: 11px;
+            color: #000;
+            margin: 10px 0 0 20px;
+            padding-bottom: 5px;
+            font-family: "Roboto", sans-serif;
+            line-height: 19px;
+            padding-top: 0px;
+        }
+
+        .borderblack {
+            border-top: 1px solid #000;
+            margin: -10px 18px 0 0px !important;
+            padding: 0;
+            height: 5px;
+        }
+
+        table.po-detail {
+            text-align: left;
+            padding: 0 !important;
+            margin: 0 !important;
+            width: 100%;
+        }
+
+        .nopad {
+            padding: 0 !important
+        }
+
+        table.po-detail th {
+            font-size: 11px;
+            font-weight: 500;
+            margin: 0;
+            padding: 5px;
+            color: #000;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        .noteswrap {
+            margin: 0;
+            padding: 0;
+        }
+
+        .noteswrap h6 {
+            font-size: 11px;
+            color: #000;
+            font-family: "Roboto", sans-serif;
+        }
+
+        .noteswrap p {
+            font-size: 11px;
+        }
+
+        .bill p {
+            width: 100%;
+            float: left;
+            line-height: 22px;
+            font-weight: 400;
+            font-size: 12px;
+            font-style: normal;
+            margin: 0;
+            padding: 0;
+        }
+
+        .table-borderless td {
+            padding-right: 8px;
+        }
+
+
+        .table-borderless th,
+        .table-borderless td,
+        .table-borderless thead th,
+        .table-borderless tbody+tbody {
+            border: 0;
+        }
+
+        .grandouter {
+            border-top: 1px solid #dee2e6 !important;
+            border-bottom: 2px solid #dee2e6 !important;
+            background: #f0f4f6;
+        }
+
+        .linebreak {
+            white-space: pre-line;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="pdf-outer">
+        <div class="pdfwrap">
+            <div class="pdfheader">
+                <div class="pdfheader-left"> <img class="logo" src="{{Logo}}" width="250"> </div>
+                {{!-- <div class="pdfheader-center">
+
+                    <p>Vendor Bill Date : {{ formatDate VendorInvoiceInfo.InvoiceDate }} <br>
+                        Due Date : {{ formatDate VendorInvoiceInfo.DueDate }} <br>
+                        Terms : {{VendorInvoiceInfo.TermsName }} <br>
+                    </p>
+                </div> --}}
+                <div class="pdfheader-right">
+                    <h2>Vendor Bill</h2>
+                    <h4>Vendor Bill# {{number}}</h4>
+                    <p>Vendor Bill Date : {{ formatDate VendorInvoiceInfo.InvoiceDate }} <br>
+                        Due Date : {{ formatDate VendorInvoiceInfo.DueDate }} <br>
+                        Terms : {{VendorInvoiceInfo.TermsName }} <br>
+                    </p>
+                </div>
+            </div>
+            <div class="pdf-content">
+                <div class="pdfrow">
+                    <div style="width:49%; margin-left:1%;" class="pdf-splitequal">
+                        <div class="table-responsive">
+                            <table class="table table-bordered print-table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th colspan="2">Vendor Details:</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <p><b>{{ VendorInvoiceInfo.VendorName}}</b><br>
+                                                {{VendorAddress.StreetAddress}}, {{VendorAddress.SuiteOrApt}},
+                                                {{VendorAddress.City}}<br>
+                                                {{VendorAddress.StateName}}, {{VendorAddress.CountryName}}-
+                                                {{VendorAddress.Zip}}<br>
+                                                Phone: {{VendorAddress.PhoneNoPrimary}}<br>
+                                                Fax: {{VendorAddress.Fax}}
+                                            </p>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="pdfrow">
+                    {{#ifCond RRId '!=' "0"}}
+                    <div class="w-25">
+                        <label>Repair Request No :</label>
+                        <p>{{VendorInvoiceInfo.RRNo}}</p>
+                    </div>
+                    {{/ifCond}}
+                    <div class="w-25">
+                        <label>Vendor ID</label>
+                        <p>{{ VendorInvoiceInfo.VendorCode}}</p>
+                    </div>
+                    <div class="w-25">
+                        <label>Vendor Invoice #</label>
+                        <p>{{VendorInvoiceInfo.VendorInvNo}}</p>
+                    </div>
+                    <div class="w-25">
+                        <label>Vendor Reference #</label>
+                        <p>{{VendorInvoiceInfo.ReferenceNo}}</p>
+                    </div>
+                </div>
+                <div style="margin-top:25px;" class="table-responsive">
+                    <table class="table table-bordered print-table2">
+                        <thead class="thead-light">
+                            <tr>
+                                <th width="11%">PO #</th>
+                                <th width="30%">Part # / Description</th>
+                                <th width="9%">Quantity</th>
+                                <th width="11%">Unit Price</th>
+                                <th width="15%">Total Vat / Tax</th>
+                                <th width="18%">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each VendorInvoiceItem}}
+                            <tr>
+                                <td>
+                                    {{PONo}}
+                                </td>
+                                <td><b>{{PartNo}}</b>
+                                    {{#ifCond Description '!=' ""}}
+                                    <br />{{Description}}
+                                    {{/ifCond}}
+                                    {{#ifCond VendorInvoiceInfo.RepairPartId '!=' PartId}}
+                                    {{#ifCond SerialNo '!=' null}}
+                                    {{#ifCond SerialNo '!=' ""}}
+                                    <br />Serial No: {{SerialNo}}
+                                    {{/ifCond}}
+                                    {{/ifCond}}
+                                    {{/ifCond}}
+                                </td>
+                                <td>{{Quantity}}</td>
+                                <td>{{ItemLocalCurrencySymbol}} {{formatDecimal Rate}}</td>
+                                <td>{{ItemLocalCurrencySymbol}} {{formatDecimal TotalTax}}</td>
+                                <td>{{ItemLocalCurrencySymbol}} {{formatDecimal Price}}</td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                    <table class="table table-borderless bill mb-0" style="float: right;">
+                        <tbody>
+                            {{!-- {{#ifCond VendorInvoiceInfo.SubTotal '>' 0}}
+                            <tr>
+                                <th align="right" scope="row">
+                                    <p><b>Sub Total :</b></p>
+                                </th>
+                                <td>
+                                    <p>$ {{formatDecimal VendorInvoiceInfo.SubTotal}}</p>
+                                </td>
+                            </tr>
+                            {{/ifCond}}
+                            {{#ifCond VendorInvoiceInfo.AHFees '>' 0}}
+                            <tr>
+                                <th align="right" scope="row">
+                                    <p><b>AH Processing Fee :</b></p>
+                                </th>
+                                <td>
+                                    <p>$ {{formatDecimal VendorInvoiceInfo.AHFees}}</p>
+                                </td>
+                            </tr>
+                            {{/ifCond}}
+                            {{#ifCond VendorInvoiceInfo.TotalTax '>' 0}}
+                            <tr>
+                                <th align="right" scope="row">
+                                    <p><b>Total Tax ({{formatDecimal VendorInvoiceInfo.TaxPercent}} %):</b></p>
+                                </th>
+                                <td>
+                                    <p>$ {{formatDecimal VendorInvoiceInfo.TotalTax}}</p>
+                                </td>
+                            </tr>
+                            {{/ifCond}}
+                            {{#ifCond VendorInvoiceInfo.Discount '>' 0}}
+                            <tr>
+                                <th align="right" scope="row">
+                                    <p><b>Discount :</b></p>
+                                </th>
+                                <td>
+                                    <p>$ {{formatDecimal VendorInvoiceInfo.Discount}}</p>
+                                </td>
+                            </tr>
+                            {{/ifCond}}
+                            {{#ifCond VendorInvoiceInfo.Shipping '>' 0}}
+                            <tr>
+                                <th align="right" scope="row">
+                                    <p><b>Shipping :</b></p>
+                                </th>
+                                <td>
+                                    <p>$ {{formatDecimal VendorInvoiceInfo.Shipping}}</p>
+                                </td>
+                            </tr>
+                            {{/ifCond}} --}}
+                            <tr class="grandouter">
+                                <th align="right" scope="row">
+                                    <p><b>Grand Total :</b></p>
+                                </th>
+                                <td>
+                                    <p>{{VendorInvoiceInfo.CurrencySymbol}} {{formatDecimal
+                                        VendorInvoiceInfo.GrandTotal}}</p>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div style="clear: both;"></div>
+                {{#ifCond IsNotesEnabled '=' true}}
+                <div class="pdfrow">
+                    <div class="noteswrap">
+                        <h6>Notes:</h6>
+                        <p>
+                            {{settingsView.DefaultVendorBIllNote}}
+                        </p>
+                        {{#each NotesList}}
+                        <p class="linebreak">
+                            {{Notes}}
+                        </p>
+                        {{/each}}
+                    </div>
+                </div>
+                {{/ifCond}}
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

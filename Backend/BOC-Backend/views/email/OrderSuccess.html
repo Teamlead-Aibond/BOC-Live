@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      td,
+      th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+
+      .FieldLabel {
+        font-weight: bold;
+        padding: 4px;
+        width: 90px;
+      }
+
+      .RightAlignedInputs input {
+        text-align: right;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h2>Order Details - Aibond Store</h2>
+
+    <table style="width: 100%">
+      <tr>
+        <td valign="top">
+          <table>
+            <tr>
+              <td class="FieldLabel">Customer:</td>
+              <td>
+                <div class="FieldPlaceholder DataOnly">
+                  {{BasketInfo.CompanyName}}
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td valign="top">
+          <table style="float: right" class="RightAlignedInputs">
+            <tr>
+              <td class="FieldLabel">Billing Address:</td>
+              <td>
+                <div class="FieldPlaceholder DataOnly">
+                  {{BillingAddress.StreetAddress}},{{BillingAddress.City}},<br />
+                  {{BillingAddress.CountryName}},{{BillingAddress.StateName}},{{BillingAddress.Zip}}
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="FieldLabel">Shipping Address::</td>
+              <td>
+                <div class="FieldPlaceholder DataOnly">
+                  {{ShippingAddress.StreetAddress}},{{ShippingAddress.City}},<br />
+                  {{ShippingAddress.CountryName}},{{ShippingAddress.StateName}},{{ShippingAddress.Zip}}
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <table>
+            <tr>
+              <td class="FieldLabel">Ship Name:</td>
+              <td>
+                <div class="FieldPlaceholder DataOnly">{ShipName}</div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td valign="bottom">
+          <!-- <table>
+                <tr>
+                    <td class="FieldLabel">
+                        Ship Name:
+                    </td>
+                    <td>
+                        <div class="FieldPlaceholder DataOnly">
+                            {ShipName}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="FieldLabel">
+                        Ship Via:
+                    </td>
+                    <td>
+                        <div class="FieldPlaceholder DataOnly">
+                            {ShipVia}</div>
+                    </td>
+                </tr>
+            </table> -->
+        </td>
+        <td align="right">
+          <table style="margin-right: 4px" class="RightAlignedInputs">
+            <tr>
+              <td class="FieldLabel">Delivery Cost :</td>
+              <td align="right">
+                <div class="FieldPlaceholder DataOnly" style="float: right">
+                  0
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="FieldLabel">VAT:</td>
+              <td align="right">
+                <div class="FieldPlaceholder DataOnly" style="float: right">
+                  0
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="FieldLabel">Total Amount:</td>
+              <td>
+                <div class="FieldPlaceholder DataOnly" style="float: right">
+                  {{BasketInfo.CurrencySymbol}} {{BasketInfo.GrandTotal}}
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

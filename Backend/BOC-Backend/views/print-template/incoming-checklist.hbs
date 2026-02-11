@@ -1,0 +1,604 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Incoming Checklist</title>
+    <style type="text/css">
+        html {
+            -webkit-print-color-adjust: exact;
+        }
+    
+        html,
+        body,
+        html * {
+            font-family: 'Roboto', sans-serif;
+        }
+    
+        * {
+            margin: 10px;
+            padding: 0;
+        }
+    
+        b,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        ul,
+        li {
+            margin: 0;
+            padding: 0;
+        }
+    
+        .pdf-outer {
+            background-color: #fff;
+            background-clip: border-box;
+            padding: 0 0 32px !important;
+            margin: 0 0 24px !important;
+            border-radius: 0.25rem;
+            width: 100%;
+            float: left;
+        }
+    
+        .pdfwrap {
+            padding: 15px 1% 0px 1% !important;
+            margin: 0 !important;
+            float: left;
+            width: 98%;
+        }
+    
+        .pdfheader {
+            width: 100%;
+            float: left;
+            margin: 0;
+            padding: 0;
+        }
+    
+        .pdf-content {
+            width: 100%;
+            float: left;
+            margin: 0;
+            padding: 0px !important;
+        }
+    
+        .pdfheader-left {
+            width: 33.3%;
+            float: left;
+            margin: 0;
+            padding: 0;
+        }
+    
+        .pdfheader-right {
+            width: 66.7%;
+            float: left;
+            margin: 0;
+            padding: 0;
+        }
+    
+        .pdfheader-right h2 {
+            font-size: 32px !important;
+            font-weight: 400;
+            color: #09518e;
+            margin: 10px 0 2px;
+            font-family: "Roboto", sans-serif;
+            text-align: right;
+        }
+    
+        .pdfheader-right h4 {
+            font-size: 14px;
+            text-align: right;
+            font-weight: 500;
+            margin: 0;
+            padding: 0 0 1px;
+        }
+    
+        .pdfheader-right p {
+            font-size: 12px;
+            color: #000;
+            padding-bottom: 5px;
+            margin: 0;
+            font-family: "Roboto", sans-serif;
+            text-align: right;
+            line-height: 18px !important;
+            padding-top: 0px;
+        }
+    
+        .pdf-equal-cell {
+            width: 31%;
+            float: left;
+            margin: 0 16px 0 0;
+            padding: 0;
+        }
+    
+        .pdf-equal-cell h5 {
+            font-size: 11px;
+            margin: 10px 16px;
+            font-weight: 500;
+            font-family: "Roboto", sans-serif;
+            color: #000;
+            padding: 0;
+        }
+    
+        .pdf-equal-cell p {
+            margin: 10px 16px 14px;
+            padding: 0;
+            font-size: 11px;
+            font-family: "Roboto", sans-serif;
+            color: #000;
+            line-height: 18px;
+        }
+    
+        .table-responsive {
+            display: block;
+            width: 100%;
+            margin: 0;
+            overflow: visible;
+            -webkit-overflow-scrolling: touch;
+        }
+    
+        .pdf-content.table {
+            width: 100%;
+            margin-bottom: 1.5rem;
+            color: #6c757d;
+            border: 1px solid #dee2e6 !important;
+            border-collapse: collapse;
+        }
+    
+        .pdf-content .table .thead-light th {
+            color: #FFFFFF !important;
+            background-color: #38414A !important;
+            border-color: #38414A !important;
+            vertical-align: middle;
+            border-bottom: 2px solid #38414A !important;
+            text-align: left;
+            padding: 8px;
+            border: 1px solid #38414A;
+            font-size: 11px;
+        }
+    
+        .pdf-content .thead-light {
+            border: 1px solid #38414A !important;
+        }
+    
+        .pdf-content .print-table tbody {
+            border: 1px solid #38414A !important;
+            width: 100% !important;
+            padding: 0 !important;
+            display: table;
+            margin: 0 !important;
+            border-top: 0 !important;
+            margin-top: -2px !important;
+        }
+    
+        table.table.print-table {
+            width: 100%;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+    
+        .pdf-content .print-table2 tbody {
+            border: 1px solid #38414A !important;
+            width: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            border-top: 0 !important;
+            margin-top: -2px !important;
+        }
+    
+        table.table.print-table2 {
+            width: 100%;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+    
+        table.table.print-table2 td {
+            padding: 8px;
+            line-height: 23px;
+            font-size: 11px;
+            border-right: 1px solid #38414A;
+        }
+    
+        .pdfrow {
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: 0px;
+            margin-left: 0;
+            padding-bottom: 20px;
+            font-size: 12px;
+        }
+    
+        .pdfrow label {
+            color: #000;
+            font-weight: 500;
+            font-size: 11px;
+            font-family: "Roboto", sans-serif;
+            line-height: 18px;
+            padding: 0 0 0 2px;
+            margin: 0;
+        }
+    
+        .w-25 {
+            width: 25%;
+            float: left;
+            margin: -2px !important;
+            padding: 0px !important;
+        }
+    
+        .w-25 p {
+            font-size: 11px;
+            color: #000;
+            margin: 10px 0 0 2px;
+            padding-bottom: 5px;
+            font-family: "Roboto", sans-serif;
+            line-height: 19px;
+            padding-top: 0px;
+        }
+    
+        .w-50 {
+            width: 47%;
+            float: left;
+            margin: 0 !important;
+            padding: 0px !important;
+        }
+    
+        .w-50 p {
+            font-size: 11px;
+            color: #000;
+            margin: 10px 0 0 20px;
+            padding-bottom: 5px;
+            font-family: "Roboto", sans-serif;
+            line-height: 19px;
+            padding-top: 0px;
+        }
+    
+        .borderblack {
+            border-top: 3px solid #000;
+            margin: -10px 18px 0 0px !important;
+            padding: 0;
+            height: 5px;
+        }
+    
+        table.po-detail {
+            text-align: left;
+            padding: 0 !important;
+            margin: 0 !important;
+            width: 100%;
+        }
+    
+        .nopad {
+            padding: 0 !important
+        }
+    
+        table.po-detail th {
+            font-size: 11px;
+            font-weight: 500;
+            margin: 0;
+            padding: 5px;
+            color: #000;
+        }
+    
+        table {
+            border-collapse: collapse;
+        }
+    
+        .noteswrap {
+            margin: 0;
+            padding: 0;
+        }
+    
+        .noteswrap h6 {
+            font-size: 11px;
+            color: #000;
+            font-family: "Roboto", sans-serif;
+        }
+    
+        .noteswrap p {
+            font-size: 11px;
+        }
+    
+        .pdf-splitequal {
+            width: 50%;
+            float: left;
+            margin: 0;
+            padding: 0;
+        }
+    
+        .pdf-equal-cell h5 {
+            font-size: 11px;
+            margin: 10px 15px;
+            font-weight: 500;
+            font-family: "Roboto", sans-serif;
+            color: #000;
+            padding: 0;
+        }
+    
+        .pdf-equal-cell p {
+            margin: 10px 15px 14px;
+            padding: 0;
+            font-size: 11px;
+            font-family: "Roboto", sans-serif;
+            color: #000;
+            line-height: 18px;
+        }
+    
+        table.table.print-table td {
+            padding: 2px;
+        }
+    
+    
+        .table-borderless td {
+            padding-right: 8px;
+        }
+    
+        .table.bill th {
+            text-align: right;
+            padding: 0.4rem 15px;
+        }
+    
+        .table-borderless th,
+        .table-borderless td,
+        .table-borderless thead th,
+        .table-borderless tbody+tbody {
+            border: 0;
+        }
+    
+        .grandouter {
+            border-top: 1px solid #dee2e6 !important;
+            border-bottom: 2px solid #dee2e6 !important;
+            background: #f0f4f6;
+        }
+    
+        .grandouter p {
+            font-size: 13px !important;
+            padding: 7px 0 5px !important;
+        }
+    
+        .thank-txt {
+            margin: 50px 0 0 0 !important;
+            padding: 0 !important;
+            border-top: 19px solid #f1f5f7;
+        }
+    
+        .leadtime {
+            padding-bottom: 20px !important;
+            border-top: 2px solid #000;
+            text-align: left;
+            padding-top: 10px;
+            float: left;
+            width: 100%;
+            font-size: 15px !important;
+            color: #000;
+        }
+    
+        .leadtime1 {
+            padding-bottom: 0 !important;
+            float: left;
+            width: 100%;
+            font-weight: 500 !important;
+            font-size: 12px !important;
+            color: #000;
+            text-align: center !important;
+        }
+    
+        .h1,
+        .h2,
+        .h3,
+        .h4,
+        .h5,
+        .h6,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            margin: 15px 0;
+            font-weight: 500;
+            font-family: "Roboto", sans-serif;
+            color: #38414a;
+        }
+    
+        h3,
+        .h3 {
+            font-size: 1.5rem;
+        }
+    
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: -12px;
+            margin-left: -12px;
+            width: 100%;
+        }
+    
+        .col-xl-6 {
+            flex: 0 0 47%;
+            max-width: 47%;
+        }
+    
+        .col-xl-12 {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+    
+        .form-group {
+            margin-bottom: 1rem;
+        }
+    
+        .form-group label {
+            padding-bottom: 6px;
+        }
+    
+        .wrt p {
+            margin: 0 0 5px;
+            color: #757575;
+            font-size: 15px;
+        }
+    
+        .card-box {
+            margin-bottom: 15px;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 1px solid #e7eaed;
+            padding: 1.5rem;
+            border-radius: 0.25rem;
+        }
+    
+        .wrt h3 {
+            font-size: 1.3rem;
+            color: #000 !important;
+        }
+    
+        .card-box label {
+            color: #333 !important;
+            margin-right: 5px;
+            font-size: 15px;
+        }
+    
+        .evcwrap span {
+            margin-right: 5px;
+            font-size: 15px;
+        }
+    
+        .printpdficon {
+            color: #ff0000;
+            float: right;
+            font-size: 26px;
+        }
+    
+        span.dload {
+            font-size: 18px;
+            /* font-weight: 500; */
+            font-family: "Roboto", sans-serif;
+            /* color: #38414a; */
+            margin-left: 5px;
+        }
+        .ml-3{
+            margin-left: 1.8rem !important;
+        }
+        .float-left{
+            float: left !important;
+        }
+        .col-xl-4 {
+            flex: 0 0 33.33333333%;
+            max-width: 33.33333333%;
+        }
+        .card-box-inline{
+            padding-bottom: 0.25rem !important;
+            float:left !important;
+            width:100% !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="pdf-outer">
+        <div class="pdfwrap">
+            <div class="pdfheader">
+                <div class="pdfheader-left"> <img class="logo" src="{{Logo}}" width="180">
+                    <div class="ccs">
+                        <h3>{{Title}}</h3>
+                        {{!-- <h3>AH-Group</h3>
+                        <p>{{AHAddressList.StreetAddress}}, {{AHAddressList.City}},
+                            <br>{{AHAddressList.CountryName}}, {{AHAddressList.StateName}}- {{AHAddressList.Zip}}<br>PH:
+                            {{AHAddressList.PhoneNoPrimary}}
+                            <br>{{AHAddressList.Fax}}
+                        </p> --}}
+                    </div>
+                </div>
+
+                {{!-- <div class="pdfheader-center">
+                    <h3>Incoming Checklist</h3>
+                </div> --}}
+            </div>
+            <div class="pdf-content">
+                <div class="pdfrow wrt">
+                    <div class="row">
+                        <div class="col-xl-12 nopad">
+                            <div style="padding-bottom: 1rem;" class="card-box">
+                                <p><span><label>Customer :</label> <b>{{CustomerName}}</b></span> </p>
+                                <p><span><label>RR# :</label> <b>{{RRNo}}</b></span> </p>
+                                <p><span><label>Description :</label> <b>{{RRDescription}}</b></span> </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-12 nopad">
+                            <h3>Root Cause:​</h3>
+                            <div style="padding-bottom: 1rem;" class="card-box">
+                                <span>{{comments}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-xl-12 nopad">
+                            <h3>{{Title}}:​</h3>
+                            {{#each viewresult}}
+                            <div class="col-xl-6 float-left" *ngFor="let sws of selectedWorksheet">
+                                <div class="card-box card-box-inline">
+                                    <div class="col-xl-12 nopad">
+                                        <div class="form-group evcwrap">
+                                            <label class="col-xl-6 nopad" for="Customer">{{DisplayName}} : </label>
+                                            {{#ifCond dataValue '==' true}}
+                                            <span class="col-xl-6">Yes</span>
+                                            {{/ifCond}}
+                            
+                                            {{#ifCond dataValue '==' false}}
+                                            <span class="col-xl-6">No</span>
+                                            {{/ifCond}}
+                            
+                                            {{#ifCond dataValue '!=' true}}
+                                            {{#ifCond dataValue '!=' false}}
+                                            <span class="col-xl-6">{{dataValue}}</span>
+                                            {{/ifCond}}
+                                            {{/ifCond}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{/each}}
+                        </div>  {{!-- col-xl-12 End --}}
+                        <div class="col-xl-12">
+                            <h3>{{Title1}}:​</h3>
+                            <div class="row">
+                                {{#ifCond RRImages.length '>' 0}}
+                                <div class="col-xl-4 float-left">
+                                    <div class="card-box" style="padding-bottom: 0.25rem;float:left;width:100%">
+                                        <div class="col-xl-12 nopad">
+                                            {{#each RRImages}}
+                                            <div class="col-sm-4 ml-4">
+                                                <img src="{{img}}" alt="Thumbnail" width="150px" height="150px" class="">
+                                            </div>
+                                            {{/each}}
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/ifCond}}
+                                {{#ifCond RRImages.length '==' 0}}
+                                <div class="col-xl-4 float-left">
+                                    <p>No images found!</p>
+                                </div>
+                                {{/ifCond}}
+                            </div>
+                    </div>
+        {{!-- End --}}
+
+                    
+                </div>
+                
+                
+                <div style="clear: both;"></div>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

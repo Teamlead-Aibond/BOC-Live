@@ -1,0 +1,729 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Sales Quotes</title>
+    <style type="text/css">
+        html {
+            -webkit-print-color-adjust: exact;
+        }
+
+        html,
+        body,
+        html * {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        * {
+            margin: 10px;
+            padding: 0;
+        }
+
+        b,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        ul,
+        li {
+            margin: 0;
+            padding: 0;
+        }
+
+        .pdf-outer {
+            background-color: #fff;
+            background-clip: border-box;
+            padding: 0 0 32px !important;
+            margin: 0 0 24px !important;
+            border-radius: 0.25rem;
+            width: 100%;
+            float: left;
+        }
+
+        .pdfwrap {
+            padding: 15px 1% 0px 1% !important;
+            margin: 0 !important;
+            float: left;
+            width: 98%;
+        }
+
+        .pdfheader {
+            width: 100%;
+            float: left;
+            margin: 0;
+            padding: 0;
+        }
+
+        .pdf-content {
+            width: 100%;
+            float: left;
+            margin: 0;
+            padding: 0px !important;
+        }
+
+        .pdfheader-left {
+            width: 33.3%;
+            float: left;
+            margin: 0;
+            padding: 0;
+        }
+
+        .pdfheader-right {
+            width: 66.7%;
+            float: left;
+            margin: 0;
+            padding: 0;
+        }
+
+        .pdfheader-right h2 {
+            font-size: 32px !important;
+            font-weight: 400;
+            color: #09518e;
+            margin: 10px 0 2px;
+            font-family: "Roboto", sans-serif;
+            text-align: right;
+        }
+
+        .pdfheader-right h4 {
+            font-size: 14px;
+            text-align: right;
+            font-weight: 500;
+            margin: 0;
+            padding: 0 0 1px;
+        }
+
+        .pdfheader-right p {
+            font-size: 12px;
+            color: #000;
+            padding-bottom: 5px;
+            margin: 0;
+            font-family: "Roboto", sans-serif;
+            text-align: right;
+            line-height: 18px !important;
+            padding-top: 0px;
+        }
+
+        .pdf-equal-cell {
+            width: 31%;
+            float: left;
+            margin: 0 16px 0 0;
+            padding: 0;
+        }
+
+        .pdf-equal-cell h5 {
+            font-size: 11px;
+            margin: 10px 16px;
+            font-weight: 500;
+            font-family: "Roboto", sans-serif;
+            color: #000;
+            padding: 0;
+        }
+
+        .pdf-equal-cell p {
+            margin: 10px 16px 14px;
+            padding: 0;
+            font-size: 11px;
+            font-family: "Roboto", sans-serif;
+            color: #000;
+            line-height: 18px;
+        }
+
+        .table-responsive {
+            display: block;
+            width: 100%;
+            margin: 0;
+            overflow: visible;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .pdf-content.table {
+            width: 100%;
+            margin-bottom: 1.5rem;
+            color: #6c757d;
+            border: 1px solid #dee2e6 !important;
+            border-collapse: collapse;
+        }
+
+        .pdf-content .table .thead-light th {
+            color: #FFFFFF !important;
+            background-color: #38414A !important;
+            border-color: #38414A !important;
+            vertical-align: middle;
+            border-bottom: 2px solid #38414A !important;
+            text-align: left;
+            padding: 8px;
+            border: 1px solid #38414A;
+            font-size: 11px;
+        }
+
+        .pdf-content .thead-light {
+            border: 1px solid #38414A !important;
+        }
+
+        .pdf-content .print-table tbody {
+            border: 1px solid #38414A !important;
+            width: 100% !important;
+            padding: 0 !important;
+            display: table;
+            margin: 0 !important;
+            border-top: 0 !important;
+            margin-top: -2px !important;
+        }
+
+        table.table.print-table {
+            width: 100%;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .pdf-content .print-table2 tbody {
+            border: 1px solid #38414A !important;
+            width: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            border-top: 0 !important;
+            margin-top: -2px !important;
+        }
+
+        table.table.print-table2 {
+            width: 100%;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        table.table.print-table2 td {
+            padding: 8px;
+            line-height: 23px;
+            font-size: 11px;
+            border-right: 1px solid #38414A;
+        }
+
+        .pdfrow {
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: 0px;
+            margin-left: 0;
+            padding-bottom: 20px;
+            font-size: 12px;
+        }
+
+        .pdfrow label {
+            color: #000;
+            font-weight: 500;
+            font-size: 11px;
+            font-family: "Roboto", sans-serif;
+            line-height: 18px;
+            padding: 0 0 0 2px;
+            margin: 0;
+        }
+
+        .w-25 {
+            width: 25%;
+            float: left;
+            margin: -2px !important;
+            padding: 0px !important;
+        }
+
+        .w-25 p {
+            font-size: 11px;
+            color: #000;
+            margin: 10px 0 0 2px;
+            padding-bottom: 5px;
+            font-family: "Roboto", sans-serif;
+            line-height: 19px;
+            padding-top: 0px;
+        }
+
+        .w-50 {
+            width: 47%;
+            float: left;
+            margin: 0 !important;
+            padding: 0px !important;
+        }
+
+        .w-50 p {
+            font-size: 11px;
+            color: #000;
+            margin: 10px 0 0 20px;
+            padding-bottom: 5px;
+            font-family: "Roboto", sans-serif;
+            line-height: 19px;
+            padding-top: 0px;
+        }
+
+        .borderblack {
+            border-top: 3px solid #000;
+            margin: -10px 18px 0 0px !important;
+            padding: 0;
+            height: 5px;
+        }
+
+        table.po-detail {
+            text-align: left;
+            padding: 0 !important;
+            margin: 0 !important;
+            width: 100%;
+        }
+
+        .nopad {
+            padding: 0 !important
+        }
+
+        table.po-detail th {
+            font-size: 11px;
+            font-weight: 500;
+            margin: 0;
+            padding: 5px;
+            color: #000;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        .noteswrap {
+            margin: 0;
+            padding: 0;
+        }
+
+        .noteswrap h6 {
+            font-size: 11px;
+            color: #000;
+            font-family: "Roboto", sans-serif;
+        }
+
+        .noteswrap p {
+            font-size: 11px;
+        }
+
+        .pdf-splitequal {
+            width: 50%;
+            float: left;
+            margin: 0;
+            padding: 0;
+        }
+
+        .pdf-equal-cell h5 {
+            font-size: 11px;
+            margin: 10px 15px;
+            font-weight: 500;
+            font-family: "Roboto", sans-serif;
+            color: #000;
+            padding: 0;
+        }
+
+        .pdf-equal-cell p {
+            margin: 10px 15px 14px;
+            padding: 0;
+            font-size: 11px;
+            font-family: "Roboto", sans-serif;
+            color: #000;
+            line-height: 18px;
+        }
+
+        table.table.print-table td {
+            padding: 8px;
+        }
+
+
+        .table-borderless td {
+            padding-right: 8px;
+        }
+
+        .table.bill th {
+            text-align: right;
+            padding: 0.4rem 15px;
+        }
+
+        .table-borderless th,
+        .table-borderless td,
+        .table-borderless thead th,
+        .table-borderless tbody+tbody {
+            border: 0;
+        }
+
+        .grandouter {
+            border-top: 1px solid #dee2e6 !important;
+            border-bottom: 2px solid #dee2e6 !important;
+            background: #f0f4f6;
+        }
+
+        .grandouter p {
+            font-size: 13px !important;
+            padding: 7px 0 5px !important;
+        }
+
+        .thank-txt {
+            margin: 50px 0 0 0 !important;
+            padding: 0 !important;
+            border-top: 19px solid #f1f5f7;
+        }
+
+        .leadtime {
+            padding-bottom: 20px !important;
+            border-top: 2px solid #000;
+            text-align: left;
+            padding-top: 10px;
+            float: left;
+            width: 100%;
+            font-size: 15px !important;
+            color: #000;
+        }
+
+        .leadtime1 {
+            padding-bottom: 0 !important;
+            float: left;
+            width: 100%;
+            font-weight: 500 !important;
+            font-size: 12px !important;
+            color: #000;
+            text-align: center !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="pdf-outer">
+        <div class="pdfwrap">
+            <div class="pdfheader">
+                <div class="pdfheader-left"> <img class="logo" src="{{Logo}}" width="250"> </div>
+                <div class="pdfheader-right">
+
+                    <h2>SALES ORDER</h2>
+
+                    <h4>Sales Order# {{SalesOrderInfo.SONo}}</h4>
+
+                    {{#ifCond SalesOrderInfo.RRNo '!=' null}}
+                    <h4>RR# {{SalesOrderInfo.RRNo}}</h4>
+                    {{/ifCond}}
+
+                    <p>
+                        Customer: {{SalesOrderInfo.CompanyName}}<br />
+                        Requested Date : {{formatDate SalesOrderInfo.DateRequested}}<br>
+                        Due Date : {{formatDate SalesOrderInfo.DueDate}}<br>
+                        Customer PO # : {{SalesOrderInfo.CustomerPONo}}<br>
+                        {{repairMessage}}
+                    </p>
+                </div>
+            </div>
+            <div class="pdf-content">
+                <div class="pdfrow">
+                    <div style="width:49%; margin-right:1%;" class="pdf-splitequal">
+                        <div class="table-responsive">
+                            <table class="table table-bordered print-table" border="1">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th colspan="2">Billing Address:</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <p><b>{{SalesOrderInfo.CompanyName}}</b><br>
+                                                {{BillingAddress.StreetAddress}}, {{BillingAddress.SuiteOrApt}}<br>
+                                                {{BillingAddress.City}}, {{BillingAddress.StateName}},
+                                                {{BillingAddress.CountryName}} -
+                                                {{BillingAddress.Zip}}<br>
+                                                {{BillingAddress.PhoneNoPrimary}}<br>
+                                                {{BillingAddress.Fax}}&nbsp;
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div style="width:49%; margin-left:1%;" class="pdf-splitequal">
+                        <div class="table-responsive">
+                            <table class="table table-bordered print-table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th colspan="2">Shipping Address:</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <p><b>{{SalesOrderInfo.CompanyName}}</b><br>{{ShippingAddress.StreetAddress}},
+                                                {{ShippingAddress.SuiteOrApt}}<br>
+                                                {{ShippingAddress.City}}, {{ShippingAddress.StateName}},
+                                                {{ShippingAddress.CountryName}} -
+                                                {{ShippingAddress.Zip}}<br>
+                                                {{ShippingAddress.PhoneNoPrimary }}<br>
+                                                {{ShippingAddress.Fax}}&nbsp;
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="pdfrow">
+                    <div class="w-25">
+                        <p>
+                            <label>Purchase Order: </label>
+                            {{#ifCond SalesOrderInfo.VendorPONo '!=' null}}
+                            {{SalesOrderInfo.VendorPONo}}
+                            {{/ifCond}}
+                            {{#ifCond SalesOrderInfo.VendorPONo '==' null}}
+                            -
+                            {{/ifCond}}
+                        </p>
+
+                        <p>
+                            <label>Reference # : </label>
+                            {{#ifCond SalesOrderInfo.ReferenceNo '!=' ''}}
+                            {{SalesOrderInfo.ReferenceNo}}
+                            {{/ifCond}}
+                            {{#ifCond SalesOrderInfo.ReferenceNo '==' ''}}
+                            -
+                            {{/ifCond}}
+                        </p>
+                    </div>
+                    <div class="w-25">
+                        <p>
+                            <label>Sales Person Name: </label>David
+                        </p>
+                        <p>
+                            <label>Warehouse Name: </label>
+                            {{#ifCond SalesOrderInfo.WarehouseName '!=' null}}
+                            {{SalesOrderInfo.WarehouseName}}
+                            {{/ifCond}}
+                            {{#ifCond SalesOrderInfo.WarehouseName '==' null}}
+                            -
+                            {{/ifCond}}
+                        </p>
+                    </div>
+                </div>
+                {{#ifCond SalesOrderCustomerRef.length '>' 0}}
+                <div class="pdfrow">
+                    <div class="table-responsive">
+                        <table class="table table-bordered print-table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th colspan="2">Customer Reference:</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each SalesOrderCustomerRef}}
+                                <tr>
+                                    <td>
+                                        <p>{{ReferenceLabelName}} : {{ReferenceValue}}</p>
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {{/ifCond}}
+
+                <div class="pdfrow">
+                    <div class="table-responsive">
+                        <table class="table table-bordered print-table2">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th width="41%">Item</th>
+                                    <th width="10%">Lead Time</th>
+
+                                    <th width="10%">Unit Price</th>
+                                    <th width="15%">Total Vat / Tax</th>
+                                    {{#ifCond SalesOrderInfo.MROId '!=' "0"}}
+                                    <th width="12%">Shipping</th>
+                                    {{/ifCond}}
+                                    <th width="7%">Qty</th>
+                                    <th width="10%">Line Total</th>
+                                    {{#ifCond SalesOrderInfo.MROId '==' "0"}}
+                                    <th width="17%">Warranty</th>
+                                    {{/ifCond}}
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {{#each SalesOrderItem}}
+                                <tr>
+                                    <td><b>{{PartNo}}</b>
+                                        {{#ifCond Description '!=' ""}}
+                                        <br />{{Description}}
+                                        {{/ifCond}}
+                                        {{#ifCond SerialNo '!=' null}}
+                                        {{#ifCond SerialNo '!=' ""}}
+                                        <br />Serial No: {{SerialNo}}
+                                        {{/ifCond}}
+                                        {{/ifCond}}
+                                        {{#ifCond SalesOrderInfo.MROId '!=' 0}}
+                                        <br>Part Type: {{PartTypeName}}
+                                        {{/ifCond}}
+
+                                    </td>
+
+                                    {{#ifCond LeadTime '!=' ''}}<td>{{LeadTime}} Days</td>{{/ifCond}}
+                                    {{#ifCond LeadTime '==' ''}}<td>-</td>{{/ifCond}}
+
+                                    <td>{{ItemLocalCurrencySymbol}} {{formatDecimal Rate}}</td>
+                                    <td>{{ItemLocalCurrencySymbol}} {{formatDecimal TotalTax}}</td>
+                                    {{#ifCond WarrantyLabel '==' "MRO"}}
+                                    <td>{{ItemLocalCurrencySymbol}} {{ShippingCharge}} </td>
+                                    {{/ifCond}}
+                                    <td>{{Quantity}}</td>
+                                    <td>{{ItemLocalCurrencySymbol}} {{formatDecimal Price}}</td>
+
+                                    {{#ifCond WarrantyLabel '!=' "MRO"}}
+                                    <td>{{WarrantyLabel}}</td>
+                                    {{/ifCond}}
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+
+                        <div class="table-responsive">
+                            <table class="table table-borderless bill mb-0" style="float: right;">
+                                <tbody>
+                                    {{!-- {{#ifCond SalesOrderInfo.SubTotal '>' 0}}
+                                    <tr>
+
+                                        <th align="right" scope="row">
+                                            <p><b>Sub Total :</b></p>
+                                        </th>
+                                        <td>
+                                            <p>$ {{formatDecimal SalesOrderInfo.SubTotal}}</p>
+                                        </td>
+                                    </tr>
+                                    {{/ifCond}}
+                                    {{#ifCond SalesOrderInfo.AHFees '>' 0}}
+                                    <tr>
+
+                                        <th align="right" scope="row">
+                                            <p><b>AH Processing Fee :</b></p>
+                                        </th>
+                                        <td>
+                                            <p>$ {{formatDecimal SalesOrderInfo.AHFees}}</p>
+                                        </td>
+                                    </tr>
+                                    {{/ifCond}}
+                                    {{#ifCond SalesOrderInfo.TaxPercent '>' 0}}
+                                    <tr>
+
+                                        <th align="right" scope="row">
+                                            <p><b>Total Tax ({{formatDecimal SalesOrderInfo.TaxPercent}} %):</b></p>
+                                        </th>
+                                        <td>
+                                            <p>$ {{formatDecimal SalesOrderInfo.TotalTax}}</p>
+                                        </td>
+                                    </tr>
+                                    {{/ifCond}}
+
+                                    {{#ifCond SalesOrderInfo.Discount '>' 0}}
+                                    <tr>
+
+                                        <th align="right" scope="row">
+                                            <p><b>Discount :</b></p>
+                                        </th>
+                                        <td>
+                                            <p>$ {{formatDecimal SalesOrderInfo.Discount}}</p>
+                                        </td>
+                                    </tr>
+                                    {{/ifCond}}
+                                    {{#ifCond SalesOrderInfo.Shipping '>' 0}}
+                                    <tr>
+
+                                        <th align="right" scope="row">
+                                            <p><b>Shipping :</b></p>
+                                        </th>
+                                        <td>
+                                            <p>$ {{formatDecimal SalesOrderInfo.Shipping}}</p>
+                                        </td>
+                                    </tr>
+                                    {{/ifCond}} --}}
+                                    <tr class="grandouter">
+
+                                        <th align="right" scope="row">
+                                            <p><b>Grand Total :</b></p>
+                                        </th>
+                                        <td>
+                                            <p>{{SalesOrderInfo.CurrencySymbol}} {{formatDecimal
+                                                SalesOrderInfo.GrandTotal}}</p>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div style="clear: both;"></div>
+                {{#ifCond RRId '!=' 0}}
+                {{#ifCond SalesOrderInfo.RouteCause '!=' ""}}
+                <div class="pdfrow">
+                    <div class="noteswrap">
+                        <h6>Root Cause:</h6>
+                        <p>
+                            {{SalesOrderInfo.RouteCause}}
+                        </p>
+                    </div>
+                </div>
+                {{/ifCond}}
+                {{/ifCond}}
+
+                {{#ifCond SalesOrderInfo.Notes '!=' ""}}
+                <div class="pdfrow">
+                    <div class="noteswrap">
+                        <h6>Notes</h6>
+                        <p>
+                            {{SalesOrderInfo.Notes}}
+                        </p>
+                    </div>
+                </div>
+                {{/ifCond}}
+
+                {{#ifCond IsNotesEnabled '==' true}}
+                <div class="pdfrow">
+                    <div class="noteswrap">
+                        <h6>Notes:</h6>
+                        <p>
+                            {{settingsView.DefaultSONote}}
+                        </p>
+
+                        {{#each NotesList}}
+                        <p>
+                            {{Notes}}
+                        </p>
+                        {{/each}}
+
+                        {{#each RRNotesList}}
+                        <p>
+                            {{Notes}}
+                        </p>
+                        {{/each}}
+                    </div>
+                </div>
+                {{/ifCond}}
+
+                {{!-- <div class="pdfrow">
+                    <div class="noteswrap">
+                        <div class="thank-txt">
+                            <p class="leadtime">Lead-time is based on parts availability at time of quote and is subject
+                                to change. Repair quotes are estimates based on evaluation at time of quote and are
+                                subject to change. Priced-PO or valid Credit Card must be confirmed prior
+                                to shipment of your approved / repaired item. Please reference our Work Order # on your
+                                PO if possible. We accept Mastercard and Visa credit cards.</p>
+                            <p class="leadtime1" style="padding-bottom: 0 !important;"><b>Thank You for using
+                                    AH-Group.</b></p>
+                            <p class="leadtime1"><b>Please visit us at {{AHGroupWebsite}} for more information about
+                                    other services we offer!</b></p>
+                        </div>
+                    </div>
+
+                </div> --}}
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

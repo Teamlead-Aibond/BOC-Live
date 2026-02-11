@@ -1,0 +1,503 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Sales Quotes</title>
+    <style type="text/css">
+      html { -webkit-print-color-adjust: exact; } html, body, html * {
+      font-family: 'Roboto', sans-serif; } * { margin: 10px; padding: 0; } b,
+      h1, h2, h3, h4, h5, h6, p, ul, li { margin: 0; padding: 0; } .pdf-outer {
+      background-color: #fff; background-clip: border-box; padding: 0 0 32px
+      !important; margin: 0 0 24px !important; border-radius: 0.25rem; width:
+      100%; float: left; } .pdfwrap { padding: 15px 1% 0px 1% !important;
+      margin: 0 !important; float: left; width: 98%; } .pdfheader { width: 100%;
+      float: left; margin: 0; padding: 0; } .pdf-content { width: 100%; float:
+      left; margin: 0; padding: 0px !important; } .pdfheader-left { width:
+      33.3%; float: left; margin: 0; padding: 0; } .pdfheader-right { width:
+      66.7%; float: left; margin: 0; padding: 0; } .pdfheader-right h2 {
+      font-size: 32px !important; font-weight: 400; color: #09518e; margin: 10px
+      0 2px; font-family: "Roboto", sans-serif; text-align: right; }
+      .pdfheader-right h4 { font-size: 14px; text-align: right; font-weight:
+      500; margin: 0; padding: 0 0 1px; } .pdfheader-right p { font-size: 12px;
+      color: #000; padding-bottom: 5px; margin: 0; font-family: "Roboto",
+      sans-serif; text-align: right; line-height: 18px !important; padding-top:
+      0px; } .pdf-equal-cell { width: 31%; float: left; margin: 0 16px 0 0;
+      padding: 0; } .pdf-equal-cell h5 { font-size: 11px; margin: 10px 16px;
+      font-weight: 500; font-family: "Roboto", sans-serif; color: #000; padding:
+      0; } .pdf-equal-cell p { margin: 10px 16px 14px; padding: 0; font-size:
+      11px; font-family: "Roboto", sans-serif; color: #000; line-height: 18px; }
+      .table-responsive { display: block; width: 100%; margin: 0; overflow:
+      visible; -webkit-overflow-scrolling: touch; } .pdf-content.table { width:
+      100%; margin-bottom: 1.5rem; color: #6c757d; border: 1px solid #dee2e6
+      !important; border-collapse: collapse; } .pdf-content .table .thead-light
+      th { color: #FFFFFF !important; background-color: #38414A !important;
+      border-color: #38414A !important; vertical-align: middle; border-bottom:
+      2px solid #38414A !important; text-align: left; padding: 8px; border: 1px
+      solid #38414A; font-size: 11px; } .pdf-content .thead-light { border: 1px
+      solid #38414A !important; } .pdf-content .print-table tbody { border: 1px
+      solid #38414A !important; width: 100% !important; padding: 0 !important;
+      display: table; margin: 0 !important; border-top: 0 !important;
+      margin-top: -2px !important; } table.table.print-table { width: 100%;
+      margin: 0 !important; padding: 0 !important; } .pdf-content .print-table2
+      tbody { border: 1px solid #38414A !important; width: 100% !important;
+      padding: 0 !important; margin: 0 !important; border-top: 0 !important;
+      margin-top: -2px !important; } table.table.print-table2 { width: 100%;
+      margin: 0 !important; padding: 0 !important; } table.table.print-table2 td
+      { padding: 8px; line-height: 23px; font-size: 11px; border-right: 1px
+      solid #38414A; } .pdfrow { display: flex; flex-wrap: wrap; margin-right:
+      0px; margin-left: 0; padding-bottom: 20px; font-size: 12px; } .pdfrow
+      label { color: #000; font-weight: 500; font-size: 11px; font-family:
+      "Roboto", sans-serif; line-height: 18px; padding: 0 0 0 2px; margin: 0; }
+      .w-25 { width: 25%; float: left; margin: -2px !important; padding: 0px
+      !important; } .w-25 p { font-size: 11px; color: #000; margin: 10px 0 0
+      2px; padding-bottom: 5px; font-family: "Roboto", sans-serif; line-height:
+      19px; padding-top: 0px; } .w-50 { width: 47%; float: left; margin: 0
+      !important; padding: 0px !important; } .w-50 p { font-size: 11px; color:
+      #000; margin: 10px 0 0 20px; padding-bottom: 5px; font-family: "Roboto",
+      sans-serif; line-height: 19px; padding-top: 0px; } .borderblack {
+      border-top: 3px solid #000; margin: -10px 18px 0 0px !important; padding:
+      0; height: 5px; } table.po-detail { text-align: left; padding: 0
+      !important; margin: 0 !important; width: 100%; } .nopad { padding: 0
+      !important } table.po-detail th { font-size: 11px; font-weight: 500;
+      margin: 0; padding: 5px; color: #000; } table { border-collapse: collapse;
+      } .noteswrap { margin: 0; padding: 0; } .noteswrap h6 { font-size: 11px;
+      color: #000; font-family: "Roboto", sans-serif; } .noteswrap p {
+      font-size: 11px; } .pdf-splitequal { width: 50%; float: left; margin: 0;
+      padding: 0; } .pdf-equal-cell h5 { font-size: 11px; margin: 10px 15px;
+      font-weight: 500; font-family: "Roboto", sans-serif; color: #000; padding:
+      0; } .pdf-equal-cell p { margin: 10px 15px 14px; padding: 0; font-size:
+      11px; font-family: "Roboto", sans-serif; color: #000; line-height: 18px; }
+      table.table.print-table td { padding: 2px; } .table-borderless td {
+      padding-right: 8px; } .table.bill th { text-align: right; padding: 0.4rem
+      15px; } .table-borderless th, .table-borderless td, .table-borderless
+      thead th, .table-borderless tbody+tbody { border: 0; } .grandouter {
+      border-top: 1px solid #dee2e6 !important; border-bottom: 2px solid #dee2e6
+      !important; background: #f0f4f6; } .grandouter p { font-size: 13px
+      !important; padding: 7px 0 5px !important; } .thank-txt { margin: 50px 0 0
+      0 !important; padding: 0 !important; border-top: 19px solid #f1f5f7; }
+      .leadtime { padding-bottom: 20px !important; border-top: 2px solid #000;
+      text-align: left; padding-top: 10px; float: left; width: 100%; font-size:
+      15px !important; color: #000; } .leadtime1 { padding-bottom: 0 !important;
+      float: left; width: 100%; font-weight: 500 !important; font-size: 12px
+      !important; color: #000; text-align: center !important; }
+    </style>
+  </head>
+
+  <body>
+    <div class="pdf-outer">
+      <div class="pdfwrap">
+        <div class="pdfheader">
+          <div class="pdfheader-left">
+            <img class="logo" src="{{Logo}}" width="250" />
+            <thead class="thead-light">
+              <tr>
+                <th style="font-size: 12px;"><b>REMIT TO:</b></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <p style="font-size: 12px;"><b>
+                      {{RemitToAddress.EntityName}}<br />
+                      {{RemitToAddress.EntityAddress1}},
+                      {{#ifCond RemitToAddress.EntityAddress2 "!=" ""}}
+                        {{RemitToAddress.EntityAddress2}},
+                      {{/ifCond}}
+                    </b>
+
+                    <br />
+                    <b>
+                      {{RemitToAddress.EntityCity}},{{RemitToAddress.EntityState}}
+                      {{RemitToAddress.EntityZip}},<br />
+                      {{RemitToAddress.EntityPhone1}}.<br />
+                      VAT No :
+                      {{RemitToAddress.EntityVATNo}}<br />
+                      {{#ifCond RemitToAddress.EntityEmail "!=" ""}}
+                        {{RemitToAddress.EntityEmail}}<br />
+                      {{/ifCond}}
+                      {{#ifCond RemitToAddress.EntityWebsite "!=" ""}}
+                        {{RemitToAddress.EntityWebsite}}<br />
+                      {{/ifCond}}
+
+                    </b><br />
+
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </div>
+          <div class="pdfheader-right">
+
+            <h2>Invoice</h2>
+
+            <h4>Invoice # {{InvoiceInfo.InvoiceNo}}</h4>
+
+            <p>Invoice Date :
+              {{formatDate InvoiceInfo.InvoiceDate}}<br />
+              Invoice Due Date :
+              {{formatDate InvoiceInfo.DueDate}}<br />
+              Customer ID :
+              {{InvoiceInfo.CustomerCode}}<br />
+              Terms :
+              {{InvoiceInfo.TermsName}}<br />
+            </p>
+          </div>
+        </div>
+        <div class="pdf-content">
+          <div class="pdfrow">
+            <div class="pdf-equal-cell">
+              <div class="table-responsive">
+                <table class="table table-bordered print-table">
+                  <thead class="thead-light">
+                    <tr>
+                      <th colspan="2">Bill To:</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p><b>{{InvoiceInfo.CompanyName}}</b><br />
+
+                          {{BillingAddress.StreetAddress}},{{BillingAddress.SuiteOrApt}},
+                          {{BillingAddress.City}}<br />
+                          {{BillingAddress.StateName}},
+                          {{BillingAddress.CountryName}}
+                          -
+                          {{BillingAddress.Zip}}<br />
+                          Phone:
+                          {{BillingAddress.Phone}}<br />
+                          Fax:
+                          {{BillingAddress.Fax}}<br />
+                          VAT No :
+                          {{InvoiceInfo.CustomerVATNo}}
+                        </p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="pdf-equal-cell">
+              <div class="table-responsive">
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <td>
+                        {{#ifCond
+                          ShippingHistory.ShipToIdentityName
+                          "=="
+                          "Customer"
+                        }}
+                          {{#ifCond
+                            ShippingHistory.ShipFromId
+                            "!="
+                            CONST_AH_Group_ID
+                          }}
+                            <p><b>Shipping Status :</b> Shipped by Vendor</p>
+                          {{/ifCond}}
+                        {{/ifCond}}
+                        {{#ifCond
+                          ShippingHistory.ShipToIdentityName
+                          "=="
+                          "Customer"
+                        }}
+                          {{#ifCond
+                            ShippingHistory.ShipFromId
+                            "=="
+                            CONST_AH_Group_ID
+                          }}
+                            <p><b>Shipping Status :</b> Shipped by Aibond</p>
+                          {{/ifCond}}
+                        {{/ifCond}}
+
+                        {{#ifCond
+                          ShippingHistory.ShipToIdentityName
+                          "=="
+                          "Customer"
+                        }}
+                          <p><b>Shipping Tracking # :</b>
+                            {{ShippingHistory.TrackingNo}}</p>
+                          <p><b>Shipping Via :</b>
+                            {{ShippingHistory.ShipViaName}}</p>
+                        {{/ifCond}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="pdf-equal-cell">
+              <div class="table-responsive">
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>
+                          {{#ifCond RRId "!=" 0}}
+                            <b>Repair Request # :</b>
+                            {{InvoiceInfo.RRNo}}<br />
+                          {{/ifCond}}
+                          <!--b>Invoice #:</!--b> {{InvoiceInfo.InvoiceNo}} <br /-->
+                          <b>Sales Order #:</b>
+                          {{InvoiceInfo.SONo}}<br />
+                          <b>Reference # :</b>
+                          {{InvoiceInfo.ReferenceNo}}<br />
+                          <b>Customer PO #:</b>
+                          {{InvoiceInfo.CustomerPONo}}<br />
+                        </p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          {{#ifCond CustomerRef.length ">" 0}}
+            <div class="pdfrow">
+              <div class="table-responsive">
+                <table class="table table-bordered print-table">
+                  <thead class="thead-light">
+                    <tr>
+                      <th colspan="2">Customer Reference:</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each CustomerRef}}
+                      <tr>
+                        <td>
+                          <p>{{ReferenceLabelName}} : {{ReferenceValue}}</p>
+                        </td>
+                      </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          {{/ifCond}}
+          <div class="pdfrow">
+            <div class="table-responsive">
+              <table class="table table-bordered print-table2">
+                <thead class="thead-light">
+                  {{#ifCond IsHideTax "==" "1"}}
+                    <tr>
+                      <th width="48%">Item</th>
+                      <th width="18%">Qty</th>
+                      {{#ifCond InvoiceInfo.MROId "!=" "0"}}
+                        <th width="12%">Shipping</th>
+                      {{/ifCond}}
+                      <th width="20%">Price</th>
+                      {{#ifCond InvoiceInfo.MROId "==" "0"}}
+                        <th width="25%">Warranty Period</th>
+                      {{/ifCond}}
+                    </tr>
+                  {{/ifCond}}
+                  {{#ifCond IsHideTax "==" "0"}}
+                    <tr>
+                      <th width="44%">Item</th>
+                      <th width="7%">Qty</th>
+                      <th width="15%">Unit Price</th>
+                      <th width="15%">Total Vat / Tax</th>
+                      {{#ifCond InvoiceInfo.MROId "!=" "0"}}
+                        <th width="12%">Shipping</th>
+                      {{/ifCond}}
+                      <th width="15%">Price</th>
+                      {{#ifCond InvoiceInfo.MROId "==" "0"}}
+                        <th width="15%">Warranty Period</th>
+                      {{/ifCond}}
+                    </tr>
+                  {{/ifCond}}
+                </thead>
+                <tbody>
+                  {{#ifCond IsHideTax "==" "1"}}
+                    {{#each InvoiceItem}}
+                      <tr>
+                        <td><b>{{PartNo}}</b>
+                          {{#ifCond Description "!=" ""}}
+                            <br />{{Description}}
+                          {{/ifCond}}
+                          {{#ifCond SerialNo "!=" null}}
+                            {{#ifCond SerialNo "!=" ""}}
+                              <br />Serial No:
+                              {{SerialNo}}
+                            {{/ifCond}}
+                          {{/ifCond}}
+                          {{#ifCond InvoiceInfo.MROId "!=" 0}}
+                            <br />Part Type:
+                            {{PartTypeName}}
+                          {{/ifCond}}
+                        </td>
+                        <td>{{Quantity}}</td>
+                        {{#ifCond WarrantyLabel "==" "MRO"}}
+                          <td>{{ItemLocalCurrencySymbol}}
+                            {{ShippingCharge}}
+                          </td>
+                        {{/ifCond}}
+                        <td>{{ItemLocalCurrencySymbol}}
+                          {{formatDecimal Price}}</td>
+                        {{#ifCond WarrantyLabel "!=" "MRO"}}
+                          <td>{{WarrantyLabel}}</td>
+                        {{/ifCond}}
+                      </tr>
+                    {{/each}}
+                  {{/ifCond}}
+                  {{#ifCond IsHideTax "==" "0"}}
+                    {{#each InvoiceItem}}
+                      <tr>
+                        <td><b>{{PartNo}}</b>
+                          {{#ifCond Description "!=" ""}}
+                            <br />{{Description}}
+                          {{/ifCond}}
+                          {{#ifCond SerialNo "!=" null}}
+                            {{#ifCond SerialNo "!=" ""}}
+                              <br />Serial No:
+                              {{SerialNo}}
+                            {{/ifCond}}
+                          {{/ifCond}}
+                          {{#ifCond InvoiceInfo.MROId "!=" 0}}
+                            <br />Part Type:
+                            {{PartTypeName}}
+                          {{/ifCond}}
+                        </td>
+                        <td>{{Quantity}}</td>
+                        <td>{{ItemLocalCurrencySymbol}}
+                          {{formatDecimal Rate}}</td>
+                        <td>{{ItemLocalCurrencySymbol}}
+                          {{formatDecimal TotalTax}}</td>
+                        {{#ifCond WarrantyLabel "==" "MRO"}}
+                          <td>{{ItemLocalCurrencySymbol}}
+                            {{ShippingCharge}}
+                          </td>
+                        {{/ifCond}}
+                        <td>{{ItemLocalCurrencySymbol}}
+                          {{formatDecimal Price}}</td>
+                        {{#ifCond WarrantyLabel "!=" "MRO"}}
+                          <td>{{WarrantyLabel}}</td>
+                        {{/ifCond}}
+                      </tr>
+                    {{/each}}
+                  {{/ifCond}}
+                </tbody>
+              </table>
+              <table
+                class="table table-borderless bill mb-0"
+                style="float: right;"
+              >
+                <tbody>
+                  {{!-- {{#ifCond InvoiceInfo.SubTotal '>' 0}}
+                                <tr>
+                                    <th align="right" scope="row">
+                                        <p><b>Sub Total :</b></p>
+                                    </th>
+                                    <td>
+                                        <p>$ {{formatDecimal InvoiceInfo.SubTotal}}</p>
+                                    </td>
+                                </tr>
+                                {{/ifCond}}
+                                {{#ifCond InvoiceInfo.AHFees '>' 0}}
+                                <tr>
+
+                                    <th align="right" scope="row">
+                                        <p><b>AH Processing Fee :</b></p>
+                                    </th>
+                                    <td>
+                                        <p>$ {{formatDecimal InvoiceInfo.AHFees}}</p>
+                                    </td>
+                                </tr>
+                                {{/ifCond}}
+                                {{#ifCond InvoiceInfo.TaxPercent '>' 0}}
+                                <tr>
+
+                                    <th align="right" scope="row">
+                                        <p><b>Total Tax ({{formatDecimal InvoiceInfo.TaxPercent}} %):</b></p>
+                                    </th>
+                                    <td>
+                                        <p>$ {{formatDecimal InvoiceInfo.TotalTax}}</p>
+                                    </td>
+                                </tr>
+                                {{/ifCond}}
+
+                                {{#ifCond InvoiceInfo.Discount '>' 0}}
+                                <tr>
+
+                                    <th align="right" scope="row">
+                                        <p><b>Discount :</b></p>
+                                    </th>
+                                    <td>
+                                        <p>$ {{formatDecimal InvoiceInfo.Discount}}</p>
+                                    </td>
+                                </tr>
+                                {{/ifCond}}
+                                {{#ifCond InvoiceInfo.Shipping '>' 0}}
+                                <tr>
+
+                                    <th align="right" scope="row">
+                                        <p><b>Shipping :</b></p>
+                                    </th>
+                                    <td>
+                                        <p>$ {{formatDecimal InvoiceInfo.Shipping}}</p>
+                                    </td>
+                                </tr>
+                                {{/ifCond}} --}}
+                  <tr class="grandouter">
+
+                    <th align="right" scope="row">
+                      <p><b>Grand Total :</b></p>
+                    </th>
+                    <td>
+                      <p>{{InvoiceInfo.CurrencySymbol}}
+                        {{formatDecimal InvoiceInfo.GrandTotal}}
+
+                      </p>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div style="clear: both;"></div>
+
+          {{#ifCond IsNotesEnabled "==" true}}
+            <div class="pdfrow">
+              <div class="noteswrap">
+                <h6>Notes:</h6>
+                <p>
+                  {{InvoiceInfo.LaborDescription}}
+                </p>
+                <p>
+                  {{settingsView.DefaultInvoiceNote}}
+                </p>
+                {{#ifCond NotesList.length ">" 0}}
+                  {{#each NotesList}}
+                    <p>
+                      {{Notes}}
+                    </p>
+                  {{/each}}
+                {{/ifCond}}
+                {{#ifCond NotesList.length "==" 0}}
+                  <p>-</p>
+                {{/ifCond}}
+              </div>
+            </div>
+          {{/ifCond}}
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;">
+      {{#ifCond RemitToAddress.EntityInvoiceText "!=" null}}
+        {{#ifCond RemitToAddress.EntityInvoiceText "!=" ""}}
+          <b style="font-size: 12px;">{{RemitToAddress.EntityInvoiceText}}</b>
+        {{/ifCond}}
+      {{/ifCond}}
+      {{#ifCond RemitToAddress.EntityInvoiceText "==" ""}}
+        <b style="font-size: 12px;">FOR QUESTIONS CONCERNING THIS INVOICE PLEASE
+          CONTACT onlinestore@aibond.ai . THANK YOU!</b>
+      {{/ifCond}}
+      {{!-- <b style="font-size: 12px;">{{RemitToAddress.EntityInvoiceText || 'FOR QUESTIONS CONCERNING THIS INVOICE
+            PLEASE CONTACT ACCOUNTING@AHGROUPNA.COM. THANK YOU!'}}</b> --}}
+      {{! <br> }}
+      {{! <b style="font-size: 12px;">THANK YOU!</b> }}
+    </div>
+  </body>
+
+</html>

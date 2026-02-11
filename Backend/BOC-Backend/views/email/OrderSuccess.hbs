@@ -1,0 +1,194 @@
+<html>
+
+  <head>
+    <style>
+      table { font-family: arial, sans-serif; border-collapse: collapse; width:
+      100%; } td, th { border: 1px solid #dddddd; text-align: left; padding:
+      8px; } tr:nth-child(even) { background-color: #dddddd; } .FieldLabel {
+      font-weight: bold; padding: 4px; width: 90px; } .RightAlignedInputs input
+      { text-align: right; } .row { display: flex; flex-wrap: wrap;
+      margin-right: -12px; margin-left: -12px; } .col-md-12 { flex: 0 0 100%;
+      max-width: 100%; } .col-md-6 { flex: 0 0 50%; max-width: 50%; } .col-md-5
+      { flex: 0 0 45%; max-width: 45%; } .mb-3, .my-3 { margin-bottom: 1.5rem
+      !important; } .mt-0 { margin-top: 0px !important; } .table {
+      margin-bottom: 0rem !important; } .mt-2, .my-2 { margin-top: 0.75rem
+      !important; } .ml-2 { margin-left: 0.75rem !important; } .mb-0, .my-0 {
+      margin-bottom: 0 !important; } .rounded { border-radius: 0.25rem
+      !important; } .table-bordered { border: 1px solid #dee2e6; width: 100%;
+      margin-bottom: 1.5rem; color: #6c757d; } .card { position: relative;
+      display: flex; flex-direction: column; min-width: 0; word-wrap:
+      break-word; background-color: #fff; background-clip: border-box; border:
+      1px solid #e7eaed; border-radius: 0.25rem; } .c_header { color: #6c757d;
+      background-color: #f1f5f7; border-bottom: 2px solid #dee2e6; } .card-body
+      { flex: 1 1 auto; min-height: 1px; padding: 1.5rem; } .p-2 { padding:
+      0.75rem !important; } .align-items-center { align-items: center
+      !important; } .justify-content-center { justify-content: center
+      !important; } .d-flex { display: flex !important; } .col-md-3 { flex: 0 0
+      25%; max-width: 25%; } .col-xl, .col-xl-auto, .col-xl-12, .col-xl-11,
+      .col-xl-10, .col-xl-9, .col-xl-8, .col-xl-7, .col-xl-6, .col-xl-5,
+      .col-xl-4, .col-xl-3, .col-xl-2, .col-xl-1, .col-lg, .col-lg-auto,
+      .col-lg-12, .col-lg-11, .col-lg-10, .col-lg-9, .col-lg-8, .col-lg-7,
+      .col-lg-6, .col-lg-5, .col-lg-4, .col-lg-3, .col-lg-2, .col-lg-1, .col-md,
+      .col-md-auto, .col-md-12, .col-md-11, .col-md-10, .col-md-9, .col-md-8,
+      .col-md-7, .col-md-6, .col-md-5, .col-md-4, .col-md-3, .col-md-2,
+      .col-md-1, .col-sm, .col-sm-auto, .col-sm-12, .col-sm-11, .col-sm-10,
+      .col-sm-9, .col-sm-8, .col-sm-7, .col-sm-6, .col-sm-5, .col-sm-4,
+      .col-sm-3, .col-sm-2, .col-sm-1, .col, .col-auto, .col-12, .col-11,
+      .col-10, .col-9, .col-8, .col-7, .col-6, .col-5, .col-4, .col-3, .col-2,
+      .col-1 { position: relative; width: 100%; padding-right: 12px;
+      padding-left: 12px; } .list-group { display: flex; flex-direction: column;
+      padding-left: 0; margin-bottom: 0; border-radius: 0.25rem; } .bg-light {
+      background-color: #f1f5f7 !important; } .list-group-item { position:
+      relative; display: block; padding: 0.75rem 1.25rem; background-color:
+      #fff; border: 1px solid rgba(0, 0, 0, 0.125); } .justify-content-between {
+      justify-content: space-between !important; }
+    </style>
+  </head>
+
+  <body>
+
+    <h2>Order Details - Aibond Store</h2>
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-10">
+        <div class="card p-3">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-12">
+                  <h4>Customer: {{BasketInfo.CompanyName}}</h4>
+                </div>
+                <div class="col-md-12">
+                  <h4>MRO#: MRO{{MROId}}</h4>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5 mb-3">
+                  <table class="table mt-2 rounded table-bordered mb-0">
+                    <thead class="thead-light">
+                      <th colspan="2">
+                        <h4 class="m-0">Billing Address</h4>
+                      </th>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          {{BasketInfo.CompanyName}}<br />
+                          {{BillingAddress.StreetAddress}}
+                          ,{{BillingAddress.City}}
+                          ,
+                          {{BillingAddress.CountryName}}
+                          ,{{BillingAddress.StateName}}.-
+                          {{BillingAddress.Zip}}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-5">
+                  <table class="table mt-2 table-bordered mb-0">
+                    <thead class="thead-light">
+                      <th colspan="2">
+                        <h4 class="m-0">Shipping Address</h4>
+                      </th>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          {{BasketInfo.CompanyName}}<br />
+                          {{ShippingAddress.StreetAddress}}
+                          ,{{ShippingAddress.City}}
+                          ,
+                          {{ShippingAddress.CountryName}}
+                          ,{{ShippingAddress.StateName}}.-
+                          {{ShippingAddress.Zip}}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col-md-5">
+                  <div class="card mb-4">
+                    <div class="card-header c_header py-2">
+                      <h4 class="m-0 ml-2">{{BasketItem.length}} items</h4>
+                    </div>
+                    {{#each BasketItem}}
+                      <div class="card-body p-2">
+                        <div class="row">
+                          <div
+                            class="col-md-3 d-flex align-items-center justify-content-center"
+                          >
+                            <img width="80" src="{{image}}" alt="{{PartNo}}" />
+                          </div>
+                          <div
+                            class="col-md-6 d-flex flex-column justify-content-center"
+                          >
+                            <table>
+                              <tbody>
+                                <tr>APN:{{APNNo}} </tr>
+                                <tr>Part #: {{PartNo}} </tr>
+                              </tbody>
+                            </table>
+                            {{!-- <b
+                                                    class="mb-2 ng-star-inserted"><strong>APN:{{APNNo}}</strong></b><br>
+                                                <br />
+                                                <b class="mb-0">Part #: {{PartNo}}</b> --}}
+                          </div>
+                          <div
+                            class="col-md-3 d-flex flex-column justify-content-center"
+                          >
+                            <p class="text-start text-center m-0"><strong>
+                                x
+                                {{Quantity}}</strong>
+                            </p>
+                          </div>
+                        </div>
+                        <hr class="my-2" />
+                      </div>
+                    {{/each}}
+                  </div>
+                </div>
+                {{!
+                        </div> }}
+                <div class="col-md-5">
+                  <ul class="list-group mb-3 mt-0 bg-light">
+                    {{! <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                    <div>
+                                        <h5 class="my-0">Delivery Cost</h5>
+                                    </div>
+                                    <h5 class="my-0">0</h5>
+                                </li> }}
+                    <li
+                      class="list-group-item d-flex justify-content-between lh-condensed"
+                    >
+                      <div>
+                        <h5 class="my-0">VAT</h5>
+                      </div>
+                      <h5 class="my-0">{{BasketInfo.CurrencySymbol}} 0</h5>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                      <h5 class="my-0">Total Amount</h5><strong>
+                        <h5 class="my-0">{{BasketInfo.CurrencySymbol}}
+                          {{BasketInfo.GrandTotal}}</h5>
+                      </strong>
+                    </li>
+                    <li
+                      class="list-group-item d-flex justify-content-between lh-condensed"
+                    >
+                      <div>
+                        <h5 class="my-0 ng-star-inserted">Customer PO</h5>
+                      </div>
+                      <h5 class="ng-star-inserted">PO #: {{CustomerPONo}}</h5>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+
+</html>
