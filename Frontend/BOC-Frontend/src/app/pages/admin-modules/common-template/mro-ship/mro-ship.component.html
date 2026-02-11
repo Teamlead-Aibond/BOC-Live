@@ -1,0 +1,351 @@
+<div class="modal-header modal-lg ht">
+  <h4 class="modal-title">Shipping Details</h4>
+  <button
+    type="button"
+    class="close"
+    (click)="modalRef.hide()"
+    aria-hidden="true"
+  >
+    ×
+  </button>
+</div>
+<div class="modal-body p-4 modal-lg">
+  <form
+    class="shipto-vendor"
+    name="form"
+    #f="ngForm"
+    (ngSubmit)="onSubmit(f)"
+    novalidate
+  >
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-6 col-md-6">
+          <div class="form-group">
+            <label for="Customer">Shipping From: </label>
+            <div class="col-xl-12 rc1 alert alert-primary">Aibond</div>
+          </div>
+        </div>
+
+        <div class="col-xl-6 col-md-6">
+          <div class="form-group">
+            <label for="">Shipping To : <span class="red">*</span></label>
+            <div class="row rc">
+              <div class="col-xl-6">
+                <label> Customer ({{ CustomerName }}) </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <!-- <div class="col-xl-6 col-md-6">
+                    <div class="form-group">
+                        <label for="Customer"><span class="float-left">Show Customer Reference:</span>
+                            <input class="form-control checkinput checkbox-outer" name="ShowCustomerReference"
+                                type="checkbox" [(ngModel)]="model.ShowCustomerReference"
+                                #ShowCustomerReference="ngModel">
+                        </label>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Customer"><span class="float-left">Show Root Casue:</span>
+                            <input class="form-control checkinput checkbox-outer" name="ShowRootCause" type="checkbox"
+                                [(ngModel)]="model.ShowRootCause" #ShowRootCause="ngModel">
+                        </label>
+
+                    </div>
+
+                </div> -->
+        <div class="col-xl-12 col-md-12">
+          <div class="form-group">
+            <label for="Customer"
+              >Ship Quantity :
+              <span class="red">*</span>
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="model.ShipQuantity"
+              name="ShipQuantity"
+              placeholder="Enter Ship Quantity"
+              #ShipQuantity="ngModel"
+              (keyup)="onValidatieQty(model.ShipQuantity)"
+              [ngClass]="{ 'is-invalid': f.submitted && ShipQuantity.invalid }"
+              required
+            />
+
+            <div
+              *ngIf="f.submitted && ShipQuantity.invalid"
+              class="invalid-feedback"
+            >
+              <div *ngIf="ShipQuantity.errors.required">
+                Ship Quantity is required
+              </div>
+            </div>
+            <div *ngIf="qtyError" class="text-danger">
+              Ship quantity should not exceeds ready for shipment quantity
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-xl-6 col-md-6">
+          <div class="form-group">
+            <label for="Customer"
+              >From Location :
+              <span class="red">*</span>
+            </label>
+            <ng-select
+              [items]="ShipFromAddressList"
+              name="Address"
+              placeholder="Select"
+              [(ngModel)]="model.Address"
+              #Address="ngModel"
+              [ngClass]="{ 'is-invalid': f.submitted && Address.invalid }"
+              required
+              bindLabel="title"
+              bindValue="Address"
+              [searchable]="true"
+            >
+            </ng-select>
+            <!-- <input type="text" class="form-control" id="Address" placeholder="Address #" readonly
+                            [(ngModel)]="model.Address" name="Address" #Address="ngModel"
+                            [ngClass]="{ 'is-invalid': f.submitted && Address.invalid }" required> -->
+
+            <div
+              *ngIf="f.submitted && Address.invalid"
+              class="invalid-feedback"
+            >
+              <div *ngIf="Address.errors.required">
+                Ship From Address is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6">
+          <div class="form-group">
+            <label for="Customer"
+              >Ship To Location:
+              <span class="red">*</span>
+            </label>
+            <!-- <ng-select [items]="vendorList" name="VendorId" placeholder="Select"
+                            [(ngModel)]="model.VendorId" #VendorId="ngModel"
+                            [ngClass]="{ 'is-invalid': f.submitted && VendorId.invalid }" required
+                            bindLabel="VendorName" bindValue="VendorId" [searchable]="true">
+                        </ng-select> -->
+
+            <ng-select
+              [items]="ShipToAddressList"
+              name="ShipToAddressId"
+              placeholder="Select"
+              [(ngModel)]="model.ShipToAddressId"
+              #ShipToAddressId="ngModel"
+              [ngClass]="{
+                'is-invalid': f.submitted && ShipToAddressId.invalid
+              }"
+              required
+              bindLabel="title"
+              bindValue="ShipToAddressId"
+              [searchable]="true"
+            >
+            </ng-select>
+            <div
+              *ngIf="f.submitted && ShipToAddressId.invalid"
+              class="invalid-feedback"
+            >
+              <div *ngIf="ShipToAddressId.errors.required">
+                Ship To Address is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6">
+          <div class="form-group">
+            <label for="Customer"
+              >Ship Via :
+              <span class="red">*</span>
+            </label>
+            <select
+              class="custom-select"
+              [(ngModel)]="model.ShipViaId"
+              name="ShipViaId"
+              #ShipViaId="ngModel"
+              [ngClass]="{ 'is-invalid': f.submitted && ShipViaId.invalid }"
+              required
+            >
+              <option value="undefined" disabled>Select</option>
+              <option
+                *ngFor="let item of ShipViaList"
+                value="{{ item.ShipViaId }}"
+              >
+                {{ item.ShipViaName }}
+              </option>
+            </select>
+            <div
+              *ngIf="f.submitted && ShipViaId.invalid"
+              class="invalid-feedback"
+            >
+              <div *ngIf="ShipViaId.errors.required">Ship Via is required</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-6 col-md-6">
+          <div class="form-group">
+            <label for="Customer">Tracking # : </label>
+            <input
+              type="text"
+              class="form-control"
+              id="TrackingNo"
+              placeholder="Tracking #"
+              [(ngModel)]="model.TrackingNo"
+              name="TrackingNo"
+            />
+          </div>
+        </div>
+
+        <div class="col-xl-6 col-md-6">
+          <div class="form-group">
+            <label for="Customer">Package Weight : </label>
+            <input
+              type="text"
+              class="form-control"
+              id="PackWeight"
+              placeholder="Package Weight"
+              [(ngModel)]="model.PackWeight"
+              name="PackWeight"
+              #PackWeight="ngModel"
+              inputmode="numeric"
+              pattern="^\d+(\.\d{1,2})?$"
+              placeholder="0.00"
+              digitOnly
+              decimal="true"
+            />
+          </div>
+        </div>
+
+        <div class="col-xl-6 col-md-6">
+          <div class="form-group">
+            <label for="Customer">Shipping Cost $ : </label>
+            <input
+              type="text"
+              class="form-control"
+              id="ShippingCost"
+              placeholder="Cost $"
+              [(ngModel)]="model.ShippingCost"
+              name="ShippingCost"
+              #ShippingCost="ngModel"
+              inputmode="numeric"
+              pattern="^\d+(\.\d{1,2})?$"
+              placeholder="0.00"
+              digitOnly
+              decimal="true"
+            />
+          </div>
+        </div>
+
+        <div class="col-xl-6 col-md-6">
+          <div class="form-group">
+            <label for="Customer"
+              >Shipped Date:
+              <span class="red">*</span>
+            </label>
+            <div class="input-group col-xl-12">
+              <input
+                class="form-control"
+                style="margin-left: -10px"
+                placeholder="MM/DD/YYYY"
+                name="d2"
+                #c2="ngModel"
+                ngbDatepicker
+                #d2="ngbDatepicker"
+                [(ngModel)]="model.ShipDate"
+                name="ShipDate"
+                #ShipDate="ngModel"
+                [ngClass]="{ 'is-invalid': f.submitted && ShipDate.invalid }"
+                required
+              />
+              <div class="input-group-append">
+                <button class="blackbg" (click)="d2.toggle()" type="button">
+                  <i class="mdi blackbg white mdi-calendar"></i>
+                </button>
+              </div>
+              <div
+                *ngIf="f.submitted && ShipDate.invalid"
+                class="invalid-feedback"
+              >
+                <div *ngIf="ShipDate.errors.required">
+                  Ship Date is required
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-6 col-md-6">
+          <div class="form-group">
+            <label for="Customer"
+              >Shipped By :
+              <span class="red">*</span>
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              id="ShippedBy"
+              placeholder="Shipped By"
+              [(ngModel)]="model.ShippedBy"
+              name="ShippedBy"
+              #ShippedBy="ngModel"
+              [ngClass]="{ 'is-invalid': f.submitted && ShippedBy.invalid }"
+              required
+            />
+            <div
+              *ngIf="f.submitted && ShippedBy.invalid"
+              class="invalid-feedback"
+            >
+              <div *ngIf="ShippedBy.errors.required">
+                Shipped By is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-12 col-md-12">
+          <div class="form-group">
+            <label for="Customer">Comments :</label>
+            <textarea
+              class="form-control"
+              id="userbio"
+              placeholder="comments"
+              rows="4"
+              [(ngModel)]="model.ShipComment"
+              name="ShipComment"
+            >
+            </textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-secondary waves-effect"
+        (click)="modalRef.hide()"
+      >
+        Close
+      </button>
+      <button
+        [disabled]="btnDisabled"
+        [ngClass]="{
+          class: btnDisabled
+            ? 'btn btn-success waves-effect waves-light'
+            : 'btn btn-light waves-effect waves-light'
+        }"
+        class="btn btn-success waves-effect waves-light"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+</div>

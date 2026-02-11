@@ -1,0 +1,1040 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+
+<div class="container-fluid" *ngIf="IsAddEnabled">
+    <app-page-title title="Add Customer"></app-page-title>
+
+    <div class="row">
+        <div class="col-xl-12">
+            <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="CustomerAddForm">
+                <div class="card-box">
+
+                    <div class="row">
+                        <div class="col-xl-6 float-left">
+                            &nbsp;
+                        </div>
+
+                        <div class="col-xl-6 sales-right">
+                            <div class="btn-group btn-group-sm float-right" role="group">
+                                <button ngbTooltip="Save" placement="top" class="btn btn-icon waves-effect"
+                                    [disabled]="btnDisabled"
+                                    [ngClass]="{'class': (btnDisabled)? 'gray': 'btn-group btn-group-sm float-right'}">
+                                    <i class="mdi mdi-content-save"></i></button>
+                                <button type="button" ngbTooltip="Back" placement="top"
+                                    class="btn btn-icon bg-primary waves-effect" routerLink="/admin/customer/list">
+                                    <i class="fas fa-arrow-left"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Column 1 -->
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="row">
+                                <div class="col-xl-12 form-lbox">
+                                    <div class="row">
+                                        <div class="col-xl-6 float-left">
+                                            <h4 class="form-title-text bluetxt mb-20">Basic Details</h4>
+                                        </div>
+
+                                        <div class="col-xl-6 mt-2">
+
+                                            <div class="custom-control custom-switch float-right">
+                                                <input type="checkbox" class="custom-control-input" id="Status"
+                                                    name="Status" formControlName="Status">
+                                                <label class="custom-control-label" for="Status">Is Active</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-border">
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label for="Customer">Customer Name :
+                                                        <span class="red">*</span>
+                                                    </label>
+                                                    <input type="text" class="form-control"
+                                                        placeholder="Enter Customer Name" name="CompanyName"
+                                                        formControlName="CompanyName"
+                                                        (change)="onCustomerChange($event)">
+                                                    <span class="text-danger"
+                                                        *ngIf="(CustomerAddFormControl.CompanyName.touched || submitted) && CustomerAddFormControl.CompanyName.errors?.required">
+                                                        Customer Name is required
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label for="Customer">Contact Name : <span
+                                                            class="red">*</span></label>
+                                                    <input type="text" class="form-control"
+                                                        placeholder="Enter Contact Name" name="FirstName"
+                                                        formControlName="FirstName">
+                                                    <span class="text-danger"
+                                                        *ngIf="(CustomerAddFormControl.FirstName.touched || submitted) && CustomerAddFormControl.FirstName.errors?.required">
+                                                        Contact Name is required
+                                                    </span>
+                                                </div>
+                                            </div>
+
+
+
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label for="Customer">Customer ID : <span
+                                                            class="red">*</span></label>
+                                                    <input type="text" class="form-control"
+                                                        placeholder="Enter Customer ID" name="CustomerCode" readonly
+                                                        formControlName="CustomerCode">
+                                                    <span class="text-danger"
+                                                        *ngIf="(CustomerAddFormControl.CustomerCode.touched || submitted) && CustomerAddFormControl.CustomerCode.errors?.required">
+                                                        Customer ID is required
+                                                    </span>
+                                                </div>
+                                            </div>
+                                           
+                                            <div class="col-xl-3">
+                                                <div class="form-group">
+                                                    <label for="Country">Country :<span class="red">*</span></label>
+                                                    <select class="custom-select" name="CustomerCountryId"
+                                                        formControlName="CustomerCountryId">
+                                                        <option value="" disabled>Select</option>
+                                                        <option *ngFor="let country of countryList"
+                                                            value={{country.CountryId}}>
+                                                            {{country.CountryName}}
+                                                        </option>
+                                                    </select>
+                                                    <span class="text-danger"
+                                                        *ngIf="(CustomerAddFormControl.CustomerCountryId.touched || submitted) && CustomerAddFormControl.CustomerCountryId.errors?.required">
+                                                        Country is required
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3">
+                                                <div class="form-group">
+                                                    <label for="CustomerGroupId">Customer Group:</label>
+                                                    <select class="custom-select" name="CustomerGroupId"
+                                                        formControlName="CustomerGroupId">
+                                                        <option value="" disabled>Select</option>
+                                                        <option *ngFor="let item of customerGroupList"
+                                                            value={{item.CustomerGroupId}}>
+                                                            {{item.CustomerGroupName}}
+                                                        </option>
+                                                    </select>
+                                                    <span class="text-danger"
+                                                        *ngIf="(CustomerAddFormControl.CustomerGroupId.touched || submitted) && CustomerAddFormControl.CustomerGroupId.errors?.required">
+                                                        Customer Group is required
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xl-3">
+                                                <div class="form-group">
+                                                    <label for="Customer">Customer Type : <span
+                                                            class="red">*</span></label>
+                                                    <select class="custom-select" name="CustomerTypeId"
+                                                        formControlName="CustomerTypeId">
+
+                                                        <option value="" disabled>Select</option>
+                                                        <option *ngFor="let Type of CustomerType"
+                                                            value={{Type.CustomerTypeId}}>
+                                                            {{Type.CustomerType}}
+                                                        </option>
+                                                    </select>
+                                                    <span class="text-danger"
+                                                        *ngIf="(CustomerAddFormControl.CustomerTypeId.touched || submitted) && CustomerAddFormControl.CustomerTypeId.errors?.required">
+                                                        Customer Type is required
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3">
+                                                <div class="form-group">
+                                                    <label for="Customer">Group : <span
+                                                            class="red">*</span></label>
+                                                    <select class="custom-select" name="GroupId"
+                                                        formControlName="GroupId">
+                                                        <option value="" disabled>Select</option>
+                                                        <option *ngFor="let Group of CustomerGroup"
+                                                            value={{Group.GroupId}}>
+                                                            {{Group.CustomerGroupName}}
+                                                        </option>
+                                                    </select>
+                                                    <span class="text-danger"
+                                                        *ngIf="(CustomerAddFormControl.GroupId.touched || submitted) && CustomerAddFormControl.GroupId.errors?.required">
+                                                         Group is required
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3">
+                                                <div class="form-group">
+                                                    <label for="Customer">Terms : <span class="red">*</span></label>
+                                                    <select class="custom-select" name="TermsId"
+                                                        formControlName="TermsId">
+                                                        <!-- <option value="" disabled>Select</option>
+                                                        <option value="0">Net 10</option>
+                                                        <option value="1">Net 15</option>
+                                                        <option value="2">Net 30</option>
+                                                        <option value="3">Net 45</option>
+                                                        <option selected="selected" value="4">Net 60</option>
+                                                        <option value="5">Due on Receipt</option>
+                                                        <option value="6">COD</option>
+                                                        <option value="7">Special – Please see notes</option>
+                                                        <option value="9">Prepaid</option> -->
+                                                        <option value="" disabled>Select</option>
+                                                        <option *ngFor="let Term of TermsList" value={{Term.TermsId}}>
+                                                            {{Term.TermsName}}
+                                                        </option>
+                                                    </select>
+                                                    <span class="text-danger"
+                                                        *ngIf="(CustomerAddFormControl.TermsId.touched || submitted) && CustomerAddFormControl.TermsId.errors?.required">
+                                                        Terms is required
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3">
+                                                <div class="form-group">
+                                                    <label for="Customer">Tax Type :<span class="red">*</span></label>
+                                                    <select class="custom-select" name="TaxType"
+                                                        formControlName="TaxType">
+                                                        <option value="" disabled>Select</option>
+                                                        <option *ngFor="let tax of TaxType" value={{tax.TaxType}}>
+                                                            {{tax.TaxTypeName}}
+                                                        </option>
+                                                    </select>
+                                                    <span class="text-danger"
+                                                        *ngIf="(CustomerAddFormControl.TaxType.touched || submitted) && CustomerAddFormControl.TaxType.errors?.required">
+                                                        Tax Type is required
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label for="Customer">Email : <span class="red">*</span></label>
+                                                    <input type="text" class="form-control" name="Email"
+                                                        formControlName="Email" placeholder="Enter Email">
+                                                    <span class="text-danger"
+                                                        *ngIf="(CustomerAddFormControl.Email.touched || submitted) && CustomerAddFormControl.Email.errors?.required">
+                                                        Email is required
+                                                    </span>
+                                                    <span class="text-danger"
+                                                        *ngIf="(CustomerAddFormControl.Email.touched || submitted) && CustomerAddFormControl.Email.errors?.email">
+
+                                                        Enter a valid email address
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3">
+                                                <div class="form-group">
+                                                    <label for="Customer">Industry :</label>
+                                                    <input type="text" class="form-control" placeholder="Enter Industry"
+                                                        name="CustomerIndustry" formControlName="CustomerIndustry">
+
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-xl-3">
+                                                <div class="form-group">
+                                                    <label for="Customer">Website:
+                                                    </label>
+                                                    <input type="text" class="form-control" placeholder="Enter Website"
+                                                        name="Website" formControlName="Website">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label for="Customer">Blanket PO Lower Limit (%):
+                                                        <span class="red">*</span>
+                                                    </label>
+                                                    <input type="text" class="form-control"
+                                                        placeholder="Enter Blanket PO Lower Limit %"
+                                                        name="BlanketPOLowerLimitPercent"
+                                                        formControlName="BlanketPOLowerLimitPercent">
+                                                    <span class="text-danger"
+                                                        *ngIf="(CustomerAddFormControl.BlanketPOLowerLimitPercent.touched || submitted) && CustomerAddFormControl.BlanketPOLowerLimitPercent.errors?.required">
+                                                        Blanket PO Lower Limit % is required
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label for="Customer">Customer VAT No:
+
+                                                    </label>
+                                                    <input type="text" class="form-control"
+                                                        placeholder="Enter Customer VAT No" name="CustomerVATNo"
+                                                        formControlName="CustomerVATNo">
+
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <!-- <label for="Customer">Country(Location) :<span
+                                                        class="red">*</span></label> -->
+                                                    <label for="Customer">Customer Assigned Country & Currency :<span
+                                                            class="red">*</span></label>
+                                                    <select class="custom-select" name="CustomerLocation"
+                                                        formControlName="CustomerLocation"
+                                                        (change)="getCustomerCurrencyCode($event)">
+                                                        <option value="" disabled>Select</option>
+                                                        <option *ngFor="let country of countryListWithSymbol"
+                                                            value={{country.CountryId}}>
+                                                            {{country.name}}
+                                                        </option>
+                                                    </select>
+                                                    <span class="text-danger"
+                                                        *ngIf="(CustomerAddFormControl.CustomerLocation.touched || submitted) && CustomerAddFormControl.CustomerLocation.errors?.required">
+                                                        Customer Invoice Currency is required
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label for="Customer">Customer Invoice Currency:</label>
+                                                    <br>
+                                                    {{CustomerCurrencyCode}}
+                                                    <!-- <select class="custom-select" name="CustomerCurrencyCode" formControlName="CustomerCurrencyCode">
+                                                        <option value="" disabled>Select</option>
+                                                        <option *ngFor="let item of CurrencyList"
+                                                            value={{item.CurrencyCode}}>
+                                                            {{item.CurrencyCode}}&nbsp;-{{item.CurrencySymbol}}
+                                                        </option>
+                                                    </select>
+                                                    <span class="text-danger"
+                                                    *ngIf="(CustomerAddFormControl.CustomerCurrencyCode.touched || submitted) && CustomerAddFormControl.CustomerCurrencyCode.errors?.required">
+                                                    Currency is required
+                                                </span> -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xl-12">
+                                                <div class="form-group">
+                                                    <label for="Customer">Notes :</label>
+                                                    <textarea class="form-control" placeholder="Notes" rows="3"
+                                                        name="Notes" formControlName="Notes"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-12">
+                                                <div class="form-group">
+                                                    <label for="Customer">Customer Shipping Notes :</label>
+                                                    <textarea class="form-control" placeholder="CustomerPONotes" rows="3"
+                                                        name="CustomerPONotes" formControlName="CustomerPONotes"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label for="Customer">Priority Note:</label>
+                                                    <textarea class="form-control" placeholder="Priority Notes "
+                                                        rows="3" name="PriorityNotes"
+                                                        formControlName="PriorityNotes"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" type="checkbox"
+                                                            id="IsDisplayPOInQR" name="IsDisplayPOInQR"
+                                                            formControlName="IsDisplayPOInQR">
+                                                        <label class="custom-control-label" for="IsDisplayPOInQR">
+                                                            Display Customer PO in QR Code
+                                                        </label>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xl-12">
+                                                <div class="form-group">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" type="checkbox"
+                                                            id="IsLaborOnInvoice" name="IsLaborOnInvoice"
+                                                            formControlName="IsLaborOnInvoice">
+                                                        <label class="custom-control-label" for="IsLaborOnInvoice">
+                                                            Print Labor on Invoice
+                                                        </label>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl-12 form-lbox">
+                                    <h4 class="form-title-text bluetxt mb-20">Profile Image</h4>
+
+                                    <div class="form-border">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label>Image : </label>
+                                                <img [src]="ProfilePhoto" *ngIf="ProfilePhoto" width="300">
+
+                                                <input type="file" class="form-control" name="ProfilePhoto"
+                                                    (change)="fileProgress($event)" formControlName="ProfilePhoto">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl-12 form-lbox">
+                                    <h4 class="form-title-text bluetxt mb-20">Login Details</h4>
+                                    <div class="form-border">
+                                        <div class="row">
+                                            <div class="col-xl-4">
+                                                <div class="form-group">
+                                                    <label>
+                                                        Username: <span class="red">*</span>
+                                                    </label>
+                                                    <input type="text" class="form-control" placeholder="Enter Username"
+                                                        name="Username" formControlName="Username">
+                                                    <span class="text-danger"
+                                                        *ngIf="(CustomerAddFormControl.Username.touched || submitted) && CustomerAddFormControl.Username.errors?.required">
+                                                        User Name is required
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4">
+                                                <div class="form-group">
+                                                    <label>
+                                                        Password : <span class="red">*</span>
+                                                    </label>
+                                                    <input type="password" class="form-control" id="Customer_password"
+                                                        placeholder="Enter Password" name="Password"
+                                                        formControlName="Password">
+
+
+                                                    <span class="text-danger"
+                                                        *ngIf="(CustomerAddFormControl.Password.touched || submitted) && CustomerAddFormControl.Password.errors?.required">
+                                                        Password is required
+                                                    </span>
+                                                    <span class="text-danger"
+                                                        *ngIf="CustomerAddFormControl.Password.touched && CustomerAddFormControl.Password.errors?.invalidPassword">
+                                                        Password should have minimum 8 characters, at least 1 uppercase
+                                                        letter, 1
+                                                        lowercase
+                                                        letter and 1 number
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4">
+                                                <div class="form-group">
+                                                    <label>
+                                                        Confirm Password : <span class="red">*</span>
+                                                    </label>
+                                                    <input type="password" class="form-control" id="cendor_cpassword"
+                                                        placeholder="Enter Confirm Password" name="ConfirmPassword"
+                                                        formControlName="ConfirmPassword">
+                                                    <span class="text-danger"
+                                                        *ngIf="(CustomerAddFormControl.ConfirmPassword.touched || submitted)&& CustomerAddFormControl.ConfirmPassword.errors?.required">
+                                                        Confirm Password is required
+                                                    </span>
+                                                    <span class="text-danger"
+                                                        *ngIf="CustomerAddFormControl.ConfirmPassword.touched && CustomerAddFormControl.ConfirmPassword.errors?.passwordMismatch">
+                                                        Passwords doesnot match
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row" *ngIf="IsAddCusRefEnabled">
+                                <div class="col-xl-12 form-lbox">
+                                    <h4 class="form-title-text bluetxt mb-20">Customer Reference</h4>
+
+                                    <div class="form-border">
+                                        <div class="row">
+
+                                            <!-- <div class="col-xl-6" formArrayName="CReferenceList"
+                                                *ngFor="let item of CustomerAddForm.get('CReferenceList').controls; let i = index;"> -->
+
+                                            <div class="col-xl-6" [formGroup]="item"
+                                                *ngFor="let item of CustomerAddForm.controls.CReferenceList['controls'];let i = index;">
+
+                                                <!-- <div [formGroupName]="i"> -->
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-xl-10">
+                                                            <label>
+                                                                Reference Name {{i+1}}:
+                                                            </label>
+                                                            <input type="text" class="form-control"
+                                                                name="CReferenceName" formControlName="CReferenceName"
+                                                                placeholder="Enter Reference Name">
+                                                            <span class="text-danger"
+                                                                *ngIf="item.controls.CReferenceName.errors?.unique">Reference
+                                                                Name should be unique</span>
+
+                                                            <!-- <span class="text-danger"
+                                                                *ngIf="(item.controls.CReferenceName?.touched || submitted) && item.controls.CReferenceName?.errors?.required">
+                                                                Reference Name is required
+                                                            </span> -->
+                                                        </div>
+                                                        <div class="col-xl-2" *ngIf="displayRemoveIcon">
+                                                            <label>
+                                                                &nbsp;
+                                                            </label>
+                                                            <i (click)="removeRef(i)"
+                                                                class="remixicon-delete-bin-line delete-btn-ico"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- </div> -->
+
+
+
+                                            </div>
+
+
+                                        </div>
+                                        <div class="row mt-1 mb-2">
+                                            <div style="padding-left:15px;"
+                                                class="custom-control custom-switch float-right">
+                                                <button class="btn btn-primary btn-sm waves-effect raa" type="button"
+                                                    *ngIf="CustomerAddForm.get('CReferenceList')['controls'].length!=6"
+                                                    (click)="addRef()">
+                                                    <i class="remixicon-add-fill mrg-5"></i> Add Reference
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Column 2 -->
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="row">
+                                <div class="col-xl-12 form-rbox">
+                                    <h4 class="form-title-text bluetxt mb-20">Customer Address</h4>
+                                    <div formArrayName="AddressList"
+                                        *ngFor="let item of CustomerAddForm.get('AddressList')['controls']; let i = index;">
+
+
+                                        <div [formGroupName]="i">
+                                            <div class="form-border">
+                                                <div class="row">
+                                                    <div class="col-xl-6">
+                                                        <div class="form-group">
+                                                            <label for="Customer">Street Address : <span
+                                                                    class="red">*</span></label>
+                                                            <input type="hidden" class="form-control"
+                                                                name="IdentityType" formControlName="IdentityType">
+                                                            <input type="text" class="form-control"
+                                                                placeholder="Enter Street Address" name="StreetAddress"
+                                                                formControlName="StreetAddress">
+                                                            <span class="text-danger"
+                                                                *ngIf="(item['controls'].StreetAddress?.touched || submitted) && item['controls'].StreetAddress?.errors?.required">
+                                                                Street Address is required
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-6">
+                                                        <div class="form-group">
+                                                            <label for="Customer">Suite/Apt/Other :</label>
+                                                            <input type="text" class="form-control"
+                                                                placeholder="Enter Suite/Apt/Other" name="SuiteOrApt"
+                                                                formControlName="SuiteOrApt">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+
+                                                    <div class="col-xl-3">
+                                                        <div class="form-group">
+                                                            <label for="Customer">Country : <span
+                                                                    class="red">*</span></label>
+
+                                                            <select class="custom-select" name="CountryId"
+                                                                [(ngModel)]="CountryId" formControlName="CountryId"
+                                                                (change)="getState($event,CountryId)">
+                                                                <option value="undefined" disabled>Select</option>
+                                                                <option *ngFor="let country of countryList"
+                                                                    value={{country.CountryId}}>
+                                                                    {{country.CountryName}}
+                                                                </option>
+                                                            </select>
+                                                            <span class="text-danger"
+                                                                *ngIf="(item['controls'].CountryId?.touched || submitted) && item['controls'].CountryId?.errors?.required">
+                                                                Country is required
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xl-4">
+                                                        <div class="form-group">
+                                                            <label for="Customer">State/Province/Region : <span
+                                                                    class="red">*</span></label>
+                                                            <select class="custom-select" name="StateId"
+                                                                formControlName="StateId">
+                                                                <option value="" disabled>Select</option>
+                                                                <option *ngFor="let State of StateList"
+                                                                    value={{State.StateId}}>
+                                                                    {{State.StateName}}
+                                                                </option>
+                                                            </select>
+                                                            <span class="text-danger"
+                                                                *ngIf="(item['controls'].StateId?.touched || submitted) && item['controls'].StateId?.errors?.required">
+
+                                                                State is required
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-3">
+                                                        <div class="form-group">
+                                                            <label for="Customer">City : <span
+                                                                    class="red">*</span></label>
+                                                            <input type="text" class="form-control"
+                                                                placeholder="Enter City" name="City"
+                                                                formControlName="City">
+                                                            <span class="text-danger"
+                                                                *ngIf="(item['controls'].City?.touched || submitted) && item['controls'].City?.errors?.required">
+                                                                City is required
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-2">
+                                                        <div class="form-group">
+                                                            <label for="Customer">Zip: <span
+                                                                    class="red">*</span></label>
+                                                            <input type="text" class="form-control"
+                                                                placeholder="Enter Zip" name="Zip"
+                                                                formControlName="Zip">
+                                                            <span class="text-danger"
+                                                                *ngIf="(item['controls'].Zip?.touched || submitted) && item['controls'].Zip?.errors?.required">
+                                                                Zip is required
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-xl-4">
+                                                        <div class="form-group">
+                                                            <label for="Customer">Primary Phone: <span
+                                                                    class="red">*</span></label>
+                                                            <input type="text" class="form-control"
+                                                                name="PhoneNoPrimary" formControlName="PhoneNoPrimary">
+                                                            <span class="text-danger"
+                                                                *ngIf="(item['controls'].PhoneNoPrimary?.touched || submitted) && item['controls'].PhoneNoPrimary?.errors?.required">
+                                                                Primary Phone is required
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-4">
+                                                        <div class="form-group">
+                                                            <label for="Customer">Secondary Phone : </label>
+                                                            <input type="text" class="form-control"
+                                                                name="PhoneNoSecondary"
+                                                                formControlName="PhoneNoSecondary">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-4">
+                                                        <div class="form-group">
+                                                            <label for="Customer">Fax : </label>
+                                                            <input type="text" class="form-control" name="Fax"
+                                                                formControlName="Fax" placeholder="Enter Fax">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-xl-4">
+                                                        <div class="form-group">
+
+                                                            <input type="radio" name="IsContactAddress"
+                                                                formControlName="IsContactAddress" value="1">
+                                                            <label class="address"> Default Contact Address</label>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-4">
+                                                        <div class="form-group">
+
+                                                            <input type="radio" name="IsBillingAddress"
+                                                                formControlName="IsBillingAddress" value="1">
+                                                            <label class="address">Default Billing Address</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-4">
+                                                        <div class="form-group">
+                                                            <div class="form-group">
+
+                                                                <input
+                                                                    style="border: 1px solid #ced4da;padding: 4px 4px 4px 10px;"
+                                                                    type="radio" name="IsShippingAddress"
+                                                                    formControlName="IsShippingAddress" value="1">
+                                                                <label class="address">Default Shipping Address</label>
+                                                            </div>
+                                                            <div *ngIf='i>=1'>
+                                                                <i (click)="removeAddress(i)"
+                                                                    class="remixicon-delete-bin-line delete-btn-ico"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" id="addressSection">
+                                    &nbsp;
+                                </div>
+
+                                <div class="row mt-1 mb-2">
+                                    <div class="custom-control custom-switch float-right">
+                                        <button class="btn btn-primary btn-sm waves-effect raa" type="button"
+                                            (click)="addAddress()">
+                                            <i class="remixicon-add-fill mrg-5"></i> Add Address
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="row">
+                                <div class="col-xl-12 form-rbox">
+                                    <h4 class="form-title-text bluetxt mb-20">Account Manager</h4>
+                                    <div class="form-border">
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label>
+                                                        Manager Name : <span class="red">*</span>
+                                                    </label>
+                                                    <select class="custom-select" name="UserId"
+                                                        formControlName="UserId">
+                                                        <option value="" disabled>Select</option>
+                                                        <option *ngFor="let User of UserList" value={{User.UserId}}>
+                                                            {{User.Username}}
+                                                        </option>
+                                                    </select>
+                                                    <span class="text-danger"
+                                                        *ngIf="(CustomerAddFormControl.UserId.touched || submitted) && CustomerAddFormControl.UserId.errors?.required">
+                                                        Manager Name is required
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl-12 form-rbox">
+                                    <h4 class="form-title-text bluetxt mb-20">Attachments</h4>
+
+                                    <div class="form-border">
+
+                                        <div class="row">
+                                            <div class="col-xl-6">
+
+                                                <label for="Customer">Select files :
+                                                </label>
+
+                                                <input type="file" multiple="multiple" class="form-control"
+                                                    [(ngModel)]="Attachment" [ngModelOptions]="{standalone: true}"
+                                                    (change)="fileProgressMultiple($event)">
+
+                                                <br>
+
+                                                <i class="fa fa-spinner fa-spin" *ngIf="spinner"></i>
+
+
+                                            </div>
+
+                                            <div class="col-xl-6">
+                                                <label for="Customer">Description :</label>
+                                                <textarea class="form-control" rows="3" [(ngModel)]="AttachmentDesc"
+                                                    [ngModelOptions]="{standalone: true}"></textarea>
+
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-sm-3"
+                                                *ngFor="let vattachment of AttachmentList; let i = index;">
+                                                <span *ngIf="vattachment.AttachmentMimeType == 'application/pdf'">
+                                                    <a href="{{vattachment.Attachment}}" target="_blank">
+                                                        <img src="assets/images/attachment/{{attachmentThumb['application/pdf'].thumb}}"
+                                                            class="img-fluid"
+                                                            ngbTooltip="{{vattachment.AttachmentOriginalFile}}"
+                                                            width="200" alt="work-thumbnail">
+                                                    </a>
+                                                </span>
+                                                <span *ngIf="vattachment.AttachmentMimeType == 'image/jpeg'">
+                                                    <a href="{{vattachment.Attachment1}}" target="_blank">
+                                                        <img src="{{vattachment.Attachment1}}" class="img-fluid"
+                                                            ngbTooltip="{{vattachment.AttachmentOriginalFile}}"
+                                                            width="200" alt="work-thumbnail">
+                                                    </a>
+                                                </span>
+                                                <span *ngIf="vattachment.AttachmentMimeType == 'image/png'">
+                                                    <a href="{{vattachment.Attachment1}}" target="_blank">
+                                                        <img src="{{vattachment.Attachment1}}" class="img-fluid"
+                                                            ngbTooltip="{{vattachment.AttachmentOriginalFile}}"
+                                                            width="200" alt="work-thumbnail">
+                                                    </a>
+                                                </span>
+                                                <span *ngIf="vattachment.AttachmentMimeType == 'application/msword'">
+                                                    <a href="{{vattachment.Attachment}}" target="_blank">
+                                                        <img src="assets/images/attachment/{{attachmentThumb['application/msword'].thumb}}"
+                                                            class="img-fluid"
+                                                            ngbTooltip="{{vattachment.AttachmentOriginalFile}}"
+                                                            width="200" alt="work-thumbnail">
+                                                    </a>
+                                                </span>
+                                                <span
+                                                    *ngIf="vattachment.AttachmentMimeType == 'application/vnd.ms-excel'">
+                                                    <a href="{{vattachment.Attachment}}" target="_blank">
+                                                        <img src="assets/images/attachment/{{attachmentThumb['application/vnd.ms-excel'].thumb}}"
+                                                            class="img-fluid"
+                                                            ngbTooltip="{{vattachment.AttachmentOriginalFile}}"
+                                                            width="200" alt="work-thumbnail">
+                                                    </a>
+                                                </span>
+                                                <span *ngIf="vattachment.AttachmentMimeType == 'text/csv'">
+                                                    <a href="{{vattachment.Attachment}}" target="_blank">
+                                                        <img src="assets/images/attachment/{{attachmentThumb['text/csv'].thumb}}"
+                                                            class="img-fluid"
+                                                            ngbTooltip="{{vattachment.AttachmentOriginalFile}}"
+                                                            width="200" alt="work-thumbnail">
+                                                    </a>
+                                                </span>
+
+                                                <br>
+                                            </div>
+                                        </div>
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-xl-12 form-rbox">
+                                    <h4 class="form-title-text bluetxt mb-20">Directed Vendors</h4>
+                                    <div class="form-border">
+                                        <div class="row">
+                                            <div class="col-xl-12">
+                                                <div class="form-group">
+                                                    <label>
+                                                        Vendors :
+                                                    </label>
+                                                    <ng-select [items]="vendors$ | async" [typeahead]="vendorsInput$"
+                                                        [loading]="loadingVendors" [multiple]="true"
+                                                        [closeOnSelect]="false" [searchable]="true"
+                                                        [virtualScroll]="true" placeholder="Select"
+                                                        bindLabel="VendorName" bindValue="VendorId"
+                                                        name="DirectedVendors" formControlName="DirectedVendors">
+                                                        <ng-template ng-header-tmp *ngIf="VendorsList.length > 0">
+                                                            <button type='button' (click)="selectAllVendor()"
+                                                                class="btn btn-sm btn-link">Select all</button>
+                                                        </ng-template>
+                                                        <ng-template ng-multi-label-tmp let-items="items"
+                                                            let-clear="clear">
+                                                            <div class="ng-value"
+                                                                *ngFor="let item of items | slice:0:1">
+                                                                <span class="ng-value-label">{{item.VendorName}}</span>
+                                                                <span class="ng-value-icon right" (click)="clear(item)"
+                                                                    aria-hidden="true">×</span>
+                                                            </div>
+                                                            <div class="ng-value" *ngIf="items.length > 1">
+                                                                <span class="ng-value-label">+ {{items.length - 1}}
+                                                                    more...</span>
+                                                            </div>
+                                                        </ng-template>
+                                                        <ng-template ng-option-tmp let-item="item" let-item$="item$"
+                                                            let-index="index">
+                                                            <input id="item-{{index}}" type="checkbox"
+                                                                [checked]="item$.selected" [ngModel]="item$.selected"
+                                                                [ngModelOptions]="{standalone: true}" />
+                                                            {{item.VendorName}}
+                                                        </ng-template>
+                                                    </ng-select>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Customer UPS Details Start -->
+
+                            <div class="row">
+                                <div class="col-xl-12 form-lbox">
+                                    <h4 class="form-title-text bluetxt mb-20">UPS Details</h4>
+
+                                    <div class="form-border">
+                                        <div class="row">
+                                            <!-- <div class="col-xl-6">
+                                                <div class="row">
+                                                    <div class="col-xl-12">
+                                                        <div class="form-group">
+                                                            <label for="Customer">
+                                                                UPS Username :
+                                                            </label>
+                                                            <input type="text" class="form-control" placeholder="Enter UPS Username" name="UPSUsername" formControlName="UPSUsername">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-xl-12">
+                                                        <div class="form-group">
+                                                            <label for="Customer">
+                                                                UPS Password :
+                                                            </label>
+                                                            <input type="password" class="form-control" placeholder="Enter UPS Password" name="UPSPassword" formControlName="UPSPassword">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+
+                                            <div class="col-xl-6">
+                                                <!-- <div class="row">
+                                                    <div class="col-xl-12">
+                                                        <div class="form-group">
+                                                            <label for="Customer">
+                                                                UPS Access License Number:
+                                                            </label>
+                                                            <input type="text" class="form-control" placeholder="Enter UPS Access License Number" name="UPSAccessLicenseNumber" formControlName="UPSAccessLicenseNumber">
+
+                                                        </div>
+                                                    </div>
+                                                </div> -->
+
+                                                <div class="row">
+                                                    <div class="col-xl-12">
+                                                        <div class="form-group">
+                                                            <label for="Customer">
+                                                                UPS Shipper Number :
+                                                            </label>
+                                                            <input type="text" class="form-control"
+                                                                placeholder="Enter UPS Shipper Number"
+                                                                name="UPSShipperNumber"
+                                                                formControlName="UPSShipperNumber">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Customer UPS Details End -->
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-xl-6 float-left">
+                            &nbsp;
+                        </div>
+
+                        <div class="col-xl-6 sales-right">
+                            <div class="btn-group btn-group-sm float-right" role="group">
+                                <button ngbTooltip="Save" placement="top" class="btn btn-icon waves-effect"
+                                    [disabled]="btnDisabled"
+                                    [ngClass]="{'class': (btnDisabled)? 'gray': 'btn-group btn-group-sm float-right'}">
+                                    <i class="mdi mdi-content-save"></i></button>
+                                <button type="button" ngbTooltip="Back" placement="top"
+                                    class="btn btn-icon bg-primary waves-effect" routerLink="/admin/customer/list">
+                                    <i class="fas fa-arrow-left"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid" *ngIf="!IsAddEnabled">
+    <div class="account-pages mt-5 mb-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-5">
+                    <div class="card bg-pattern">
+
+                        <div class="card-body p-4">
+
+                            <div class="text-center">
+                                <a routerLink="/">
+                                    <span><img src="assets/projects/ah-group/full_logo.png" alt="" height="22"></span>
+                                </a>
+                            </div>
+
+                            <div class="text-center mt-4">
+                                <h1 class="text-error">401</h1>
+                                <h3 class="mt-3 mb-2">Access Denied!</h3>
+                                <p class="text-muted mb-3">You don't have permission to access this page.</p>
+
+                                <a routerLink="/admin/dashboard/ah-dashboard"
+                                    class="btn btn-success waves-effect waves-light">Back
+                                    to Dashboard</a>
+                            </div>
+
+                        </div>
+                        <!-- end card-body -->
+                    </div>
+                    <!-- end card -->
+
+                </div>
+                <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+</div>

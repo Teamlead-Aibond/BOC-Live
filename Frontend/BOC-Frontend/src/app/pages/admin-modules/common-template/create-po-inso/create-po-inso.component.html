@@ -1,0 +1,256 @@
+<div class="modal-header">
+    <h4 class="modal-title">Create PO</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+
+<form name="form" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-xl-3">
+
+                <div class="form-group">
+                    <label>Vendor:<span class="red">*</span></label>
+
+                    <ng-select [items]="vendorList" name="VendorId" [(ngModel)]="model.VendorId" placeholder="Select"
+                        bindLabel="VendorName" bindValue="VendorId" #VendorId="ngModel" (change)="onVendorChange()"
+                        [ngClass]="{ 'is-invalid': f.submitted && VendorId.invalid }" required>
+                    </ng-select>
+                    <div *ngIf="f.submitted &&VendorId.invalid" class="invalid-feedback">
+                        <div *ngIf="VendorId.errors.required">Vendor is required</div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+            <div class="col-xl-3">
+                <div class="form-group">
+                    <label>Requested Date:<span class="red">*</span></label>
+                    <div class="input-group clockpicker">
+                        <input ngbDatepicker class="form-control" name="RequestedDate" #RequestedDate="ngModel"
+                            [ngClass]="{ 'is-invalid': f.submitted && RequestedDate.invalid }" required
+                            [(ngModel)]="model.RequestedDate" autoClose="false" placeholder="MM/DD/YYYY"
+                            #Requested_Date="ngbDatepicker">
+                        <div class="input-group-append" (click)="Requested_Date.toggle()">
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                        </div>
+                        <div *ngIf="f.submitted &&RequestedDate.invalid" class="invalid-feedback">
+                            <div *ngIf="RequestedDate.errors.required">Requested Date is required
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="col-xl-3">
+                <div class="form-group">
+                    <label>Due Date:<span class="red">*</span></label>
+
+                    <div class="input-group clockpicker">
+                        <input ngbDatepicker class="form-control" [(ngModel)]="model.DueDate"
+                            [ngModelOptions]="{standalone: true}" #DueDate="ngModel" name="DueDate"
+                            [ngClass]="{ 'is-invalid': f.submitted && DueDate.invalid }" required autoClose="false"
+                            placeholder="MM/DD/YYYY" #Due_Date1="ngbDatepicker">
+                        <div class="input-group-append" (click)="Due_Date1.toggle()">
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                        </div>
+                        <div *ngIf="f.submitted &&DueDate.invalid" class="invalid-feedback">
+                            <div *ngIf="DueDate.errors.required">Due Date is required
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="col-xl-3">
+                <div class="form-group">
+                    <label>Status:<span class="red">*</span></label>
+                    <select class="custom-select" #PoStatus="ngModel"
+                        [ngClass]="{ 'is-invalid': f.submitted && PoStatus.invalid }" required
+                        [(ngModel)]="model.PoStatus" name="PoStatus" class="form-control">
+                        <option value="undefined" disabled>Select</option>
+                        <option *ngFor="let PO_status of PuchaseOrderStatus"
+                            value="{{PO_status.PurchaseOrder_StateId}}">
+                            {{PO_status.PurchaseOrder_StateName}}</option>
+
+                    </select>
+
+                </div>
+            </div>
+        </div>
+        <div style="height:1px;" class="clear">&nbsp;</div>
+        <h4 class="page-title bluetxt mb-20">Item Details
+
+        </h4>
+
+
+        <div class="table-responsive">
+            <table class="table table-bordered mb-0 idt">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Part #</th>
+                        <th>Quantity</th>
+                        <th>Customer Unit Price</th>
+                        <th>Vendor Unit Price<span class="red">*</span></th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let item of POPartItem;let i=index;">
+                    <tr>
+                        <td style="width: 20%;" class="ng-autocomplete">
+                            {{item.PartNo}}
+
+                            <!-- <ng-autocomplete [data]="filteredData" [isLoading]="isLoading" [searchKeyword]="keyword"
+                                placeholder="Enter Part #" (selected)='selectEvent($event,i)'
+                                [(ngModel)]="PartItem[i].Part" (inputChanged)='onChangeSearch($event,i)'
+                                (inputFocused)='onFocused($event,i)' [itemTemplate]="itemTemplate"
+                                [notFoundTemplate]="notFoundTemplate" debounceTime="1000" #Part="ngModel" name="Part"
+                                [ngClass]="{ 'is-invalid': f.submitted && Part.invalid }" required>
+                            </ng-autocomplete>
+
+                            <ng-template #itemTemplate let-item>
+                                <a [innerHTML]="item.PartNo"></a>
+                            </ng-template>
+
+                            <ng-template #notFoundTemplate let-notFound>
+                                <div [innerHTML]="notFound"></div>
+                            </ng-template>
+                            <input type="hidden" name="PartNo" [(ngModel)]="PartItem[i].PartId">
+
+                            <input type="hidden" name="PartNo" [(ngModel)]="PartItem[i].PartNo">
+                            <br>
+
+
+                            <div *ngIf="f.submitted &&Part.invalid" class="invalid-feedback">
+                                <div *ngIf="Part.errors.required">Part is required</div>
+                            </div> -->
+                        </td>
+                        <td style="width: 10%;">
+                            {{item.Quantity}}
+                        </td>
+                        <td style="width: 20%;">
+                            {{item.ItemLocalCurrencySymbol}} {{item.Rate}}
+                        </td>
+                        <td style="width: 50%;">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">{{CurrencySymbol}}</span>
+                                </div>
+                                <input id="Rate" type="text" name="POPartItem[{{i}}].Rate1" [(ngModel)]="POPartItem[i].Rate1"
+                                    class="form-control" inputmode="numeric" pattern="^\d+(\.\d{1,2})?$"
+                                    placeholder="0.00" digitOnly #Rate="ngModel" 
+                                    [ngClass]="{ 'is-invalid': f.submitted && Rate.invalid }" required decimal="true" />
+                                <div *ngIf="f.submitted &&Rate.invalid" class="invalid-feedback">
+                                    <div *ngIf="Rate.errors.required">Vendor Unit Price is required</div>
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+
+
+
+        </div>
+
+        <h4 class="page-title bluetxt mb-20" *ngIf="ExcludedPartItem.length>0">Excluded Part Item Details
+
+        </h4>
+
+
+        <div class="table-responsive" *ngIf="ExcludedPartItem.length>0">
+            <table class="table table-bordered mb-0 idt">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Part #</th>
+                        <th>Quantity</th>
+                        <th>Customer Unit Price</th>
+                        <th>Vendor Unit Price<span class="red">*</span></th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let item of ExcludedPartItem;let j=index;">
+                    <tr>
+                        <td style="width: 20%;" class="ng-autocomplete">
+                            {{item.PartNo}}
+
+                            <!-- <ng-autocomplete [data]="filteredData" [isLoading]="isLoading" [searchKeyword]="keyword"
+                                placeholder="Enter Part #" (selected)='selectEvent($event,i)'
+                                [(ngModel)]="PartItem[i].Part" (inputChanged)='onChangeSearch($event,i)'
+                                (inputFocused)='onFocused($event,i)' [itemTemplate]="itemTemplate"
+                                [notFoundTemplate]="notFoundTemplate" debounceTime="1000" #Part="ngModel" name="Part"
+                                [ngClass]="{ 'is-invalid': f.submitted && Part.invalid }" required>
+                            </ng-autocomplete>
+
+                            <ng-template #itemTemplate let-item>
+                                <a [innerHTML]="item.PartNo"></a>
+                            </ng-template>
+
+                            <ng-template #notFoundTemplate let-notFound>
+                                <div [innerHTML]="notFound"></div>
+                            </ng-template>
+                            <input type="hidden" name="PartNo" [(ngModel)]="PartItem[i].PartId">
+
+                            <input type="hidden" name="PartNo" [(ngModel)]="PartItem[i].PartNo">
+                            <br>
+
+
+                            <div *ngIf="f.submitted &&Part.invalid" class="invalid-feedback">
+                                <div *ngIf="Part.errors.required">Part is required</div>
+                            </div> -->
+                        </td>
+                        <td style="width: 10%;">
+                            {{item.Quantity}}
+                        </td>
+                        <td style="width: 20%;">
+                            {{item.ItemLocalCurrencySymbol}}  {{item.Rate}}
+                        </td>
+                        <td style="width: 50%;">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">{{CurrencySymbol}}</span>
+                                </div>
+                                <input id="Rate" type="text" name="ExcludedPartItem[{{j}}].Rate" [(ngModel)]="ExcludedPartItem[j].Rate1"
+                                    class="form-control" inputmode="numeric" pattern="^\d+(\.\d{1,2})?$"
+                                    placeholder="0.00" digitOnly #Rate="ngModel"
+                                    [ngClass]="{ 'is-invalid': f.submitted && Rate.invalid }" required decimal="true" />
+                                <div *ngIf="f.submitted &&Rate.invalid" class="invalid-feedback">
+                                    <div *ngIf="Rate.errors.required">Vendor Unit Price is required</div>
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+
+
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success waves-effect waves-light" [disabled]="btnDisabled"
+            [ngClass]="{'class': (btnDisabled)? 'btn btn-success waves-effect waves-light': 'btn btn-light waves-effect waves-light'}">Create
+            PO</button>
+
+        <button type="button" class="btn btn-light waves-effect" (click)="modalRef.hide()">Close</button>
+    </div>
+</form>
+
+
+<ng-template #itemTemplate let-item>
+    <a [innerHTML]="item.PartNo"></a>
+</ng-template>
+
+<ng-template #notFoundTemplate let-notFound>
+    <div [innerHTML]="notFound"></div>
+</ng-template>

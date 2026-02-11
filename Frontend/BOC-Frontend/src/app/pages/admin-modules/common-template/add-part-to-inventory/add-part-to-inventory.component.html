@@ -1,0 +1,133 @@
+<div class="modal-header">
+    <h4 class="modal-title">Move Part to Inventory</h4>
+    <button type="button" class="close" aria-hidden="true" (click)="modalRef.hide()">×</button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="AddForm">
+        <div class="container ship-history">
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-3 col-form-label" for="simpleinput">Part #: <span
+                                class="red">*</span></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text"
+                                formControlName="PartNo" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-3 col-form-label" for="simpleinput">Serial #: <span
+                                class="red">*</span></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text"
+                                formControlName="SerialNo" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-3 col-form-label" for="simpleinput">Warehouse: <span
+                                class="red">*</span></label>
+                        <div class="col-sm-9">
+                            <select class="custom-select" formControlName="WarehouseId">
+                                <option value="">Select</option>
+                                <option *ngFor="let w of warehouseList" [value]="w.id" ng-reflect-value="1">{{w.name}}
+                                </option>
+                            </select>
+                            <span class="text-danger"
+                                *ngIf="(AddFormControl.WarehouseId.touched || submitted) && AddFormControl.WarehouseId.errors?.required">
+                                Warehouse is required
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-3 col-form-label" for="simpleinput">Building: <span
+                                class="red">*</span></label>
+                        <div class="col-sm-9">
+                            <select class="custom-select" formControlName="WarehouseSub1Id" required>
+                                <option value="">Select</option>
+                                <option *ngFor="let w of warehouse1List" [value]="w.id" ng-reflect-value="1">{{w.name}}
+                                </option>
+                            </select>
+                            <span class="text-danger"
+                                *ngIf="(AddFormControl.WarehouseSub1Id.touched || submitted) && AddFormControl.WarehouseSub1Id.errors?.required">
+                                Building is required
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-3 col-form-label" for="simpleinput">Room: <span
+                                class="red">*</span></label>
+                        <div class="col-sm-9">
+                            <select class="custom-select" formControlName="WarehouseSub2Id" required>
+                                <option value="">Select</option>
+                                <option *ngFor="let w of warehouse2List" [value]="w.id" ng-reflect-value="1">{{w.name}}
+                                </option>
+                            </select>
+                            <span class="text-danger"
+                                *ngIf="(AddFormControl.WarehouseSub2Id.touched || submitted) && AddFormControl.WarehouseSub2Id.errors?.required">
+                                Room is required
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-3 col-form-label" for="simpleinput">Row: <span class="red">*</span></label>
+                        <div class="col-sm-9">
+                            <select class="custom-select" formControlName="WarehouseSub3Id" required>
+                                <option value="">Select</option>
+                                <option *ngFor="let w of warehouse3List" [value]="w.id" ng-reflect-value="1">{{w.name}}
+                                </option>
+                            </select>
+                            <span class="text-danger"
+                                *ngIf="(AddFormControl.WarehouseSub3Id.touched || submitted) && AddFormControl.WarehouseSub3Id.errors?.required">
+                                Row is required
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-3 col-form-label" for="simpleinput">Shelf: <span
+                                class="red">*</span></label>
+                        <div class="col-sm-9">
+                            <select class="custom-select" formControlName="WarehouseSub4Id" required>
+                                <option value="">Select</option>
+                                <option *ngFor="let w of warehouse4List" [value]="w.id" ng-reflect-value="1">{{w.name}}
+                                </option>
+                            </select>
+                            <span class="text-danger"
+                                *ngIf="(AddFormControl.WarehouseSub4Id.touched || submitted) && AddFormControl.WarehouseSub4Id.errors?.required">
+                                Shelf is required
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6" *ngIf="rfidEnabled">
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-3 col-form-label" for="simpleinput">RFID: <span
+                                class="red">*</span></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" placeholder="Enter RFID Tag #"
+                                formControlName="RFIDTagNo" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light" (click)="add()">Add</button>
+        </div>
+    </form>
+
+</div>

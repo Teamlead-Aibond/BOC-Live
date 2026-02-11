@@ -1,0 +1,217 @@
+<div class="modal-header modal-xl">
+    <!-- <h4 class="modal-title">{{title}}
+
+    </h4> -->
+    <h4 style="width:100%;" class="modal-title">{{title}} <span *ngIf="outgoingWorksheetTitle"> -
+            {{insertSpaces(outgoingWorksheetTitle)}}</span>
+        <a *ngIf="Type == 3 && !spinner" (click)="callPdf()" href="javascript:void(0);">
+            <i class="far fa-file-pdf printpdficon ml-2"></i></a>&nbsp;
+        <!-- <a *ngIf="Type == 3 && !spinner && multiPDF" (click)="callBothPdf()" href="javascript:void(0);">
+            <i class="far fa-files-o printpdficon"></i></a> -->
+        <i class="fa fa-spinner fa-spin" *ngIf="spinner"></i>
+    </h4>
+    <!-- <a (click)="downloadAsPDF()"><i class="fas fa-unlock-alt"></i></a> -->
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-xl" *ngIf="Type == 0">
+    <div>
+        <h4>Please choose the worksheet....</h4>
+        <div class="row">
+            <!-- <div class="col-sm-2" *ngFor="let ws of Worksheet | keyvalue">
+                <input type="radio" id="{{ws.key}}" name="sheet" value="{{ws.key}}" [(ngModel)]="WorksheetValue">
+                <label for="{{ws.key}}">{{ws.key}}</label><br>
+            </div> -->
+            <div class="col-12 col-sm-4 col-md-4 col-xl-4 pt-10">
+                <ng-select class="" name="worksheetname" [(ngModel)]="WorksheetValue" [ngModelOptions]="{standalone: true}" bindLabel="key" bindValue="key" [items]="Worksheet | keyvalue" [searchable]="true" placeholder="Select Worksheet....">
+                    <ng-template ng-label-tmp let-item="item">
+                        <b>{{insertSpaces(item.key)}}</b>
+                    </ng-template>
+                    <ng-template ng-option-tmp let-item="item" let-index="index">
+                        <b>{{insertSpaces(item.key)}}</b>
+                    </ng-template>
+                </ng-select>
+            </div>
+            <div *ngIf="WorksheetError === true" class="text-danger col-12">
+                <p>Please choose any one sheet....</p>
+            </div>
+        </div>
+
+        <div class="text-right pt-2 mt-0">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light ml-1" (click)="selectSheet()">Save</button>
+        </div>
+    </div>
+</div>
+<div class="modal-body p-4 modal-xl" *ngIf="Type == 1 || Type == 2">
+        <div class="row">
+        <div class="col-xl-6">
+            <div class="col-xl-12">
+                <div class="form-group">
+                    <label for="Customer">Final Test Comments : </label>
+                    <textarea class="form-control" row="5" name="comments" style="height: 120px;" [(ngModel)]="comments"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="col-xl-12">
+                <div class="form-group">
+                    <label for="Customer">Part as shipped : </label>
+                    <input class="form-control" type="file" multiple [(ngModel)]="images">
+                </div>
+            </div>
+        </div>
+    </div>
+    <form [formGroup]="DataForm">
+        <div class="row">
+            <div class="col-xl-4" *ngFor="let sws of selectedWorksheet">
+                <div [ngSwitch]="sws.Type">
+                    <div *ngSwitchCase="'select'">
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <label for="Customer">{{sws.DisplayName}} : </label>
+                                <select class="custom-select" name="{{sws.Name}}" formControlName="{{sws.Name}}">
+                                    <option value="">Select</option>
+                                    <option *ngFor="let item of sws.Value" value={{item}}>
+                                        {{item}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngSwitchCase="'radio'">
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <label for="Customer">{{sws.DisplayName}} : </label>
+                                <select class="custom-select" name="{{sws.Name}}" formControlName="{{sws.Name}}">
+                                    <option value="">Select</option>
+                                    <option *ngFor="let item of sws.Value" value={{item}}>
+                                        {{item}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngSwitchCase="'number'">
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <label for="Customer">{{sws.DisplayName}} : </label>
+                                <input type="number" min="1" class="form-control" name="{{sws.Name}}" formControlName="{{sws.Name}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngSwitchCase="'checkbox'">
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <label for="Customer">{{sws.DisplayName}} : </label>
+                                <input type="checkbox" name="{{sws.Name}}" formControlName="{{sws.Name}}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngSwitchCase="'textarea'">
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <label for="Customer">{{sws.DisplayName}} : </label>
+                                <textarea class="form-control" row="5" name="{{sws.Name}}" style="height: 120px;" formControlName="{{sws.Name}}"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngSwitchCase="'textbox'">
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <label for="Customer">{{sws.DisplayName}} : </label>
+                                <input type="textbox" class="form-control" name="{{sws.Name}}" formControlName="{{sws.Name}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-right pt-2 mt-0">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light ml-1" (click)="addSave()">Save</button>
+        </div>
+    </form>
+</div>
+<div style="padding-top:15px !important;" class="modal-body p-4 Evaluation checklistform modal-xl" *ngIf="Type == 3">
+        <div class="row">
+            <div class="col-xl-12">
+                <h2>RR Details</h2>
+            </div>
+            <div class="col-xl-12 nopad">
+                <div class="col-xl-6 float-left">
+                    <div style="padding: 15px 15px 0;width:100%;float:left;" class="card-box">
+                        <div class="col-xl-6 nopad float-left">
+                            <label>Customer:</label>
+                            <p>{{CustomerName}}</p>
+                        </div>
+                        <div class="col-xl-6 nopad float-left">
+                            <label>RR#:</label>
+                            <p>{{RRNo}}</p>
+                        </div>
+                        <div class="col-xl-6 nopad float-left">
+                            <label>Part#:</label>
+                            <p>{{RRInfo.PartNo}}</p>
+                        </div>
+                        <div class="col-xl-6 nopad float-left">
+                            <label>Serial#:</label>
+                            <p>{{RRInfo.SerialNo}}</p>
+                        </div>
+        
+                    </div>
+                </div>
+                <div class="col-xl-6 float-left">
+                    <div style="padding: 15px 15px 0;" class="card-box">
+                        <div class="col-xl-12 nopad">
+                            <label>Description:</label>
+                            <p>{{RRDescription}}</p>
+                        </div>
+                    </div>
+                    <div style="padding: 15px 15px 0;" class="card-box">
+                        <div class="col-xl-12 nopad">
+                            <h3>Final test:</h3>
+                            <p>{{comments ? comments : '-'}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 float-left">
+        
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="col-xl-6 float-left">
+                    <h3 style="padding-top: 0; margin-top:0">Outgoing Checklist:</h3>
+        
+                    <div class="form-group" *ngFor="let sws of selectedWorksheet">
+                        <span>
+                            <label>{{sws.DisplayName}} :</label>
+                            <span *ngIf="viewresult[sws.Name] == true">Yes</span>
+                            <span *ngIf="viewresult[sws.Name] == false">No</span>
+                            <span
+                                *ngIf="viewresult[sws.Name] != true && viewresult[sws.Name] != false">{{viewresult[sws.Name]
+                                ? viewresult[sws.Name] : '-'}}</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-xl-6 float-left">
+        
+                    <h3 class="mt-1">Part as Shipped:</h3>
+        
+                    <div class="row">
+                        <div class="col-xl-12 nopad" *ngIf="RRImages && RRImages.length > 0">
+                            <div class="col-xl-6 float-left" *ngFor="let image of RRImages; let i = index;">
+                                <div style="padding-bottom:0.5rem;" class="card-box">
+                                    <img class="img-fluid" src="{{image.img}}" alt="Thumbnail">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-12 nopad" *ngIf="RRImages && RRImages.length == 0">
+                            <p class="ml-2">No images found!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>

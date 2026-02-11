@@ -1,0 +1,77 @@
+.r-details {
+    background-color: #f3f3f3;
+    padding: 12px;
+}
+
+.pop-scroll .form-group {
+    margin-bottom: 0.9rem;
+    text-transform: capitalize;
+}
+
+.pop-scroll .control-label {
+    color: #09518e !important;
+}
+
+.modal-footer {
+    background: #f3f3f3;
+}
+
+.pop-scroll .form-group label {
+    color: #09518e;
+    padding-bottom: 5px;
+}
+
+.pop-scroll {
+    height: auto;
+}
+
+.w3-responsive {
+    display: block;
+    // overflow-x: auto;
+}
+table.ws-table-all {
+    margin: 20px 0;
+}
+.ws-table-all {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    display: table;
+    border: 1px solid #ccc;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+table {
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    text-indent: initial;
+    border-spacing: 2px;
+    border-color: grey;
+}
+tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+.ws-table-all td, .ws-table-all th {
+    padding: 8px 8px;
+    display: table-cell;
+    text-align: left;
+    vertical-align: top;
+}
+.ws-table-all td, .ws-table-all th {
+    padding: 8px 8px;
+    display: table-cell;
+    text-align: left;
+    vertical-align: top;
+}
+.w3-white, .w3-hover-white:hover {
+    color: #000!important;
+    background-color: #fff!important;
+}
+.w3-light-grey, .w3-hover-light-grey:hover, .w3-light-gray, .w3-hover-light-gray:hover {
+    color: #000!important;
+    background-color: #f1f1f1!important;
+}

@@ -1,0 +1,630 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="container-fluid">
+    <app-page-title title="Add MRO" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-xl-12">
+            <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="AddForm">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="sticky-container">
+                            <div id="so-groups" class="right so-groups-sticky hidden-xs" style="top:198px">
+                                <!-- <a (click)="reLoad()" data-target="popup" data-popup="#popup-revert">
+                                    <span>Reset</span> <i class="mdi mdi-refresh"></i>
+                                </a> -->
+                                <a (click)="onSubmit(0)" *ngIf="showsave">
+                                    <span>Save</span> <i class="mdi mdi-content-save"></i>
+                                </a>
+                                <a class="bg-danger" routerLink="/admin/mro/list">
+                                    <span>Back</span><i class="fas fa-arrow-left"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-box">
+                    <!-- <div class="row">
+                        <div class="col-xl-12 float-left">
+                            <span class="alert alert-warning" *ngIf="PriorityNotes != ''">
+                                <i class="mdi mdi-alert-outline mr-1"></i> {{PriorityNotes}}
+                            </span>
+                        </div>
+
+
+                    </div> -->
+
+                    <div class="row">
+                        <div class="col-xl-12 float-left">
+                            <div class="repair-left">
+                                <div class="row">
+                                    <h4 class="page-title bluetxt ml-2 mb-3">Basic Details</h4>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xl-6 float-left">
+                                        <div class="form-group">
+                                            <label for="Customer">Customer <span class="red">*</span></label>
+                                            <ng-autocomplete class="ng-autocomplete" placeholder="Enter Customer Name"
+                                                [data]="CustomersList" [isLoading]="isLoadingCustomer"
+                                                [searchKeyword]="keywordForCustomer" formControlName="Customer"
+                                                (selected)='selectCustomerEvent($event)'
+                                                (inputChanged)='onChangeCustomerSearch($event)'
+                                                (inputCleared)='clearEventCustomer($event)'
+                                                [itemTemplate]="CustomeritemTemplate"
+                                                [notFoundTemplate]="CustomernotFoundTemplate" debounceTime="1000">
+                                            </ng-autocomplete>
+                                            <ng-template #CustomeritemTemplate let-item>
+                                                <a [innerHTML]="item.CompanyName"></a>
+                                            </ng-template>
+
+                                            <ng-template #CustomernotFoundTemplate let-notFound>
+                                                <div [innerHTML]="notFound"></div>
+                                            </ng-template>
+                                            <span class="text-danger" style="position:relative; top:31px;"
+                                                *ngIf="(AddFormControl.CustomerId.touched || submitted) && AddFormControl.CustomerId.errors?.required">
+                                                Customer is required
+                                            </span>
+                                        </div>
+
+                                        <br>
+
+
+                                        <div class="row" *ngIf="CustomerId">
+                                            <div class="col-xl-12">
+                                                <div class="form-group">
+
+
+                                                    <label for="Customer">Repair Request #:</label>
+                                                    <ng-autocomplete class="ng-autocomplete"
+                                                        placeholder="Enter Repair Request #" [data]="RRList"
+                                                        [isLoading]="isLoadingRR" [searchKeyword]="keywordForRR"
+                                                        (selected)='selectRREvent($event)'
+                                                        (inputChanged)='onChangeRRSearch($event)' formControlName="RRNo"
+                                                        name="RRNo" [itemTemplate]="RRitemTemplate"
+                                                        [notFoundTemplate]="notFoundRRTemplate" debounceTime="1000">
+                                                    </ng-autocomplete>
+                                                    <input type="hidden" class="form-control pad5" readonly name="RRId"
+                                                        formControlName="RRId">
+                                                    <ng-template #RRitemTemplate let-item>
+                                                        <a [innerHTML]="item.RRNo"></a>
+                                                    </ng-template>
+
+                                                    <ng-template #notFoundRRTemplate let-notFound>
+                                                        <div [innerHTML]="notFound"></div>
+                                                    </ng-template>
+
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+
+
+                                    </div>
+
+                                    <div class="col-xl-6 float-left">
+
+
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label>Bill Address:<span class="red">*</span></label>
+                                                    <ng-select [items]="customerAddressList"
+                                                        formControlName="CustomerBillToId" name="CustomerBillToId"
+                                                        placeholder="Select" bindLabel="title" bindValue="AddressId">
+                                                    </ng-select>
+                                                    <span class="text-danger"
+                                                        *ngIf="(AddFormControl.CustomerBillToId.touched || submitted) && AddFormControl.CustomerBillToId.errors?.required">
+                                                        Bill Address is required
+                                                    </span>
+
+                                                </div>
+
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label>Ship Address:<span class="red">*</span></label>
+
+                                                    <ng-select [items]="customerAddressList"
+                                                        formControlName="CustomerShipToId" name="CustomerShipToId"
+                                                        placeholder="Select" bindLabel="title" bindValue="AddressId">
+                                                    </ng-select>
+
+                                                    <span class="text-danger"
+                                                        *ngIf="(AddFormControl.CustomerShipToId.touched || submitted) && AddFormControl.CustomerShipToId.errors?.required">
+                                                        Ship Address is required
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label>Terms:<span class="red">*</span></label>
+
+                                                    <select class="form-control" name="TermsId"
+                                                        formControlName="TermsId">
+                                                        <option value="">Select</option>
+                                                        <option *ngFor="let item of TermsList" value="{{item.TermsId}}">
+                                                            {{item.TermsName}}</option>
+
+                                                    </select>
+                                                    <span class="text-danger"
+                                                        *ngIf="(AddFormControl.TermsId.touched || submitted) && AddFormControl.TermsId.errors?.required">
+                                                        Terms is required
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label>Tax Type:<span class="red">*</span></label>
+
+                                                    <select class="form-control" name="TaxType"
+                                                        formControlName="TaxType">
+                                                        <option value="">Select</option>
+                                                        <option *ngFor="let item of taxType" value="{{item.TaxType}}">
+                                                            {{item.TaxTypeName}}</option>
+
+                                                    </select>
+                                                    <span class="text-danger"
+                                                        *ngIf="(AddFormControl.TaxType.touched || submitted) && AddFormControl.TaxType.errors?.required">
+                                                        TaxType is required
+                                                    </span>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+
+
+
+
+
+
+                                </div>
+
+                                <h4 class="page-title bluetxt mb-10">
+                                    <button (click)="addPart()" type="button" class="btn btn-add waves-effect">
+                                        <i class="remixicon-add-fill mt-3"></i> Add
+                                    </button>Parts Details
+                                </h4>
+
+                                <div class="approve-quotedetail">
+                                    <div formArrayName="LineItem">
+                                        <div *ngFor="let item of quoteItem().controls; let i=index" [formGroupName]="i" class="row approve-quotedetail-even">
+                                            <div class="row approve-quotedetail-headbg">
+                                                <div class="col-2">Part # <span class="red">*</span></div>
+                                                <div class="col-4">Part Description</div>
+                                                <div class="col-2">Customer Lead Time </div>
+                                                <div class="col-2">Customer Unit Price <span class="red">*</span></div>
+                                                <div class="col-1">Quantity <span class="red">*</span> </div>
+                                                <div class="col-2">Customer Total price <span class="red">*</span></div>
+                                            </div>
+                                            <div class="col-2 mro-auto">
+                                                <div class="ng-autocomplete">
+
+                                                    <ng-select [items]="parts$ | async" bindLabel="PartNo"
+                                                        [typeahead]="partsInput$" [placeholder]="'Enter Part #'"
+                                                        (change)='selectEvent($event, i)' formControlName="Part">
+                                                    </ng-select>
+                                                    <input type="hidden" class="form-control pad5" readonly
+                                                        name="PartId" formControlName="PartId">
+                                                    <input type="hidden" class="form-control pad5" readonly
+                                                        name="PartNo" formControlName="PartNo">
+                                                </div>
+                                                <span class="text-danger"
+                                                    *ngIf="(item['controls'].PartId?.touched || submitted) && item['controls'].PartId?.errors?.required">
+                                                    Part is required
+                                                </span>
+
+                                                <!-- <div class="input-group mt-1" *ngIf="PON != ''">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text1">PON ($): </span>
+                                                    </div>
+                                                    <input type="text" style="background: transparent;" class="form-control input-text-only pon" readonly name="PON" formControlName="PON">
+                                                </div> -->
+
+                                                <div class="ng-autocomplete nopad">
+
+
+                                                    <label>Type<span class="red">*</span></label>
+
+
+                                                    <select class="custom-select" name="PartType"
+                                                        formControlName="PartType">
+                                                        <option value="" disabled>Select</option>
+                                                        <option *ngFor="let item of PartTypes"
+                                                            value="{{item.part_typeId}}">{{item.part_typeName}}</option>
+
+                                                    </select>
+                                                    <span class="text-danger"
+                                                        *ngIf="(item['controls'].PartType?.touched || submitted) && item['controls'].PartType?.errors?.required">
+                                                        Part Type is required
+                                                    </span>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-4">
+                                                <textarea class="form-control pad5" placeholder="Description..."
+                                                    name="PartDescription" formControlName="PartDescription"
+                                                    rows="3"></textarea>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="input-group">
+                                                    <input type="number" min="1" class="form-control" name="LeadTime"
+                                                        formControlName="LeadTime" digitOnly>
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text">Day(s)</span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-1">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">$</span>
+                                                    </div>
+                                                    <input id="Rate" type="text" name="Rate" formControlName="Rate"
+                                                        class="form-control pad5" inputmode="numeric"
+                                                        pattern="^\d+(\.\d{1,2})?$" placeholder="0.00" digitOnly
+                                                        decimal="true" (keyup)="calculatePrice(i)" />
+                                                    <span class="text-danger"
+                                                        *ngIf="(item['controls'].Rate?.touched || submitted) && item['controls'].Rate?.errors?.required">
+                                                        Unit Price is required
+                                                    </span>
+                                                </div>
+
+
+
+                                            </div>
+                                            <div class="col-1">
+                                                <input type="text" min="1" class="form-control" name="Quantity"
+                                                    formControlName="Quantity" digitOnly (keyup)="this.calculatePrice(i)">
+                                                <span class="text-danger"
+                                                    *ngIf="(item['controls'].Quantity?.touched || submitted) && item['controls'].Quantity?.errors?.required">
+                                                    Quantity is required
+                                                </span>
+                                                <!-- <div class="text-danger" *ngIf="qtyCustomermessage == 'Error'">
+                                                    Vendor Quantity Must be same as Customer Quantity
+                                                </div> -->
+                                                <!-- <span class="text-danger"
+                                                                                        *ngIf="(item['controls'].Quantity?.touched || submitted) && item['controls'].Quantity?.errors?.required">
+                                                                                        Quantity is required
+                                                                                    </span> -->
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">$</span>
+                                                    </div>
+                                                    <input type="text" class="form-control pad5" readonly name="Price" formControlName="Price">
+                                                </div>
+                                                <span class="text-danger" *ngIf="(item['controls'].Price?.touched || submitted) && item['controls'].Price?.errors?.required"></span>
+                                            </div>
+
+                                            <div class="row approve-quotedetail-even" formArrayName="VendorQuoteInfo">
+                                                <div class="row approve-quotedetail-headbg">
+                                                    <div class="col-2">&nbsp;</div>
+                                                    <div class="col-4">Vendor <span class="red">*</span> / Attachment / Web link</div>
+                                                    <div class="col-2">Vendor Lead Time</div>
+                                                    <div class="col-1">Vendor Unit price <span class="red">*</span></div>
+                                                    <div class="col-1">Vendor Quantity <span class="red">*</span> </div>
+                                                    <div class="col-2">Vendor Total Cost <span class="red">*</span></div>
+                                                </div>
+                                            </div>
+
+                                            <div *ngFor="let vendor of getVendor(i).controls; let j=index" [formGroupName]="j" class="row w-100">
+                                                <div class="col-12">
+                                                <div class="col-2 m-116"></div>
+                                                <div class="col-4 m-116">
+                                                    <div class="row">
+                                                        <div class="col-xl-5">
+                                                            <ng-select [items]="Vendors$ | async"
+                                                                bindLabel="VendorName"
+                                                                [typeahead]="VendorsInput$"
+                                                                [placeholder]="'Enter Vendor Name'"
+                                                                formControlName="Vendor"
+                                                                (change)='selectVendorEvent($event, i,j)'>
+                                                            </ng-select>
+                                                            <input type="hidden" class="form-control pad5"
+                                                                readonly name="VendorId"
+                                                                formControlName="VendorId">
+                                                            <input type="hidden" class="form-control pad5"
+                                                                readonly name="PartId" formControlName="PartId">
+                                                            <input type="hidden" class="form-control pad5"
+                                                                readonly name="PartNo" formControlName="PartNo">
+                                                            <input type="hidden" class="form-control pad5"
+                                                                readonly name="Description"
+                                                                formControlName="Description">
+                                                        </div>
+
+                                                        <div class="col-xl-4">
+                                                            <!-- <div  *ngFor="let vattachment of getVendor(i); let m = index;">
+                                                                    <span *ngIf="vattachment.AttachmentMimeType == 'application/pdf'">
+                                                                        <a href="{{vattachment.VendorAttachment}}" target="_blank">
+                                                                            <img src="assets/images/attachment/{{attachmentThumb['application/pdf'].thumb}}"
+                                                                                class="img-fluid"
+                                                                                
+                                                                                width="200" alt="work-thumbnail">
+                                                                        </a>
+                                                                    </span>
+                                                                    <span *ngIf="vattachment.AttachmentMimeType == 'image/jpeg'">
+                                                                        <a href="{{vattachment.VendorAttachment}}" target="_blank">
+                                                                            <img src="{{vattachment.VendorAttachment}}" class="img-fluid"
+                                                                               
+                                                                                width="200" alt="work-thumbnail">
+                                                                        </a>
+                                                                    </span>
+                                                                    <span *ngIf="vattachment.AttachmentMimeType == 'image/png'">
+                                                                        <a href="{{vattachment.VendorAttachment}}" target="_blank">
+                                                                            <img src="{{vattachment.VendorAttachment}}" class="img-fluid"
+                                                                              
+                                                                                width="200" alt="work-thumbnail">
+                                                                        </a>
+                                                                    </span>
+                                                                 
+                                                                   
+                                                                    <span *ngIf="vattachment.AttachmentMimeType == 'text/xlsx'">
+                                                                        <a href="{{vattachment.Attachment}}" target="_blank">
+                                                                            <img src="assets/images/attachment/{{attachmentThumb['text/csv'].thumb}}"
+                                                                                class="img-fluid"
+                                                                               
+                                                                                width="200" alt="work-thumbnail">
+                                                                        </a>
+                                                                    </span>
+                    
+                                                                  
+                                                            </div> -->
+
+
+
+                                                            <input type="file" class="form-control pad5"
+                                                                name="VendorAttachment "
+                                                                formControlName="VendorAttachment"
+                                                                (change)="fileProgressMultiple($event,i,j)"
+                                                                [writeFile]="true">
+                                                                <a *ngIf="vendor['controls'].VendorAttachment.value" [href]="vendor['controls'].VendorAttachment.value" target="_blank">Preview</a>
+                                                        </div>
+                                                        <div class="col-xl-3">
+                                                            <input type="text" class="form-control"
+                                                                name="WebLink" formControlName="WebLink"
+                                                                placeholder="Web link">
+                                                        </div>
+                                                        <i class="fa fa-spinner fa-spin" *ngIf="spinner"></i>
+                                                        <span class="text-danger"
+                                                            *ngIf="(vendor['controls'].VendorAttachment.touched || submitted) && vendor['controls'].VendorAttachment.errors?.extension">
+                                                            Vendor Attachment should be allow png, jpeg, jpg, xlsx, pdf, doc, docx, xls only
+                                                        </span>
+                                                    </div>
+                                                    <span class="text-danger"
+                                                        *ngIf="(vendor['controls'].VendorId?.touched || submitted) && vendor['controls'].VendorId?.errors?.required">
+                                                        Vendor is required
+                                                    </span>
+                                                </div>
+
+                                                <div class="col-2 m-116">
+                                                    <div class="input-group">
+                                                        <input type="number" min="1" class="form-control"
+                                                            name="LeadTime" formControlName="LeadTime"
+                                                            digitOnly>
+                                                        <div class="input-group-append">
+                                                            <span class="input-group-text">Day(s)</span>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-1 m-116">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">$</span>
+                                                        </div>
+                                                        <input type="text" class="form-control pad5" name="Rate"
+                                                            formControlName="Rate"
+                                                            (change)="calculateVendorPrice(i,j)">
+
+                                                    </div>
+                                                    <span class="text-danger"
+                                                        *ngIf="(vendor['controls'].Rate?.touched || submitted) && vendor['controls'].Rate?.errors?.required">
+                                                        Vendor Unit Price is required
+                                                    </span>
+
+                                                </div>
+
+                                                <div class="col-1 m-116">
+                                                    <input type="text" class="form-control" name="Quantity"
+                                                        (change)="validateqty($event,i,j)"
+                                                        formControlName="Quantity" digitOnly>
+                                                    <!-- <div class="text-danger"
+                                                        *ngIf="qtyVendormessage == 'Error'">
+                                                        Vendor Quantity Must be same as Customer Quantity
+                                                    </div>  -->
+                                                    <span class="text-danger"
+                                                        *ngIf="(vendor['controls'].Quantity?.touched || submitted) && vendor['controls'].Quantity?.errors?.required">
+                                                        Vendor Quantity is required
+                                                    </span>
+                                                </div>
+                                                <div class="col-2 m-116">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">$</span>
+                                                        </div>
+                                                        <input type="text" class="form-control pad5" readonly
+                                                            name="Price" formControlName="Price">
+
+                                                    </div>
+                                                    <span class="text-danger"
+                                                        *ngIf="(vendor['controls'].Price?.touched || submitted) && vendor['controls'].Price?.errors?.required">
+                                                        Price is required
+                                                    </span>
+                                                    <button (click)="addvendor(i)" type="button"
+                                                        class="btn btn-add waves-effect mt-2">
+                                                        <i class="remixicon-add-fill mt-3"></i> Add Vendor
+                                                    </button> &nbsp;&nbsp;
+                                                    <a (click)="removePart(i)"
+                                                        class="mt-2 text-danger text-right delete-icon"
+                                                        *ngIf="i != 0" ngbTooltip="Remove Part Item">
+                                                        <i class="remixicon-delete-bin-line delete-btn-ico"></i>
+                                                    </a>
+                                                    <a (click)="removeVendor(i,j)"
+                                                        class="mt-2 text-danger text-right delete-icon"
+                                                        *ngIf="j != 0" ngbTooltip="Remove Vendor">
+                                                        <i class="remixicon-delete-bin-line delete-btn-ico"></i>
+                                                    </a>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+
+
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="approve-quotedetail">
+
+                                <div class="row subouter">
+                                    <div class="subtotal-left">
+                                        &nbsp;
+                                        <!-- <div class="row">
+
+                                            <div class="col-xl-8 form-group mt-2">
+                                                <label for="Customer" class="ml-2">Notes</label>
+                                                <textarea class="form-control ml-2" placeholder="Notes..." name="Notes"
+                                                    formControlName="Notes" rows="5"></textarea>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                    <div class="subtotal-block">
+                                        <div class="row">
+                                            <div class="col">Sub Total :</div>
+                                            <div class="col">
+                                                $ {{SubTotal}}
+                                                <input type="hidden" class="form-control" name="TotalValue"
+                                                    formControlName="TotalValue">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">Additional Charge :</div>
+                                            <div class="col">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">$</span>
+                                                    </div>
+                                                    <input id="ProcessFee" type="text" name="ProcessFee"
+                                                        formControlName="ProcessFee" class="form-control"
+                                                        inputmode="numeric" pattern="^\d+(\.\d{1,2})?$"
+                                                        placeholder="0.00" digitOnly decimal="true"
+                                                        (keyup)="calculateTotal()" />
+                                                    <!-- <input type="text" digitOnly class="form-control" name="AdditionalCharge"
+                                                                (keyup)="calculateTotal()" formControlName="AdditionalCharge"> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">Total Tax :</div>
+                                            <div class="col">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">$</span>
+                                                    </div>
+                                                    <input type="text" inputmode="numeric" pattern="^\d+(\.\d{1,2})?$"
+                                                        placeholder="0.00" digitOnly decimal="true" class="form-control"
+                                                        name="TotalTax" readonly (keyup)="calculateTotal()"
+                                                        formControlName="TotalTax">
+                                                </div>&nbsp;
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">%</span>
+                                                    </div>
+                                                    <input type="text" inputmode="numeric" pattern="^\d+(\.\d{1,2})?$"
+                                                        placeholder="0.00" max="100" digitOnly decimal="true"
+                                                        class="form-control" (keyup)="calculateTax()" name="TaxPercent"
+                                                        formControlName="TaxPercent">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">Discount :</div>
+                                            <div class="col">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">$</span>
+                                                    </div>
+                                                    <input id="Discount" type="text" name="Discount"
+                                                        formControlName="Discount" class="form-control"
+                                                        inputmode="numeric" pattern="^\d+(\.\d{1,2})?$"
+                                                        placeholder="0.00" digitOnly decimal="true"
+                                                        (keyup)="calculateTotal()" />
+                                                    <!-- <input type="text" digitOnly class="form-control" name="Discount"
+                                                                (keyup)="calculateTotal()" formControlName="Discount"> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">Shipping :</div>
+                                            <div class="col">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">$</span>
+                                                    </div>
+                                                    <input id="ShippingFee" type="text" name="ShippingFee"
+                                                        formControlName="ShippingFee" class="form-control"
+                                                        inputmode="numeric" pattern="^\d+(\.\d{1,2})?$"
+                                                        placeholder="0.00" digitOnly decimal="true"
+                                                        (keyup)="calculateTotal()" />
+                                                    <!-- <input type="text" digitOnly class="form-control" name="Shipping"
+                                                                (keyup)="calculateTotal()" formControlName="Shipping"> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">Grand Total :</div>
+                                            <div class="col">
+                                                $ {{GrandTotal}}
+                                                <input type="hidden" class="form-control" name="GrandTotal"
+                                                    formControlName="GrandTotal">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<ng-template #itemTemplate let-item>
+    <a [innerHTML]="item.PartNo"></a>
+</ng-template>
+
+<ng-template #notFoundTemplate let-notFound>
+    <div [innerHTML]="notFound"></div>
+</ng-template>

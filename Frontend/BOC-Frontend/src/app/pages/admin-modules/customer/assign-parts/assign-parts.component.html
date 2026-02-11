@@ -1,0 +1,148 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+
+<div class="container-fluid">
+    <app-page-title title="Assign Customer Parts"></app-page-title>
+
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-sm-12 col-md-12">
+            <div class="card-box ribbon-box">
+                <h4 class="page-title bluetxt mb-18">Basic Info</h4>
+                <div class="row">
+                    <div class="col-lg-3 col-xl-3 text-center">
+                        <div class="box-parts ribbon-box">
+                            <img *ngIf="ProfilePhoto" src="{{ProfilePhoto}}" class="rounded-circle avatar-xl img-thumbnail ppimg" alt="profile-image" onerror="this.onerror=null;this.src='assets/images/icons/Customer.png';">
+                            <h4 class="mt-3 mb-0">{{ basicData.FirstName }} {{ basicData.LastName }}</h4>
+                            <p class="text-muted">Code : {{ basicData.CustomerCode }}</p>
+                            <button style="margin-right: 10px;" type="button" class="btn btn-success btn-bordered waves-effect waves-light">Follow</button>
+                            <button type="button" class="btn btn-danger btn-bordered waves-effect waves-light">Message</button>
+                        </div>
+                    </div>
+                    <div class="col-lg-9 col-xl-9">
+                        <div class="box-parts ribbon-box">
+                            <div class="text-start">
+                                <!-- 
+                                <p class="text-muted font-13"> Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                    Quisque finibus metus id varius efficitur. Mauris id odio condimentum eros suscipit
+                                    imperdiet feugiat sit amet nulla. Sed vestibulum maximus nisi ac consectetur. Mauris
+                                    vel vestibulum tortor. Donec tincidunt, magna vitae sodales auctor, magna enim
+                                    convallis libero, hendrerit tincidunt nisl tortor vitae sem. Proin luctus magna et
+                                    nibh pellentesque, rutrum auctor purus scelerisque. </p> -->
+                                <h4 class="font-13 text-uppercase">About Company :</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-borderless table-sm">
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row" width="20%">Customer Type :</th>
+                                                <td class="text-muted" width="80%">{{ basicData.CustomerType }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Customer Name :</th>
+                                                <td class="text-muted">{{ basicData.CompanyName }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Customer Group :</th>
+                                                <td class="text-muted">{{ basicData.GroupName }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Industry :</th>
+                                                <td class="text-muted">{{ basicData.CustomerIndustry }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Tax Type :</th>
+                                                <td class="text-muted">{{ basicData.TaxTypeName }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Terms :</th>
+                                                <td class="text-muted">{{ basicData.Terms }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Email :</th>
+                                                <td class="text-muted"><a href="mailto:basicData.Email">{{
+                                                        basicData.Email }}</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- end col-->
+    <div class="row">
+        <div class="col-lg-5 col-xl-5 col-sm-5 col-md-5">
+            <div class="card-box  ribbon-box">
+                <h4 class="page-title bluetxt mb-18">Total Parts List</h4>
+
+                <div class="row">
+                    <div class="col-lg-12 col-xl-12 col-sm-12 col-md-12">
+                        <div class="table-responsive">
+                            <table id="datatable-angular-partslist" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table mb-15 datatables dt-responsive hover nowrap">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Part No</th>
+                                        <th>Description</th>
+                                        <th>Price</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7 col-xl-7 col-sm-7 col-md-7">
+            <div class="card-box  ribbon-box">
+                <div class="row">
+                    <div class="col-xl-8">
+                        <h4 class="page-title bluetxt mb-18">Customer Parts List</h4>
+                    </div>
+                    <div class="col-xl-4 sales-right">
+                        <div class="btn-group btn-group-sm float-right" role="group">
+
+                            <button ngbTooltip="Back" placement="top" class="btn btn-icon bg-primary waves-effect" routerLink="/admin/customer/list">
+                                <i class="fas fa-arrow-left"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-12 col-xl-12 col-sm-12 col-md-12">
+                        <div class="table-responsive">
+                            <table id="datatable-angular-customerparts" datatable [dtOptions]="dtOptions2" [dtTrigger]="dtTrigger2" class="table mb-15 datatables dt-responsive hover nowrap">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th style="width:15% !important">Part No</th>
+                                        <th style="width:15% !important">Customer Part #1</th>
+                                        <th style="width:15% !important">Customer Part #2</th>
+                                        <th style="width:25% !important">New Price</th>
+                                        <th style="width:25% !important">LPP</th>
+                                        <th style="width:20% !important">Action</th>
+                                    </tr>
+                                </thead>
+                                <!-- <tbody *ngIf="datalen">
+                                    <tr>
+                                        <td colspan="4" class="no-data-available nodata-center">No data!</td>
+                                    </tr>
+                                </tbody> -->
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

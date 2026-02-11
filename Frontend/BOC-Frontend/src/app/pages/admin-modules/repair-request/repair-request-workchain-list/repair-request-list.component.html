@@ -1,0 +1,557 @@
+<div class="container-fluid">
+    <app-page-title title="My Workchain" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-4">
+                    <div class="card">
+                        <div style="padding-bottom:0rem !important;" class="card-body">
+                            <div class="card-title">
+                                <h3>My Tasks</h3>
+                                <div style="font-size: 15px;position: relative;font-weight: bold;">
+                                    <div style="display: block">
+                                        <div id="rrlchart" *ngIf="workchainChartlabels.length>0">
+                                            <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [labels]="chartOptions.labels" [responsive]="chartOptions.responsive">
+                                            </apx-chart>
+                                        </div>
+                                        <div *ngIf="workchainChartlabels.length==0">No Records found ...</div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title">
+                                <h3>Repair Requests</h3>
+                                <div style="font-size: 15px;position: relative;font-weight: bold;">
+
+                                    <ngb-tabset class="nav-bordered" type="tabs">
+                                        <ngb-tab title="Search" class="nav-item d-none d-sm-inline-block">
+                                            <ng-template ngbTabContent>
+                                                <ng-template [ngTemplateOutlet]="Search"></ng-template>
+                                            </ng-template>
+                                        </ngb-tab>
+
+                                        <ngb-tab title="Advanced Search" class="nav-item">
+                                            <ng-template ngbTabContent>
+                                                <ng-template [ngTemplateOutlet]="AdvancedSearch"></ng-template>
+                                            </ng-template>
+                                        </ngb-tab>
+                                    </ngb-tabset>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card-box">
+                <div class="row">
+                    <div style="padding-bottom:15px;" class="col-xl-12">
+                        <button class="btn btn-primary waves-effect addrrbtn" (click)="onBulkEdit()">
+                            <i class="remixicon-exchange-box-fill mrg-5"></i> Change Sub-status / Assign To
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div tyle="padding-right: 15px;" class="table-responsive">
+                            <table id="datatable-angular" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table datatables dt-responsive hover nowrap">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <tr>
+                                            <th>
+                                                <div class="form-check">
+                                                    <label class="form-check-label" style="margin-bottom: 15px;">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        [checked]="gridCheckAll"
+                                                        (change)="gridAllRowsCheckBoxChecked($event)" />
+                                                    <span class="form-check-sign">
+                                                        <span class="check"></span>
+                                                    </span>
+                                                </label>
+                                                </div>
+                                            </th>
+                                            <th>Repair Request #</th>
+                                            <th>RR Image</th>
+                                            <th>Part #</th>
+                                            <th>Serial #</th>
+                                            <!-- <th>Customer Name</th> -->
+                                            <th>Vendor Name</th>
+                                            <th>Status</th>
+                                            <th>Sub Status & Assign To</th>
+                                            <th>Part Location</th>
+                                            <th>Action</th>
+                                            <th>Created Date</th>
+                                        </tr>
+                                </thead>
+                                <tbody *ngIf="BulkDataItem?.length != 0">
+                                    <tr *ngFor="let item of BulkDataItem; let i=index">
+                                        <td><input type="checkbox" class="checkbox" [checked]="item.checked" (change)="rowCheckBoxChecked($event, item.RRId)">
+                                        </td>
+                                        <td><a [routerLink]="(['/admin/repair-request/edit'])" [queryParams]="{ RRId: item.RRId}" class="actionView1" data-toggle='tooltip' ngbTooltip='RR View' data-placement='top'>{{item.RRNo}}</a>
+                                        </td>
+                                        <td *ngIf="item.RRImage != '' && item.RRImage != 'undefined' && item.RRImage != null">
+                                            <img class="rounded-square img-thumbnail avatar-xl" src="{{item.RRImage}}">
+                                        </td>
+                                        <td *ngIf="item.RRImage == '' || item.RRImage == 'undefined' || item.RRImage == null">
+                                            <img class="rounded-square img-thumbnail avatar-xl" src="assets/images/No Image Available.png">
+                                        </td>
+                                        <td>
+                                            <a [routerLink]="(['/admin/parts-edit'])" [queryParams]="{PartId: item.PartId, RRId: item.RRId}" data-toggle='tooltip' ngbTooltip='Part View' data-placement='top'>{{item.PartNo}}</a>
+                                        </td>
+
+                                        <td>
+
+                                            <span class="badge badge-light-success btn-xs">
+                                                {{item.SerialNo}}
+                                                <!-- {{item.SerialNo.length >
+                                                20}}?{{item.SerialNo}}:{{item.SerialNo.substr(0, 24) + ' ..'}} -->
+                                            </span>
+                                        </td>
+                                        <!-- <td>{{item.CompanyName}}</td> -->
+                                        <td>{{item.VendorName}}</td>
+                                        <td>
+                                            <div [ngClass]="GetClassName(item.Status)">
+                                                {{StatusName}}
+                                            </div>
+                                        </td>
+                                        <td *ngIf="item.SubStatusId != 0 && item.AssigneeUserId != 0">
+                                            <span class="badge badge-pink" *ngIf="RRSubStatusView">{{item.SubStatusName}}</span> &nbsp;
+                                            <a *ngIf="RRSubStatusEdit && item.IsActive==1" (click)=" onSubStatusEdit(item.RRId, item.SubStatusId)" class="fa fa-edit text-secondary  actionViewSubStatus" data-toggle='tooltip' ngbTooltip='Edit RR Sub Status' placement='top'></a> &nbsp;
+                                            <br>
+                                            <span *ngIf="RRAssignToView" class="mt-2 badge badge-secondary">{{item.AssigneeName}}</span>&nbsp;
+                                            <a *ngIf="RRAssignToEdit && item.IsActive==1" (click)="onAssigneeEdit(item.RRId, item.AssigneeUserId)" class="fa fa-edit text-secondary actionViewAssignee" data-toggle='tooltip' ngbTooltip='Edit RR Assign To' data-placement='top'></a> &nbsp;
+                                            <br><br>
+                                            <span class="mt-2" style="font-weight: bold;">Assigned By:
+                                                {{item.SubTaskAssignedBy}}</span>
+                                        </td>
+                                        <td *ngIf="item.SubStatusId == 0 && item.AssigneeUserId == 0">
+                                            <button *ngIf="RRAssignToAdd && RRSubStatusAdd && item.IsActive==1" (click)="onBulkEditonList(item.RRId)" class="btn btn-xs btn-primary actionViewBulkEdit" data-toggle='tooltip' ngbTooltip='Edit RR Sub Status' data-placement='top'>Add Sub Status &
+                                                Assign To</button> &nbsp;
+
+                                        </td>
+
+                                        <td *ngIf="item.RRPartLocationId!=0">
+                                            <span class="badge badge-purple" *ngIf="RRPartLocationView">
+                                                {{item.RRPartLocationName}}</span>&nbsp;
+                                            <a *ngIf="RRPartLocationEdit && item.IsActive==1" (click)="onEditPartLocation(item.RRId,item.RRPartLocationId)" class="fa fa-edit text-secondary actionEditRRPartLocation" data-toggle='tooltip' ngbTooltip='Edit RR Part Location' data-placement='top'></a> &nbsp;
+                                            <br>
+                                        </td>
+                                        <td *ngIf="item.RRPartLocationId==0">
+                                            <button (click)="onAddPartLocation(item.RRId)" *ngIf="RRPartLocationAdd && item.IsActive==1" class="btn btn-sm btn-success  actionAddRRPartLocation" data-toggle='tooltip' ngbTooltip='Add RR Part Location' data-placement='top'>Add RR Part Location</button>                                            &nbsp;
+                                        </td>
+
+
+                                        <td>
+                                            <a class="fa fa-clone text-secondary actionView2" data-toggle='tooltip' ngbTooltip='RR Duplicate' (click)="onduplicate(item.RRId)" data-placement='top'></a> &nbsp;
+                                            <a [routerLink]="(['/admin/repair-request/edit'])" [queryParams]="{ RRId: item.RRId}" class="fa fa-edit text-secondary" target="_blank" data-toggle='tooltip' ngbTooltip='RR Edit' data-placement='top'></a> &nbsp;
+                                            <a class="fa fa-trash text-danger actionView3" (click)="onDelete(item.RRId)" data-toggle='tooltip' title='RR Delete' data-placement='top'></a>
+                                        </td>
+                                        <td>{{item.Created}}</td>
+                                    </tr>
+                                </tbody>
+                                <tbody *ngIf="BulkDataItem?.length == 0">
+                                    <tr>
+                                        <td colspan="10" class="no-data-available">{{dataTableMessage}}</td>
+                                    </tr>
+                                    <tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tab Content -->
+<ng-template #Search>
+    <div class="row collapse pt-1 show">
+        <!-- <div class="col-12 col-sm-3 col-md-3 col-xl-3">
+            <select class="custom-select" [(ngModel)]="RRtype">
+                <option value="undefined">Select</option>
+                <option value="0">Repair Request #</option>
+                <option value="2">Part #</option>
+                <option value="3">Serial #</option>
+                <option value="39">Sales Order #</option>
+                <option value="42">Customer PO #</option>
+                <option value="11">Repair Request Description</option>
+                <option value="4">Customer Name</option>
+                <option value="5">Vendor Name</option>
+            </select>
+        </div>
+        <div class="col-12 col-sm-3 col-md-3 col-xl-3">
+            <input type="text" class="form-control" name="RRvalue" [(ngModel)]="RRvalue" placeholder="Enter Value">
+        </div> -->
+        <div class="col-12 col-sm-4 col-md-4 col-xl-6 pt-1">
+            <label class="mb-2">RR Numbers(Add Multiple RRs separated by comma)</label>
+            <textarea #textarea class="form-control" rows="3" [(ngModel)]="RRNos" name="RRNos"></textarea>
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-3 pt-1">
+            <!-- <div class="form-group"> -->
+            <label for="control-label">Sub Status</label>
+            <ng-select class="select1" name="subStatusid" [ngModelOptions]="{standalone: true}" [(ngModel)]="subStatusid" [items]="subStatusList" placeholder="Select Sub Status" bindLabel="SubStatusName" bindValue="SubStatusId" [searchable]="true">
+            </ng-select>
+            <!-- </div> -->
+        </div>
+
+        <div class="col-12 col-sm-3 col-md-3 col-xl-3 pt-4">
+            <input type="button" class="btn btn-primary btn-md mr-1" value="Search" id="btnFilter" (click)="rerender()" />
+            <input type="button" class="btn btn-secondary btn-md" value="Clear" id="btnClear" (click)="onClearSearch($event)" />
+        </div>
+    </div>
+</ng-template>
+
+
+
+
+<!-- Tab Content -->
+<ng-template #AdvancedSearch>
+    <div class="row collapse pt-1 show">
+        <!-- Row 1-->
+        <div class="col-12 col-sm-4 col-md-4 col-xl-4">
+            <label class="control-label">Repair Request #</label>
+            <ng-autocomplete class="ng-autocomplete" placeholder="Enter Repair Request #" [data]="RRList" [isLoading]="isLoadingRR" [searchKeyword]="keywordForRR" (selected)='selectRREvent($event)' (inputCleared)='clearRREvent($event)' [(ngModel)]="RRNo" (inputChanged)='onChangeRRSearch($event)'
+                (inputFocused)='onFocused($event)' [itemTemplate]="RRitemTemplate" [notFoundTemplate]="notFoundRRTemplate" debounceTime="1000">
+            </ng-autocomplete>
+            <ng-template #RRitemTemplate let-item>
+                <a [innerHTML]="item.RRNo"></a>
+            </ng-template>
+
+            <ng-template #notFoundRRTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+            </ng-template>
+            <!-- <input type="text" class="form-control" id="RRNo" [(ngModel)]="RRNo" placeholder="Enter Repair Request #"> -->
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-4">
+            <label class="control-label">Repair Request Description</label>
+            <input type="text" class="form-control" id="RRDescription" [(ngModel)]="RRDescription" placeholder="Enter Repair Request Description">
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Part #</label>
+            <ng-autocomplete class="ng-autocomplete" placeholder="Enter Part #" [data]="partList" [isLoading]="isLoading" [searchKeyword]="keywordForPartNo" (selected)='selectPartEvent($event)' (inputCleared)='clearPartEvent($event)' [(ngModel)]="PartNo" (inputChanged)='onChangePartSearch($event)'
+                (inputFocused)='onFocused($event)' [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate" debounceTime="1000">
+            </ng-autocomplete>
+            <ng-template #itemTemplate let-item>
+                <a [innerHTML]="item.PartNo"></a>
+            </ng-template>
+
+            <ng-template #notFoundTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+            </ng-template>
+            <!-- <input type="text" class="form-control" id="PartNo" [(ngModel)]="PartNo" placeholder="Enter Part #"> -->
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Serial #</label>
+            <input type="text" class="form-control" id="SerialNo" [(ngModel)]="SerialNo" placeholder="Enter Serial #">
+        </div>
+
+
+    </div>
+
+    <!-- Row 2-->
+    <div class="row collapse pt-2 show">
+        <div class="col-12 col-sm-4 col-md-4 col-xl-4">
+            <label class="control-label">Customers</label>
+            <ng-select [items]="customers$ | async" [typeahead]="customersInput$" [loading]="loadingCustomers" [multiple]="true" [closeOnSelect]="false" [searchable]="true" [virtualScroll]="true" placeholder="Select" bindLabel="CustomerCode" bindValue="CustomerId"
+                [(ngModel)]="CompanyName">
+                <ng-template ng-header-tmp *ngIf="CustomersList.length > 0">
+                    <button (click)="selectAll()" class="btn btn-sm btn-link">Select all</button>
+                </ng-template>
+                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                    <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                        <span class="ng-value-label">{{item.CompanyName}}</span>
+                        <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                    </div>
+                    <div class="ng-value" *ngIf="items.length > 1">
+                        <span class="ng-value-label">+ {{items.length - 1}} more...</span>
+                    </div>
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                    <input id="item-{{index}}" type="checkbox" [checked]="item$.selected" [ngModel]="item$.selected" /> {{item.CompanyName}}
+                </ng-template>
+            </ng-select>
+            <!-- <ng-autocomplete class="ng-autocomplete" placeholder="Enter Customer Name" [data]="CustomersList"
+                [isLoading]="isLoadingCustomer" [searchKeyword]="keywordForCustomer" [(ngModel)]="CompanyName"
+                (selected)='selectCustomerEvent($event)' (inputChanged)='onChangeCustomerSearch($event)'
+                (inputFocused)='onFocused($event)' [itemTemplate]="itemCustomerTemplate"
+                [notFoundTemplate]="notFoundCustomerTemplate" debounceTime="1000">
+            </ng-autocomplete>
+            <ng-template #itemCustomerTemplate let-item>
+                <a [innerHTML]="item.CompanyName"></a>
+            </ng-template>
+
+            <ng-template #notFoundCustomerTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+            </ng-template> -->
+            <!-- <input type="text" class="form-control" id="CompanyName" [(ngModel)]="CompanyName"
+                placeholder="Enter Customr Name"> -->
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-4">
+            <label class="control-label">Customer Reference #</label>
+            <input type="text" class="form-control" id="ReferenceValue" [(ngModel)]="ReferenceValue" placeholder="Enter Customer Reference #">
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Sales Order #</label>
+            <ng-autocomplete class="ng-autocomplete" placeholder="Enter Sales Order #" [data]="CustomerSONoList" [isLoading]="isLoadingCustomerSONo" [searchKeyword]="keywordForCustomerSONo" (inputCleared)='clearSOEvent($event)' (selected)='selectCustomerSONoEvent($event)'
+                [(ngModel)]="CustomerSONo" (inputChanged)='onChangeCustomerSONoSearch($event)' (inputFocused)='onFocused($event)' [itemTemplate]="CustomerSONoitemTemplate" [notFoundTemplate]="notFoundCustomerSONoTemplate" debounceTime="1000">
+            </ng-autocomplete>
+            <ng-template #CustomerSONoitemTemplate let-item>
+                <a [innerHTML]="item.CustomerSONo"></a>
+            </ng-template>
+
+            <ng-template #notFoundCustomerSONoTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+            </ng-template>
+            <!-- <input type="text" class="form-control" id="CustomerSONo" [(ngModel)]="CustomerSONo"
+                placeholder="Enter Sales Order #"> -->
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Current Status</label>
+            <select class="custom-select" [(ngModel)]="Status">
+                <option value="">Select</option>
+                <option [value]="status.id" *ngFor="let status of RRStatus">{{status.title}}</option>
+
+            </select>
+        </div>
+
+
+    </div>
+
+    <!-- Row 3-->
+    <div class="row collapse pt-2 show">
+
+        <div class="col-12 col-sm-4 col-md-4 col-xl-4">
+            <label class="control-label">Vendor Invoice Created</label>
+            <select class="custom-select" [(ngModel)]="VendorInvoiceId">
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
+
+        <div class="col-12 col-sm-4 col-md-4 col-xl-4">
+            <label class="control-label">Customer Invoice Created</label>
+            <select class="custom-select" [(ngModel)]="CustomerInvoiceId">
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Vendor PO #</label>
+            <ng-autocomplete class="ng-autocomplete" placeholder="Enter Vendor PO #" [data]="VendorPOList" [isLoading]="isLoadingVendorPO" [searchKeyword]="keywordForVendorPO" (inputCleared)='clearVendorPOEvent($event)' (selected)='selectVendorPOEvent($event)' [(ngModel)]="VendorPONo"
+                (inputChanged)='onChangeVendorPOSearch($event)' (inputFocused)='onFocused($event)' [itemTemplate]="VendorPOitemTemplate" [notFoundTemplate]="notFoundVendorPOTemplate" debounceTime="1000">
+            </ng-autocomplete>
+            <ng-template #VendorPOitemTemplate let-item>
+                <a [innerHTML]="item.VendorPONo"></a>
+            </ng-template>
+
+            <ng-template #notFoundVendorPOTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+            </ng-template>
+            <!-- <input type="text" class="form-control" id="VendorPONo" [(ngModel)]="VendorPONo"
+                placeholder="Enter Vendor PO #"> -->
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Customer PO #</label>
+            <ng-autocomplete class="ng-autocomplete" placeholder="Enter Customer PO #" [data]="CustomerPONoList" [isLoading]="isLoadingCustomerPONo" [searchKeyword]="keywordForCustomerPONo" (inputCleared)='clearPOEvent($event)' (selected)='selectCustomerPONoEvent($event)'
+                [(ngModel)]="CustomerPONo" (inputChanged)='onChangeCustomerPONoSearch($event)' (inputFocused)='onFocused($event)' [itemTemplate]="CustomerPONoitemTemplate" [notFoundTemplate]="notFoundCustomerPONoTemplate" debounceTime="1000">
+            </ng-autocomplete>
+            <ng-template #CustomerPONoitemTemplate let-item>
+                <a [innerHTML]="item.CustomerPONo"></a>
+            </ng-template>
+
+            <ng-template #notFoundCustomerPONoTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+            </ng-template>
+            <!-- <input type="text" class="form-control" id="CustomerPONo" [(ngModel)]="CustomerPONo"
+                placeholder="Enter Customer PO #"> -->
+        </div>
+
+
+    </div>
+    <div class="row collapse pt-2 show">
+        <div class="col-12 col-sm-4 col-md-4 col-xl-4">
+            <label class="control-label">Parts Delivered To Customer</label>
+            <select class="custom-select" [(ngModel)]="IsPartsDeliveredToCustomer">
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-4">
+            <label class="control-label">Quote Approved By</label>
+            <select class="custom-select" [(ngModel)]="QuoteApprovedBy">
+                <option value="">Select</option>
+                <option value="0">AH</option>
+                <option value="1">Customer</option>
+            </select>
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Customer Part #</label>
+            <input type="text" class="form-control" id="CustomerPartNo1" [(ngModel)]="CustomerPartNo1" placeholder="Enter Customer Part #">
+        </div>
+
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Vendor Name</label>
+            <ng-autocomplete class="ng-autocomplete" placeholder="Enter Vendor Name" [data]="VendorsList" [isLoading]="isLoadingVendor" [searchKeyword]="keywordForVendor" [(ngModel)]="VendorName" (inputCleared)='clearVendorEvent($event)' (selected)='selectVendorEvent($event)'
+                (inputChanged)='onChangeVendorSearch($event)' (inputFocused)='onFocused($event)' [itemTemplate]="itemVendorTemplate" [notFoundTemplate]="notFoundVendorTemplate" debounceTime="1000">
+            </ng-autocomplete>
+            <ng-template #itemVendorTemplate let-item>
+                <a [innerHTML]="item.VendorName"></a>
+            </ng-template>
+
+            <ng-template #notFoundVendorTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+            </ng-template>
+            <!-- <input type="text" class="form-control" id="VendorName" [(ngModel)]="VendorName"
+                placeholder="Enter Vendor Name"> -->
+        </div>
+    </div>
+    <!-- Row 4-->
+    <div class="row collapse pt-2 show">
+        <div class="col-12 col-sm-4 col-md-4 col-xl-4">
+            <label class="control-label">Status Change From Date</label>
+            <div class="input-group clockpicker">
+                <input class="form-control" placeholder="MM/DD/YYYY" name="d2" #c2="ngModel" [(ngModel)]="StatusChangeFrom" ngbDatepicker #d2="ngbDatepicker" (ngModelChange)="StatusChangeFromDataFormat(StatusChangeFrom)">
+                <div class="input-group-append">
+                    <button class="blackbg" (click)="d2.toggle()" type="button"><i
+                            class="mdi mdi-calendar white"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-4">
+            <label class="control-label">Status Change To Date</label>
+            <div class="input-group clockpicker">
+                <input class="form-control" placeholder="MM/DD/YYYY" name="d3" #c2="ngModel" [(ngModel)]="StatusChangeTo" ngbDatepicker #d3="ngbDatepicker" (ngModelChange)="StatusChangeToDataFormat(StatusChangeTo)">
+
+                <div class="input-group-append">
+                    <button class="blackbg" (click)="d3.toggle()" type="button"><i
+                            class="mdi mdi-calendar white"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Status Change</label>
+            <select class="custom-select" [(ngModel)]="StatusChangeId">
+                <option value="">Select</option>
+                <option [value]="status.id" *ngFor="let status of RRStatus">{{status.title}}</option>
+
+            </select>
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Shipping Status</label>
+            <select class="custom-select" [(ngModel)]="ShippingStatus">
+                <option value="">Select</option>
+                <option [value]="status.shipping_statusId" *ngFor="let status of ShippingStatusList">
+                    {{status.shipping_statusName}}</option>
+
+            </select>
+        </div>
+
+    </div>
+
+
+    <!-- Row 5-->
+    <div class="row collapse pt-2 show">
+        <div class="col-12 col-sm-4 col-md-4 col-xl-4">
+            <!-- <div class="form-group"> -->
+            <label for="Customer">Warranty Recovery</label>
+            <select class="custom-select" [(ngModel)]="IsWarrantyRecovery">
+                <option value="undefined">Select</option>
+                <option value="{{item.warranty_type_id}}" *ngFor="let item of WarrantyList">{{item.warranty_type_Name}}
+                </option>
+            </select>
+
+            <!-- </div> -->
+            <!-- <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" id="IsWarrantyRecovery" type="checkbox"
+                        [(ngModel)]="IsWarrantyRecovery">
+                    <label class="custom-control-label" for="IsWarrantyRecovery">Warranty Recovery</label>
+                </div>
+            </div> -->
+        </div>
+        <!-- manual static -->
+        <!-- <div class="col-12 col-sm-4 col-md-4 col-xl-4">
+            <label for="control-label">Sub Status</label>
+            <ng-select class="" name="subStatusid" [ngModelOptions]="{standalone: true}"
+            [(ngModel)]="subStatusid" bindLabel="SubStatusName" bindValue="SubStatusId" [items]="subStatusList" [searchable]="true" placeholder="Select RR Sub Status">
+           </ng-select>
+       
+        </div> -->
+        <div class="col-12 col-sm-4 col-md-4 col-xl-4">
+            <!-- <div class="form-group"> -->
+            <label for="control-label">RR Part Location</label>
+            <ng-select class="" name="Assignee" [(ngModel)]="RRPartLocationId" [ngModelOptions]="{standalone: true}" bindLabel="RRPartLocation" bindValue="RRPartLocationId" [items]="RRPartLocationList" [searchable]="true" placeholder="Select RR Part Location">
+            </ng-select>
+            <!-- </div> -->
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Current Location</label>
+            <select class="custom-select" [(ngModel)]="ShippingStatusCategory">
+                <option value="">Select</option>
+                <option [value]="item.shipping_categoryId" *ngFor="let item of ShippingStatusCategoryList">
+                    {{item.shipping_categoryName}}</option>
+
+            </select>
+        </div>
+
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">SO Created</label>
+            <select class="custom-select" [(ngModel)]="IsSOCreated">
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
+    </div>
+    <div class="row collapse pt-2 show">
+
+        <!-- manual static end -->
+        <div class="col-12 col-sm-4 col-md-4 col-xl-4 pt-10">
+            <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" id="IsRushRepair" type="checkbox" [(ngModel)]="IsRushRepair">
+                    <label class="custom-control-label" for="IsRushRepair">Rushed Repair Orders</label>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-4 pt-10">
+            <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" id="IsRepairTag" type="checkbox" [(ngModel)]="IsRepairTag">
+                    <label class="custom-control-label" for="IsRepairTag">Repair Tag</label>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-12 col-sm-4 col-md-4 col-xl-4 pt-10 ">
+            <input type="button" class="btn btn-primary btn-md mr-1" value="Search" id="btnFilter" (click)="rerender()" />
+            <input type="button" class="btn btn-secondary btn-md" value="Clear" id="btnClear" (click)="onClearSearch()" />
+        </div>
+    </div>
+
+
+
+    <!-- Row 3-->
+    <div class="row collapse pt-3 show">
+
+
+    </div>
+</ng-template>

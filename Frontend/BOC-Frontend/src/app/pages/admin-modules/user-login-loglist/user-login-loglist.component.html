@@ -1,0 +1,224 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="container-fluid" *ngIf="IsViewEnabled">
+	<div class="row">
+		<div class="col-xl-9">
+			<app-page-title title="Login Log List"> </app-page-title>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div style="padding-bottom: 0" class="card-body">
+					<div class="card-title">
+						<div style="font-size: 15px; position: relative; font-weight: bold">
+							<ngb-tabset class="nav-bordered" type="tabs">
+								<ngb-tab title="Search" class="nav-item d-none d-sm-inline-block">
+									<ng-template ngbTabContent>
+										<ng-template [ngTemplateOutlet]="Search"></ng-template>
+									</ng-template>
+								</ngb-tab>
+							</ngb-tabset>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12">
+			<div class="card-box">
+				<div class="row">
+					<div class="col-sm-12">
+						<!-- Table -->
+						<div class="table-responsive">
+							<table
+								id="login-loglist"
+								datatable
+								[dtOptions]="dtOptions"
+								class="table datatables dt-responsive hover nowrap"
+							>
+								<thead class="thead-light">
+									<tr>
+										<th>User Type</th>
+										<th>User Name</th>
+										<th>Customer/Vendor/Aibond Name</th>
+										<th>Login Domain</th>
+										<th>IP Address</th>
+										<th>Login Success</th>
+										<th>Login Date Time</th>
+										<th>UserId</th>
+										<th>Created</th>
+										<th>LogUserIdentityType</th>
+										<th>LogUserIdentityId</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="account-pages mt-5 mb-5" *ngIf="!IsViewEnabled">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-8 col-lg-6 col-xl-5">
+				<div class="card bg-pattern">
+					<div class="card-body p-4">
+						<div class="text-center">
+							<a routerLink="/">
+								<span
+									><img src="assets/projects/ah-group/full_logo.png" alt="" height="22"
+								/></span>
+							</a>
+						</div>
+
+						<div class="text-center mt-4">
+							<h1 class="text-error">401</h1>
+							<h3 class="mt-3 mb-2">Access Denied!</h3>
+							<p class="text-muted mb-3">
+								You don't have permission to access this page.
+							</p>
+
+							<a
+								routerLink="/admin/dashboard/ah-dashboard"
+								class="btn btn-success waves-effect waves-light"
+								>Back to Dashboard</a
+							>
+						</div>
+					</div>
+					<!-- end card-body -->
+				</div>
+				<!-- end card -->
+			</div>
+			<!-- end col -->
+		</div>
+		<!-- end row -->
+	</div>
+	<!-- end container -->
+</div>
+
+<!-- Search -->
+<ng-template #Search>
+	<!-- <form class="form" role="form" [formGroup]="searchForm"> -->
+	<div class="row collapse pt-2 mb-4 show">
+		<div class="col-12 col-sm-3 col-md-3 col-xl-2">
+			<label for="control-label">User Type</label>
+			<select
+				class="custom-select"
+				[(ngModel)]="LogUserIdentityType"
+				(change)="onUserType(LogUserIdentityType)"
+			>
+				<option value="">Select</option>
+				<option value="0">Aibond Portal</option>
+				<option value="1">Customer Portal</option>
+				<option value="2">Vendor Portal</option>
+			</select>
+		</div>
+		<div
+			class="col-12 col-sm-3 col-md-3 col-xl-2"
+			*ngIf="LogUserIdentityType == '0'"
+		>
+			<label for="control-label">User</label>
+			<ng-select
+				class=""
+				name="AssigneeUserId"
+				[(ngModel)]="UserId"
+				bindLabel="title"
+				bindValue="Id"
+				[items]="UserListddl"
+				[searchable]="true"
+				placeholder="Select"
+			>
+			</ng-select>
+		</div>
+		<div
+			class="col-12 col-sm-3 col-md-3 col-xl-2"
+			*ngIf="LogUserIdentityType != '0'"
+		>
+			<label for="control-label">User</label>
+			<ng-select
+				class=""
+				name="LogUserIdentityId"
+				[(ngModel)]="LogUserIdentityId"
+				bindLabel="title"
+				bindValue="Id"
+				[items]="UserListddl"
+				[searchable]="true"
+				placeholder="Select"
+			>
+			</ng-select>
+		</div>
+		<div class="col-12 col-sm-3 col-md-3 col-xl-2">
+			<label class="control-label">User Name</label>
+			<input
+				type="text"
+				class="form-control"
+				placeholder="Enter Ship From"
+				[(ngModel)]="UserName"
+			/>
+		</div>
+		<div class="col-12 col-sm-3 col-md-3 col-xl-2">
+			<label class="control-label">Login Domain</label>
+			<input
+				type="text"
+				class="form-control"
+				placeholder="Enter Ship From"
+				[(ngModel)]="LoginDomain"
+			/>
+		</div>
+		<div class="col-12 col-sm-3 col-md-3 col-xl-2">
+			<label for="control-label">Login Success</label>
+			<select class="custom-select" [(ngModel)]="LoginSuccess">
+				<option value="">Select</option>
+				<option value="1">Yes</option>
+				<option value="0">No</option>
+			</select>
+		</div>
+
+		<div class="col-12 col-sm-3 col-md-3 col-xl-2">
+			<label class="control-label">Created</label>
+			<div class="input-group clockpicker">
+				<input
+					ngbDatepicker
+					class="form-control"
+					[(ngModel)]="LoginDate"
+					autoClose="false"
+					placeholder="MM/DD/YYYY"
+					#Quotes_Date_From="ngbDatepicker"
+					(ngModelChange)="LoginDateFormat(LoginDate)"
+				/>
+				<div class="input-group-append" (click)="Quotes_Date_From.toggle()">
+					<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-12 col-sm-3 col-md-3 col-xl-2" style="padding-top: 30px">
+			<input
+				type="button"
+				class="btn btn-primary btn-md mr-1"
+				value="Search"
+				id="btnFilter"
+				(click)="onFilter($event)"
+			/>
+			<input
+				type="button"
+				class="btn btn-secondary btn-md mr-1"
+				value="Clear"
+				id="btnClear"
+				(click)="onClear($event)"
+			/>
+		</div>
+	</div>
+	<!-- </form> -->
+</ng-template>

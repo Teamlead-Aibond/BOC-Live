@@ -1,0 +1,26 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">RR Duplicate</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg">
+    <form name="form" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+
+        <div class="container">
+            <div class="form-group">
+                <label class="mb-2" for="Customer">Serial # <span class="red">*</span></label>
+                <div class="row col-xl-12">
+                    <input id="SerialNo" [(ngModel)]="model.SerialNo" name="SerialNo" #SerialNo="ngModel" type="text" class="form-control" [ngClass]="{ 'is-invalid': f.submitted && SerialNo.invalid }" required>
+                    <div *ngIf="f.submitted &&SerialNo.invalid" class="invalid-feedback">
+                        <div *ngIf="SerialNo.errors.required">Serial No is required</div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light">Submit</button>
+        </div>
+    </form>
+</div>

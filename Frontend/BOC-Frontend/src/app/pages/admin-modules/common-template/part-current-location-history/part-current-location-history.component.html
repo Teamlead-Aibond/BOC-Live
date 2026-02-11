@@ -1,0 +1,168 @@
+<div class="modal-header">
+    <h4 class="modal-title pcltitle">Part Current Location History</h4>
+    <button type="button" class="close" aria-hidden="true" (click)="modalRef.hide()">×</button>
+</div>
+<div class="modal-body p-6 mt-2 pb05">
+
+    <div class="row">
+        <div class="col-xl-12">
+            <ul class="step-indicator pcl"
+                *ngFor='let index of RRShippingHistory; let i = index; let even = even; let count = count'>
+
+                <ng-container *ngIf="even">
+                    <li class="active complete">
+                        <p class="date-rr">{{RRShippingHistory[i].ShipDate | dateTransform}}</p>
+                        <div class="step rrline"><img width="30" height="30"
+                                src="../../../../assets/images/icons/Shipped-From-Customer.png">
+                        </div>
+
+                        <div class="caption">
+                            <span>Shipped({{RRShippingHistory[i].FromIdentityName}})<br>
+                                <h4>{{RRShippingHistory[i].ShipFromName}}</h4>
+                            </span>
+                        </div>
+                        <div class="pcl-date" *ngIf="RRShippingHistory[i].ReceiveDate!=null">
+                            {{RRShippingHistory[i].Difference_In_Days}} Days</div>
+                    </li>
+
+                    <li *ngIf="RRShippingHistory[i].ReceiveDate==null">
+                        <span class="badge badge-light-pink">In Transit</span>
+                        <div class="step rrline"><img width="30" height="30"
+                                src="../../../../assets/images/icons/Transit---From-Industry-to-Customer.png">
+                        </div>
+                        <div class="caption"><span>{{RRShippingHistory[i].FromIdentityName}} =>
+                                {{RRShippingHistory[i].ToIdentityName}}
+
+                                <br>
+                                <h4>( {{RRShippingHistory[i].ShipFromName}} <i
+                                        class="fe-chevrons-right text-primary"></i>
+                                    {{RRShippingHistory[i].ShipToName}} )</h4>
+                            </span></div>
+                    </li>
+                    <li *ngIf="RRShippingHistory[i].ReceiveDate!=null">
+                        <p class="date-rr"> {{RRShippingHistory[i].ReceiveDate | dateTransform}}</p>
+
+                        <div class="step rrline"><img width="30" height="30"
+                                src="../../../../assets/images/icons/Received-To-vendor.png">
+                        </div>
+                        <div class="caption"><span>Received({{RRShippingHistory[i].ToIdentityName}})
+                                <br>
+                                <h4>{{RRShippingHistory[i].ShipToName}}</h4>
+                            </span></div>
+                    </li>
+                    <ng-container *ngIf="i+1<count">
+                        <li class="active complete">
+                            <p class="date-rr">{{RRShippingHistory[i+1].ShipDate | dateTransform}}</p>
+                            <div class="step rrline"><img width="30" height="30"
+                                    src="../../../../assets/images/icons/Shipped-From-Customer.png">
+                            </div>
+
+                            <div class="caption">
+                                <span>Shipped({{RRShippingHistory[i+1].FromIdentityName}})<br>
+                                    <h4>{{RRShippingHistory[i+1].ShipFromName}}</h4>
+                                </span>
+                            </div>
+                            <div class="pcl-date" *ngIf="RRShippingHistory[i+1].ReceiveDate!=null">
+                                {{RRShippingHistory[i+1].Difference_In_Days}} Days</div>
+                        </li>
+
+                        <li *ngIf="RRShippingHistory[i+1].ReceiveDate==null">
+                            <span class="badge badge-light-pink">In Transit</span>
+                            <div class="step rrline"><img width="30" height="30"
+                                    src="../../../../assets/images/icons/Transit---From-Industry-to-Customer.png">
+                            </div>
+                            <div class="caption"><span>{{RRShippingHistory[i+1].FromIdentityName}} =>
+                                    {{RRShippingHistory[i+1].ToIdentityName}}
+
+                                    <br>
+                                    <h4>( {{RRShippingHistory[i+1].ShipFromName}} <i
+                                            class="fe-chevrons-right text-primary"></i>
+                                        {{RRShippingHistory[i+1].ShipToName}} )</h4>
+                                </span></div>
+                        </li>
+                        <li *ngIf="RRShippingHistory[i+1].ReceiveDate!=null">
+                            <p class="date-rr"> {{RRShippingHistory[i+1].ReceiveDate | dateTransform}}</p>
+
+                            <div class="step rrline"><img width="30" height="30"
+                                    src="../../../../assets/images/icons/Received-To-vendor.png">
+                            </div>
+                            <div class="caption"><span>Received({{RRShippingHistory[i+1].ToIdentityName}})
+                                    <br>
+                                    <h4>{{RRShippingHistory[i+1].ShipToName}}</h4>
+                                </span></div>
+                        </li>
+                    </ng-container>
+
+                </ng-container>
+
+
+            </ul>
+
+
+            <!-- <ul class="step-indicator pcl">
+                <ng-container *ngFor="let item of RRShippingHistory ; let i =index">
+                    <li class="active complete" *ngIf="i>1">
+                        <p class="date-rr">{{item.ShipDate | dateTransform}}</p>
+                        <div class="step rrline"><img width="30" height="30"
+                                src="../../../../assets/images/icons/Shipped-From-Customer.png">
+                        </div>
+
+                        <div class="caption">
+                            <span>Shipped({{item.FromIdentityName}})<br>
+                                <h4>{{item.ShipFromName}}</h4>
+                            </span>
+                        </div>
+                        <div class="pcl-date" *ngIf="item.ReceiveDate!=null">{{item.Difference_In_Days}} Days</div>
+                    </li>
+
+                    <li *ngIf="item.ReceiveDate==null && i>1">
+                        <span class="badge badge-light-pink">In Transit</span>
+                        <div class="step rrline"><img width="30" height="30"
+                                src="../../../../assets/images/icons/Transit---From-Industry-to-Customer.png">
+                        </div>
+                        <div class="caption"><span>{{item.FromIdentityName}} =>
+                                {{item.ToIdentityName}}
+
+                                <br>
+                                <h4>( {{item.ShipFromName}} <i class="fe-chevrons-right text-primary"></i>
+                                    {{item.ShipToName}} )</h4>
+                            </span></div>
+                    </li>
+                    <li *ngIf="item.ReceiveDate!=null  && i>1">
+                        <p class="date-rr"> {{item.ReceiveDate | dateTransform}}</p>
+
+                        <div class="step rrline"><img width="30" height="30"
+                                src="../../../../assets/images/icons/Received-To-vendor.png">
+                        </div>
+                        <div class="caption"><span>Received({{item.ToIdentityName}})
+                                <br>
+                                <h4>{{item.ShipToName}}</h4>
+                            </span></div>
+                    </li>
+
+
+                </ng-container>
+            </ul> -->
+            <!-- <ul class="list-unstyled timeline-sm" *ngFor="let item of RRShippingHistory ; let i =index">
+                    <li class="timeline-sm-item">
+                        <span class="timeline-sm-date">{{item.FromIdentityName}} <br><i
+                                class="fe-chevrons-down text-center"></i><br>
+                            {{item.ToIdentityName}}</span>
+                        <h5 class="mt-0 mb-1">{{item.ShipFromName}} <i class="fe-chevrons-right text-primary"></i>
+                            {{item.ShipToName}}
+                        </h5>
+                        <p>Shipped From: <span class="badge badge-light-primary">{{item.ShipStreetAddress}},
+                                {{item.ShipSuiteOrApt}}, {{item.ShipCountry}}</span>
+                        </p>
+                        <p style="margin-top: -10px;">Received By: <span
+                                class="badge badge-light-pink">{{item.ReceiveStreetAddress}},{{item.ReceiveSuiteOrApt}},{{item.ReceiveCountry}}</span>
+                        </p>
+                    </li>
+
+                </ul> -->
+
+
+
+        </div>
+    </div>
+</div>

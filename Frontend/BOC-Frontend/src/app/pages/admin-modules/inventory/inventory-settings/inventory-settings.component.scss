@@ -1,0 +1,19 @@
+/* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+input[type='text']:disabled,
+input[type='number']:disabled {
+	background: #dddddd;
+}
+
+.action-item {
+	cursor: pointer;
+}
+
+.form-group label {
+	font-weight: 500;
+	font-size: 14px;
+}

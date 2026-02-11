@@ -1,0 +1,149 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">Employee</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg">
+    <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="Form">
+
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="Customer">Employee No : <span class="red">*</span></label>
+                    <input type="text" class="form-control" placeholder="Enter Employee No" name="EmployeeNo"
+                        formControlName="EmployeeNo">
+                    <span class="text-danger"
+                        *ngIf="(FormControl.EmployeeNo.touched || submitted) && FormControl.EmployeeNo.errors?.required">
+                        Employee No is required
+                    </span>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="Customer">Employee Name: <span class="red">*</span></label>
+                    <input type="text" class="form-control" placeholder="Enter Employee Name" name="EmployeeName"
+                        formControlName="EmployeeName">
+                    <span class="text-danger"
+                        *ngIf="(FormControl.EmployeeName.touched || submitted) && FormControl.EmployeeName.errors?.required">
+                        Employee Name is required
+                    </span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+
+
+
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="Customer">Employee Email:</label>
+                    <input type="text" class="form-control" placeholder="Enter Employee Email" name="EmployeeEmail"
+                        formControlName="EmployeeEmail">
+                    <span class="text-danger"
+                        *ngIf="(FormControl.EmployeeEmail.touched || submitted) && FormControl.EmployeeEmail.errors?.email">
+                        Enter Valid Email
+                    </span>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="Customer">Employee Phone No:</label>
+                    <input type="text" class="form-control" name="EmployeePhoneNo" formControlName="EmployeePhoneNo"
+                        placeholder="Enter Employee Phone No">
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="Customer">Employee Gender:<span class="red">*</span></label>
+                    <select class="custom-select" name="EmployeeGender" formControlName="EmployeeGender"
+                        class="form-control">
+                        <option value="" disabled>Select</option>
+                        <option value="1">
+                            Male
+                        </option>
+                        <option value="2">
+                            FeMale
+                        </option>
+                    </select>
+                    <span class="text-danger"
+                        *ngIf="(FormControl.EmployeeGender.touched || submitted) && FormControl.EmployeeGender.errors?.required">
+                        Employee Gender is required
+                    </span>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="Customer">Employee RFID Tag No:<span class="red">*</span></label>
+                    <input type="text" class="form-control" name="EmployeeRFIDTagNo" formControlName="EmployeeRFIDTagNo"
+                        placeholder="Enter Employee RFID Tag No">
+                    <span class="text-danger"
+                        *ngIf="(FormControl.EmployeeRFIDTagNo.touched || submitted) && FormControl.EmployeeRFIDTagNo.errors?.required">
+                        Employee RFID Tag No is required
+                    </span>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="Customer">Employee Address:</label>
+                    <textarea class="form-control" name="EmployeeAddress" row="4" formControlName="EmployeeAddress"
+                        style="width: 100%;height: 121px;"></textarea>
+
+
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="Customer">Employee Responsibilites:<span class="red">*</span></label>
+                    <ng-select [items]="EmployeeResponsibilitesList"  name="EmployeeResponsibilites" placeholder="Select Responsibilites"
+                    bindLabel="EmployeeResponsibility" bindValue="EmployeeResponsibilityId"  formControlName="EmployeeResponsibilites" [multiple]="true"  [searchable]="true">
+                    </ng-select>
+                    <span class="text-danger"
+                        *ngIf="(FormControl.EmployeeResponsibilites.touched || submitted) && FormControl.EmployeeResponsibilites.errors?.required">
+                        Employee Responsibilites is required
+                    </span>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="Customer">Employee Job Role:<span class="red">*</span></label>
+                    <select class="custom-select" name="EmployeeJobRole" formControlName="EmployeeJobRole">
+                        <option value="" selected>Select</option>
+                        <option *ngFor="let item of EmployeeJobRoleList" value={{item.id}}>
+                            {{item.Name}}
+                        </option>
+                    </select>
+                    <span class="text-danger"
+                        *ngIf="(FormControl.EmployeeJobRole.touched || submitted) && FormControl.EmployeeJobRole.errors?.required">
+                        Employee Job Role is required
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+        <div class="text-right pt-2 mt-0">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light ml-1">Save</button>
+        </div>
+
+    </form>
+</div>

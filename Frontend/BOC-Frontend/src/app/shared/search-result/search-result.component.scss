@@ -1,0 +1,172 @@
+/* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+
+
+.search-result-box .nav-bordered .nav-link {
+    padding: 10px 5px!important;
+    margin-right: 10px
+}
+
+.search-result-box p {
+    font-size: 15px;
+    font-weight: 400;
+    color: #6c757d !important;
+    line-height: 23px;
+}
+
+.text-truncate {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.mt3 {
+    margin-top: 1.5rem !important;
+}
+
+.search-result-box h4 {
+    font-size: 18px;
+    color: #09518e;
+    margin: 0;
+    padding: 0;
+}
+
+.search-result-box p a {
+    margin-left: 5px;
+    display: inline;
+}
+
+.pagination-rounded .page-link {
+    font-size: 15px;
+    font-weight: 400;
+    padding: 9px 14px !important;
+}
+
+.page-item.active a.page-link {
+    margin: 0;
+    line-height: 17px;
+}
+
+.btnblue {
+    background-color: #09518e;
+    border-color: #09518e;
+}
+
+.btnblue:hover {
+    color: #fff !important
+}
+
+
+/**********/
+
+.search-result-box .search-item {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f1f5f7;
+    margin-bottom: 20px;
+    padding: 0px 30px 10px 30px;
+}
+
+.search-item h3 {
+    font-size: 1.2rem;
+}
+
+.rrn,
+.rrl {
+    font-size: 16px;
+    font-weight: 600;
+    font-family: "Roboto", sans-serif;
+}
+
+.search-result-box .nav-bordered .nav-link {
+    padding: 10px 5px!important;
+    margin-right: 10px
+}
+
+.search-result-box .search-item {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f1f5f7;
+    margin-bottom: 20px;
+}
+
+.search-result-box p {
+    font-size: 15px;
+    font-weight: 400;
+    color: #6c757d !important;
+    line-height: 23px;
+}
+
+.text-truncate {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.mt3 {
+    margin-top: 1.5rem !important;
+}
+
+.search-result-box h4 {
+    font-size: 18px;
+    color: #09518e;
+    margin: 0;
+    padding: 0;
+}
+
+.search-result-box p a {
+    margin-left: 5px;
+    display: inline;
+}
+
+.pagination-rounded .page-link {
+    font-size: 15px;
+    font-weight: 400;
+    padding: 9px 14px !important;
+}
+
+.page-item.active a.page-link {
+    margin: 0;
+    line-height: 17px;
+}
+
+.btnblue {
+    background-color: #09518e;
+    border-color: #09518e;
+}
+
+.btnblue:hover {
+    color: #fff !important
+}
+
+.pagination li {
+    font-family: 'Roboto';
+    font-size: 14px !important;
+}
+
+.nav-bordered li a {
+    padding: 8px 15px !important;
+}
+
+.justify-content-md-between {
+    font-size: 15px;
+    font-family: 'Roboto';
+}
+
+@media screen and (max-width:768px) {
+    .rrn,
+    .rrl {
+        font-size: 15px;
+        font-weight: 500;
+        font-family: "Roboto", sans-serif;
+    }
+}
+
+@media screen and (max-width:640px) {
+    .rrn,
+    .rrl {
+        font-size: 16px;
+        font-weight: 400;
+        font-family: "Roboto", sans-serif;
+    }
+}

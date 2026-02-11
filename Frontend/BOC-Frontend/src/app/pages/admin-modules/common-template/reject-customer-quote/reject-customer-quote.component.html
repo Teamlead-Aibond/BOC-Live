@@ -1,0 +1,59 @@
+<div class="modal-header modal-lg ht">
+    <h4 class="modal-title">Reject Customer Quote</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg">
+    <form [formGroup]="EditForm" (ngSubmit)="onSubmit()">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-xl-12 col-md-12">
+                    <div class="group-gap">
+                        <h5 class="mb-3">Reason :</h5>
+                        <div class="d-block my-3">
+
+                            <div class="custom-control custom-radio"
+                                *ngFor="let reason of customer_quote_reject_reasons;  let i = index;">
+                                <input id="reason{{i+1}}" type="radio" class="custom-control-input"
+                                    value="{{reason.id}}" name="reason" formControlName="reason">
+                                <label class="custom-control-label" for="reason{{i+1}}">{{reason.title}}</label>
+                            </div>
+
+                            <!-- <div class="custom-control custom-radio">
+                                <input id="reason1" type="radio" class="custom-control-input" value="1"
+                                    name="reason" formControlName="reason">
+                                <label class="custom-control-label" for="reason1">Quoted New Replacement</label>
+                            </div>
+
+                            <div class="custom-control custom-radio">
+                                <input id="reason2" type="radio" class="custom-control-input" value="2"
+                                    name="reason" formControlName="reason">
+                                <label class="custom-control-label" for="reason2">Quoted Exchange</label>
+                            </div>
+
+                            <div class="custom-control custom-radio">
+                                <input id="reason3" type="radio" class="custom-control-input" value="3"
+                                    name="reason" formControlName="reason">
+                                <label class="custom-control-label" for="reason3">Not Repairable/Scarp</label>
+                            </div>
+
+                            <div class="custom-control custom-radio">
+                                <input id="reason4" type="radio" class="custom-control-input" value="4"
+                                    name="reason" formControlName="reason">
+                                <label class="custom-control-label" for="reason4">Not Repairable/Return not repaired</label>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-danger" *ngIf="submitted && EditFormControl.reason.errors?.required">
+                Please select the Reason!
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light"> Submit</button>
+        </div>
+    </form>
+</div>

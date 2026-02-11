@@ -1,0 +1,121 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">Create Vendor Bill</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg">
+    <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="AddForm">
+        <div class="row">
+
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="field-2" class="control-label">Amount
+
+                    </label>
+                    <div class="input-group purchase-txt">
+                        {{ItemLocalCurrencySymbol}} {{POAmount}}
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="field-2" class="control-label verify-rel">Verify
+                        <span class="red">*</span>
+                    </label>
+                    <input class="form-control checkbox-outer" name="Verify" type="checkbox" formControlName="Verify">
+                  
+
+                </div>
+                <span class="text-danger"
+                *ngIf="(AddFormControl.Verify.touched || submitted) && AddFormControl.Verify.errors?.required">
+                Verify is required
+            </span>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="field-2" class="control-label">Shipping Cost
+                        <span class="red">*</span>
+                    </label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">{{ItemLocalCurrencySymbol}}</span>
+                        </div>
+                        <input class="form-control" name="Shipping" placeholder="Enter Shipping Cost"
+                            formControlName="Shipping" readonly>
+                    </div>
+                    <span class="text-danger"
+                        *ngIf="(AddFormControl.Shipping.touched || submitted) && AddFormControl.Shipping.errors?.required">
+                        Shipping Cost is required
+                    </span>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="field-2" class="control-label">Vendor Invoice #
+                        <span class="red">*</span>
+                    </label>
+                    <input class="form-control" name="VendorInvNo" placeholder="Enter Vendor Invoice #"
+                        formControlName="VendorInvNo">
+                    <span class="text-danger"
+                        *ngIf="(AddFormControl.VendorInvNo.touched || submitted) && AddFormControl.VendorInvNo.errors?.required">
+                        Vendor Invoice No is required
+                    </span>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="field-2" class="control-label">Status
+                        <span class="red">*</span>
+                    </label>
+                    <select class="form-control" name="Status" placeholder="Select" formControlName="Status">
+                        <option value="" disabled>Select</option>
+                        <option *ngFor="let invoice_status of Invoice_Status"
+                            value="{{invoice_status.Invoice_StatusId}}">
+                            {{invoice_status.Invoice_StatusName}}</option>
+                    </select>
+
+                    <span class="text-danger"
+                        *ngIf="(AddFormControl.Status.touched || submitted) && AddFormControl.Status.errors?.required">
+                        Status is required
+                    </span>
+
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="field-2" class="control-label">Create Date
+                        <span class="red">*</span>
+                    </label>
+                    <div class="input-group clockpicker">
+                        <input ngbDatepicker class="form-control" formControlName="Created" name="Created"
+                            autoClose="false" placeholder="MM/DD/YYYY" #Due_Date_from="ngbDatepicker">
+                        <div class="input-group-append" (click)="Due_Date_from.toggle()">
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                        </div>
+                     
+                    </div>
+                    <span class="text-danger"
+                    *ngIf="(AddFormControl.Created.touched || submitted) && AddFormControl.Created.errors?.required">
+                    Create Date is required
+                </span>
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="text-right pt-4 mt-2">
+            <button type="button" class="btn btn-light" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success ml-1">Submit</button>
+        </div>
+
+    </form>
+</div>

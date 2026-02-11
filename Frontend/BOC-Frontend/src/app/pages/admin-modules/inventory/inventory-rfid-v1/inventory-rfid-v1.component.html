@@ -1,0 +1,300 @@
+<div class="container-fluid inv-dahboard">
+	<app-page-title
+		title="Inventory RFID Dashboard"
+		[breadcrumbItems]="breadCrumbItems"
+	></app-page-title>
+
+	<div class="row">
+		<div class="col-xl-12">
+			<div class="row">
+				<div class="col-xl-12 nopad">
+					<h4
+						class="header-title text-center pl15"
+						style="width: 100%; font-size: 1.2rem"
+					>
+						<span class="mt-2">Today</span> <span class="sepick1">{{ today }}</span>
+					</h4>
+
+					<span class="clear15"></span>
+
+					<div class="col-12 col-xl-3 col-sm-3 col-md-3 float-left">
+						<div class="widget-bg-color-icon card-box cl card-dashpad dhh">
+							<div
+								class="avatar-lg rounded-circle bg-icon-danger float-left cl-lemon col-4 col-sm-4 col-xl-2"
+							>
+								<i class="fas fa-th-large font23 avatar-title text-white"></i>
+							</div>
+							<div class="rct col-8 col-sm-8 col-xl-10">
+								<h3 class="tdd">
+									<span>
+										{{
+											(this.StockIn ? this.StockIn : 0) +
+												(this.StockOut ? this.StockOut : 0)
+										}}
+									</span>
+								</h3>
+								<p class="text-mute-blue mb-0">Total Inventory</p>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+
+					<div class="col-12 col-xl-3 col-sm-3 col-md-3 float-left">
+						<div class="widget-bg-color-icon card-box co card-dashpad dhh">
+							<div
+								class="avatar-lg rounded-circle bg-icon-info float-left co-info col-4 col-sm-4 col-xl-2"
+							>
+								<i class="fas fa-boxes font28 avatar-title text-white"></i>
+							</div>
+							<div class="rct col-8 col-sm-8 col-xl-10">
+								<h3 class="tdd">
+									<span>{{ this.StockIn ? this.StockIn : 0 }}</span>
+								</h3>
+								<p class="text-mute-blue mb-0">Current Inventory</p>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+
+					<div class="col-12 col-xl-3 col-sm-3 col-md-3 float-left">
+						<div class="widget-bg-color-icon card-box ci card-dashpad dhh">
+							<div
+								class="avatar-lg rounded-circle bg-icon-info float-left ci-warn col-4 col-sm-4 col-xl-2"
+							>
+								<i class="fas fa-dolly-flatbed font23 avatar-title text-white"></i>
+							</div>
+							<div class="rct col-8 col-sm-8 col-xl-10">
+								<h3 class="tdd">
+									<span>{{ this.StockIn ? this.StockIn : 0 }}</span>
+								</h3>
+								<p class="text-mute-blue mb-0">Stocked In</p>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+
+					<div class="col-12 col-xl-3 col-sm-3 col-md-3 float-left">
+						<div class="widget-bg-color-icon card-box si card-dashpad dhh">
+							<div
+								class="avatar-lg rounded-circle bg-icon-warning float-left si-warn col-4 col-sm-4 col-xl-2"
+							>
+								<i class="fas fa-truck-moving font35 avatar-title text-white"></i>
+							</div>
+							<div class="rct col-8 col-sm-8 col-xl-10">
+								<h3 class="tdd">
+									<span>{{ this.StockOut ? this.StockOut : 0 }}</span>
+								</h3>
+								<p class="text-mute-blue mb-0">Stocked Out</p>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xl-12">
+			<div class="card-box dash-log">
+				<div class="row">
+					<div class="col-xl-12">
+						<div class="col-xl-6 col-sm-6 col-md-6 lpe float-left">
+							<h2>Checked-Out Live</h2>
+
+							<div
+								style="padding-bottom: 15px; max-height: 611px"
+								class="card"
+								appSlimScroll
+							>
+								<div class="card-header bg-white text- header-title h4 border-0 my-1">
+									<ngb-alert
+										*ngFor="let lpr of rfidExitGateReaderData"
+										[dismissible]="false"
+										class="alert w-100 {{
+											lpr?.inventory && lpr?.inventory?.StockOutId
+												? 'alert-danger'
+												: 'alert-success'
+										}}"
+										role="alert"
+									>
+										<div class="row">
+											<div
+												(click)="
+													setPartImage(
+														lpr?.inventory?.WarehouseSub3LayoutImage,
+														lpr?.tagInventoryEvent?.epc
+													)
+												"
+												class="col-xl-12"
+											>
+												<div class="col-lg-2 float-left nopad-lt">
+													Part# {{ lpr?.inventory?.PartNo }}
+												</div>
+												<div class="col-lg-2 float-left nopad-lt">
+													Serial# {{ lpr?.inventory?.SerialNo }}
+												</div>
+												<div class="col-lg-2 float-left nopad-rt col-md-6">
+													RFID# {{ lpr?.tagInventoryEvent?.epcHexShort }}
+												</div>
+												<div class="col-lg-3 float-left col-md-6">
+													Location: {{ lpr?.inventory?.WarehouseSub4Name }}
+												</div>
+												<div class="col-lg-3 float-left col-md-6">
+													Time: {{ lpr?.timestamp | date : 'medium' }}
+												</div>
+											</div>
+										</div>
+									</ngb-alert>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-6 col-sm-6 col-md-6 lpe float-left">
+							<h2>Floor Layout</h2>
+
+							<div style="margin-bottom: 0" class="card">
+								<div class="card-header bg-white text- header-title h4 border-0 my-1">
+									<span *ngIf="partLocationImage">
+										<img
+											[src]="this.partLocationImage"
+											style="width: 100%; height: auto"
+										/>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xl-12">
+			<div class="card-box dash-log">
+				<div class="row">
+					<div class="col-xl-12">
+						<div class="col-xl-6 col-sm-6 col-md-6 lpe float-left">
+							<h2>Check-In</h2>
+
+							<div
+								style="padding-bottom: 15px; max-height: 611px"
+								class="card"
+								appSlimScroll
+							>
+								<div class="card-header bg-white text- header-title h4 border-0 my-1">
+									<table
+										id="datatable"
+										class="table datatables dt-responsive hover nowrap"
+									>
+										<thead class="thead-light">
+											<tr>
+												<th>RFID #</th>
+												<th>Part #</th>
+												<th>Serial #</th>
+												<th>Location</th>
+												<th>Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>2547</td>
+												<td>AHR-10765X22X4</td>
+												<td>1422</td>
+												<td>-</td>
+												<td>
+													<button
+														type="button"
+														(click)="Checkin('AHR-10765X22X4', 1, '2547', '1422')"
+														class="btn btn-primary btn-sm mb-1 mr-1 mt-1"
+													>
+														Add Check-In
+													</button>
+												</td>
+											</tr>
+											<tr>
+												<td>1452</td>
+												<td>AHR-31040010</td>
+												<td>122121</td>
+												<td>-</td>
+												<td>
+													<button
+														type="button"
+														(click)="Checkin('AHR-31040010', '9', '1452', '122121')"
+														class="btn btn-primary btn-sm mb-1 mr-1 mt-1"
+													>
+														Add Check-In
+													</button>
+												</td>
+											</tr>
+										</tbody>
+
+										<tbody></tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-6 col-sm-6 col-md-6 lpe float-left">
+							<h2>Check-Out</h2>
+							<div
+								style="padding-bottom: 15px; max-height: 611px"
+								class="card"
+								appSlimScroll
+							>
+								<div class="card-header bg-white text- header-title h4 border-0 my-1">
+									<table
+										id="datatable"
+										class="table datatables dt-responsive hover nowrap"
+									>
+										<thead class="thead-light">
+											<tr>
+												<th>RFID #</th>
+												<th>Part #</th>
+												<th>Serial #</th>
+												<th>Location</th>
+												<th>Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>2547</td>
+												<td>AHR-10765X22X4</td>
+												<td>1223</td>
+												<td>-</td>
+												<td>
+													<button
+														type="button"
+														(click)="Checkout('AHR-10765X22X4', 1, '2547', '1223', '50')"
+														class="btn btn-primary btn-sm mb-1 mr-1 mt-1"
+													>
+														Add Check-Out
+													</button>
+												</td>
+											</tr>
+											<tr>
+												<td>7845</td>
+												<td>AHR-31040010</td>
+												<td>4520</td>
+												<td>-</td>
+												<td>
+													<button
+														type="button"
+														(click)="Checkout('AHR-10765X22X4', 1, '7845', '4520', '50')"
+														class="btn btn-primary btn-sm mb-1 mr-1 mt-1"
+													>
+														Add Check-Out
+													</button>
+												</td>
+											</tr>
+										</tbody>
+
+										<tbody></tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

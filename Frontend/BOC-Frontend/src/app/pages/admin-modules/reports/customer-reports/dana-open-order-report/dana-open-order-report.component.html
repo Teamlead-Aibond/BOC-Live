@@ -1,0 +1,278 @@
+<div class="container-fluid" *ngIf="IsViewEnabled">
+    <app-page-title title="Repair Request Reports"></app-page-title>
+
+    <ng-sidebar-container style="height: 100vh;">
+
+        <ng-sidebar [(opened)]="_opened" mode="over" position="right" [showBackdrop]="_showBackdrop">
+            <div class="sidebar-heading btn-secondary">
+                <a href="javascript:void(0);" class="right-bar-toggle float-right" style="color: white;" (click)="_toggleSidebar();">
+                    <i class="fe-x noti-icon"></i>
+                </a>
+                <h4 class="m-0 text-white"><i class="fas fa-filter mr-1"></i>Custom Filter</h4>
+            </div>
+
+            <ng-container>
+                <div class="card-box">
+
+                    <div class="row">
+
+                         <div class="col-xl-6">
+                            <label>Manufacturer</label>
+                            <ng-autocomplete class="ng-autocomplete" [isLoading]="isLoading"
+                            [data]="ManufacturerList" [initialValue]="" [placeholder]="placeholder"
+                            (selected)='selectEvent($event)' (inputCleared)='clearEvent($event)'
+                            [searchKeyword]="keyword" (inputChanged)='onChangeSearch($event)'
+                            (inputFocused)='onFocused($event)' [itemTemplate]="itemTemplate"
+                            [notFoundTemplate]="notFoundTemplate" debounceTime="1000">
+
+                        </ng-autocomplete>
+                        <ng-template #itemTemplate let-item>
+                            <a [innerHTML]="item.Manufacturer"></a>
+                        </ng-template>
+
+                        <ng-template #notFoundTemplate let-notFound>
+                            <div [innerHTML]="notFound"></div>
+                        </ng-template>
+
+                            <!-- <input class="form-control" [(ngModel)]="Manufacturer" name="Manufacturer" placeholder="Enter Manufacturer"> -->
+                        </div>
+                        <div class="col-xl-6">
+                            <label>Manufacturer Part #</label>
+                            <input class="form-control" [(ngModel)]="ManufacturerPartNo" name="ManufacturerPartNo" placeholder="Enter Manufacturer Part #">
+
+                        </div>
+
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-xl-6">
+                            <label>Serial #</label>
+                            <input class="form-control" [(ngModel)]="SerialNo" name="SerialNo" placeholder="Enter Serial #">
+                        </div>
+                        <div class="col-xl-6">
+                            <label>Status</label>
+                            <select class="custom-select" [(ngModel)]="Status" name="Status">
+                                <option value="">Select</option>
+                                <option *ngFor="let status of RRStatus" value="{{status.id}}">{{status.title}}</option>
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-xl-6">
+                            <label class="control-label">Customer Group</label>
+                            <ng-select (change)="changeCustomerGroup($event)" [items]="customerGroupList" [multiple]="false" [closeOnSelect]="true"
+                                [searchable]="true" [virtualScroll]="true" placeholder="Select" bindLabel="CustomerGroupName" bindValue="CustomerGroupId" [(ngModel)]="CustomerGroupId">
+                            </ng-select>
+                        </div>
+
+                        <div class="col-xl-6">
+                            <label>Customer</label>
+                            <ng-select [items]="customers$ | async" [typeahead]="customersInput$" [loading]="loadingCustomers" [multiple]="true" [closeOnSelect]="false" [searchable]="true" [virtualScroll]="true" placeholder="Select" bindLabel="CustomerCode" bindValue="CustomerId"
+                                [(ngModel)]="CustomerId">
+                                <ng-template ng-header-tmp *ngIf="CustomersList.length > 0">
+                                    <button (click)="selectAll()" class="btn btn-sm btn-link">Select all</button>
+                                </ng-template>
+                                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                    <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                                        <span class="ng-value-label">{{item.CompanyName}}</span>
+                                        <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                                    </div>
+                                    <div class="ng-value" *ngIf="items.length > 1">
+                                        <span class="ng-value-label">+ {{items.length - 1}} more...</span>
+                                    </div>
+                                </ng-template>
+                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <input id="item-{{index}}" type="checkbox" [checked]="item$.selected" [ngModel]="item$.selected" /> {{item.CompanyName}}
+                                </ng-template>
+                            </ng-select>
+                            <!-- <ng-select [items]="customerList"  [multiple]="true" [searchable]="true" [(ngModel)]="CustomerId" [virtualScroll]="true" placeholder="Select" bindLabel="title" bindValue="CustomerId">
+                            </ng-select> -->
+                        </div>
+                       
+
+
+
+                    </div>
+
+
+                    <div class="row mt-2">
+                        <div class="col-xl-6">
+                            <label class="control-label">Customer PO #</label>
+                            <input class="form-control" name="CustomerPONo" [(ngModel)]="CustomerPONo" placeholder="Enter Customer PO #">
+                        </div>
+                        <div class="col-xl-6">
+                            <label>Vendor</label>
+                            <!-- <ng-select [items]="vendorList"  [multiple]="true" name="VendorId" placeholder="Select"  bindLabel="VendorName" bindValue="VendorId" [searchable]="true">
+                            </ng-select> -->
+                            <ng-select [items]="vendors$ | async" [typeahead]="vendorsInput$" [loading]="loadingVendors" [multiple]="true" [closeOnSelect]="false" [searchable]="true" [virtualScroll]="true" placeholder="Select" bindLabel="VendorName" bindValue="VendorId" [(ngModel)]="VendorId">
+                                <ng-template ng-header-tmp *ngIf="VendorsList.length > 0">
+                                    <button (click)="selectAllVendor()" class="btn btn-sm btn-link">Select all</button>
+                                </ng-template>
+                                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                    <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                                        <span class="ng-value-label">{{item.VendorName}}</span>
+                                        <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                                    </div>
+                                    <div class="ng-value" *ngIf="items.length > 1">
+                                        <span class="ng-value-label">+ {{items.length - 1}} more...</span>
+                                    </div>
+                                </ng-template>
+                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <input id="item-{{index}}" type="checkbox" [checked]="item$.selected" [ngModel]="item$.selected" [ngModelOptions]="{standalone: true}" /> {{item.VendorName}}
+                                </ng-template>
+                            </ng-select>
+                        </div>
+
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-12" style="float: right;">
+
+                            <input type="button" class="btn btn-primary btn-md mr-1 searchbt" value="Search" id="btnFilter" (click)="onFilter($event)" />
+                            <input type="button" class="btn btn-secondary btn-md searchbt" value="Clear" id="btnClear" (click)="onClear($event)" />
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </ng-container>
+
+        </ng-sidebar>
+
+        <div ng-sidebar-content>
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-xl-12 text-center">
+                        <img src="assets/images/ah_logo.png " alt=" " height="35">
+
+                        <h4 style="margin-top: 25px;" class="heading">Dana Open Order Report</h4>
+
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-xl-12 text-right">
+
+                                <div class="button-list btn-group-sm fl-right mb-10">
+
+                                    <button class="btn btn-danger waves-effect" routerLink="/admin/reports" ngbTooltip="Back" placement="top"><i class="fas fa-arrow-left"></i></button>
+
+                                </div>
+                                <div class="button-list btn-group-sm fl-right mb-10" *ngIf="DownloadExcelCSVinReports">
+
+                                    <button ngbTooltip="Excel" placement="top" class="btn btn-secondary waves-effect" title="Excel" type="button" (click)="onExcel()">
+                                        <i class="far fa-file-excel"></i></button>
+                                        <i class="fa fa-spinner fa-spin spin-loader" *ngIf="spinner"></i>
+
+
+                                </div>
+
+                                <div class="button-list btn-group-sm fl-right mb-10">
+
+                                    <button class="btn btn-primary waves-effect" (click)="_toggleSidebar()" ngbTooltip="Custom Filter" placement="top"><i
+                                            class="fas fa-filter"></i></button>
+
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                        <div class="col-xl-12">
+                            <div class="row">
+                                <div class="col-xl-12 nopad-rt">
+                                    <!-- Table -->
+                                    <div class="table-responsive">
+                                        <table id="datatable-angular-OpenOrderBySupplierReport" style="margin-top:50px !important;" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table datatables dt-responsive hover nowrap">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th width="15%">Repair Request #</th>                                                    
+                                                    <th width="15%">Manufacturer</th>
+                                                    <th width="15%">Manufacturer Part # </th>
+                                                    <th width="15%">Serial #</th>
+                                                    <th width="15%">Description</th>
+                                                    <th width="15%">Status</th>
+                                                    <th width="15%">Stating Location</th>
+                                                    <th width="15%">Ship To</th>
+                                                    <th width="15%">Ship Date</th>
+                                                    <th width="15%">Quote Date</th>
+                                                    <th width="15%">Approved Date</th>
+                                                    <th width="15%">Due Date</th>
+                                                    <th width="15%">Repair Price</th>
+                                                    <th width="15%">Customer PO #</th>
+                                                    <th width="15%">Customer Reference #1</th>
+                                                    <th width="15%">Customer Reference #2</th>
+                                                    <th width="15%">Customer Reference #3</th>                                                   
+                                                    <th width="15%">Last Follow Up Note</th>  
+                                                </tr>
+                                            </thead>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        {{FooterRight}}
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-md-right footer-links d-none d-sm-block">
+                            <a href="javascript:void(0);">{{FooterLeft}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ng-sidebar-container>
+
+</div>
+
+<div class="account-pages mt-5 mb-5" *ngIf="!IsViewEnabled">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 col-xl-5">
+                <div class="card bg-pattern">
+
+                    <div class="card-body p-4">
+
+                        <div class="text-center">
+                            <a routerLink="/">
+                                <span><img src="assets/projects/ah-group/full_logo.png" alt="" height="22"></span>
+                            </a>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <h1 class="text-error">401</h1>
+                            <h3 class="mt-3 mb-2">Access Denied!</h3>
+                            <p class="text-muted mb-3">You don't have permission to access this page.</p>
+
+                            <a routerLink="/admin/dashboard/ah-dashboard"
+                                class="btn btn-success waves-effect waves-light">Back
+                                to Dashboard</a>
+                        </div>
+
+                    </div>
+                    <!-- end card-body -->
+                </div>
+                <!-- end card -->
+
+            </div>
+            <!-- end col -->
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container -->
+</div>

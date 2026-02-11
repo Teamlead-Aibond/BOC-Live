@@ -1,0 +1,233 @@
+<div class="container-fluid">
+    <app-page-title title="Transfer Product" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-lg-6 col-xl-6 col-sm-6 col-md-6">
+
+            <div class="card-box ribbon-box">
+                <div class="row mb-3">
+                    <div class="col-xl-3">
+                        <h4 class="page-title bluetxt mb-18">Parts List</h4>
+                    </div>
+                    <div class="col-xl-9">
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <div class="form-group row nomb">
+                                    <label class="col-sm-5 text-right col-form-label pt-2" for="simpleinput">Transfer
+                                        Type</label>
+                                    <div class="col-sm-7">
+                                        <select [(ngModel)]="TransferType" class="custom-select"
+                                            (change)="onTransferTypeChange($event)">
+                                            <option value="1">Manual</option>
+                                            <option value="2">Intent</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6" [formGroup]="AddForm">
+                                <div *ngIf="TransferType!=2" class="form-group row nomb">
+                                    <label class="col-sm-5 text-right col-form-label pt-2" for="simpleinput">From
+                                        Warehouse</label>
+                                    <div class="col-sm-7">
+                                        <select class="custom-select" id="WarehouseId" formControlName="WarehouseId">
+                                            <option value="" disabled>Select</option>
+                                            <option *ngFor="let w of warehouseList" [value]="w.id">
+                                                {{w.name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div *ngIf="TransferType!=1" class="row">
+                                    <div class="col-4 nopad-rt"><label class="control-label">Indent
+                                            Number</label></div>
+                                    <div class="col-5 nopad-rt">
+                                        <input type="text" class="form-control" formControlName="IndentRequestNo"
+                                            placeholder="Enter Intent Number">
+                                    </div>
+                                    <div class="col-3 text-center"> <input type="button" (click)="onIndentFilter()"
+                                            class="btn btn-primary btn-md" value="Go" /></div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="TransferType!=2" class="row mb-3" [formGroup]="AddForm">
+                    <div class="col-2 nopad-rt">
+                        <label class="control-label">Building</label>
+                        <select class="custom-select" id="WarehouseSub1Id" formControlName="WarehouseSub1Id">
+                            <option value="" disabled>Select</option>
+                            <option *ngFor="let w of warehouse1List" [value]="w.id">{{w.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-2 nopad-rt">
+                        <label class="control-label">Room</label>
+                        <select class="custom-select" id="WarehouseSub2Id" formControlName="WarehouseSub2Id">
+                            <option value="" disabled>Select</option>
+                            <option *ngFor="let w of warehouse2List" [value]="w.id">{{w.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-2 nopad-rt">
+                        <label class="control-label">Row</label>
+                        <select class="custom-select" id="WarehouseSub3Id" formControlName="WarehouseSub3Id">
+                            <option value="" disabled>Select</option>
+                            <option *ngFor="let w of warehouse3List" [value]="w.id">{{w.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-2 nopad-rt">
+                        <label class="control-label">Shelf</label>
+                        <select class="custom-select" id="WarehouseSub4Id" formControlName="WarehouseSub4Id">
+                            <option value="" disabled>Select</option>
+                            <option *ngFor="let w of warehouse4List" [value]="w.id">{{w.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-2 nopad-rt">
+                        <label class="control-label">Part / Serial #</label>
+                        <input type="text" class="form-control" id="firstname" placeholder="">
+                    </div>
+
+                    <div class="col-2 text-center"> <input type="button" class="btn btn-primary btn-md"
+                            style="margin-top:30px;" value="Go" (click)="onFilter()" /></div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-lg-12 col-xl-12 col-sm-12 col-md-12">
+                        <div class="table-responsive">
+                            <table id="datatable-angular-tp-partlist" datatable [dtOptions]="dtOptions"
+                                [dtTrigger]="dtTrigger" class="table mb-15 datatables dt-responsive hover nowrap">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th></th>
+                                        <th>Part Number</th>
+                                        <th>Serial Number</th>
+                                        <th>Location</th>
+                                        <th>Created</th>
+                                        <th>Warehouse</th>
+                                        <th>Building</th>
+                                        <th>Room</th>
+                                        <th>Row</th>
+                                        <th>Shelf</th>
+                                    </tr>
+                                </thead>
+                                <!-- <tbody>
+                                    <tr *ngFor="let item of InventoryList">
+                                        <td><input type="checkbox" (change)="onCheckChangePartItem($event, item)"></td>
+                                        <td>{{item.PartNo}}</td>
+                                        <td>{{item.SerialNo}}</td>
+                                        <td>
+                                            <div class="row mtm-5">
+                                                <div class="col-12">
+                                                    <div class="col-20">
+                                                        <i class="fas fa-warehouse f-15"></i>
+                                                        <p>{{item.WarehouseName}}</p>
+                                                    </div>
+                                                    <div class="col-15">-></div>
+                                                    <div class="col-20">
+                                                        <i class="fas fa-building f-16"></i>
+                                                        <p>{{item.WarehouseSub1Name}}</p>
+                                                    </div>
+                                                    <div class="col-15">-></div>
+                                                    <div class="col-20">
+                                                        <i class="remixicon-building-2-fill f-17"></i>
+                                                        <p>{{item.WarehouseSub2Name}}</p>
+                                                    </div>
+                                                    <div class="col-15">-></div>
+                                                    <div class="col-20">
+                                                        <i class="mdi mdi-table-row f-18"></i>
+                                                        <p>{{item.WarehouseSub3Name}}</p>
+                                                    </div>
+                                                    <div class="col-15">-></div>
+                                                    <div class="col-20">
+                                                        <i class="mdi mdi-file-cabinet f-19"></i>
+                                                        <p>{{item.WarehouseSub4Name}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody> -->
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-1 col-xl-1 col-sm-1 col-md-1 f5 my-auto">
+            <!-- <div class="col-12 text-center mb-2">
+                <button class="btn btn-primary btn-md mr-1"><i class="fas fa-angle-double-right"></i></button>
+            </div>
+            <div class="col-12 text-center">
+                <button class="btn btn-primary btn-md mr-1"><i class="fas fa-angle-double-left"></i></button>
+            </div> -->
+        </div>
+
+        <div class="col-lg-5 col-xl-5 col-sm-5 col-md-5 f43">
+            <div class="card-box ribbon-box">
+                <div class="row mb-3">
+                    <div class="col-xl-5">
+                        <h4 class="page-title bluetxt mb-18">Selected Parts</h4>
+                    </div>
+                    <div class="col-xl-7" *ngIf="TransferType==1">
+                        <div class="form-group row nomb">
+                            <label class="col-sm-4 text-right col-form-label pt-2" for="simpleinput">To
+                                Warehouse</label>
+                            <div class="col-sm-8" [formGroup]="AddForm">
+                                <select class="custom-select" id="ReceiveWarehouseId"
+                                    formControlName="ReceiveWarehouseId">
+                                    <option value="" disabled>Select</option>
+                                    <option *ngFor="let w of warehouseList" [value]="w.id">{{w.name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12 col-xl-12 col-sm-12 col-md-12">
+                        <span *ngIf="this.Indent">
+                            Required Quantity: <b>{{this.Indent?.Quantity}}</b>
+                        </span>
+                        <div class="table-responsive">
+                            <table id="datatable-angular-selectedparts"
+                                class="table mb-15 datatables dt-responsive hover nowrap">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th width="5%">&nbsp;</th>
+                                        <th width="13%">Part Number</th>
+                                        <th width="13%">Serial Number</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of selectedList">
+                                        <td width="5%"><input [checked]="item.selected"
+                                                (change)="onSelectedItemChanged($event, item)" type="checkbox"></td>
+                                        <td width="13%">{{item.PartNo}}</td>
+                                        <td width="13%">{{item.SerialNo}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 mb-4 text-right">
+            <input type="button" class="btn btn-primary btn-md mr-1" (click)="onSubmit()" value="Submit" />
+        </div>
+    </div>
+</div>

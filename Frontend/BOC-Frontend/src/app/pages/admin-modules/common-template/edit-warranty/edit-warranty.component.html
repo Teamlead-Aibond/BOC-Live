@@ -1,0 +1,70 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">Edit Warranty</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg">
+    <form name="form" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="field-2" class="control-label">Warranty Start Date</label>
+                    <div class="input-group clockpicker">
+                        <input class="form-control" placeholder="MM/DD/YYYY" autoClose="false" name="WarrantyStartDate"
+                            [(ngModel)]="model.WarrantyStartDate" #WarrantyStartDate="ngModel"
+                            [ngClass]="{ 'is-invalid': f.submitted && WarrantyStartDate.invalid }" required
+                            ngbDatepicker #Warranty_Start="ngbDatepicker">
+                        <div class="input-group-append" (click)="Warranty_Start.toggle()">
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                        </div>
+                        <div *ngIf="f.submitted &&WarrantyStartDate.invalid" class="invalid-feedback">
+                            <div *ngIf="WarrantyStartDate.errors.required">Warranty Start Date is required</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="field-2" class="control-label">Warranty Period</label>
+                    {{WarrantyPeriodValue}}
+                    <!-- <div class="input-group clockpicker">
+                        <input class="form-control" placeholder="MM/DD/YYYY" autoClose="false" name="WarrantyEndDate"
+                            [(ngModel)]="model.WarrantyEndDate" #WarrantyEndDate="ngModel"
+                            [ngClass]="{ 'is-invalid': f.submitted && WarrantyEndDate.invalid }" required ngbDatepicker
+                            #Warranty_End="ngbDatepicker">
+                        <div class="input-group-append" (click)="Warranty_End.toggle()">
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                        </div>
+                        <div *ngIf="f.submitted &&WarrantyEndDate.invalid" class="invalid-feedback">
+                            <div *ngIf="WarrantyEndDate.errors.required">Warranty End Date is required</div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+
+        </div>
+        <!-- <div class="row">
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="field-2" class="control-label">Warranty Period</label>
+                <select class="custom-select" name="WarrantyPeriod" #WarrantyPeriod="ngModel" [ngModelOptions]="{standalone:true}" [ngClass]="{ 'is-invalid': f.submitted && WarrantyPeriod.invalid }" required [(ngModel)]="model.WarrantyPeriod">
+                    <option value="undefined">Select</option>
+                    <option *ngFor="let warranty of warrantyList"
+                        value="{{warranty.WarrantyPeriodId}}">
+                        {{warranty.WarrantyPeriodValue}}
+                    </option>
+                </select>
+                <div *ngIf="f.submitted &&WarrantyPeriod.invalid" class="invalid-feedback">
+                    <div *ngIf="WarrantyPeriod.errors.required">Warranty Period is required
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div> -->
+        <div class="text-right pt-4 mt-2">
+            <button type="button" class="btn btn-light" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success ml-1">Submit</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,691 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="container-fluid" *ngIf="IsSOEditEnabled">
+    <app-page-title title="Edit Sales Quotes"></app-page-title>
+    <form name="form" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+        <div class="row">
+            <div class="col-12">
+                <div class="sticky-container">
+                    <div id="so-groups" class="right so-groups-sticky hidden-xs" style="top:198px">
+
+                        <button *ngIf="IsSOEditEnabled" [disabled]="btnDisabled" [ngClass]="{'class': (btnDisabled)? 'gray': 'btn-group btn-group-sm float-right'}"><span>Save</span>
+                            <i class="mdi mdi-content-save "></i></button>
+
+
+                        <button *ngIf="IsSOEmailEnabled" type="button" (click)="QuoteEmail()"><span>Email</span>
+                            <i class="mdi mdi-email-outline"></i></button>
+
+                            <button *ngIf="IsConvertQuoteToSOEnabled&&SalesQuoteInfo.SOId ==null && RRId!='0' &&  SalesQuoteInfo.MROId == 0"  type="button" (click)="ConvertSO()">
+                                <span>Convert SO</span><i class="fas fa-shopping-cart"></i></button>
+            
+                                <button *ngIf="IsConvertQuoteToSOEnabled&&SalesQuoteInfo.SOId ==null &&RRId=='0' && SalesQuoteInfo.MROId == 0" type="button"  (click)="ConvertSONonRR()">
+                                    <span>Convert SO</span><i class="fas fa-shopping-cart"></i></button>
+                        <!-- <button  type="button">
+
+                            <span><a [routerLink]="['/admin/sales-quote/list']"
+                                    [queryParams]="{QuoteId: this.SalesQuoteInfo.QuoteId}" target="_blank"
+                                    class="btn btn-icon waves-effect">View</a></span><i class="fa fa-eye"></i></button> -->
+
+                        <!-- <button class="bg-danger" type="button">
+                            <span class="bg-danger"><a [routerLink]="['/admin/sales-quote/list']"
+                                [queryParams]="{QuoteId: this.SalesQuoteInfo.QuoteId}" 
+                                class="btn btn-icon waves-effect">Back</a></span> <i class="fas fa-arrow-left"></i>
+                           
+                           </button> -->
+
+                           <button type="button" class="bg-danger" (click)="BackToView()"><span
+                            class="bg-danger">Back</span>
+                        <i class="fas fa-arrow-left"></i></button> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card-box">
+                    <div class="clearfix">
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6 col-md-6 float-left">
+                                <img src="assets/images/ah_logo.png" alt="" height="30">
+                                <h4 class="page-title bluetxt mb-18" *ngIf="SalesQuoteInfo.RRId == 0">Sales Quote #{{SalesQuoteInfo.QuoteNo}}
+                                </h4>
+                                <h4 class="page-title bluetxt mb-18" *ngIf="SalesQuoteInfo.RRId != 0">Repair Quote #{{SalesQuoteInfo.QuoteNo}}
+                                </h4>
+
+                            </div>
+
+                            <div class="col-xl-6 col-lg-6 col-md-6 sales-right">
+                                <!-- <div class="btn-group btn-group-sm float-right" role="group">
+
+                                    <button ngbTooltip="Save Quote" *ngIf="IsSOEditEnabled" placement="top"
+                                        class="btn btn-icon waves-effect" title="Save Quote">
+                                        <i class="mdi mdi-content-save "></i></button>
+                                 
+
+                                    <button ngbTooltip="Email" *ngIf="IsSOEmailEnabled" placement="top"
+                                        class="btn btn-icon waves-effect" title="Email" type="button">
+                                        <i class="mdi mdi-email-outline"></i></button>
+
+                                    <button *ngIf="SalesQuoteInfo.Status!=3 && IsConvertQuoteToSOEnabled"
+                                        ngbTooltip="Convert To SO" placement="top" class="btn btn-icon waves-effect"
+                                        title="Convert To SO" (click)="ConvertSO()" type="button">
+                                        Convert SO</button>
+
+                               
+
+                                    <button ngbTooltip="Back" placement="top"
+                                        class="btn btn-icon bg-danger waves-effect" type="button" title="Back"
+                                        routerLink="/admin/sales-quote/list">
+                                        <i class="fas fa-arrow-left"></i></button>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div style="height: 1px;" class="clear">&nbsp;</div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="mt-3 customer-detail sales-table">
+                                <h4 style="margin-left: 0;" class="page-title bluetxt mb-18">Sales Quotes Details</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-borderless bill mb-0">
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">
+                                                    <p><strong>Sales Quote Type : </strong></p>
+                                                </th>
+                                                <td>
+                                                    <p> <span>{{QuoteTypeStyle ? QuoteTypeStyle.Quote_TypeName : ''}}
+                                                        </span></p>
+                                                </td>
+                                            </tr>
+
+
+
+                                            <tr *ngIf="RRId !=0">
+                                                <th scope="row">
+                                                    <p><strong>Repair Request # : </strong></p>
+                                                </th>
+                                                <td>
+                                                    <p> <span><a [routerLink]="['/admin/repair-request/edit']"
+                                                                [queryParams]="{RRId: this.SalesQuoteInfo.RRId}"
+                                                                target="_blank"
+                                                                routerLink="#">{{SalesQuoteInfo.RRNo}}</a></span>
+                                                    </p>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th>
+                                                    <p><strong>Total Cost : </strong></p>
+                                                </th>
+                                                <td>
+                                                    <p> <span>{{Symbol}} {{SalesQuoteInfo.GrandTotal}}</span></p>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th>
+                                                    <p><strong>Customer Name : </strong></p>
+                                                </th>
+                                                <td>
+                                                    <p> <span>{{SalesQuoteInfo.CompanyName}}</span></p>
+                                                </td>
+                                            </tr>
+                                            <tr *ngIf="SalesQuoteInfo.SOId && RRId==0">
+                                                <th>
+                                                    <p><strong>SO # : </strong></p>
+                                                </th>
+                                                <td>
+                                                    <p><a [routerLink]="['/admin/orders/sales-list']" [queryParams]="{SOId:  this.SalesQuoteInfo.SOId}"  target="_blank"  ngbTooltip="SO View">{{SalesQuoteInfo.SONo}}</a></p>
+
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <div class="form-group">
+                                        <h4 class="page-title bluetxt mb-20">Customer Address</h4>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4 text-left">
+                                <address>
+                                    {{ContactAddress.StreetAddress}} {{ContactAddress.SuiteOrApt}}<br>
+                                    {{ContactAddress.City}}<br>
+                                    {{ContactAddress.StateName}}, {{ContactAddress.CountryName}}<br>
+                                    {{ContactAddress.Zip}}
+                                    <span><br><i class="mdi mdi-phone mr-1" ngbTooltip="Primary"
+                                            *ngIf="PhoneContactAddress!= null"></i>
+                                        {{ContactAddress.Phone}}</span>
+                                    <span><br><i class="mdi mdi-fax mr-1" *ngIf="faxCustomerAddress!=null"></i>
+                                        {{ContactAddress.Fax}}</span><br>
+
+                                </address>
+
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <div class="form-group">
+                                        <label>Bill Address:<span class="red">*</span></label>
+                                        <ng-select [items]="customerAddressList" name="AddressId" name="CustomerBillToId" #CustomerBillToId="ngModel" [ngClass]="{ 'is-invalid': f.submitted && CustomerBillToId.invalid }" required [(ngModel)]="model.CustomerBillToId" placeholder="Select" bindLabel="title"
+                                            bindValue="AddressId">
+                                        </ng-select>
+
+                                        <div *ngIf="f.submitted &&CustomerBillToId.invalid" class="invalid-feedback">
+                                            <div *ngIf="CustomerBillToId.errors.required">Bill Address is required</div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="form-group">
+                                        <label>Ship Address:<span class="red">*</span></label>
+
+                                        <ng-select [items]="customerAddressList" name="AddressId" name="CustomerShipToId" #CustomerShipToId="ngModel" [ngClass]="{ 'is-invalid': f.submitted && CustomerShipToId.invalid }" required [(ngModel)]="model.CustomerShipToId" placeholder="Select" bindLabel="title"
+                                            bindValue="AddressId">
+                                        </ng-select>
+
+                                        <div *ngIf="f.submitted &&CustomerShipToId.invalid" class="invalid-feedback">
+                                            <div *ngIf="CustomerShipToId.errors.required">Ship Address is required</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-xl-12">
+
+                                    <div class="form-group">
+                                        <label>Notes:</label>
+                                        <textarea class="form-control" row="2" [(ngModel)]="Notes" name="Notes"></textarea>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- end col -->
+                        <div class="col-md-5">
+
+                            <div style="margin:15px 0 0 25px;" class="float-right">
+                                <h4 class="page-title bluetxt mb-18">Quote/Estimates Details</h4>
+
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="form-group">
+                                            <label>Status:<span class="red">*</span></label>
+                                            <select class="custom-select" [(ngModel)]="model.Status" name="Status" #Status="ngModel" [ngClass]="{ 'is-invalid': f.submitted && Status.invalid }" required>
+                                                <option value="undefined" disabled>Select</option>
+                                                <option *ngFor="let SQ_status of SalesQuoteStatusList"
+                                                    value="{{SQ_status.SalesQuote_StatusId}}">
+                                                    {{SQ_status.SalesQuote_StatusName}}</option>
+
+                                            </select>
+                                            <div *ngIf="f.submitted &&Status.invalid" class="invalid-feedback">
+                                                <div *ngIf="Status.errors.required">Status is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <div class="form-group">
+                                            <label>Quote Type:<span class="red">*</span></label>
+                                            <select class="custom-select" [(ngModel)]="model.QuoteType" name="QuoteType" class="form-control" #QuoteType="ngModel" [ngClass]="{ 'is-invalid': f.submitted && QuoteType.invalid }" required>
+                                                <option value="undefined" disabled>Select</option>
+                                                <option *ngFor="let Type of QuoteTypeList"
+                                                    value="{{Type.Quote_TypeId}}">
+                                                    {{Type.Quote_TypeName}}</option>
+
+                                            </select>
+                                            <div *ngIf="f.submitted &&QuoteType.invalid" class="invalid-feedback">
+                                                <div *ngIf="QuoteType.errors.required">Quote Type is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="form-group">
+                                            <label>Quote Date:<span class="red">*</span></label>
+                                            <div class="input-group clockpicker">
+                                                <input ngbDatepicker class="form-control" [(ngModel)]="model.QuoteDate" autoClose="false" placeholder="dd/mm/yyyy" name="QuoteDate" #Requested_Date="ngbDatepicker" #QuoteDate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && QuoteDate.invalid }" required>
+                                                <div *ngIf="f.submitted &&QuoteDate.invalid" class="invalid-feedback">
+                                                    <div *ngIf="QuoteDate.errors.required">Quote Date is required</div>
+                                                </div>
+                                                <div class="input-group-append" (click)="Requested_Date.toggle()">
+                                                    <span class="input-group-text"><i
+                                                            class="mdi mdi-calendar"></i></span>
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+
+                                <div class="row">
+
+                                    <div class="col-xl-12">
+
+                                        <div class="form-group">
+                                            <label>Description:</label>
+                                            <textarea class="form-control" row="1" [(ngModel)]="Description" name="Description"></textarea>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="clear">&nbsp;</div>
+                    <h4  *ngIf="showlineItem" class="page-title bluetxt mb-20">Item Details
+                        <button (click)="AddItem()" type="button" class="btn btn-add waves-effect">
+                            <i class="remixicon-add-fill mt-3"></i> Add
+                        </button>
+                    </h4>
+                    <div class="row" *ngIf="showlineItem">
+
+                        <div class="col-12">
+
+                            <div class="table-responsive">
+                                <table class="idetail table mt-2 table-bordered mb-0">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Part #<span class="red">*</span></th>
+                                            <th>Description</th>
+                                            <th>Lead Time</th>
+                                            <th>Quantity<span class="red">*</span></th>
+                                            <th>Unit Price<span class="red">*</span></th>
+                                            <th>{{VAT_field_Name}}</th>
+                                            <th *ngIf="SalesQuoteInfo.MROId != 0">{{Shipping_field_Name}}</th>
+                                            <th>Price<span class="red">*</span></th>
+                                            <th *ngIf="IsDisplayBaseCurrencyValue==1">Price({{BaseCurrencySymbol}})<span class="red">*</span></th>
+                                            <th>Warranty Period<span class="red">*</span></th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngFor="let item of PartItem;let i=index; trackBy: trackByIdx">
+                                        <tr>
+                                            <td style="width: 20%;" class="ng-autocomplete">
+
+                                                <ng-autocomplete [data]="filteredData" [isLoading]="isLoading" placeholder="Enter Part #" [searchKeyword]="keyword" (selected)='selectEvent($event,i)' [(ngModel)]="PartItem[i].Part" (inputChanged)='onChangeSearch($event,i)'
+                                                    #Part="ngModel" name="Part[{{i}}]" [ngClass]="{ 'is-invalid': f.submitted && Part.invalid }" required (inputFocused)='onFocused($event,i)' [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate" debounceTime="1000">
+                                                </ng-autocomplete>
+
+
+                                                <ng-template #itemTemplate let-item>
+                                                    <a [innerHTML]="item.PartNo"></a>
+                                                </ng-template>
+
+                                                <ng-template #notFoundTemplate let-notFound>
+                                                    <div [innerHTML]="notFound"></div>
+                                                </ng-template>
+                                                <input type="hidden" name="PartNo" [(ngModel)]="PartItem[i].PartId">
+
+                                                <input type="hidden" name="PartNo" [(ngModel)]="PartItem[i].PartNo">
+                                                <br>
+
+
+                                                <div *ngIf="f.submitted &&Part.invalid" class="invalid-feedback">
+                                                    <div *ngIf="Part.errors.required">Part is required</div>
+                                                </div>
+                                            </td>
+                                            <td style="width: 15%;">
+                                                <textarea class="form-control" placeholder="Description..." name="PartDescription[{{i}}]" [(ngModel)]="PartItem[i].PartDescription"  rows="3"></textarea>
+
+
+
+
+                                            </td>
+                                            <td style="width: 8%;">
+                                                <div class="input-group">
+                                                    <input type="text" digitOnly class="form-control" name="LeadTime[{{i}}]" [(ngModel)]="PartItem[i].LeadTime">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text">Day(s)</span>
+                                                    </div>
+
+                                                </div>
+
+                                            </td>
+                                            <td style="width: 5%;">
+                                                <input type="text" min="1" class="form-control" name="Quantity[{{i}}]"  digitOnly [(ngModel)]="PartItem[i].Quantity" #Quantity="ngModel"  [ngClass]="{ 'is-invalid': f.submitted && Quantity.invalid }"
+                                                    required (keyup)="calculatePrice(i)">
+
+
+                                                <div *ngIf="f.submitted &&Quantity.invalid" class="invalid-feedback">
+                                                    <div *ngIf="Quantity.errors.required">Quantity is required</div>
+                                                </div>
+                                            </td>
+                                            <td style="width: 8%;">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">{{PartItem[i].ItemLocalCurrencySymbol}}</span>
+                                                    </div>
+                                                    <input id="Rate" type="text" name="Rate[{{i}}]" [(ngModel)]="PartItem[i].Rate" class="form-control" inputmode="numeric" pattern="^\d+(\.\d{1,2})?$" placeholder="0.00" digitOnly decimal="true" (keyup)="calculatePrice(i)"
+                                                    />
+
+                                                </div>
+
+                                            </td>
+
+                                            <td style="width: 7%;">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">%</span>
+                                                    </div>
+                                                <input type="text" min="1" class="form-control" 
+                                                     [(ngModel)]="PartItem[i].ItemTaxPercent" #ItemTaxPercent="ngModel"  inputmode="numeric" pattern="^\d+(\.\d{1,2})?$" placeholder="0.00" digitOnly
+                                                     decimal="true"
+                                                    name="ItemTaxPercent[{{i}}]" 
+                                                     (keyup)="calculatePrice(i)">
+                                                </div>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">{{PartItem[i].ItemLocalCurrencySymbol}}</span>
+                                                    </div>
+                                                    <input type="hidden" class="form-control"  readonly
+                                                        #Tax="ngModel"  name="Tax[{{i}}]" [(ngModel)]="PartItem[i].Tax">
+                                                    <input type="text" class="form-control"  readonly
+                                                        #TaxWithQuantity="ngModel"  name="TaxWithQuantity[{{i}}]" [(ngModel)]="PartItem[i].TaxWithQuantity">
+                                                   
+                                                </div>
+                                            </td>
+                                            <td style="width: 8%;" *ngIf="SalesQuoteInfo.MROId != 0">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">{{PartItem[i].ItemLocalCurrencySymbol}}</span>
+                                                    </div>
+                                                    <input id="ShippingCharge" type="text" name="ShippingCharge[{{i}}]" [(ngModel)]="PartItem[i].ShippingCharge" class="form-control" inputmode="numeric" pattern="^\d+(\.\d{1,2})?$" placeholder="0.00" decimal="true" (keyup)="calculatePrice(i)"
+                                                    />
+
+                                                </div>
+
+                                            </td>
+
+                                           
+                                            <td style="width: 10%;">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">{{PartItem[i].ItemLocalCurrencySymbol}}</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" name="Price[{{i}}]" readonly  [(ngModel)]="PartItem[i].Price">
+                                                    <!-- <div *ngIf="f.submitted &&Price.invalid" class="invalid-feedback">
+                                                        <div *ngIf="Price.errors.required">Price is required</div>
+                                                    </div> -->
+                                                </div>
+
+                                            </td>
+                                            <td style="width: 10%;" *ngIf="IsDisplayBaseCurrencyValue==1">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">{{BaseCurrencySymbol}}</span>
+                                                    </div>
+                                                    <input type="text" class="form-control"  readonly
+                                                        #BasePrice="ngModel"  name="BasePrice[{{i}}]" 
+                                                       
+                                                        [ngClass]="{ 'is-invalid': f.submitted && BasePrice.invalid }"
+                                                        required [(ngModel)]="PartItem[i].BasePrice">
+                                                    <div *ngIf="f.submitted &&BasePrice.invalid" class="invalid-feedback">
+                                                        <div *ngIf="BasePrice.errors.required">Price({{BaseCurrencySymbol}}) is required</div>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                            <td style="width: 12%;">
+                                                <select class="custom-select" name="WarrantyPeriod[{{i}}]" #WarrantyPeriod="ngModel"  [ngClass]="{ 'is-invalid': f.submitted && WarrantyPeriod.invalid }" required [(ngModel)]="PartItem[i].WarrantyPeriod">
+                                                    <option value="undefined">Select</option>
+                                                    <option *ngFor="let warranty of warrantyList"
+                                                        value="{{warranty.WarrantyPeriodId}}">
+                                                        {{warranty.WarrantyPeriodValue}}
+                                                    </option>
+                                                </select>
+                                                <div *ngIf="f.submitted &&WarrantyPeriod.invalid" class="invalid-feedback">
+                                                    <div *ngIf="WarrantyPeriod.errors.required">Warranty Period is required
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td style="width: 2%;">
+                                                <a (click)="removePartItem(i,item.QuoteItemId)" *ngIf="i != 0" class="text-danger" style="cursor: pointer;"> <i class="remixicon-delete-bin-line delete-btn-ico"></i></a>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- end table-responsive -->
+                        </div>
+                        <!-- end col -->
+                    </div>
+                    <div class="row" *ngIf="showlineItem">
+                        <div class="col-xl-12">
+                            <div class="float-right">
+
+                                <div class="table-responsive">
+                                    <table class="table table-borderless bill mb-0">
+                                        <tbody>
+                                            <!-- <tr>
+                                                <th scope="row">
+                                                    <p><b>Sub Total:</b></p>
+                                                </th>
+                                                <td>
+                                                    $ {{SubTotal}}
+                                                    <input type="hidden" class="form-control" name="SubTotal" [(ngModel)]="SubTotal" readonly>
+                                                </td>
+                                            </tr>
+                                          
+                                            <tr>
+                                                <th scope="row">
+                                                    <p><b>Total Tax:</b></p>
+                                                </th>
+                                                <td>
+                                                    <div class="row">
+                                                        <div class="col-xl-6 sqe">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">$</span>
+                                                                </div>
+                                                                <input type="text" inputmode="numeric" pattern="^\d+(\.\d{1,2})?$" placeholder="0.00" digitOnly decimal="true" class="form-control" name="TotalTax" readonly [(ngModel)]="TotalTax">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-6 sqe">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">%</span>
+                                                                </div>
+                                                                <input type="text" inputmode="numeric" pattern="^\d+(\.\d{1,2})?$" placeholder="0.00" digitOnly decimal="true" class="form-control" (keyup)="calculateTax()" name="TaxPercent" [(ngModel)]="TaxPercent" readonly>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th scope="row">
+                                                    <p><b>Discount :</b></p>
+                                                </th>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">$</span>
+                                                        </div>
+                                                        <input type="text" digitOnly class="form-control" name="Discount" (keyup)="calculateTotal()" [(ngModel)]="Discount" readonly>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th scope="row">
+                                                    <p><b>Shipping :</b></p>
+                                                </th>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">$</span>
+                                                        </div>
+                                                        <input type="text" digitOnly class="form-control" name="Shipping" (keyup)="calculateTotal()" [(ngModel)]="Shipping" readonly>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <th scope="row">
+                                                    <p><b>AH Processing Fee :</b></p>
+                                                </th>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">$</span>
+                                                        </div>
+                                                        <input type="text" digitOnly class="form-control" name="AHFees" (keyup)="calculateTotal()" [(ngModel)]="AHFees" readonly>
+                                                    </div>
+                                                </td>
+                                            </tr> -->
+
+                                           
+                                           
+                                            <tr>
+                                                <th scope="row">
+                                                    <p><b>Grand Total :</b></p>
+                                                </th>
+                                                <td>
+                                                    <p>{{Symbol}} {{GrandTotal}} </p>
+                                                    <input type="hidden" class="form-control" name="GrandTotal" [(ngModel)]="GrandTotal" readonly>
+                                                </td>
+                                            </tr>
+                                            <tr  *ngIf="IsDisplayBaseCurrencyValue==1" >
+                                                <th scope="row">
+                                                    <p><b>Grand Total ({{BaseCurrencySymbol}}) :</b></p>
+                                                </th>
+                                                <td>
+                                                    <p>{{BaseCurrencySymbol}} {{GrandTotalUSD}} </p>
+                                                    
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+
+
+
+
+
+
+
+
+
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    <div class="clear">&nbsp;</div>
+                    <h4 class="page-title bluetxt mb-10">Notes
+                        <button (click)="addNotes()" type="button" *ngIf="IsNotesAddEnabled" class="btn btn-add waves-effect">
+                            <i class="remixicon-add-fill mt-3"></i> Add
+                        </button>
+                    </h4>
+                    <div class="table-responsive mt-15" *ngIf="IsSONotesEnabled">
+                        <table class="table table-bordered table-striped mb-0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Notes</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let note of SONotes;let i=index">
+                                <tr>
+                                    <td class="linebreak">{{note.Notes}}</td>
+                                    <td>
+                                        <a (click)="editNotes(note,i)" *ngIf="IsNotesEditEnabled" class="fa fa-edit" ngbTooltip="Edit" placement="top"></a>&nbsp;
+                                        <a (click)="deleteNotes(note.NotesId,i)" *ngIf="IsNotesDeleteEnabled" class="fa fa-trash text-danger" ngbTooltip="Delete" placement="top"></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="SONotes?.length == 0">
+                                <tr>
+                                    <td colspan="5" class="no-data-available">No data!</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    <div class="clear">&nbsp;</div>
+                    <h4 class="page-title bluetxt mb-10">Attachments <button type="button" *ngIf="IsAttachmentAddEnabled" (click)="addAttachment()" class="btn btn-add waves-effect"><i
+                                class="remixicon-add-fill mt-3"></i>
+                            Add</button></h4>
+                    <div class="table-responsive mt-15" *ngIf="IsAttachmentEnabled">
+                        <table class="table table-bordered table-striped mb-0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Type</th>
+                                    <th class="linebreak">Description</th>
+                                    <th>Attachment</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let attachment of AttachmentList;let i=index">
+                                <tr>
+                                    <td>{{attachment.AttachmentTypeName}}</td>
+                                    <td>{{attachment.AttachmentDesc}}</td>
+                                    <td><a href="{{attachment.Attachment}}" target="_blank">{{attachment.AttachmentOriginalFile}}</a></td>
+                                    <td>
+                                        <a (click)="editAttachment(attachment,i)" *ngIf="IsAttachmentEditEnabled" class="fa fa-edit" ngbTooltip="Edit" placement="top"></a>&nbsp;
+                                        <a (click)="deleteAttachment(attachment.AttachmentId,i)" class="fa fa-trash text-danger" *ngIf="IsAttachmentDeleteEnabled" ngbTooltip="Delete" placement="top"></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="AttachmentList?.length == 0">
+                                <tr>
+                                    <td colspan="5" class="no-data-available">No data!</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </form>
+</div>

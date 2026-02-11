@@ -1,0 +1,612 @@
+<div class="container-fluid">
+  <app-page-title
+    title="Edit MRO"
+    [breadcrumbItems]="breadCrumbItems"
+  ></app-page-title>
+  <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="EditForm">
+    <div class="row">
+      <div class="col-12">
+        <div class="sticky-container">
+          <div
+            id="so-groups"
+            class="right so-groups-sticky hidden-xs"
+            style="top: 198px"
+          >
+            <a data-target="popup" data-popup="#popup-revert">
+              <span>Reload</span> <i class="mdi mdi-refresh"></i>
+            </a>
+            <a class="bg-warning">
+              <span class="bg-warning">Verify MRO</span>
+              <i class="mdi mdi-check-decagram"></i>
+            </a>
+            <a> <span>Save</span> <i class="mdi mdi-content-save"></i> </a>
+            <a data-target="popup" data-popup="#popup-qrcode">
+              <span>QR Code</span> <i class="mdi mdi-qrcode"></i>
+            </a>
+            <a data-target="popup" data-popup="#popup-customer-followup">
+              <span>Customer Follow Up</span>
+              <i class="mdi mdi-email-outline"></i>
+            </a>
+            <a data-target="popup" data-popup="#popup-vendor-follow-up">
+              <span>Vendor Follow Up</span>
+              <i class="remixicon-mail-unread-line"></i>
+            </a>
+            <a class="bg-danger" data-target="popup" data-popup="#popup-delete">
+              <span class="bg-danger">Delete</span
+              ><i class="remixicon-delete-bin-line"></i>
+            </a>
+            <a routerLink="/admin/mro/list">
+              <span>Back</span><i class="fas fa-arrow-left"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="card-box ribbon-box cbp">
+          <div class="row">
+            <div class="col-xl-6 float-left">
+              <h3 class="page-title bluetxt" style="float: left">
+                <span>
+                  <!-- Repair Request # :  -->
+                  MRO #
+                  <span class="badge badge-success m-2 p-1">{{ MRONo }}</span>
+                </span>
+                <span class="Repair m-2 p-1">{{ repairMessage }}</span>
+              </h3>
+              <!-- <span *ngIf="MRONotesInfo.length > 0" style="float: left;padding-top: 25px;">
+                                <ng-template [ngTemplateOutlet]="NotesBar"></ng-template>
+                            </span> -->
+            </div>
+            <div class="col-xl-6 float-left">
+              <!-- <span class="alert alert-warning float-right" *ngIf="PriorityNotes != ''">
+                                <i class="mdi mdi-alert-outline mr-1"></i> {{PriorityNotes}}
+                            </span> -->
+            </div>
+          </div>
+
+          <!-- <div class="row ribbon ribbon-warning float-left">
+                        <span><i class="mdi mdi-check-decagram"></i> Verify</span>
+                    </div> -->
+          <div class="row">
+            <div class="col-xl-12 col-lg-12">
+              <div class="row mb-2">
+                <div class="col-xl-6">
+                  <h4 class="page-title bluetxt mb-10">Basic Details</h4>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-6">
+                  <div class="row">
+                    <div class="col-xl-12">
+                      <div class="form-group">
+                        <label for="Customer"
+                          >Customer <span class="red">*</span></label
+                        >
+                        <ng-select
+                          [items]="customerList"
+                          [searchable]="true"
+                          [virtualScroll]="true"
+                          formControlName="CustomerId"
+                          placeholder="Select"
+                          name="CustomerId"
+                          (change)="getCustomerProperties(CustomerId, $event)"
+                          bindLabel="title"
+                          bindValue="CustomerId"
+                        >
+                        </ng-select>
+                        <span
+                          class="text-danger"
+                          *ngIf="
+                            (EditFormControl.CustomerId.touched || submitted) &&
+                            EditFormControl.CustomerId.errors?.required
+                          "
+                        >
+                          Customer is required
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-xl-12">
+                      <div class="form-group">
+                        <label for="Customer">Notes</label>
+                        <textarea
+                          class="form-control"
+                          placeholder="Notes..."
+                          name="Notes"
+                          formControlName="Notes"
+                          rows="2"
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-xl-6">
+                  <div class="form-group">
+                    <label for="Customer">Bill To :</label>
+                    <ng-select
+                      [items]="customerAddressList"
+                      [searchable]="true"
+                      formControlName="CustomerBillToId"
+                      placeholder="Select"
+                      bindLabel="title"
+                      bindValue="AddressId"
+                    >
+                    </ng-select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="Customer">Ship To :</label>
+                    <ng-select
+                      [items]="customerAddressList"
+                      [searchable]="true"
+                      formControlName="CustomerShipToId"
+                      placeholder="Select"
+                      bindLabel="title"
+                      bindValue="AddressId"
+                    >
+                    </ng-select>
+                  </div>
+                  <div class="form-group">
+                    <label for="Customer">Repair Requet # :</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="RRNo"
+                      formControlName="RRNo"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div class="clear">&nbsp;</div>
+                <div class="col-xl-12 nopad">
+                  <div class="col-xl-8 col-lg-8 float-left nopad">
+                    <h4 class="page-title bluetxt mb-10">
+                      Customer Quote Details
+                    </h4>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 float-left nopad">
+                    <button
+                      type="button"
+                      (click)="CreateMROSO()"
+                      style="float: right"
+                      class="btn btn-purple mrobtn btn-sm waves-effect waves-light mr-1 mb-1"
+                    >
+                      Create Customer SO
+                    </button>
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-bordered table-striped mb-0">
+                    <thead class="thead-light">
+                      <tr>
+                        <th></th>
+                        <th width="10%">Part #</th>
+                        <th width="10%">Type</th>
+                        <th>Part Description</th>
+                        <th>Customer Lead Time</th>
+                        <th>Customer Unit Price</th>
+                        <th>Quantity</th>
+                        <th width="10%">Customer Total Price</th>
+                        <th width="10%">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let quote of QuoteLineItem; let i = index">
+                        <td>
+                          <input type="checkbox" (change)="CreateSO(quote)" />
+                        </td>
+                        <td>{{ quote.PartNo }}</td>
+                        <td>{{ quote.PartTypeName }}</td>
+                        <td>{{ quote.PartDescription }}</td>
+                        <td>{{ quote.LeadTime }} Days</td>
+                        <td>$ {{ quote.Rate }}</td>
+                        <td>{{ quote.Quantity }}</td>
+                        <td>$ {{ quote.Price }}</td>
+                        <td>
+                          <span>
+                            <a
+                              (click)="
+                                EditCustomerQuote(
+                                  quote.QuoteId,
+                                  quote.QuoteItemId
+                                )
+                              "
+                              style="cursor: pointer"
+                            >
+                              <i class="fa fa-edit"></i>
+                            </a>
+                          </span>
+                          &nbsp;&nbsp;
+                          <span>
+                            <a
+                              (click)="
+                                EditVendor(
+                                  quote.QuoteId,
+                                  quote.QuoteItemId,
+                                  quote.PartId
+                                )
+                              "
+                              style="cursor: pointer"
+                            >
+                              <i class="fa fa-eye"></i>
+                            </a>
+                          </span>
+                          &nbsp;&nbsp;
+                          <span>
+                            <a
+                              (click)="deleteQuotes(quote.QuoteId)"
+                              class="fa fa-trash text-danger"
+                              ngbTooltip="Delete"
+                              placement="top"
+                            ></a>
+                          </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div id="Convert-SO" *ngIf="CustomerSOId">
+                <div class="clear">&nbsp;</div>
+                <div class="col-xl-12 nopad">
+                  <div class="col-xl-8 col-lg-8 float-left nopad">
+                    <h4 class="page-title bluetxt mb-10">
+                      SO- <a>SO100781</a>
+                    </h4>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 float-left nopad">
+                    <button
+                      type="button"
+                      (click)="CreateMROPO()"
+                      style="float: right"
+                      class="btn btn-secondary mrobtn btn-sm waves-effect waves-light mr-1 mb-1"
+                    >
+                      Create Vendor PO
+                    </button>
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-bordered table-striped mb-0">
+                    <thead class="thead-light">
+                      <tr>
+                        <th>Part #</th>
+                        <th>Type</th>
+                        <th width="10%">Customer Total Price</th>
+                        <th>Quantity Summary</th>
+                        <th>Shipping and Invoice Details</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>AH-S8VKG48024</td>
+                        <td>New</td>
+                        <td>$ 400</td>
+
+                        <td>
+                          <b class="qty">Total Quantity :&nbsp;&nbsp;</b>
+                          <span
+                            style="font-size: 16px"
+                            class="badge badge-light-warning"
+                            >6
+                          </span>
+                          <br />
+                          <b class="qty">Ready for Shipment :&nbsp;&nbsp;</b>
+                          <span
+                            style="font-size: 16px"
+                            class="badge badge-light-info"
+                            >1
+                          </span>
+                          <br />
+                          <b class="qty">Shipped :&nbsp;&nbsp;</b>
+                          <span
+                            style="font-size: 16px"
+                            class="badge badge-light-success"
+                            >2
+                          </span>
+                          <br />
+                          <b class="qty">Pending :&nbsp;&nbsp;</b>
+                          <span
+                            style="font-size: 16px"
+                            class="badge badge-light-danger"
+                            >3
+                          </span>
+                          <br />
+                          <div class="row mt-2">
+                            <button
+                              class="btn btn-info btn-sm waves-effect waves-light mr-1 mb-1 ml-1"
+                              type="button"
+                            >
+                              Ship
+                            </button>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row ml-2">
+                            <b class="qty">Shipped Quantity : &nbsp; &nbsp;</b
+                            ><span
+                              style="font-size: 16px"
+                              class="badge badge-light-success"
+                              >1
+                            </span>
+                            &nbsp;&nbsp;
+                            <button
+                              class="btn btn-pink btn-sm waves-effect waves-light mr-1 mb-1 ml-1"
+                              type="button"
+                            >
+                              <i
+                                class="mdi mdi-history bluetxt"
+                                style="cursor: pointer"
+                              ></i
+                              >&nbsp;Received By Customer
+                            </button>
+                            &nbsp;&nbsp; Invoice #:
+                            <a
+                              [routerLink]="['/admin/invoice/list']"
+                              [queryParams]="{ InvoiceId: 100187 }"
+                              target="_blank"
+                            >
+                              <p
+                                style="
+                                  color: #09518e;
+                                  text-decoration: none;
+                                  background-color: transparent;
+                                "
+                              >
+                                INV100187
+                              </p>
+                            </a>
+                          </div>
+                          <hr />
+                          <div class="row ml-2">
+                            <b class="qty">Shipped Quantity : &nbsp; &nbsp;</b
+                            ><span
+                              style="font-size: 16px"
+                              class="badge badge-light-success"
+                              >1
+                            </span>
+                            &nbsp;&nbsp;
+                            <button
+                              class="btn btn-pink btn-sm waves-effect waves-light mr-1 mb-1 ml-1"
+                              type="button"
+                            >
+                              <i
+                                class="mdi mdi-history bluetxt"
+                                style="cursor: pointer"
+                              ></i>
+                              &nbsp;Shipped by Aibond
+                            </button>
+                            &nbsp;&nbsp;
+                            <button
+                              class="btn btn-success btn-sm waves-effect waves-light mr-1 mb-1 ml-1"
+                              type="button"
+                            >
+                              Receive By Customer
+                            </button>
+                            &nbsp;&nbsp; Invoice #:
+                            <a
+                              [routerLink]="['/admin/invoice/list']"
+                              [queryParams]="{ InvoiceId: 100186 }"
+                              target="_blank"
+                            >
+                              <p
+                                style="
+                                  color: #09518e;
+                                  text-decoration: none;
+                                  background-color: transparent;
+                                "
+                              >
+                                INV100186
+                              </p>
+                            </a>
+                          </div>
+                        </td>
+                        <!-- <td>Shipped Quantity : 1
+                                                     <button class="btn btn-pink ml-1"
+                                                        type="button">Track</button>
+                                                         <button
+                                                        class="btn btn-success ml-1" type="button">Receive</button>
+
+                                                        <a [routerLink]="['/admin/invoice/list']"
+                                                        [queryParams]="{InvoiceId:100186}" target="_blank">
+                                                        <p
+                                                            style="color: #09518e;text-decoration: none;background-color: transparent;">
+                                                            Invoice #: INV100186</p>
+                                                    </a>
+                                                    </td>
+                                                <td>
+                                                    <button class="btn btn-success ml-1" type="button">Ship</button>
+                                                </td> -->
+                      </tr>
+                      <!-- <tr>
+                                                <td>AHR-745812369</td>
+                                                <td>Removed</td>
+                                                <td>$ 400</td>
+
+                                                <td>Total Quantity : 1</td>
+                                                <td>Ready for Shipment : -</td>
+                                                <td>Pending : -</td>
+                                                <td>Shipped : -</td>
+                                            
+
+
+
+
+
+                                            </tr> -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div id="Convert-SO" *ngIf="VendorPOId">
+                <div class="clear">&nbsp;</div>
+                <div class="col-xl-12 nopad">
+                  <div class="col-xl-8 col-lg-8 float-left nopad">
+                    <h4 class="page-title bluetxt mb-10">PO</h4>
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-bordered table-striped mb-0">
+                    <thead class="thead-light">
+                      <tr>
+                        <th width="10%">Part #</th>
+                        <th>Vendor Name</th>
+                        <th width="10%">Total Price</th>
+                        <th>Quantity Summary</th>
+
+                        <th width="30%">Shipping and Vendor Bill Details</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>AH-S8VKG48024</td>
+                        <th>2V Industry</th>
+                        <td>$ 200</td>
+                        <td>
+                          <b class="qty">Total Quantity :&nbsp;&nbsp;</b
+                          ><span
+                            style="font-size: 16px"
+                            class="badge badge-light-warning"
+                            >6
+                          </span>
+                          <br />
+                          <b class="qty">Received :&nbsp;&nbsp;</b
+                          ><span
+                            style="font-size: 16px"
+                            class="badge badge-light-success"
+                            >3
+                          </span>
+                          <br />
+                          <b class="qty">Pending :&nbsp;&nbsp;</b
+                          ><span
+                            style="font-size: 16px"
+                            class="badge badge-light-danger"
+                            >3
+                          </span>
+                          <br />
+                          <div class="row mt-2">
+                            <button
+                              class="btn btn-success btn-sm waves-effect waves-light mr-1 mb-1 ml-1"
+                              type="button"
+                              (click)="onRRShippingReceive()"
+                            >
+                              Receive
+                            </button>
+                          </div>
+                        </td>
+
+                        <td>
+                          <div class="row ml-2">
+                            <b class="qty">Received Quantity : &nbsp; &nbsp;</b
+                            ><span
+                              style="font-size: 16px"
+                              class="badge badge-light-success"
+                              >2
+                            </span>
+                            &nbsp;&nbsp; Vendor Bill #:
+                            <a
+                              [routerLink]="[
+                                '/admin/invoice/vendor-invoice-list'
+                              ]"
+                              [queryParams]="{ VendorInvoiceId: 100149 }"
+                              target="_blank"
+                            >
+                              <p
+                                style="
+                                  color: #09518e;
+                                  text-decoration: none;
+                                  background-color: transparent;
+                                "
+                              >
+                                VI100149
+                              </p>
+                            </a>
+                          </div>
+                          <hr />
+                          <div class="row ml-2">
+                            <b class="qty">Received Quantity : &nbsp; &nbsp;</b>
+                            <span
+                              style="font-size: 16px"
+                              class="badge badge-light-success"
+                              >1 </span
+                            >&nbsp;&nbsp;
+
+                            <button
+                              type="button"
+                              (click)="CreateVendorInvoice()"
+                              class="btn btn-info btn-sm waves-effect waves-light mr-1 mb-1"
+                            >
+                              Create Vendor Bill
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- <ng-template #NotesBar>
+    <div class="dropdown" ngbDropdown>
+        <a href="javascript: void(0);" class="dropdown-toggle arrow-none" ngbDropdownToggle data-toggle="dropdown"
+            aria-expanded="false">
+            <i class="remixicon-honour-line ri-xl text-danger"></i></a>
+        <div class="dropdown-menu dropdown-menu-right mt-0 searchbox" ngbDropdownMenu>
+            <div class="alert alert-info" role="alert" *ngIf="notesArr[1]  && notesArr[1].length > 0">
+                <h5 class="text-primary">
+                    <i class="mdi mdi-access-point mr-1"></i> Internal
+                </h5>
+                <ul class="toast-list" *ngFor="let note of notesArr[1];let i=index">
+                    <li>
+                        {{i+1}}) {{note.Notes}}
+                        <span class="toastdate"> - {{note.FirstName}} {{note.LastName}}
+                            ({{note.Created | date: 'MMM d, y, h:mm a' }})</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="alert alert-warning" role="alert" *ngIf="notesArr[2]  && notesArr[2].length > 0">
+                <h5 class="text-customer">
+                    <i class="mdi mdi-access-point mr-1"></i> Customer
+                </h5>
+                <ul class="toast-list" *ngFor="let note of notesArr[2];let i=index">
+                    <li>
+                        {{i+1}}) {{note.Notes}}
+                        <span class="toastdate"> - {{note.FirstName}} {{note.LastName}} ({{note.Created | date: 'MMM
+                            d,y, h:mm a' }})</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="alert alert-danger" role="alert" *ngIf="notesArr[3]  && notesArr[3].length > 0">
+                <h5 class="text-vendor">
+                    <i class="mdi mdi-access-point mr-1"></i> Vendor
+                </h5>
+                <ul class="toast-list" *ngFor="let note of notesArr[3];let i=index">
+                    <li>
+                        {{i+1}}) {{note.Notes}}
+                        <span class="toastdate"> - {{note.FirstName}} {{note.LastName}} ({{note.Created | date: 'MMM
+                            d,y, h:mm a' }})</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</ng-template> -->

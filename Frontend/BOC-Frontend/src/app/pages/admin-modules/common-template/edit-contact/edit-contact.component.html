@@ -1,0 +1,104 @@
+<div class="modal-header modal-lg ">
+  <h4 class="modal-title">Edit Contact</h4>
+  <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-2 modal-lg">
+  <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="EditContactForm">
+    <div class="col-xl-12">
+
+      <div class="row">
+        <div class="col-xl-4">
+          <div class="form-group">
+            <label>
+              Contact Name : <span class="red">*</span>
+            </label>
+            <input type="hidden" class="form-control" id="" placeholder="Enter IdentityType" name="IdentityType"
+              formControlName="IdentityType">
+            <input type="hidden" class="form-control" id="" placeholder="Enter Contact" name="ContactId"
+              formControlName="ContactId">
+            <input type="text" class="form-control" id="" placeholder="Enter Contact Name" name="ContactName"
+              formControlName="ContactName">
+            <span class="text-danger"
+              *ngIf="(ContactFormControl.ContactName.touched || submitted) && ContactFormControl.ContactName.errors?.required">
+              Contact Name is required
+            </span>
+          </div>
+        </div>
+        <div class="col-xl-4">
+          <div class="form-group">
+            <label>
+              Department :
+            </label>
+            <input type="text" class="form-control" id="" placeholder="Enter Department" name="DepartmentId"
+              formControlName="DepartmentId">
+
+          </div>
+        </div>
+        <div class="col-xl-4">
+          <div class="form-group">
+            <label>
+              Email : <span class="red">*</span>
+            </label>
+            <input type="text" class="form-control" id="" placeholder="Email" name="Email" formControlName="Email">
+            <span class="text-danger"
+              *ngIf="(ContactFormControl.Email.touched || submitted) && ContactFormControl.Email.errors?.required">
+              Email is required
+            </span>
+            <span class="text-danger"
+              *ngIf="(ContactFormControl.Email.touched || submitted) && ContactFormControl.Email.errors?.email">
+
+              Enter a valid email address
+            </span>
+
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-xl-4">
+          <div class="form-group">
+            <label>
+              Designation : <span class="red">*</span>
+            </label>
+
+            <input type="text" class="form-control" placeholder="Enter Designation" name="Designation"
+              formControlName="Designation">
+            <span class="text-danger"
+              *ngIf="(ContactFormControl.Designation.touched || submitted) && ContactFormControl.Designation.errors?.required">
+              Designation is required
+            </span>
+          </div>
+        </div>
+        <div class="col-xl-4">
+          <div class="form-group">
+            <label>
+              Phone No :<span class="red">*</span>
+            </label>
+            <input type="text" class="form-control" placeholder="Enter PhoneNo" name="PhoneNo"
+              formControlName="PhoneNo">
+            <span class="text-danger"
+              *ngIf="(ContactFormControl.PhoneNo.touched || submitted) && ContactFormControl.PhoneNo.errors?.required">
+              Phone No is required
+            </span>
+          </div>
+        </div>
+        <div class="col-xl-4">
+
+          <div class="form-group">
+            <label class="address">
+              Is Primary:
+            </label>
+            <input type="checkbox" name="IsPrimary" formControlName="IsPrimary">
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="modal-footer modal-lg">
+      <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+      <button class="btn btn-success waves-effect waves-light">Save</button>
+    </div>
+  </form>
+</div>

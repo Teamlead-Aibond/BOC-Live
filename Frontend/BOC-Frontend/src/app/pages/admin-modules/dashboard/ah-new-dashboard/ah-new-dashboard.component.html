@@ -1,0 +1,1174 @@
+<style>
+  .hideDiv {
+    display: none !important;
+  }
+</style>
+<div class="container-fluid" *ngIf="IsViewEnabled">
+  <app-page-title
+    title="BOC Dashboard"
+    [breadcrumbItems]="breadCrumbItems"
+  ></app-page-title>
+
+  <h4
+    style="width: 100%; font-size: 1.2rem; color: #09518e"
+    class="header-title text-left pl15"
+  >
+    <div class="row">
+      <div class="col-xl-4 col-4 text-right mob4">
+        <span
+          class="mt-5"
+          style="width: 100%; line-height: 2.5rem; margin-right: 80px"
+          >Status Summary</span
+        >
+      </div>
+      <div class="col-xl-4 col-4 text-left mob4" style="left: -80px !important">
+        <ng-select
+          [items]="customers$ | async"
+          [typeahead]="customersInput$"
+          [loading]="loadingCustomers"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          [searchable]="true"
+          [virtualScroll]="true"
+          placeholder="Select Customer"
+          bindLabel="CustomerCode"
+          bindValue="CustomerId"
+          [(ngModel)]="Customer"
+          (change)="onStatusSummary()"
+        >
+          <ng-template ng-header-tmp *ngIf="CustomersList.length > 0">
+            <button (click)="selectAll()" class="btn btn-sm btn-link">
+              Select all
+            </button>
+          </ng-template>
+          <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+            <div class="ng-value" *ngFor="let item of items | slice : 0 : 1">
+              <span class="ng-value-label">{{ item.CompanyName }}</span>
+              <span
+                class="ng-value-icon right"
+                (click)="clear(item)"
+                aria-hidden="true"
+                >×</span
+              >
+            </div>
+            <div class="ng-value" *ngIf="items.length > 1">
+              <span class="ng-value-label"
+                >+ {{ items.length - 1 }} more...</span
+              >
+            </div>
+          </ng-template>
+          <ng-template
+            ng-option-tmp
+            let-item="item"
+            let-item$="item$"
+            let-index="index"
+          >
+            <input
+              id="item-{{ index }}"
+              type="checkbox"
+              [checked]="item$.selected"
+              [ngModel]="item$.selected"
+            />
+            {{ item.CompanyName }}
+          </ng-template>
+        </ng-select>
+      </div>
+      <div class="col-xl-4 col-4 text-left mob4" style="left: -80px !important">
+        <ng-select
+          [items]="countryList"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          [searchable]="true"
+          [virtualScroll]="true"
+          placeholder="Select Country"
+          bindLabel="CountryName"
+          bindValue="CountryId"
+          [(ngModel)]="Location"
+          (change)="onStatusSummary()"
+        >
+        </ng-select>
+      </div>
+    </div>
+  </h4>
+
+  <div class="row">
+    <div class="col-xl-12 nopad">
+      <div class="col-xl-12 ahd nopad">
+        <div class="col-5 float-left">
+          <div style="background: #ffffff" class="card dashshadow">
+            <div style="padding: 1rem 1.3rem" class="card-body">
+              <div class="widget-bg-color-icon">
+                <div
+                  class="avatar-lg rounded-circle bg-icon-info float-left mt-1 col-3"
+                >
+                  <em
+                    class="fa fa-folder-open font-28 avatar-title text-white"
+                  ></em>
+                </div>
+                <div class="rct mt-2 col-9">
+                  <h3 class="tdd mt-1 text-right">
+                    <span>
+                      <a
+                        *ngIf="
+                          StatusCount.AwaitingVendorSelection == 0 ||
+                          StatusCount.AwaitingVendorSelection == null
+                        "
+                      >
+                        {{ StatusCount.AwaitingVendorSelection || 0 }}
+                      </a>
+                      <a
+                        style="cursor: pointer"
+                        *ngIf="
+                          StatusCount.AwaitingVendorSelection != 0 &&
+                          StatusCount.AwaitingVendorSelection != null
+                        "
+                        (click)="onStatusMainLink(1)"
+                        >{{ StatusCount.AwaitingVendorSelection || 0 }}
+                      </a>
+                    </span>
+                  </h3>
+                  <h4 class="font-24 text-right m35">
+                    Awaiting Vendor Selection
+                  </h4>
+                  <h4 class="font-28 text-right red">&nbsp;</h4>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+
+              <div class="col-lg-8 col-6 col-sm-6 float-left border">
+                <h4 class="font30">Current</h4>
+              </div>
+              <div
+                class="col-lg-4 col-6 col-sm-6 float-left border softprimary text-right"
+              >
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    AwaitingVendorSelectionCount.CurrentDay == 0 ||
+                    AwaitingVendorSelectionCount.CurrentDay == null
+                  "
+                >
+                  {{ AwaitingVendorSelectionCount.CurrentDay || 0 }}
+                </h4>
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    AwaitingVendorSelectionCount.CurrentDay != 0 &&
+                    AwaitingVendorSelectionCount.CurrentDay != null
+                  "
+                >
+                  <a
+                    style="cursor: pointer"
+                    (click)="onStatusCurrentLink(1, 2)"
+                    >{{ AwaitingVendorSelectionCount.CurrentDay || 0 }}</a
+                  >
+                </h4>
+              </div>
+              <div class="col-lg-8 col-6 col-sm-6 float-left border">
+                <h4 class="font30">>2-4 days</h4>
+              </div>
+              <div
+                class="col-lg-4 col-6 col-sm-6 float-left border softprimary text-right"
+              >
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    AwaitingVendorSelectionCount.From2To4Day == 0 ||
+                    AwaitingVendorSelectionCount.From2To4Day == null
+                  "
+                >
+                  {{ AwaitingVendorSelectionCount.From2To4Day || 0 }}
+                </h4>
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    AwaitingVendorSelectionCount.From2To4Day != 0 &&
+                    AwaitingVendorSelectionCount.From2To4Day != null
+                  "
+                >
+                  <a
+                    style="cursor: pointer"
+                    (click)="onStatusInBetweenLink(1, 2, 4)"
+                    >{{ AwaitingVendorSelectionCount.From2To4Day || 0 }}</a
+                  >
+                </h4>
+              </div>
+              <div class="col-lg-8 col-6 col-sm-6 float-left border">
+                <h4 class="font30">>5-7 days</h4>
+              </div>
+              <div
+                class="col-lg-4 col-6 col-sm-6 float-left border softprimary text-right"
+              >
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    AwaitingVendorSelectionCount.From5To7Day == 0 ||
+                    AwaitingVendorSelectionCount.From5To7Day == null
+                  "
+                >
+                  {{ AwaitingVendorSelectionCount.From5To7Day || 0 }}
+                </h4>
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    AwaitingVendorSelectionCount.From5To7Day != 0 &&
+                    AwaitingVendorSelectionCount.From5To7Day != null
+                  "
+                >
+                  <a
+                    style="cursor: pointer"
+                    (click)="onStatusInBetweenLink(1, 5, 7)"
+                    >{{ AwaitingVendorSelectionCount.From5To7Day || 0 }}</a
+                  >
+                </h4>
+              </div>
+              <div class="col-lg-8 col-6 col-sm-6 float-left border">
+                <h4 class="font30 rcolor">>7 days</h4>
+              </div>
+              <div
+                class="col-lg-4 col-6 col-sm-6 float-left border softprimary text-right"
+              >
+                <h4
+                  class="txt-clr font30 rcolor"
+                  *ngIf="
+                    AwaitingVendorSelectionCount.Above7Day == 0 ||
+                    AwaitingVendorSelectionCount.Above7Day == null
+                  "
+                >
+                  {{ AwaitingVendorSelectionCount.Above7Day || 0 }}
+                </h4>
+                <h4
+                  class="txt-clr font30 rcolor"
+                  *ngIf="
+                    AwaitingVendorSelectionCount.Above7Day != 0 &&
+                    AwaitingVendorSelectionCount.Above7Day != null
+                  "
+                >
+                  <a style="cursor: pointer" (click)="onStatusLink(1, 7)">{{
+                    AwaitingVendorSelectionCount.Above7Day || 0
+                  }}</a>
+                </h4>
+                <!-- <h4 class="txt-clr font30 rcolor">{{AwaitingVendorSelectionCount.Above7Day}}</h4> -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-5 float-left">
+          <div style="background: #ffffff" class="card dashshadow">
+            <div style="padding: 1rem 1.3rem" class="card-body">
+              <div class="widget-bg-color-icon">
+                <div
+                  class="avatar-lg rounded-circle bg-icon-danger float-left mt-1 col-3"
+                >
+                  <em
+                    class="mdi mdi-file-document-outline font-28 avatar-title text-white"
+                  ></em>
+                </div>
+                <div class="rct mt-2 col-9">
+                  <h3 class="tdd mt-1 text-right">
+                    <span>
+                      <a
+                        *ngIf="
+                          StatusCount.AwaitingVendorQuote == 0 ||
+                          StatusCount.AwaitingVendorQuote == null
+                        "
+                      >
+                        {{ StatusCount.AwaitingVendorQuote || 0 }}
+                      </a>
+                      <a
+                        style="cursor: pointer"
+                        *ngIf="
+                          StatusCount.AwaitingVendorQuote != 0 &&
+                          StatusCount.AwaitingVendorQuote != null
+                        "
+                        (click)="onStatusMainLink(2)"
+                        >{{ StatusCount.AwaitingVendorQuote || 0 }}
+                      </a>
+                    </span>
+                  </h3>
+                  <h4 class="font-24 text-right m35">Awaiting Vendor Quote</h4>
+                  <h4 class="font-28 text-right red">&nbsp;</h4>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+
+              <div class="col-lg-8 col-6 col-sm-6 float-left border">
+                <h4 class="font30">Current</h4>
+              </div>
+              <div
+                class="col-lg-4 col-6 col-sm-6 float-left border softdanger text-right"
+              >
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    AwaitingVendorQuoteCount.CurrentDay == 0 ||
+                    AwaitingVendorQuoteCount.CurrentDay == null
+                  "
+                >
+                  {{ AwaitingVendorQuoteCount.CurrentDay || 0 }}
+                </h4>
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    AwaitingVendorQuoteCount.CurrentDay != 0 &&
+                    AwaitingVendorQuoteCount.CurrentDay != null
+                  "
+                >
+                  <a
+                    style="cursor: pointer"
+                    (click)="onStatusCurrentLink(2, 7)"
+                    >{{ AwaitingVendorQuoteCount.CurrentDay || 0 }}</a
+                  >
+                </h4>
+              </div>
+              <div class="col-lg-8 col-6 col-sm-6 float-left border">
+                <h4 class="font30">>7-13 days</h4>
+              </div>
+              <div
+                class="col-lg-4 col-6 col-sm-6 float-left border softdanger text-right"
+              >
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    AwaitingVendorQuoteCount.From7To13Day == 0 ||
+                    AwaitingVendorQuoteCount.From7To13Day == null
+                  "
+                >
+                  {{ AwaitingVendorQuoteCount.From7To13Day || 0 }}
+                </h4>
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    AwaitingVendorQuoteCount.From7To13Day != 0 &&
+                    AwaitingVendorQuoteCount.From7To13Day != null
+                  "
+                >
+                  <a
+                    style="cursor: pointer"
+                    (click)="onStatusInBetweenLink(2, 7, 13)"
+                    >{{ AwaitingVendorQuoteCount.From7To13Day || 0 }}</a
+                  >
+                </h4>
+              </div>
+              <div class="col-lg-8 col-6 col-sm-6 float-left border">
+                <h4 class="font30">>14-30 days</h4>
+              </div>
+              <div
+                class="col-lg-4 col-6 col-sm-6 float-left border softdanger text-right"
+              >
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    AwaitingVendorQuoteCount.From14To30Day == 0 ||
+                    AwaitingVendorQuoteCount.From14To30Day == null
+                  "
+                >
+                  {{ AwaitingVendorQuoteCount.From14To30Day || 0 }}
+                </h4>
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    AwaitingVendorQuoteCount.From14To30Day != 0 &&
+                    AwaitingVendorQuoteCount.From14To30Day != null
+                  "
+                >
+                  <a
+                    style="cursor: pointer"
+                    (click)="onStatusInBetweenLink(2, 14, 30)"
+                    >{{ AwaitingVendorQuoteCount.From14To30Day || 0 }}</a
+                  >
+                </h4>
+              </div>
+              <div class="col-lg-8 col-6 col-sm-6 float-left border">
+                <h4 class="font30 rcolor">>30 days</h4>
+              </div>
+              <div
+                class="col-lg-4 col-6 col-sm-6 float-left border softdanger text-right"
+              >
+                <h4
+                  class="txt-clr font30 rcolor"
+                  *ngIf="
+                    AwaitingVendorQuoteCount.Above30Day == 0 ||
+                    AwaitingVendorQuoteCount.Above30Day == null
+                  "
+                >
+                  {{ AwaitingVendorQuoteCount.Above30Day || 0 }}
+                </h4>
+                <h4
+                  class="txt-clr font30 rcolor"
+                  *ngIf="
+                    AwaitingVendorQuoteCount.Above30Day != 0 &&
+                    AwaitingVendorQuoteCount.Above30Day != null
+                  "
+                >
+                  <a style="cursor: pointer" (click)="onStatusLink(2, 30)">{{
+                    AwaitingVendorQuoteCount.Above30Day || 0
+                  }}</a>
+                </h4>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-5 float-left">
+          <div style="background: #ffffff" class="card dashshadow">
+            <div style="padding: 1rem 1.3rem" class="card-body">
+              <div class="widget-bg-color-icon">
+                <div
+                  class="avatar-lg rounded-circle bg-icon-purple float-left mt-1 col-3"
+                >
+                  <em
+                    class="mdi mdi-file-document-box-multiple-outline font-28 avatar-title text-white"
+                  ></em>
+                </div>
+                <div class="rct mt-2 col-9">
+                  <h3 class="tdd mt-1 text-right">
+                    <span>
+                      <a
+                        *ngIf="
+                          StatusCount.QuotedToCustomer == 0 ||
+                          StatusCount.QuotedToCustomer == null
+                        "
+                      >
+                        {{ StatusCount.QuotedToCustomer || 0 }}
+                      </a>
+                      <a
+                        style="cursor: pointer"
+                        *ngIf="
+                          StatusCount.QuotedToCustomer != 0 &&
+                          StatusCount.QuotedToCustomer != null
+                        "
+                        (click)="onStatusMainLink(4)"
+                        >{{ StatusCount.QuotedToCustomer || 0 }}
+                      </a>
+                    </span>
+                  </h3>
+                  <h4 class="font-24 text-right m35">Quoted to Customer</h4>
+                  <h4
+                    class="font-26 text-right red"
+                    style="color: #f672a7 !important"
+                  >
+                    ${{ StatusCount.QuoteToCustomerAmount || 0 }}
+                  </h4>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+
+              <div class="col-lg-8 col-6 col-sm-6 float-left border">
+                <h4 class="font30">Current</h4>
+              </div>
+              <div
+                class="col-lg-4 col-6 col-sm-6 float-left border softpurple text-right"
+              >
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    QuotedToCustomerCount.CurrentDay == 0 ||
+                    QuotedToCustomerCount.CurrentDay == null
+                  "
+                >
+                  {{ QuotedToCustomerCount.CurrentDay || 0 }}
+                </h4>
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    QuotedToCustomerCount.CurrentDay != 0 &&
+                    QuotedToCustomerCount.CurrentDay != null
+                  "
+                >
+                  <a
+                    style="cursor: pointer"
+                    (click)="onStatusCurrentLink(4, 7)"
+                    >{{ QuotedToCustomerCount.CurrentDay || 0 }}</a
+                  >
+                </h4>
+              </div>
+              <div class="col-lg-8 col-6 col-sm-6 float-left border">
+                <h4 class="font30">>7-13 days</h4>
+              </div>
+              <div
+                class="col-lg-4 col-6 col-sm-6 float-left border softpurple text-right"
+              >
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    QuotedToCustomerCount.From7To13Day == 0 ||
+                    QuotedToCustomerCount.From7To13Day == null
+                  "
+                >
+                  {{ QuotedToCustomerCount.From7To13Day || 0 }}
+                </h4>
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    QuotedToCustomerCount.From7To13Day != 0 &&
+                    QuotedToCustomerCount.From7To13Day != null
+                  "
+                >
+                  <a
+                    style="cursor: pointer"
+                    (click)="onStatusInBetweenLink(4, 7, 13)"
+                    >{{ QuotedToCustomerCount.From7To13Day || 0 }}</a
+                  >
+                </h4>
+              </div>
+              <div class="col-lg-8 col-6 col-sm-6 float-left border">
+                <h4 class="font30">>14-30 days</h4>
+              </div>
+              <div
+                class="col-lg-4 col-6 col-sm-6 float-left border softpurple text-right"
+              >
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    QuotedToCustomerCount.From14To30Day == 0 ||
+                    QuotedToCustomerCount.From14To30Day == null
+                  "
+                >
+                  {{ QuotedToCustomerCount.From14To30Day || 0 }}
+                </h4>
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    QuotedToCustomerCount.From14To30Day != 0 &&
+                    QuotedToCustomerCount.From14To30Day != null
+                  "
+                >
+                  <a
+                    style="cursor: pointer"
+                    (click)="onStatusInBetweenLink(4, 14, 30)"
+                    >{{ QuotedToCustomerCount.From14To30Day || 0 }}</a
+                  >
+                </h4>
+              </div>
+              <div class="col-lg-8 col-6 col-sm-6 float-left border">
+                <h4 class="font30 rcolor">>30 days</h4>
+              </div>
+              <div
+                class="col-lg-4 col-6 col-sm-6 float-left border softpurple text-right"
+              >
+                <h4
+                  class="txt-clr font30 rcolor"
+                  *ngIf="
+                    QuotedToCustomerCount.Above30Day == 0 ||
+                    QuotedToCustomerCount.Above30Day == null
+                  "
+                >
+                  {{ QuotedToCustomerCount.Above30Day || 0 }}
+                </h4>
+                <h4
+                  class="txt-clr font30 rcolor"
+                  *ngIf="
+                    QuotedToCustomerCount.Above30Day != 0 &&
+                    QuotedToCustomerCount.Above30Day != null
+                  "
+                >
+                  <a style="cursor: pointer" (click)="onStatusLink(4, 30)">{{
+                    QuotedToCustomerCount.Above30Day || 0
+                  }}</a>
+                </h4>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-5 float-left">
+          <div style="background: #ffffff" class="card dashshadow">
+            <div style="padding: 1rem 1.3rem" class="card-body">
+              <div class="widget-bg-color-icon">
+                <div
+                  class="avatar-lg rounded-circle bg-icon-success float-left mt-1 col-3"
+                >
+                  <em
+                    class="fas fa-wrench font-28 avatar-title text-white"
+                  ></em>
+                </div>
+                <div class="rct mt-2 col-9">
+                  <h3 class="tdd mt-1 text-right">
+                    <span>
+                      <a
+                        *ngIf="
+                          StatusCount.RepairInProgress == 0 ||
+                          StatusCount.RepairInProgress == null
+                        "
+                      >
+                        {{ StatusCount.RepairInProgress || 0 }}
+                      </a>
+                      <a
+                        style="cursor: pointer"
+                        *ngIf="
+                          StatusCount.RepairInProgress != 0 &&
+                          StatusCount.RepairInProgress != null
+                        "
+                        (click)="onStatusMainLink(5)"
+                        >{{ StatusCount.RepairInProgress || 0 }}
+                      </a>
+                    </span>
+                  </h3>
+                  <h4 class="font-24 text-right m35">Repair in Progress</h4>
+                  <h4
+                    class="font-26 text-right"
+                    style="color: #f672a7 !important"
+                  >
+                    ${{ StatusCount.RepairInProgressAmount || 0 }}
+                  </h4>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+
+              <div class="col-lg-8 col-6 col-sm-6 float-left border">
+                <h4 class="font30">Current</h4>
+              </div>
+              <div
+                class="col-lg-4 col-6 col-sm-6 float-left border softsuccess text-right"
+              >
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    RepairInProgressCount.CurrentDay == 0 ||
+                    RepairInProgressCount.CurrentDay == null
+                  "
+                >
+                  {{ RepairInProgressCount.CurrentDay || 0 }}
+                </h4>
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    RepairInProgressCount.CurrentDay != 0 &&
+                    RepairInProgressCount.CurrentDay != null
+                  "
+                >
+                  <a
+                    style="cursor: pointer"
+                    (click)="onStatusCurrentLink(5, 7)"
+                    >{{ RepairInProgressCount.CurrentDay || 0 }}</a
+                  >
+                </h4>
+              </div>
+              <div class="col-lg-8 col-6 col-sm-6 float-left border">
+                <h4 class="font30">>7-13 days</h4>
+              </div>
+              <div
+                class="col-lg-4 col-6 col-sm-6 float-left border softsuccess text-right"
+              >
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    RepairInProgressCount.From7To13Day == 0 ||
+                    RepairInProgressCount.From7To13Day == null
+                  "
+                >
+                  {{ RepairInProgressCount.From7To13Day || 0 }}
+                </h4>
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    RepairInProgressCount.From7To13Day != 0 &&
+                    RepairInProgressCount.From7To13Day != null
+                  "
+                >
+                  <a
+                    style="cursor: pointer"
+                    (click)="onStatusInBetweenLink(5, 7, 13)"
+                    >{{ RepairInProgressCount.From7To13Day || 0 }}</a
+                  >
+                </h4>
+              </div>
+              <div class="col-lg-8 col-6 col-sm-6 float-left border">
+                <h4 class="font30">>14-30 days</h4>
+              </div>
+              <div
+                class="col-lg-4 col-6 col-sm-6 float-left border softsuccess text-right"
+              >
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    RepairInProgressCount.From14To30Day == 0 ||
+                    RepairInProgressCount.From14To30Day == null
+                  "
+                >
+                  {{ RepairInProgressCount.From14To30Day || 0 }}
+                </h4>
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    RepairInProgressCount.From14To30Day != 0 &&
+                    RepairInProgressCount.From14To30Day != null
+                  "
+                >
+                  <a
+                    style="cursor: pointer"
+                    (click)="onStatusInBetweenLink(5, 14, 30)"
+                    >{{ RepairInProgressCount.From14To30Day || 0 }}</a
+                  >
+                </h4>
+              </div>
+              <div class="col-lg-8 col-6 col-sm-6 float-left border">
+                <h4 class="font30 rcolor">>30 days</h4>
+              </div>
+              <div
+                class="col-lg-4 col-6 col-sm-6 float-left border softsuccess text-right"
+              >
+                <h4
+                  class="txt-clr font30 rcolor"
+                  *ngIf="
+                    RepairInProgressCount.Above30Day == 0 ||
+                    RepairInProgressCount.Above30Day == null
+                  "
+                >
+                  {{ RepairInProgressCount.Above30Day || 0 }}
+                </h4>
+                <h4
+                  class="txt-clr font30 rcolor"
+                  *ngIf="
+                    RepairInProgressCount.Above30Day != 0 &&
+                    RepairInProgressCount.Above30Day != null
+                  "
+                >
+                  <a style="cursor: pointer" (click)="onStatusLink(5, 30)">{{
+                    RepairInProgressCount.Above30Day || 0
+                  }}</a>
+                </h4>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-5 float-left">
+          <div style="background: #ffffff" class="card dashshadow">
+            <div style="padding: 1rem 1.3rem" class="card-body">
+              <div class="widget-bg-color-icon">
+                <div
+                  class="avatar-lg rounded-circle bg-icon-pink float-left mt-1 col-3"
+                >
+                  <em
+                    class="fas fa-dharmachakra font-28 avatar-title text-white"
+                  ></em>
+                </div>
+                <div class="rct mt-2 col-9">
+                  <h3 class="tdd mt-1 text-right">
+                    <span>
+                      <a
+                        *ngIf="
+                          StatusCount.ApprovedButNotRepairable == 0 ||
+                          StatusCount.ApprovedButNotRepairable == null
+                        "
+                      >
+                        {{ StatusCount.ApprovedButNotRepairable || 0 }}
+                      </a>
+                      <a
+                        style="cursor: pointer"
+                        *ngIf="
+                          StatusCount.ApprovedButNotRepairable != 0 &&
+                          StatusCount.ApprovedButNotRepairable != null
+                        "
+                        (click)="onStatusMainLink(8)"
+                        >{{ StatusCount.ApprovedButNotRepairable || 0 }}
+                      </a>
+                    </span>
+                  </h3>
+                  <h4 class="font-24 text-right m35">
+                    Approved but Not Repairable
+                  </h4>
+                  <h4 class="font-28 text-right red">&nbsp;</h4>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+
+              <div class="col-lg-8 col-6 col-sm-6 float-left border">
+                <h4 class="font30">Current</h4>
+              </div>
+              <div
+                class="col-lg-4 col-6 col-sm-6 float-left border softpink text-right"
+              >
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    ApprovedButNotRepairableCount.CurrentDay == 0 ||
+                    ApprovedButNotRepairableCount.CurrentDay == null
+                  "
+                >
+                  {{ ApprovedButNotRepairableCount.CurrentDay || 0 }}
+                </h4>
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    ApprovedButNotRepairableCount.CurrentDay != 0 &&
+                    ApprovedButNotRepairableCount.CurrentDay != null
+                  "
+                >
+                  <a
+                    style="cursor: pointer"
+                    (click)="onStatusCurrentLink(8, 7)"
+                    >{{ ApprovedButNotRepairableCount.CurrentDay || 0 }}</a
+                  >
+                </h4>
+              </div>
+              <div class="col-lg-8 col-6 col-sm-6 float-left border">
+                <h4 class="font30">>7-13 days</h4>
+              </div>
+              <div
+                class="col-lg-4 col-6 col-sm-6 float-left border softpink text-right"
+              >
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    ApprovedButNotRepairableCount.From7To13Day == 0 ||
+                    ApprovedButNotRepairableCount.From7To13Day == null
+                  "
+                >
+                  {{ ApprovedButNotRepairableCount.From7To13Day || 0 }}
+                </h4>
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    ApprovedButNotRepairableCount.From7To13Day != 0 &&
+                    ApprovedButNotRepairableCount.From7To13Day != null
+                  "
+                >
+                  <a
+                    style="cursor: pointer"
+                    (click)="onStatusInBetweenLink(8, 7, 13)"
+                    >{{ ApprovedButNotRepairableCount.From7To13Day || 0 }}</a
+                  >
+                </h4>
+              </div>
+              <div class="col-lg-8 col-6 col-sm-6 float-left border">
+                <h4 class="font30">>14-30 days</h4>
+              </div>
+              <div
+                class="col-lg-4 col-6 col-sm-6 float-left border softpink text-right"
+              >
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    ApprovedButNotRepairableCount.From14To30Day == 0 ||
+                    ApprovedButNotRepairableCount.From14To30Day == null
+                  "
+                >
+                  {{ ApprovedButNotRepairableCount.From14To30Day || 0 }}
+                </h4>
+                <h4
+                  class="txt-clr font30"
+                  *ngIf="
+                    ApprovedButNotRepairableCount.From14To30Day != 0 &&
+                    ApprovedButNotRepairableCount.From14To30Day != null
+                  "
+                >
+                  <a
+                    style="cursor: pointer"
+                    (click)="onStatusInBetweenLink(8, 14, 30)"
+                    >{{ ApprovedButNotRepairableCount.From14To30Day || 0 }}</a
+                  >
+                </h4>
+              </div>
+              <div class="col-lg-8 col-6 col-sm-6 float-left border">
+                <h4 class="font30 rcolor">>30 days</h4>
+              </div>
+              <div
+                class="col-lg-4 col-6 col-sm-6 float-left border softpink text-right"
+              >
+                <h4
+                  class="txt-clr font30 rcolor"
+                  *ngIf="
+                    ApprovedButNotRepairableCount.Above30Day == 0 ||
+                    ApprovedButNotRepairableCount.Above30Day == null
+                  "
+                >
+                  {{ ApprovedButNotRepairableCount.Above30Day || 0 }}
+                </h4>
+                <h4
+                  class="txt-clr font30 rcolor"
+                  *ngIf="
+                    ApprovedButNotRepairableCount.Above30Day != 0 &&
+                    ApprovedButNotRepairableCount.Above30Day != null
+                  "
+                >
+                  <a style="cursor: pointer" (click)="onStatusLink(8, 30)">{{
+                    ApprovedButNotRepairableCount.Above30Day || 0
+                  }}</a>
+                </h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12 mt-6 nopad">
+      <div class="col-lg-6 float-left">
+        <div class="card-box" dir="ltr">
+          <h4 class="header-title bluetxt mb-3">Logged-In Status by Date</h4>
+          <div class="input-group clockpicker mb-3">
+            <input
+              ngbDatepicker
+              class="form-control"
+              [ngModel]="dateFilterFieldForChart"
+              (ngModelChange)="onChartDateChange($event)"
+              readonly
+              autoClose="false"
+              placeholder="dd/mm/yyyy"
+              #date="ngbDatepicker"
+              [autoClose]="true"
+            />
+            <div class="input-group-append" (click)="date.toggle()">
+              <span class="input-group-text"
+                ><i class="mdi mdi-calendar"></i
+              ></span>
+            </div>
+          </div>
+          <div
+            id="timelineChartData"
+            [ngClass]="!isTimelineChartShow ? 'hideDiv' : ''"
+          ></div>
+          <div *ngIf="!isTimelineChartShow">No Records found ...</div>
+        </div>
+      </div>
+      <div class="col-lg-6 float-left">
+        <div class="card-box" [class.fullscreen]="isOpen == true">
+          <div class="row">
+            <div class="col-xl-12">
+              <h4 class="header-title bluetxt mb-3">Logged-In Status</h4>
+            </div>
+          </div>
+
+          <!-- <div class="row">
+                        <div class="col-xl-12">
+                            <div class="card-widgets">
+                                <a href="javascript: void(0);" (click)="_toggleWindow()" class="mdi mdi-arrow-expand ml-1"></a>
+                            </div>
+                        </div>
+                    </div> -->
+
+          <div class="row">
+            <div class="col-xl-12">
+              <input
+                class="selectpicker sepickchart"
+                type="text"
+                ngxDaterangepickerMd
+                [(ngModel)]="LoggedFilter"
+                [showCustomRangeLabel]="true"
+                [keepCalendarOpeningWithRange]="true"
+                [timePicker]="false"
+                [alwaysShowCalendars]="true"
+                [ranges]="ranges"
+                [linkedCalendars]="true"
+                startKey="FromDate"
+                endKey="ToDate"
+                [isInvalidDate]="isInvalidDate"
+                (ngModelChange)="LoggedInStatus()"
+                [showClearButton]="true"
+                readonly
+              />
+            </div>
+          </div>
+          <!-- <lib-ngx-chartist [data]="stackBarChart.data" [options]="stackBarChart.options" [type]="stackBarChart.type" [events]="stackBarChart.events">
+                    </lib-ngx-chartist>  -->
+          <div *ngIf="arrLength.length > 0">
+            <apx-chart
+              [series]="basicColumChart.series"
+              [chart]="basicColumChart.chart"
+              [dataLabels]="basicColumChart.dataLabels"
+              [plotOptions]="basicColumChart.plotOptions"
+              [xaxis]="basicColumChart.xaxis"
+              [stroke]="basicColumChart.stroke"
+              [fill]="basicColumChart.fill"
+              [yaxis]="basicColumChart.yaxis"
+              [tooltip]="basicColumChart.tooltip"
+              [legend]="basicColumChart.legend"
+              [colors]="basicColumChart.colors"
+            ></apx-chart>
+          </div>
+
+          <br />
+          <div *ngIf="arrLength.length == 0">No Records found ...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6">
+      <div class="card-box">
+        <h4 class="header-title mb-2 bluetxt">
+          <span class="float-left mt-1">Sales Invoice Due (Approved)</span>
+        </h4>
+        <div class="table-responsive">
+          <table
+            id="datatable-angular-invoiceDue"
+            datatable
+            [dtOptions]="dtOptions"
+            class="table mb-15 datatables dt-responsive hover nowrap dataTable"
+          >
+            <thead class="thead-light">
+              <tr>
+                <th>RR #</th>
+                <th>Part #</th>
+                <th>Customer Name</th>
+                <th>Invoice Date</th>
+                <th>Due Date</th>
+                <th>Due Days</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+      <!-- end card-box-->
+    </div>
+    <!-- end col -->
+
+    <div class="col-xl-6">
+      <div class="card-box">
+        <h4 class="header-title bluetxt mb-2">
+          <span class="float-left mt-1">Rush / Warranty RR</span>
+          <!-- <span class="float-right mb-1">
+                        <select class="custom-select"> 
+                            <option value="1">Cancelled</option>
+                            <option value="2">Closed</option>
+                            <option value="5">On Hold</option>
+                            <option selected="selected" value="12">Open</option>
+                            <option value="13">Schedule</option>
+                            <option value="14">Draft</option>
+                            <option></option>
+                        </select>
+                    </span> -->
+        </h4>
+        <div class="table-responsive">
+          <table
+            id="datatable-angular-rushWarrantyRR"
+            datatable
+            [dtOptions]="dtOptions2"
+            class="table mb-15 datatables dt-responsive hover nowrap dataTable"
+          >
+            <thead class="thead-light">
+              <tr>
+                <th width="20%">RR #</th>
+                <th width="10%">Part #</th>
+                <th width="30%">Customer</th>
+                <th width="10%">Created</th>
+                <th width="25%">Status</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+      <!-- end card-box-->
+    </div>
+    <!-- end col -->
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6">
+      <div class="card-box">
+        <h4 class="header-title mb-2 bluetxt">
+          <span class="float-left mt-1">PO Without Parts</span>
+        </h4>
+        <div class="table-responsive">
+          <table
+            id="datatable-angular-powithoutpart"
+            [dtTrigger]="dtTriggerPO"
+            datatable
+            [dtOptions]="dtOptionsPO"
+            class="table datatables row-border hover"
+          >
+            <thead class="thead-light">
+              <tr>
+                <th>RR #</th>
+                <th>PO #</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="POList.length > 0">
+              <tr *ngFor="let item of POList; let i = index">
+                <td>
+                  <a
+                    href="#"
+                    class="actionView"
+                    ngbTooltip="View"
+                    [routerLink]="['/admin/repair-request/edit']"
+                    [queryParams]="{ RRId: item.RRId }"
+                    target="_blank"
+                    >{{ item.RRNo }}</a
+                  >
+                </td>
+                <td>
+                  <a
+                    href="#"
+                    class="actionView"
+                    ngbTooltip="View"
+                    [routerLink]="['/admin/orders/purchase-list']"
+                    [queryParams]="{ POId: item.POId }"
+                    target="_blank"
+                    >{{ item.PONo }}</a
+                  >
+                </td>
+
+                <td>
+                  <button
+                    ngbTooltip="Fixed PO"
+                    placement="top"
+                    class="btn btn-purple btn-sm waves-effect"
+                    (click)="onUpdateMissingPartIdInPO(item.RRId)"
+                  >
+                    Add Part</button
+                  >&nbsp;
+                </td>
+              </tr>
+            </tbody>
+            <!-- <tbody *ngIf="POList.length==0">
+                            No Records found
+                        </tbody> -->
+          </table>
+        </div>
+      </div>
+      <!-- end card-box-->
+    </div>
+    <!-- end col -->
+  </div>
+</div>
+
+<div class="container-fluid" *ngIf="!IsViewEnabled">
+  <div class="account-pages mt-5 mb-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6 col-xl-5">
+          <div class="card bg-pattern">
+            <div class="card-body p-4">
+              <div class="text-center">
+                <a routerLink="/">
+                  <span
+                    ><img
+                      src="assets/projects/ah-group/full_logo.png"
+                      alt=""
+                      height="22"
+                  /></span>
+                </a>
+              </div>
+
+              <div class="text-center mt-4">
+                <h1 class="text-error">401</h1>
+                <h3 class="mt-3 mb-2">Access Denied!</h3>
+                <p class="text-muted mb-3">
+                  You don't have permission to access this page.
+                </p>
+              </div>
+            </div>
+            <!-- end card-body -->
+          </div>
+          <!-- end card -->
+        </div>
+        <!-- end col -->
+      </div>
+      <!-- end row -->
+    </div>
+    <!-- end container -->
+  </div>
+</div>
+<ngx-spinner
+  #ngxSpinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-spin-clockwise"
+  [fullScreen]="true"
+></ngx-spinner>

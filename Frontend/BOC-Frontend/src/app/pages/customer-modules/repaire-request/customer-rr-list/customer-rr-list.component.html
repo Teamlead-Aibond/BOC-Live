@@ -1,0 +1,208 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="sideNavcontainer">
+    <app-page-title title="Repair Requests" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card-box">
+
+                <div class="row">
+                    <div class="btn-group btn-group-sm all-togg mbg mb-2 ml-2" style="padding-top: 10px;float: left;">
+                        <ng-template [ngTemplateOutlet]="Search"></ng-template>&nbsp;
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-12">
+                        <!-- Table -->
+                        <div style="padding-right: 15px;" class="table-responsive">
+                            <table id="datatable-angular" datatable [dtOptions]="dtOptions"
+                                class="table datatables dt-responsive hover nowrap">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Repair Request #</th>
+                                        <th>RR Image</th>
+                                        <th>Part #</th>
+                                        <th>Serial #</th>
+                                        <th>Customer Name</th>
+                                        <th>Status</th>
+                                        <th>RR Created Date</th>
+                                        <th>Quote Submitted Date</th>
+                                        <th>RRDescription</th>
+                                        <th>CustomerSONo</th>
+                                        <th>CustomerPartNo1</th>
+                                        <th>CustomerPONo</th>
+                                        <th>IsWarrantyRecovery</th>
+                                        <th>IsRushRepair</th>
+                                        <th>IsRepairTag</th>
+                                        <th>Vendor Name</th>
+                                        <th>StatusName</th>
+                                        <th>Amount</th>
+                                        <th>Customer Reference 1</th>
+                                        <th>Customer Reference 2</th>
+                                        <th>Customer Reference 3</th>
+                                        <th>Customer Reference 4</th>
+                                        <th>Customer Reference 5</th>
+                                        <th>Customer Reference 6</th>
+                                        <th>CustomerId</th>
+
+                                    </tr>
+                                </thead>
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Tab Content -->
+<ng-template #Search>
+
+    <div class="btn-group dropdown" ngbDropdown>
+        <a (click)="EnableSearch()" class="dropdown-toggle arrow-none btn btn-icon btn-sm" ngbDropdownToggle
+            data-toggle="dropdown" aria-expanded="false"><i class="remixicon-search-line"></i> Search</a>
+        <div class="dropdown-menu dropdown-menu-right mt-0" ngbDropdownMenu *ngIf="showSearch">
+            <div class="row collapse show searchbox">
+                <!-- Row 1-->
+                <div class="col-12 col-xl-6">
+                    <label class="control-label">Repair Request #</label>
+                    <input type="text" class="form-control" id="RRNo" [(ngModel)]="RRNo"
+                        placeholder="Enter Repair Request #">
+                </div>
+                <div class="col-12 col-xl-6">
+                    <label class="control-label">Customer Part #</label>
+                    <input type="text" class="form-control" id="CustomerPartNo1" [(ngModel)]="CustomerPartNo1"
+                        placeholder="Enter Customer Part #">
+                </div>
+                <div class="col-12 col-xl-6 mt-15">
+                    <label class="control-label">Part #</label>
+                    <input type="text" class="form-control" id="PartNo" [(ngModel)]="PartNo" placeholder="Enter Part #">
+                </div>
+                <div class="col-12 col-xl-6 mt-15">
+                    <label class="control-label">Serial #</label>
+                    <input type="text" class="form-control" id="SerialNo" [(ngModel)]="SerialNo"
+                        placeholder="Enter Serial #">
+                </div>
+                <div class="col-12 col-xl-6 mt-15">
+                    <label class="control-label">Sales Order #</label>
+                    <input type="text" class="form-control" id="CustomerSONo" [(ngModel)]="CustomerSONo"
+                        placeholder="Enter Sales Order #">
+                </div>
+
+
+
+
+                <div class="col-12 col-xl-6 mt-15">
+                    <label class="control-label">Status</label>
+                    <select class="custom-select" [(ngModel)]="Status">
+                        <option value="">Select</option>
+                        <option value="0,1">Repairs Received</option>
+                        <option value="2,3">Repairs Under Evaluation</option>
+                        <option value="4">Repairs Waiting for Customer Approval</option>
+                        <option value="5">Repairs In Progress</option>
+                        <option value="6">Repairs Rejected</option>
+                        <option value="7">Completed</option>
+                    </select>
+                </div>
+
+                <div class="col-12 col-xl-6 mt-15">
+                    <label class="control-label">Customer PO #</label>
+                    <input type="text" class="form-control" id="CustomerPONo" [(ngModel)]="CustomerPONo"
+                        placeholder="Enter Customer PO #">
+                </div>
+
+                <div class="col-12 col-xl-6 mt-15">
+                    <label class="control-label">Customer Name</label>
+                    <ng-select [items]="customers$ | async" [typeahead]="customersInput$" [loading]="loadingCustomers"
+                        [multiple]="true" [closeOnSelect]="false" [searchable]="true" [virtualScroll]="true"
+                        placeholder="Select Customer" bindLabel="CompanyName" bindValue="CustomerId"
+                        [(ngModel)]="Customer">
+                        <ng-template ng-header-tmp *ngIf="CustomersList.length > 0">
+                            <button (click)="selectAll()" class="btn-sm btn-link">Select all</button>
+                        </ng-template>
+                        <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                            <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                                <span class="ng-value-label">{{item.CompanyName}}</span>
+                                <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                            </div>
+                            <div class="ng-value" *ngIf="items.length > 1">
+                                <span class="ng-value-label">+ {{items.length - 1}} more...</span>
+                            </div>
+                        </ng-template>
+                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                            <input id="item-{{index}}" type="checkbox" [checked]="item$.selected"
+                                [ngModel]="item$.selected" />
+                            {{item.CompanyName}}
+                        </ng-template>
+                    </ng-select>
+                    <!-- <ng-select [items]="customerList$ | async" bindLabel="CompanyName"
+                    [typeahead]="Customer$" [placeholder]="'Enter Customer Name'"
+                    [(ngModel)]="Customer" bindValue="CompanyName">
+                </ng-select> -->
+
+                </div>
+                <div class="col-12 col-xl-12 mt-15">
+                    <label class="control-label">Repair Request Description</label>
+                    <input type="text" class="form-control" id="RRDescription" [(ngModel)]="RRDescription"
+                        placeholder="Enter Repair Request Description">
+
+                </div>
+
+
+
+
+
+
+                <div class="col-12 col-xl-4 mt-15">
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" id="IsWarrantyRecovery" type="checkbox"
+                                [(ngModel)]="IsWarrantyRecovery">
+                            <label class="custom-control-label" for="IsWarrantyRecovery">Warranty Recovery</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-xl-4 mt-15">
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" id="IsRushRepair" type="checkbox"
+                                [(ngModel)]="IsRushRepair">
+                            <label class="custom-control-label" for="IsRushRepair">Rushed Repair Orders</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-xl-4 mt-15">
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" id="IsRepairTag" type="checkbox"
+                                [(ngModel)]="IsRepairTag">
+                            <label class="custom-control-label" for="IsRepairTag">Repair Tag</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-xl-6 mt-15">
+                    <input type="button" class="btn btn-primary btn-md mr-2" value="Search" id="btnFilter"
+                        (click)="onFilter($event)" />&nbsp;
+                    <input type="button" class="btn btn-secondary btn-md mr-2" value="Clear" id="btnClear"
+                        (click)="onClear($event)" />
+                </div>
+
+            </div>
+        </div>
+    </div>
+</ng-template>

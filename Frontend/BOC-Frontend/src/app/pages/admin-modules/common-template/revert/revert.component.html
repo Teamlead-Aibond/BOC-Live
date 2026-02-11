@@ -1,0 +1,33 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{Name}}</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4">
+    <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="RevertForm">
+
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group no-margin">
+                    <label for="field-7" class="control-label">Revert Comments
+
+                    </label>
+                    <textarea class="form-control" id="field-7" placeholder="Comments" name="Comments"
+                        formControlName="Comments"></textarea>
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light" 
+            [disabled] = "btnDisabled"
+            [ngClass]="{'class': (btnDisabled)? 'btn btn-success waves-effect waves-light': 'btn btn-light waves-effect waves-light'}"
+            >Save</button>
+        </div>
+    </form>
+</div>

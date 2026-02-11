@@ -1,0 +1,354 @@
+<div class="modal-header">
+    <h4 class="modal-title">Add Quote For Customer</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="AddForm">
+    <div class="modal-body">
+        <div class="row">
+
+        </div>
+        <div class="approve-quotedetail" *ngIf="CustomerId">
+            <div formArrayName="LineItem">
+                <div *ngFor="let item of quoteItem().controls; let i=index" [formGroupName]="i" class="row approve-quotedetail-even">
+                    <div class="row approve-quotedetail-headbg">
+                        <div class="col-2">Part # <span class="red">*</span></div>
+                        <div class="col-3">Part Description</div>
+                        <div class="col-1">Customer Lead Time </div>
+                        <div class="col-1">Customer Unit Price <span class="red">*</span></div>
+                        <div class="col-1">Quantity <span class="red">*</span> </div>
+                        <div class="col-1">{{VAT_field_Name}}</div>
+                        <div class="col-1">{{Shipping_field_Name}}</div>
+                        <div class="col-1" *ngIf="IsDisplayBaseCurrencyValue==1">Customer Price({{BaseCurrencySymbol}})
+                            <span class="red">*</span>
+                        </div>
+                        <div [ngClass]="IsDisplayBaseCurrencyValue==1 ? 'col-1':'col-2'">Customer Total Price <span class="red">*</span></div>
+                    </div>
+                    <div class="col-2 mro-auto">
+                        <div class="ng-autocomplete">
+
+
+
+                            <ng-select [items]="parts$ | async" bindLabel="PartNo" [typeahead]="partsInput$" [placeholder]="'Enter Part #'" (change)='selectEvent($event, i)' formControlName="Part">
+                            </ng-select>
+                            <input type="hidden" class="form-control pad5" readonly name="PartId" formControlName="PartId">
+                            <input type="hidden" class="form-control pad5" readonly name="PartNo" formControlName="PartNo">
+                        </div>
+                        <span class="text-danger" *ngIf="(item['controls'].PartId?.touched || submitted) && item['controls'].PartId?.errors?.required">
+                            Part is required
+                        </span>
+                        <span class="text-danger" *ngIf="(item['controls'].PartId?.touched || submitted) && item['controls'].PartId?.errors?.unique">
+                            Part should be unique one
+                        </span>
+                        <div class="ng-autocomplete nopad">
+
+
+                            <label>Type<span class="red">*</span></label>
+
+
+                            <select class="custom-select" name="PartType" formControlName="PartType">
+                                <option value="" disabled>Select</option>
+                                <option *ngFor="let item of PartTypes" value="{{item.part_typeId}}">
+                                    {{item.part_typeName}}</option>
+
+                            </select>
+                            <span class="text-danger" *ngIf="(item['controls'].PartType?.touched || submitted) && item['controls'].PartType?.errors?.required">
+                                Part Type is required
+                            </span>
+                        </div>
+
+                    </div>
+                    <div class="col-3">
+                        <textarea class="form-control pad5" placeholder="Description..." name="PartDescription" formControlName="PartDescription" rows="3"></textarea>
+                    </div>
+                    <div class="col-1 m-116">
+                        <div class="input-group">
+                            <input type="number" min="1" class="form-control" name="LeadTime" formControlName="LeadTime" digitOnly>
+                            <div class="input-group-append">
+                                <span class="input-group-text">Day(s)</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">{{item.value.ItemLocalCurrencySymbol}}</span>
+                            </div>
+                            <input id="Rate" type="text" name="Rate" formControlName="Rate" class="form-control pad5" inputmode="numeric" pattern="^\d+(\.\d{1,2})?$" placeholder="0.00" digitOnly decimal="true" (keyup)="calculatePrice(i)" />
+                            <span class="text-danger" *ngIf="(item['controls'].Rate?.touched || submitted) && item['controls'].Rate?.errors?.required">
+                                Unit Price is required
+                            </span>
+                        </div>
+
+
+
+                    </div>
+                    <div class="col-1">
+                        <input type="text" min="1" class="form-control" name="Quantity" formControlName="Quantity" digitOnly (keyup)="this.calculatePrice(i)">
+                        <span class="text-danger" *ngIf="(item['controls'].Quantity?.touched || submitted) && item['controls'].Quantity?.errors?.required">
+                            Quantity is required
+                        </span>
+                    </div>
+                    <div class="col-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">%</span>
+                            </div>
+                            <input type="text" min="1" class="form-control" name="ItemTaxPercent" formControlName="ItemTaxPercent" (keyup)="calculatePrice(i)">
+                        </div>
+                        &nbsp;
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">{{item.value.ItemLocalCurrencySymbol}}</span>
+                            </div>
+                            <input type="text" class="form-control" readonly name="Tax" formControlName="Tax">
+
+                        </div>
+
+
+
+
+                    </div>
+                    <div class="col-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">{{item.value.ItemLocalCurrencySymbol}}</span>
+                            </div>
+                            <input type="text" min="1" class="form-control" name="ShippingCharge" formControlName="ShippingCharge" (keyup)="this.calculatePrice(i)">
+                        </div>
+
+                    </div>
+                    <div class="col-1" *ngIf="IsDisplayBaseCurrencyValue==1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">{{BaseCurrencySymbol}}</span>
+                            </div>
+                            <input id="Rate" type="text" name="BasePrice" formControlName="BasePrice" class="form-control pad5" readonly />
+                            <span class="text-danger" *ngIf="(item['controls'].BasePrice?.touched || submitted) && item['controls'].BasePrice?.errors?.required">
+                                Price({{BaseCurrencySymbol}}) is required
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">{{item.value.ItemLocalCurrencySymbol}}</span>
+                            </div>
+                            <input type="text" class="form-control pad5" readonly name="Price" formControlName="Price">
+
+                        </div>
+                        <span class="text-danger" *ngIf="(item['controls'].Price?.touched || submitted) && item['controls'].Price?.errors?.required">
+                            Price is required
+                        </span>
+                    </div>
+
+                    <div class="w-100" formArrayName="VendorQuoteInfo">
+                        <div class="row approve-quotedetail-headbg">
+                            <div class="col-2">&nbsp;</div>
+                            <div class="col-3">Vendor <span class="red">*</span> / Attachment / Web link</div>
+                            <div class="col-1">Vendor Lead Time</div>
+                            <div class="col-1">Vendor Unit Price <span class="red">*</span>
+                            </div>
+                            <div class="col-1">Vendor Quantity <span class="red">*</span> </div>
+                            <div class="col-1">{{VAT_field_Name}}</div>
+                            <div class="col-1">{{Shipping_field_Name}}</div>
+                            <div class="col-1" *ngIf="IsDisplayBaseCurrencyValue==1">Vendor Price({{BaseCurrencySymbol}}) <span class="red">*</span></div>
+                            <div [ngClass]="IsDisplayBaseCurrencyValue==1 ? 'col-1 float-left':'col-2 float-left'">Vendor Total Cost <span class="red">*</span>
+                            </div>
+                        </div>
+
+                        <div *ngFor="let vendor of getVendor(i).controls; let j=index" [formGroupName]="j">
+                            <div class="col-12">
+                                <div class="col-2 m-116"></div>
+                                <div class="col-3 m-116">
+                                    <div class="row">
+                                        <div class="col-xl-12">
+                                            <ng-select [items]="Vendors$ | async" bindLabel="VendorName" [typeahead]="VendorsInput$" [placeholder]="'Enter Vendor Name'" formControlName="Vendor" (change)='selectVendorEvent($event, i,j)'>
+                                            </ng-select>
+                                            <input type="hidden" class="form-control pad5" readonly name="VendorId" formControlName="VendorId">
+                                            <input type="hidden" class="form-control pad5" readonly name="PartId" formControlName="PartId">
+                                            <input type="hidden" class="form-control pad5" readonly name="PartNo" formControlName="PartNo">
+                                            <input type="hidden" class="form-control pad5" readonly name="Description" formControlName="Description">
+                                        </div>
+                                        <span class="text-danger ml-2" *ngIf="(vendor['controls'].VendorId?.touched || submitted) && vendor['controls'].VendorId?.errors?.required">
+                                            Vendor is required
+                                        </span>
+                                        </div>
+                                        <div class="row mt-2">
+                                        <div class="col-xl-6">
+                                            <!-- <div  *ngFor="let vattachment of getVendor(i); let m = index;">
+                                                    <span *ngIf="vattachment.AttachmentMimeType == 'application/pdf'">
+                                                        <a href="{{vattachment.VendorAttachment}}" target="_blank">
+                                                            <img src="assets/images/attachment/{{attachmentThumb['application/pdf'].thumb}}"
+                                                                class="img-fluid"
+                                                                
+                                                                width="200" alt="work-thumbnail">
+                                                        </a>
+                                                    </span>
+                                                    <span *ngIf="vattachment.AttachmentMimeType == 'image/jpeg'">
+                                                        <a href="{{vattachment.VendorAttachment}}" target="_blank">
+                                                            <img src="{{vattachment.VendorAttachment}}" class="img-fluid"
+                                                               
+                                                                width="200" alt="work-thumbnail">
+                                                        </a>
+                                                    </span>
+                                                    <span *ngIf="vattachment.AttachmentMimeType == 'image/png'">
+                                                        <a href="{{vattachment.VendorAttachment}}" target="_blank">
+                                                            <img src="{{vattachment.VendorAttachment}}" class="img-fluid"
+                                                              
+                                                                width="200" alt="work-thumbnail">
+                                                        </a>
+                                                    </span>
+                                                 
+                                                   
+                                                    <span *ngIf="vattachment.AttachmentMimeType == 'text/xlsx'">
+                                                        <a href="{{vattachment.Attachment}}" target="_blank">
+                                                            <img src="assets/images/attachment/{{attachmentThumb['text/csv'].thumb}}"
+                                                                class="img-fluid"
+                                                               
+                                                                width="200" alt="work-thumbnail">
+                                                        </a>
+                                                    </span>
+    
+                                                  
+                                            </div> -->
+
+
+
+                                            <input type="file" class="form-control pad5" name="VendorAttachment " formControlName="VendorAttachment" (change)="fileProgressMultiple($event,i,j)" [writeFile]="true">
+                                            <a *ngIf="vendor['controls'].VendorAttachment.value" [href]="vendor['controls'].VendorAttachment.value" target="_blank">Preview</a>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <input type="text" class="form-control" name="WebLink" formControlName="WebLink" placeholder="Web link">
+                                        </div>
+                                        <i class="fa fa-spinner fa-spin" *ngIf="spinner"></i>
+                                        <span class="text-danger" *ngIf="(vendor['controls'].VendorAttachment.touched || submitted) && vendor['controls'].VendorAttachment.errors?.extension">
+                                            Vendor Attachment should be allow png, jpeg,
+                                            jpg,xlsx,pdf,doc,docx,xls only
+                                        </span>
+                                    </div>
+                                   
+                                </div>
+
+                                <div class="col-1 m-116">
+                                    <div class="input-group">
+                                        <input type="number" min="1" class="form-control" name="LeadTime" formControlName="LeadTime" digitOnly>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">Day(s)</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-1 m-116">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">{{vendor.value.ItemLocalCurrencySymbol}}</span>
+                                        </div>
+                                        <input type="text" class="form-control pad5" name="Rate" formControlName="Rate" (change)="calculateVendorPrice(i,j)">
+
+                                    </div>
+                                    <span class="text-danger" *ngIf="(vendor['controls'].Rate?.touched || submitted) && vendor['controls'].Rate?.errors?.required">
+                                        Vendor Unit Price is required
+                                    </span>
+
+                                </div>
+
+                                <div class="col-1 m-116">
+                                    <input type="text" class="form-control" name="Quantity" (change)="validateqty($event,i,j)" formControlName="Quantity" digitOnly>
+                                    <!-- <div class="text-danger"
+                                        *ngIf="qtyVendormessage == 'Error'">
+                                        Vendor Quantity Must be same as Customer Quantity
+                                    </div>  -->
+                                    <span class="text-danger" *ngIf="(vendor['controls'].Quantity?.touched || submitted) && vendor['controls'].Quantity?.errors?.required">
+                                        Vendor Quantity is required
+                                    </span>
+                                </div>
+                                <div class="col-1 m-116">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">%</span>
+                                        </div>
+                                        <input type="text" min="1" class="form-control" name="ItemTaxPercent" formControlName="ItemTaxPercent" (keyup)="calculateVendorPrice(i,j)">
+                                    </div>
+                                    &nbsp;
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">{{vendor.value.ItemLocalCurrencySymbol}}</span>
+                                        </div>
+                                        <input type="text" class="form-control" readonly name="Tax" formControlName="Tax">
+
+                                    </div>
+
+
+
+
+                                </div>
+                                <div class="col-1 m-116">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">{{vendor.value.ItemLocalCurrencySymbol}}</span>
+                                        </div>
+                                        <input type="text" min="1" class="form-control" name="ShippingCharge" formControlName="ShippingCharge" (keyup)="this.calculateVendorPrice(i,j)">
+                                    </div>
+
+                                </div>
+                                <div class="col-1 m-116" *ngIf="IsDisplayBaseCurrencyValue==1">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">{{BaseCurrencySymbol}}</span>
+                                        </div>
+                                        <input id="Rate" type="text" name="BasePrice" formControlName="BasePrice" class="form-control pad5" readonly />
+                                        <span class="text-danger" *ngIf="(vendor['controls'].BasePrice?.touched || submitted) && vendor['controls'].BasePrice?.errors?.required">
+                                            Price({{BaseCurrencySymbol}}) is required
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-1 m-116">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">{{vendor.value.ItemLocalCurrencySymbol}}</span>
+                                        </div>
+                                        <input type="text" class="form-control pad5" readonly name="Price" formControlName="Price">
+
+                                    </div>
+                                    <span class="text-danger" *ngIf="(vendor['controls'].Price?.touched || submitted) && vendor['controls'].Price?.errors?.required">
+                                        Price is required
+                                    </span>
+                                    <!-- <button (click)="addvendor(i)" type="button"
+                                        class="btn btn-add waves-effect mt-2">
+                                        <i class="remixicon-add-fill mt-3"></i> Add Vendor
+                                    </button> &nbsp;&nbsp;
+                                    <a (click)="removePart(i)"
+                                        class="mt-2 text-danger text-right delete-icon"
+                                        *ngIf="i != 0" ngbTooltip="Remove Part Item">
+                                        <i class="remixicon-delete-bin-line delete-btn-ico"></i>
+                                    </a>
+                                    <a (click)="removeVendor(i,j)"
+                                        class="mt-2 text-danger text-right delete-icon"
+                                        *ngIf="j != 0" ngbTooltip="Remove Vendor">
+                                        <i class="remixicon-delete-bin-line delete-btn-ico"></i>
+                                    </a> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success waves-effect waves-light" [disabled]="btnDisabled" [ngClass]="{'class': (btnDisabled)? 'btn btn-success waves-effect waves-light': 'btn btn-light waves-effect waves-light'}">Save</button>
+        <button type="button" class="btn btn-light waves-effect" (click)="modalRef.hide()">Close</button>
+    </div>
+</form>
+
+<ng-template #itemTemplate let-item>
+    <a [innerHTML]="item.PartNo"></a>
+</ng-template>
+
+<ng-template #notFoundTemplate let-notFound>
+    <div [innerHTML]="notFound"></div>
+</ng-template>

@@ -1,0 +1,92 @@
+    .addrrbtn {
+        float: right;
+        background: #38414a !important;
+        padding: 0.28rem 0.8rem;
+        font-size: 0.7875rem;
+        line-height: 1.5;
+        margin-left: 10px;
+    }
+    .bulkbtn {
+        float: right;
+        background: #f672a7 !important;
+        padding: 0.28rem 0.8rem;
+        font-size: 0.7875rem;
+        line-height: 1.5;
+        margin-left: 10px;
+    }
+    
+    .table-responsive {
+        overflow: auto;
+    }
+    
+    .wrapper .container-fluid {
+        max-width: 100% !important;
+    }
+    
+    table.dataTable {
+        width: 100% !important;
+    }
+    
+    .nv {
+        float: right;
+        color: #6c757d;
+        padding: 2px 13px 0 8px;
+        font-weight: 500;
+        font-size: 14px;
+    }
+    
+    ul.date-list {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+    
+    ul.date-list li {
+        color: #333;
+        display: block;
+        list-style-position: inside;
+        list-style-type: none;
+        margin: 0;
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+    
+    ul.date-list li:hover {
+        background-color: #f8f9fa;
+        color: #272e37;
+    }
+    
+    .idp {
+        color: #6c757d;
+        padding: 0 13px 0 8px;
+        font-weight: 500;
+        font-size: 14px;
+    }
+    
+    .selectpicker {
+        padding: 10px;
+    }
+    
+    @media screen and (max-width:1024px) {
+        .card-title {
+            margin-bottom: 0;
+        }
+        .form-control {
+            margin-bottom: 0.5rem;
+        }
+    }
+    
+    @media screen and (max-width:768px) {
+        .rrl-sub {
+            margin-top: 28px;
+        }
+        .card-title {
+            margin-bottom: 0;
+        }
+        .tab-content .form-control {
+            margin-bottom: 10px !important;
+        }
+        .form-control {
+            margin-bottom: 0.5rem;
+        }
+    }

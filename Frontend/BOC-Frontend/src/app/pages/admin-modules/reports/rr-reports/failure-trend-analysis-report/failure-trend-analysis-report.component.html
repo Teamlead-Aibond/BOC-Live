@@ -1,0 +1,261 @@
+<div class="container-fluid">
+    <app-page-title title="Repair Request Reports"></app-page-title>
+
+    <ng-sidebar-container style="height: 100vh;">
+
+        <ng-sidebar [(opened)]="_opened" mode="over" position="right" [showBackdrop]="_showBackdrop">
+            <div class="sidebar-heading btn-secondary">
+                <a href="javascript:void(0);" class="right-bar-toggle float-right" style="color: white;"
+                    (click)="_toggleSidebar();">
+                    <i class="fe-x noti-icon"></i>
+                </a>
+                <h4 class="m-0 text-white"><i class="fas fa-filter mr-1"></i>Custom Filter</h4>
+            </div>
+
+            <ng-container>
+                <div class="card-box">
+                    <div class="row">
+
+                        <div class="col-xl-6">
+                            <label>Customer</label>
+                            <ng-select [items]="customerList" (change)="onChangeCustomer(CustomerId)"
+                                [searchable]="true" [(ngModel)]="CustomerId" [virtualScroll]="true" placeholder="Select"
+                                bindLabel="title" bindValue="CustomerId">
+                            </ng-select>
+                        </div>
+                        <div class="col-xl-6">
+                            <label>Vendor</label>
+                            <ng-select [items]="vendorList" (change)="onVendorChange(VendorId)" name="VendorId"
+                                placeholder="Select" [(ngModel)]="VendorId" bindLabel="VendorName" bindValue="VendorId"
+                                [searchable]="true">
+                            </ng-select>
+                        </div>
+
+
+
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-xl-12">
+                            <label>Part #</label>
+                            <div class="ng-autocomplete">
+                                <ng-autocomplete [data]="filteredData" [isLoading]="isLoading" [searchKeyword]="keyword"
+                                    (selected)='selectEvent($event)' (inputChanged)='onChangeSearch($event)'
+                                    (inputFocused)='onFocused($event)' (inputCleared)="clearPartEvent($event)"
+                                    [(ngModel)]="Part" [itemTemplate]="itemTemplate"
+                                    [notFoundTemplate]="notFoundTemplate" debounceTime="1000">
+                                </ng-autocomplete>
+
+                                <ng-template #itemTemplate let-item>
+                                    <a [innerHTML]="item.PartNo"></a>
+                                </ng-template>
+
+                                <ng-template #notFoundTemplate let-notFound>
+                                    <div [innerHTML]="notFound"></div>
+                                </ng-template>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-xl-6">
+                            <label class="control-label">From Date</label>
+                            <div class="input-group clockpicker">
+                                <input ngbDatepicker class="form-control" [(ngModel)]="FromDate"
+                                    (ngModelChange)="FromDateFormat(FromDate)" autoClose="false"
+                                    placeholder="MM/DD/YYYY" #From_Date="ngbDatepicker">
+                                <div class="input-group-append" (click)="From_Date.toggle()">
+                                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <label class="control-label"> To Date</label>
+                            <div class="input-group clockpicker">
+                                <input ngbDatepicker class="form-control" [(ngModel)]="ToDate" autoClose="false"
+                                    placeholder="MM/DD/YYYY" #To_Date="ngbDatepicker"
+                                    (ngModelChange)="ToDateFormat(ToDate)">
+                                <div class="input-group-append" (click)="To_Date.toggle()">
+                                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-xl-12" style="float: right;">
+
+                            <input type="button" class="btn btn-primary btn-md mr-1 searchbt" value="Search"
+                                id="btnFilter" (click)="onFilter($event)" />
+                            <input type="button" class="btn btn-secondary btn-md searchbt" value="Clear" id="btnClear"
+                                (click)="onClear($event)" />
+                            <!-- <button style="margin-top: 24px;color: #06365e;" ngbTooltip="Excel" placement="top"
+                               class="btn btn-icon waves-effect" title="Excel"
+                                type="button" (click)="onTotalCostSavingsVsCostofNewReportExportToExcel()">
+                                <i style="font-size:35px;" class="far fa-file-excel"></i></button> -->
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </ng-container>
+
+        </ng-sidebar>
+
+        <div ng-sidebar-content>
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-xl-12 text-center">
+                        <img src="assets/images/ah_logo.png " alt=" " height="35">
+
+                        <h4 style="margin-top: 25px;" class="heading">{{CompanyName}} Failure Trend Analysis Report</h4>
+                        <h4 style="margin-top: 25px;" class="Date">From: {{Fromdate|dateTransform}} To:
+                            {{Todate|dateTransform}}
+                        </h4>
+
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+
+                    <div class="col-12">
+
+                        <div class="row">
+                            <div class="col-xl-12 text-right">
+
+                                <div class="button-list btn-group-sm fl-right mb-10">
+
+                                    <button class="btn btn-danger waves-effect" routerLink="/admin/reports"
+                                        ngbTooltip="Back" placement="top"><i class="fas fa-arrow-left"></i></button>
+
+                                </div>
+                                <!-- <div class="button-list btn-group-sm fl-right mb-10">
+
+                                    <button ngbTooltip="Excel" placement="top" class="btn btn-secondary waves-effect"
+                                        title="Excel" type="button"
+                                        (click)="onTotalCostSavingsVsCostofNewReportExportToExcel()">
+                                        <i class="far fa-file-excel"></i></button>
+
+                                </div> -->
+
+                                <div class="button-list btn-group-sm fl-right mb-10">
+                                    <button class="btn btn-primary waves-effect" (click)="_toggleSidebar()"
+                                        ngbTooltip="Custom Filter" placement="top"><i
+                                            class="fas fa-filter"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-12">
+                            <div class="col-xl-6 mtf" style="float:left">
+                                <div class="table-responsive">
+                                    <table class="table  dt-responsive hover nowrap dataTable no-footer">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th class="bold1">Supplier</th>
+                                                <th class="bold1"> Transactions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngFor="let item of SupplierFailureTrend">
+                                            <tr>
+                                                <td class="bold">{{item.Supplier}}</td>
+                                                <td>{{item.Transactions}}</td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody *ngIf="SupplierFailureTrend?.length == 0">
+                                            <tr>
+                                                <td colspan="2" class="no-data-available">No data!</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 mtf" style="float: right;">
+                                <div class="card" [class.fullscreen]="isOpen == true">
+                                    <div class="card-body" style="z-index: 0;"
+                                        *ngIf="SupplierFailureTrend?.length != 0">
+                                        <div class="card-widgets">
+
+                                            <a href="javascript: void(0);" (click)="_toggleWindow()"
+                                                class="mdi mdi-arrow-expand ml-1"></a>
+                                        </div>
+
+                                        <div id="cardCollpaseWidget5" class="collapse pt-3 show"
+                                            [ngbCollapse]="isCollapsed">
+                                            <div *ngIf="arrLength.length>0">
+
+
+                                                <apx-chart [series]="basicColumChart.series"
+                                                    [chart]="basicColumChart.chart"
+                                                    [dataLabels]="basicColumChart.dataLabels"
+                                                    [plotOptions]="basicColumChart.plotOptions"
+                                                    [xaxis]="basicColumChart.xaxis" [stroke]="basicColumChart.stroke"
+                                                    [fill]="basicColumChart.fill" [yaxis]="basicColumChart.yaxis"
+                                                    [tooltip]="basicColumChart.tooltip"
+                                                    [legend]="basicColumChart.legend" [colors]="basicColumChart.colors">
+                                                </apx-chart>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" *ngIf="SupplierFailureTrend?.length == 0">
+                                        <span style="text-align: center;">No Data Avaliable</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <br>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="row">
+                            <div class="col-xl-12 nopad-rt">
+                                <!-- Table -->
+                                <div class="table-responsive">
+                                    <table id="datatable-angular-FailureTrendAnalysisReport" datatable
+                                        [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                                        class="table datatables dt-responsive hover nowrap">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Part No</th>
+                                                <th>Manufacturer</th>
+                                                <th>Description</th>
+                                                <th>Total Repair Cost</th>
+                                                <th>Failure Quantity</th>
+                                                <th>Average Repair Cost</th>
+
+
+                                            </tr>
+                                        </thead>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        {{FooterRight}}
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-md-right footer-links d-none d-sm-block">
+                            <a href="javascript:void(0);">{{FooterLeft}}</a>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+
+    </ng-sidebar-container>
+
+</div>

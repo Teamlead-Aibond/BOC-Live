@@ -1,0 +1,352 @@
+/* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+.dash-wrap {
+    width: 14.285%;
+    flex: 0 0 14.285%;
+    max-width: 14.285%;
+    float: left;
+}
+
+.col-7 {
+    flex: 0 0 14.25%;
+    max-width: 14.25%;
+}
+
+.f12 {
+    font-size: 14px !important;
+    padding-top: 10px;
+    font-weight: 500;
+}
+
+.sepick {
+    padding: 21px 10px;
+    background: #565d66;
+    color: #fff;
+    font-weight: bold;
+}
+
+.sepickchart {
+    padding: 0 10px;
+    width: 30%;
+    background: #565d66;
+    color: #fff;
+    font-weight: bold;
+}
+
+.card-dashpad {
+    padding: 0.9rem 1rem 0.3rem 1.3rem;
+    float: left;
+    width: 100%;
+}
+
+.dash-wrap:last-child {
+    margin-right: 0;
+}
+
+.ng-select {
+    font-size: 18px;
+    line-height: 27px !important;
+}
+
+.dash-in {
+    background-color: #f9f9f9;
+    border: 1px solid #d9d9d9;
+    width: 92%;
+    padding: 12px 10px 10px;
+    border-radius: 7px;
+}
+
+.dhh {
+    min-height: 120px;
+}
+
+.text-mute-blue {
+    font-size: 16px;
+    text-align: center;
+}
+
+.pl15 {
+    padding-left: 15px;
+}
+
+.clear15 {
+    height: 1px;
+    clear: both;
+    width: 100%;
+    float: left;
+    padding-bottom: 15px;
+}
+
+.avatar-title {
+    display: flex !important;
+}
+
+.tdd {
+    font-size: 1.875rem;
+    color: #09518e !important;
+    line-height: 23px;
+    text-align: center;
+}
+
+.pad-line {
+    font-size: 1.5rem;
+    line-height: 20px;
+    text-align: center;
+}
+
+.rct {
+    float: right;
+    padding: 0;
+    text-align: right;
+}
+
+.dh3 {
+    font-size: 1.3rem;
+    text-align: center;
+    margin-bottom: 0px;
+}
+
+.dash-in h2 {
+    font-size: 1.3rem;
+    margin: 5px 0 10px 0;
+    text-align: center;
+    color: #09518e;
+}
+
+.dash-in h3 {
+    font-size: 1.5rem;
+    margin: 0 0 5px 0;
+    text-align: center;
+}
+
+.dash-in h5 {
+    font-size: 1.05rem;
+    margin: 6px 0 21px 0;
+    text-align: center;
+}
+
+.font-24 {
+    font-size: 22px !important;
+}
+
+.greybg-icon {
+    border: 6px solid rgba(50, 58, 70, .3)!important;
+    background-color: rgba(50, 58, 70, .75)!important;
+}
+
+.card-dashpad .avatar-lg {
+    height: 3.5rem !important;
+    width: 3.5rem !important;
+}
+
+ul.chart-list {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    text-align: center;
+}
+
+ul.chart-list li {
+    color: #fff;
+    display: inline;
+    list-style-position: inside;
+    list-style-type: none;
+    margin: 0 5px 0 0;
+    padding: 2px 10px 5px;
+    font-size: 11px;
+    line-height: 18px;
+    text-transform: uppercase;
+    height: 12px;
+    width: 12px;
+    left: 0px;
+    top: 0px;
+    border-width: 0px;
+    border-color: rgb(255, 255, 255);
+    border-radius: 12px;
+}
+
+.f-32 {
+    font-size: 32px !important;
+}
+
+@media screen and (max-width:1680px) {
+    .card-dashpad {
+        padding: 0.5rem 1rem 0.3rem 1.3rem;
+        min-height: 155px !important;
+    }
+    .f12 {
+        font-size: 16px !important;
+    }
+}
+
+@media screen and (max-width:1600px) {
+    .nrp {
+        font-size: 16px !important;
+    }
+    .card-dashpad {
+        padding: 0.5rem 0.5rem 0.5rem !important;
+        min-height: 142px;
+    }
+    .rct.mt-2 {
+        margin-top: 0.5rem !important;
+    }
+    .sepick {
+        padding: 17px 10px;
+    }
+    .dh3 {
+        font-size: 1.1rem;
+    }
+    .card-dashpad .avatar-lg {
+        height: 3rem !important;
+        width: 3rem !important;
+    }
+    .mh99 {
+        min-height: 120px !important;
+    }
+    .col-7 {
+        padding-right: 0 !important;
+    }
+    .col-7:last-child {
+        padding-right: 10px !important;
+    }
+    .f14 {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width:1440px) {
+    .table-responsive {
+        overflow: auto !important;
+    }
+    .card-dashpad {
+        padding: 0.5rem 0.5rem 0.5rem !important;
+        min-height: 142px;
+    }
+    .rct.mt-2 {
+        margin-top: 0.5rem !important;
+    }
+    .sepick {
+        padding: 17px 10px;
+    }
+    .dh3 {
+        font-size: 1.1rem;
+    }
+    .card-dashpad .avatar-lg {
+        height: 2.6rem !important;
+        width: 2.6rem !important;
+    }
+    .col-7 {
+        padding-right: 0 !important;
+    }
+    .col-7:last-child {
+        padding-right: 10px !important;
+    }
+    .mh99 {
+        min-height: 99px;
+    }
+    .f14 {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width:1366px) {
+    .table-responsive {
+        overflow: auto !important;
+    }
+    .sepick {
+        padding: 17px 10px;
+    }
+    .dh3 {
+        font-size: 1.1rem;
+    }
+    .nrp {
+        font-size: 16px !important;
+    }
+    .card-dashpad {
+        padding: 0.7rem 0.5rem 0.5rem !important;
+        min-height: 142px;
+    }
+    .rct.mt-2 {
+        margin-top: 0.5rem !important;
+    }
+    .card-dashpad .avatar-lg {
+        height: 2.5rem !important;
+        width: 2.5rem !important;
+    }
+    .col-7 {
+        padding-right: 0 !important;
+    }
+    .mh99 {
+        min-height: 120px;
+    }
+    .f14 {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width:1280px) {
+    .table-responsive {
+        overflow: auto !important;
+    }
+    .f14 {
+        font-size: 14px;
+    }
+    .card-dashpad {
+        padding: 0.5rem 0.5rem 0.5rem !important;
+    }
+}
+
+@media screen and (max-width:1024px) {
+    .f12 {
+        font-size: 15px !important;
+    }
+    .f14 {
+        font-size: 15px;
+    }
+    .card-dashpad {
+        min-height: 128px !important;
+    }
+}
+
+@media screen and (max-width:768px) {
+    .f12 {
+        font-size: 14px !important;
+    }
+    .card-dashpad {
+        min-height: 147px !important;
+    }
+}
+
+@media screen and (max-width:640px) {
+    .mcc {
+        text-align: center !important;
+    }
+    .dhh {
+        min-height: auto !important;
+    }
+    .avatar-lg {
+        margin: 23px 0 0 30px !important;
+    }
+    .card-dashpad {
+        padding: 0 0 0.8rem !important;
+    }
+    .datatables thead tr th:before {
+        right: -3px;
+        top: 6px;
+    }
+    .vdash {
+        position: relative;
+        left: 50px;
+        top: 3px;
+    }
+    .nrp {
+        font-size: 13px !important;
+    }
+    .sepick {
+        margin-top: 15px;
+    }
+}

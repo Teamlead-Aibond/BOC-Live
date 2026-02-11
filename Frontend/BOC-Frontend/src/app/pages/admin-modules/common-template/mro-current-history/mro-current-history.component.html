@@ -1,0 +1,18 @@
+<div class="modal-header">
+    <h4 class="modal-title">Status History</h4>
+    <button type="button" class="close" aria-hidden="true" (click)="modalRef.hide()">×</button>
+</div>
+<div class="modal-body p-6 mt-2">
+    <ul class="list-unstyled timeline-sm" *ngFor="let item of currentHistory">
+        <li class="timeline-sm-item">
+            <span class="timeline-sm-date">{{item.Created|dateTransform}}<br>{{item.Created|date:'shortTime'}}</span>
+            <h5 class="mt-0 mb-1">{{item.HistoryStatusName}}</h5>
+            <p>Changed By: <span class="badge badge-light-primary">{{item.ModifiedByName}}</span>
+            </p>
+        </li>
+
+    </ul>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-light waves-effect" (click)="modalRef.hide()">Close</button>
+</div>

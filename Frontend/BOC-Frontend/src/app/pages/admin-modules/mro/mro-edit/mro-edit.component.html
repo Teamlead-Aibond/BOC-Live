@@ -1,0 +1,2200 @@
+<div class="container-fluid" *ngIf="IsMROEdit">
+  <app-page-title
+    title="Edit MRO"
+    [breadcrumbItems]="breadCrumbItems"
+  ></app-page-title>
+
+  <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="EditForm">
+    <div class="row">
+      <div class="col-12">
+        <div class="sticky-container">
+          <div
+            id="so-groups"
+            class="right so-groups-sticky hidden-xs"
+            style="top: 198px"
+          >
+            <a
+              (click)="reLoad()"
+              data-target="popup"
+              data-popup="#popup-revert"
+            >
+              <span>Reload</span> <i class="mdi mdi-refresh"></i>
+            </a>
+            <a
+              class="bg-warning"
+              (click)="onSubmit(1)"
+              *ngIf="Status == MRO_GENERATED"
+            >
+              <span class="bg-warning">Verify MRO</span>
+              <i class="mdi mdi-check-decagram"></i>
+            </a>
+            <a
+              (click)="onSubmit(0)"
+              *ngIf="
+                showsave &&
+                Status != MRO_NOT_REPAIRABLE &&
+                Status != MRO_QUOTE_REJECTED &&
+                Status != MRO_COMPLETED
+              "
+            >
+              <span>Save</span> <i class="mdi mdi-content-save"></i>
+            </a>
+            <a
+              data-target="popup"
+              data-popup="#popup-qrcode"
+              (click)="viewQrCode()"
+            >
+              <span>QR Code</span> <i class="mdi mdi-qrcode"></i>
+            </a>
+            <a
+              data-target="popup"
+              data-popup="#popup-customer-followup"
+              (click)="onCustomerFollowup()"
+            >
+              <span>Customer Follow Up</span>
+              <i class="mdi mdi-email-outline"></i>
+            </a>
+            <a
+              data-target="popup"
+              data-popup="#popup-vendor-follow-up"
+              (click)="onVendorFollowup()"
+              *ngIf="VendorId > 0 && Status != MRO_NEED_RESOURCED"
+            >
+              <span>Vendor Follow Up</span>
+              <i class="remixicon-mail-unread-line"></i>
+            </a>
+            <a
+              class="bg-danger"
+              data-target="popup"
+              data-popup="#popup-delete"
+              (click)="onDelete()"
+            >
+              <span class="bg-danger">Delete</span
+              ><i class="remixicon-delete-bin-line"></i>
+            </a>
+            <a routerLink="/admin/mro/list">
+              <span>Back</span><i class="fas fa-arrow-left"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="card-box ribbon-box cbp">
+          <div class="row">
+            <div class="col-xl-6 float-left">
+              <h3 class="page-title bluetxt" style="float: left">
+                <span>
+                  <!-- Repair Request # :  -->
+                  MRO #
+                  <span class="badge badge-success m-2 p-1"> {{ MRONo }}</span>
+                </span>
+                <span class="Repair m-2 p-1">{{ repairMessage }}</span>
+              </h3>
+              <span
+                *ngIf="MRONotesInfo.length > 0"
+                style="float: left; padding-top: 25px"
+              >
+                <ng-template [ngTemplateOutlet]="NotesBar"></ng-template>
+              </span>
+            </div>
+            <div class="col-xl-6 float-left">
+              <span
+                class="alert alert-warning float-right"
+                *ngIf="PriorityNotes != ''"
+              >
+                <i class="mdi mdi-alert-outline mr-1"></i> {{ PriorityNotes }}
+              </span>
+            </div>
+          </div>
+
+          <div
+            class="row ribbon ribbon-warning float-left"
+            *ngIf="Status == MRO_GENERATED"
+          >
+            <span><i class="mdi mdi-check-decagram"></i> Verify</span>
+          </div>
+
+          <ul class="step-indicator">
+            <li
+              [ngClass]="{
+                active: Status >= MRO_GENERATED,
+                complete: Status > MRO_GENERATED
+              }"
+            >
+              <div class="step"><i class="mdi mdi-source-branch"></i></div>
+              <div class="caption">
+                <span>{{ array_MRO_status[0].title }}</span>
+              </div>
+            </li>
+            <li
+              [ngClass]="{
+                active: Status >= MRO_NEED_SOURCED,
+                complete: Status > MRO_NEED_SOURCED
+              }"
+              *ngIf="
+                VendorSize <= 1 &&
+                Status != MRO_NEED_RESOURCED &&
+                Status != MRO_NOT_REPAIRABLE
+              "
+            >
+              <div class="step"><i class="fa fa-folder-open"></i></div>
+              <div class="caption">
+                <span>{{ array_MRO_status[1].title }}</span>
+              </div>
+            </li>
+            <li
+              [ngClass]="{
+                active: Status >= MRO_NEED_SOURCED,
+                complete: Status > MRO_NEED_SOURCED
+              }"
+              *ngIf="
+                (VendorSize > 1 || Status == MRO_NEED_RESOURCED) &&
+                Status != MRO_NOT_REPAIRABLE
+              "
+            >
+              <div class="step"><i class="fa fa-folder-open"></i></div>
+              <div class="caption">
+                <span>{{ array_MRO_status[3].title }}</span>
+              </div>
+            </li>
+
+            <li
+              [ngClass]="{
+                active:
+                  Status >= MRO_AWAIT_VQUOTE && Status != MRO_NEED_RESOURCED,
+                complete:
+                  Status > MRO_AWAIT_VQUOTE && Status != MRO_NEED_RESOURCED
+              }"
+              *ngIf="Status != MRO_NOT_REPAIRABLE"
+            >
+              <div class="step">
+                <span class="two" *ngIf="VendorSize > 1">{{ VendorSize }}</span>
+                <i class="mdi mdi-file-document-outline"></i>
+              </div>
+              <div class="caption">
+                <span>{{ array_MRO_status[2].title }}</span>
+              </div>
+            </li>
+            <li
+              [ngClass]="{
+                active: Status >= MRO_QUOTE_SUBMITTED,
+                complete: Status > MRO_QUOTE_SUBMITTED
+              }"
+              *ngIf="Status != MRO_NOT_REPAIRABLE"
+            >
+              <div class="step">
+                <i class="mdi mdi-file-document-box-multiple-outline"></i>
+              </div>
+              <div class="caption">
+                <span>{{ array_MRO_status[4].title }}</span>
+              </div>
+            </li>
+            <li
+              [ngClass]="{
+                active:
+                  Status == MRO_QUOTE_REJECTED && Status != MRO_NOT_REPAIRABLE,
+                complete: Status > MRO_IN_PROGRESS
+              }"
+              *ngIf="
+                Status == MRO_QUOTE_REJECTED && Status != MRO_NOT_REPAIRABLE
+              "
+            >
+              <div class="step"><i class="fa fa-times"></i></div>
+              <div class="caption">
+                <span>{{ array_MRO_status[6].title }}</span>
+              </div>
+            </li>
+            <li
+              [ngClass]="{
+                active:
+                  Status == MRO_IN_PROGRESS && Status != MRO_NOT_REPAIRABLE,
+                complete:
+                  Status > MRO_IN_PROGRESS && Status != MRO_NOT_REPAIRABLE
+              }"
+              *ngIf="
+                Status != MRO_QUOTE_REJECTED && Status != MRO_NOT_REPAIRABLE
+              "
+            >
+              <!--  && Status != RRS_NOT_REPAIRABLE -->
+              <div class="step"><i class="fas fa-wrench"></i></div>
+              <div class="caption">
+                <span>{{ array_MRO_status[5].title }}</span>
+              </div>
+            </li>
+            <li
+              [ngClass]="{ active: Status == MRO_COMPLETED }"
+              *ngIf="
+                Status != MRO_QUOTE_REJECTED && Status != MRO_NOT_REPAIRABLE
+              "
+            >
+              <div class="step"><i class="fa fa-paper-plane"></i></div>
+              <div class="caption">
+                <span>{{ array_MRO_status[7].title }}</span>
+              </div>
+            </li>
+            <li
+              [ngClass]="{ active: Status == MRO_NOT_REPAIRABLE }"
+              *ngIf="Status == MRO_NOT_REPAIRABLE"
+            >
+              <div class="step"><i class="mdi mdi-nfc-variant-off"></i></div>
+              <div class="caption">
+                <span>{{ array_MRO_status[8].title }} </span>
+                <span *ngIf="ApprovedQuoteStatus == CUSTOMER_QUOTE_ACCEPTED"
+                  >(Approved)</span
+                >
+              </div>
+            </li>
+          </ul>
+
+          <div class="row">
+            <div class="col-xl-9 col-lg-9">
+              <div class="repair-left">
+                <div class="row mb-2">
+                  <div class="col-xl-6">
+                    <h4 class="page-title bluetxt mb-10">Basic Details</h4>
+                  </div>
+                  <div class="col-xl-6 text-right">
+                    <!-- Status 1 [Ship] -->
+                    <!-- <button (click)="onShip()" type="button"
+                                        *ngIf="Status > 0 && ShippingStatus != 1 && ShippingStatus != 2 && RRShipParts[CREATE_ACCESS] == 1"
+                                        class="btn btn-info btn-sm waves-effect waves-light mr-1">
+                                        Ship
+                                    </button> -->
+
+                    <!-- Status 1 [Receive] -->
+                    <button
+                      (click)="onRRShippingReceive()"
+                      type="button"
+                      *ngIf="
+                        ShippingStatus == 1 &&
+                        shippingDetails.ShipToId != CustomerId
+                      "
+                      class="btn btn-info btn-sm waves-effect waves-light mr-1"
+                    >
+                      Receive
+                    </button>
+                    <button
+                      (click)="onRRShippingReceive()"
+                      type="button"
+                      *ngIf="
+                        ShippingStatus == 1 &&
+                        shippingDetails.ShipToId == CustomerId
+                      "
+                      class="btn btn-info btn-sm waves-effect waves-light mr-1"
+                    >
+                      Receive By Customer
+                    </button>
+
+                    <!-- Status 2 [Ship] -->
+                    <button
+                      (click)="onShiptoVendor()"
+                      type="button"
+                      *ngIf="
+                        ShippingStatus == 2 &&
+                        Status > MRO_GENERATED &&
+                        !(
+                          ShippingStatus == 2 &&
+                          ShippingIdentityType == 1 &&
+                          ShippingIdentityId == CustomerId &&
+                          RRShippingHistory.length > 0
+                        )
+                      "
+                      class="btn btn-success btn-sm waves-effect waves-light mr-1"
+                    >
+                      Ship
+                    </button>
+
+                    <button
+                      type="button"
+                      *ngIf="
+                        ShippingStatus > 0 &&
+                        RRShippingHistory.length > 0 &&
+                        !(
+                          ShippingStatus == 2 &&
+                          ShippingIdentityType == 1 &&
+                          ShippingIdentityId == CustomerId
+                        )
+                      "
+                      (click)="onRevertShippingCycle()"
+                      class="btn btn-primary btn-sm waves-effect waves-light mr-1"
+                    >
+                      Revert Shipping Cycle
+                    </button>
+
+                    <!-- Track UPS -->
+                    <button
+                      (click)="trackUPS(trackingNumber)"
+                      type="button"
+                      class="btn btn-pink btn-sm waves-effect waves-light mr-1"
+                      *ngIf="
+                        trackingNumber != '' &&
+                        trackingNumber != null &&
+                        trackingNumber != 'undefined' &&
+                        RRTrackUPS[VIEW_ACCESS] == 1
+                      "
+                    >
+                      Track UPS
+                    </button>
+                  </div>
+                </div>
+
+                <div class="table-responsive">
+                  <table class="table table-bordered table-striped mb-0">
+                    <thead class="thead-light">
+                      <tr>
+                        <th width="25%">
+                          Current Status : <br />
+                          <i
+                            style="cursor: pointer"
+                            class="mdi mdi-history repair2 bluetxt"
+                            (click)="RRcurrentstatus()"
+                          ></i>
+                          <span> {{ StatusName }}</span>
+                        </th>
+
+                        <th width="25%">
+                          <div>
+                            Shipping Status :<br />
+                            <i
+                              class="mdi mdi-history bluetxt"
+                              style="cursor: pointer"
+                              (click)="shippingHistory()"
+                              *ngIf="
+                                ShippingStatus > 0 &&
+                                RRShippingHistory.length > 0
+                              "
+                            ></i>
+                            <span
+                              *ngIf="
+                                ShippingStatus == 0 ||
+                                ShippingStatus == null ||
+                                RRShippingHistory.length == 0
+                              "
+                            >
+                              Not Yet Started
+                            </span>
+                            <span *ngIf="RRShippingHistory.length > 0">
+                              <span
+                                class="blacktxt"
+                                *ngIf="
+                                  ShippingStatus == 1 &&
+                                  ShippingIdentityType == 1
+                                "
+                              >
+                                Shipped by Customer
+                              </span>
+                              <span
+                                class="blacktxt"
+                                *ngIf="
+                                  ShippingStatus == 1 &&
+                                  ShippingIdentityType == 2 &&
+                                  ShippingIdentityId != CONST_AH_Group_ID
+                                "
+                              >
+                                Shipped by Vendor
+                              </span>
+                              <span
+                                class="blacktxt"
+                                *ngIf="
+                                  ShippingStatus == 1 &&
+                                  ShippingIdentityType == 2 &&
+                                  ShippingIdentityId == CONST_AH_Group_ID
+                                "
+                              >
+                                Shipped by Aibond
+                              </span>
+                              <span
+                                class="blacktxt"
+                                *ngIf="
+                                  ShippingStatus == 2 &&
+                                  ShippingIdentityType == 1
+                                "
+                              >
+                                Received by Customer
+                              </span>
+                              <span
+                                class="blacktxt"
+                                *ngIf="
+                                  ShippingStatus == 2 &&
+                                  ShippingIdentityType == 2 &&
+                                  ShippingIdentityId != CONST_AH_Group_ID
+                                "
+                              >
+                                Received by Vendor
+                              </span>
+                              <span
+                                class="blacktxt"
+                                *ngIf="
+                                  ShippingStatus == 2 &&
+                                  ShippingIdentityType == 2 &&
+                                  ShippingIdentityId == CONST_AH_Group_ID
+                                "
+                              >
+                                Received by Aibond
+                              </span>
+                            </span>
+                          </div>
+                        </th>
+                        <th width="55%">
+                          Part Current Location :<br />
+                          <img
+                            style="margin-right: 5px"
+                            src="../../../../assets/images/icons/Parts.png"
+                            (click)="partHistory()"
+                            *ngIf="
+                              ShippingStatus > 0 && RRShippingHistory.length > 0
+                            "
+                          />
+                          <span
+                            *ngIf="
+                              ShippingStatus == 0 || ShippingStatus == null
+                            "
+                          >
+                            Not Yet Started -
+                            <button
+                              type="button"
+                              (click)="onUpdatePartCurrentLocation()"
+                              class="btn btn-pink btn-xs waves-effect waves-light mr-1"
+                            >
+                              Add Current Location
+                            </button>
+                          </span>
+
+                          <span
+                            class="bluetxt"
+                            *ngIf="
+                              ShippingStatus == 2 &&
+                              ShippingIdentityId != CONST_AH_Group_ID &&
+                              ShippingIdentityType == 2
+                            "
+                          >
+                            Vendor: {{ MROInfo.ShippingIdentityName }} :
+                            {{ vendoraddress.StreetAddress }}
+                            {{ vendoraddress.SuiteOrApt }},
+                            {{ vendoraddress.City }},
+                            {{ vendoraddress.CountryName }} -
+                            {{ vendoraddress.Zip }}
+                          </span>
+                          <span
+                            class="bluetxt"
+                            *ngIf="
+                              ShippingStatus == 2 &&
+                              ShippingIdentityId != CONST_AH_Group_ID &&
+                              ShippingIdentityType == 1
+                            "
+                          >
+                            Customer: {{ MROInfo.ShippingIdentityName }} :
+                            {{ MROInfo.ShipToStreetAddress }}
+                            {{ MROInfo.SuiteOrApt }},
+                            {{ MROInfo.ShipToCity }},{{
+                              MROInfo.ShipToCountry
+                            }}
+                            -
+                            {{ MROInfo.ShipToZip }}
+                          </span>
+                          <span
+                            class="bluetxt"
+                            *ngIf="
+                              ShippingStatus == 2 &&
+                              ShippingIdentityId == CONST_AH_Group_ID
+                            "
+                          >
+                            Aibond :{{ MROInfo.ShippingIdentityName }} :
+                            {{ ahAddress.StreetAddress }}
+                            {{ ahAddress.SuiteOrApt }}, {{ ahAddress.City }},
+                            {{ ahAddress.CountryName }} -
+                            {{ ahAddress.Zip }}
+                          </span>
+                          <span class="bluetxt" *ngIf="ShippingStatus == 1">
+                            Transit : {{ FromIdentityName }} =>
+                            {{ ToIdentityName }} (
+                            {{ shippingDetails.ShipFromName }} =>
+                            {{ shippingDetails.ShipToName }} )
+                          </span>
+                        </th>
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+
+                <div class="clear">&nbsp;</div>
+
+                <div class="row">
+                  <div class="col-xl-6">
+                    <div class="row">
+                      <div class="col-xl-12">
+                        <div class="form-group">
+                          <label for="Customer"
+                            >Customer <span class="red">*</span></label
+                          >
+                          <ng-select
+                            [items]="customerList"
+                            [searchable]="true"
+                            [virtualScroll]="true"
+                            formControlName="CustomerId"
+                            placeholder="Select"
+                            name="CustomerId"
+                            [readonly]="Status >= MRO_NEED_SOURCED"
+                            (change)="getCustomerProperties(CustomerId, $event)"
+                            bindLabel="title"
+                            bindValue="CustomerId"
+                          >
+                          </ng-select>
+                          <span
+                            class="text-danger"
+                            *ngIf="
+                              (EditFormControl.CustomerId.touched ||
+                                submitted) &&
+                              EditFormControl.CustomerId.errors?.required
+                            "
+                          >
+                            Customer is required
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <div class="row">
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label for="Customer">Department</label>
+                                                    <select class="custom-select" name="DepartmentId"
+                                                        formControlName="DepartmentId">
+                                                        <option value="" disabled>Select</option>
+                                                        <option *ngFor="let department of departmentList"
+                                                            value="{{department.CustomerDepartmentId}}">
+                                                            {{department.CustomerDepartmentName}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label for="Customer">Machine/Asset</label>
+                                                    <select class="custom-select" name="AssetId"
+                                                        formControlName="AssetId">
+                                                        <option value="" disabled>Select</option>
+                                                        <option *ngFor="let asset of assetList"
+                                                            value={{asset.CustomerAssetId}}>
+                                                            {{asset.CustomerAssetName}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div> -->
+
+                    <div class="row">
+                      <div class="col-xl-12">
+                        <div class="form-group">
+                          <label for="Customer">Notes</label>
+                          <textarea
+                            class="form-control"
+                            placeholder="Notes..."
+                            name="Notes"
+                            formControlName="Notes"
+                            rows="2"
+                          ></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-xl-6">
+                    <div class="form-group">
+                      <label for="Customer">Bill To :</label>
+                      <ng-select
+                        [items]="customerAddressList"
+                        [searchable]="true"
+                        formControlName="CustomerBillToId"
+                        placeholder="Select"
+                        bindLabel="title"
+                        bindValue="AddressId"
+                      >
+                      </ng-select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="Customer">Ship To :</label>
+                      <ng-select
+                        [items]="customerAddressList"
+                        [searchable]="true"
+                        formControlName="CustomerShipToId"
+                        placeholder="Select"
+                        bindLabel="title"
+                        bindValue="AddressId"
+                      >
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="ApprovedQuoteId && ApprovedQuoteStatus == 2">
+                  <div class="clear">&nbsp;</div>
+                  <h4 class="page-title bluetxt mb-10">
+                    Approved Quote Details
+                  </h4>
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-striped mb-0">
+                      <thead class="thead-light">
+                        <tr>
+                          <th>Part #</th>
+                          <th>Part Description</th>
+                          <th>Serial #</th>
+                          <th>Lead Time</th>
+                          <th>Quantity</th>
+                          <th width="10%">Unit Price</th>
+                          <th width="10%">Price</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          *ngFor="
+                            let quote of ApprovedQuoteItems;
+                            let i = index
+                          "
+                        >
+                          <td>{{ quote.PartNo }}</td>
+                          <td>{{ quote.Description }}</td>
+                          <td>{{ quote.SerialNo }}</td>
+                          <td>{{ quote.LeadTime }}</td>
+                          <td>{{ quote.Quantity }}</td>
+                          <td>$ {{ quote.Rate }}</td>
+                          <td>$ {{ quote.Price }}</td>
+                        </tr>
+                        <tr>
+                          <td colspan="3">&nbsp;</td>
+                          <td colspan="4">
+                            <table class="table table-borderless">
+                              <tr>
+                                <th>Sub Total :</th>
+                                <td>$ {{ SubTotal }}</td>
+                              </tr>
+                              <tr>
+                                <th>AH Processing Fee :</th>
+                                <td>$ {{ AdditionalCharge }}</td>
+                              </tr>
+                              <tr>
+                                <th>Total Tax :</th>
+                                <td>$ {{ TotalTax }}</td>
+                              </tr>
+                              <tr>
+                                <th>Discount :</th>
+                                <td>$ {{ Discount }}</td>
+                              </tr>
+                              <tr>
+                                <th>Shipping :</th>
+                                <td>$ {{ Shipping }}</td>
+                              </tr>
+                              <tr>
+                                <th>Grand Total :</th>
+                                <td>$ {{ QuoteGrandTotal }}</td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="clear">&nbsp;</div>
+
+                <div>
+                  <h4 class="page-title bluetxt mb-10">Follow Up</h4>
+                  <div class="table-responsive mt-15">
+                    <table class="table table-bordered table-striped mb-0">
+                      <thead class="thead-light">
+                        <tr>
+                          <th>Type</th>
+                          <th>To</th>
+                          <th>Subject</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody
+                        *ngFor="let follow of VendorFollowup; let i = index"
+                      >
+                        <tr>
+                          <td>{{ follow.IdentityTypeName }}</td>
+                          <td>{{ follow.ToEmail }}</td>
+                          <td>{{ follow.Subject }}</td>
+                          <td>
+                            <a
+                              (click)="editFollowupNotes(follow.FollowupId, i)"
+                              *ngIf="
+                                follow.IdentityType == 1 ||
+                                follow.IdentityType == 2
+                              "
+                              class="fas fa-envelope-open-text"
+                              ngbTooltip="Edit"
+                              placement="top"
+                            ></a>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="VendorFollowup?.length == 0">
+                        <tr>
+                          <td colspan="5" class="no-data-available">
+                            No data!
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="clear">&nbsp;</div>
+
+                <div>
+                  <h4 class="page-title bluetxt mb-10">
+                    Notes
+                    <button
+                      (click)="addNotes()"
+                      type="button"
+                      class="btn btn-add waves-effect"
+                    >
+                      <i class="remixicon-add-fill mt-3"></i> Add
+                    </button>
+                  </h4>
+                  <div class="table-responsive mt-15">
+                    <table class="table table-bordered table-striped mb-0">
+                      <thead class="thead-light">
+                        <tr>
+                          <th>Notes Type</th>
+                          <th>Comments</th>
+                          <th>Added By</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody *ngFor="let note of MRONotesInfo; let i = index">
+                        <tr>
+                          <td>{{ note.NotesTypeName }}</td>
+                          <td class="linebreak">{{ note.Notes }}</td>
+                          <!-- <td>
+                                                        <span *ngIf="note.FileMimeType == 'application/pdf'">
+                                                            <a href="{{note.FileUrl}}" target="_blank">
+                                                                <img src="assets/images/attachment/{{attachmentThumb['application/pdf'].thumb}}"
+                                                                    class="img-fluid" ngbTooltip="{{note.FileName}}"
+                                                                    width="25" alt="work-thumbnail">
+                                                            </a>
+                                                        </span>
+                                                        <span *ngIf="note.FileMimeType == 'image/jpeg'">
+                                                            <a href="{{note.FileUrl}}" target="_blank">
+                                                                <img src="{{note.FileUrl}}" class="img-fluid"
+                                                                    ngbTooltip="{{note.FileName}}" width="25"
+                                                                    alt="work-thumbnail">
+                                                            </a>
+                                                        </span>
+                                                        <span *ngIf="note.FileMimeType == 'image/png'">
+                                                            <a href="{{note.FileUrl}}" target="_blank">
+                                                                <img src="{{note.FileUrl}}" class="img-fluid"
+                                                                    ngbTooltip="{{note.FileName}}" width="25"
+                                                                    alt="work-thumbnail">
+                                                            </a>
+                                                        </span>
+                                                        <span *ngIf="note.FileMimeType== 'application/msword'">
+                                                            <a href="{{note.FileUrl}}" target="_blank">
+                                                                <img src="assets/images/attachment/{{attachmentThumb['application/msword'].thumb}}"
+                                                                    class="img-fluid" ngbTooltip="{{note.FileName}}"
+                                                                    width="25" alt="work-thumbnail">
+                                                            </a>
+                                                        </span>
+                                                        <span *ngIf="note.FileMimeType == 'application/vnd.ms-excel'">
+                                                            <a href="{{note.FileUrl}}" target="_blank">
+                                                                <img src="assets/images/attachment/{{attachmentThumb['application/vnd.ms-excel'].thumb}}"
+                                                                    class="img-fluid" ngbTooltip="{{note.FileName}}"
+                                                                    width="25" alt="work-thumbnail">
+                                                            </a>
+                                                        </span>
+                                                        <span *ngIf="note.FileMimeType == 'text/csv'">
+                                                            <a href="{{note.FileUrl}}" target="_blank">
+                                                                <img src="assets/images/attachment/{{attachmentThumb['text/csv'].thumb}}"
+                                                                    class="img-fluid" ngbTooltip="{{note.FileName}}"
+                                                                    width="25" alt="work-thumbnail">
+                                                            </a>
+                                                        </span>
+                                                    </td> -->
+                          <td>
+                            {{ note.FirstName }} {{ note.LastName }} ({{
+                              note.Created | date : "MMM d, y, h:mm a"
+                            }})
+                          </td>
+                          <td>
+                            <a
+                              (click)="editNotes(note, i)"
+                              class="fa fa-edit"
+                              ngbTooltip="Edit"
+                              placement="top"
+                            ></a
+                            >&nbsp;
+                            <a
+                              (click)="deleteNotes(note.NotesId, i)"
+                              class="fa fa-trash text-danger"
+                              ngbTooltip="Delete"
+                              placement="top"
+                            ></a>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="MRONotesInfo?.length == 0">
+                        <tr>
+                          <td colspan="5" class="no-data-available">
+                            No data!
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="clear">&nbsp;</div>
+
+                <div class="clear">&nbsp;</div>
+                <div>
+                  <h4 class="page-title bluetxt mb-10">
+                    Attachments
+                    <button
+                      type="button"
+                      (click)="addAttachment()"
+                      class="btn btn-add waves-effect"
+                    >
+                      <i class="remixicon-add-fill mt-3"></i>Add
+                    </button>
+                  </h4>
+                  <div class="table-responsive mt-15">
+                    <table class="table table-bordered table-striped mb-0">
+                      <thead class="thead-light">
+                        <tr>
+                          <th>Type</th>
+                          <th class="linebreak">Description</th>
+                          <th>Attachment</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody
+                        *ngFor="let attachment of AttachmentList; let i = index"
+                      >
+                        <tr>
+                          <td>{{ attachment.AttachmentTypeName }}</td>
+                          <td>{{ attachment.AttachmentDesc }}</td>
+                          <td>
+                            <a
+                              href="{{ attachment.Attachment }}"
+                              target="_blank"
+                              >{{ attachment.AttachmentOriginalFile }}</a
+                            >
+                          </td>
+                          <td>
+                            <a
+                              (click)="editAttachment(attachment, i)"
+                              class="fa fa-edit"
+                              ngbTooltip="Edit"
+                              placement="top"
+                            ></a
+                            >&nbsp;
+                            <a
+                              (click)="
+                                deleteAttachment(attachment.AttachmentId, i)
+                              "
+                              class="fa fa-trash text-danger"
+                              ngbTooltip="Delete"
+                              placement="top"
+                            ></a>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="AttachmentList?.length == 0">
+                        <tr>
+                          <td colspan="5" class="no-data-available">
+                            No data!
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-3">
+              <div class="repair-right">
+                <!-- Status 2 [Assign Vendor] - Start -->
+                <div style="height: 1px" class="clear">&nbsp;</div>
+
+                <div class="row mt-1" *ngIf="showVendor">
+                  <h3>Vendor Details</h3>
+                  <div class="col-xl-12 nopad mt-1" *ngIf="addButton">
+                    <div class="col-xl-8 nopad float-left">
+                      <ng-select
+                        [items]="vendorList"
+                        name="VendorId"
+                        [(ngModel)]="VendorId"
+                        [ngModelOptions]="{ standalone: true }"
+                        placeholder="Select"
+                        bindLabel="VendorName"
+                        bindValue="VendorId"
+                        [searchable]="true"
+                      >
+                      </ng-select>
+                    </div>
+
+                    <div class="col-xl-4 float-right">
+                      <button
+                        style="margin-top: 2px"
+                        (click)="addVendor()"
+                        type="button"
+                        class="btn btn-success btn-form waves-effect mr-1"
+                      >
+                        <i class="remixicon-add-fill"></i> Add
+                      </button>
+                    </div>
+
+                    <div class="text-danger" *ngIf="selectVendor == 'Error'">
+                      Vendor selection is required
+                    </div>
+                  </div>
+                  <h3 class="col-xl-11 text-center" *ngIf="addButton">-OR-</h3>
+                  <div class="col-xl-12 nopad mb-2" *ngIf="addButton">
+                    <button
+                      (click)="assignAHVendor()"
+                      type="button"
+                      class="btn btn-primary btn-form waves-effect assign-btn mr-1"
+                    >
+                      Assign Aibond (Inventory Quote)
+                    </button>
+                  </div>
+
+                  <!-- <div class="table-responsive" *ngIf="RRVendorId"> Enable this after API fix -->
+                  <div
+                    class="table-responsive"
+                    *ngIf="selectedVendor && VendorsInfo.length > 0"
+                  >
+                    <table
+                      *ngFor="let vendor of VendorsInfo; let i = index"
+                      style="border-collapse: separate; border-spacing: 0 1em"
+                      class="table table-bordered mb-2"
+                    >
+                      <tbody>
+                        <tr
+                          [ngClass]="{
+                            'bg-approved':
+                              ApprovedVendorId == vendor.VendorId &&
+                              ApprovedRRVendorId == vendor.RRVendorId,
+                            'bg-vendor':
+                              vendor.Status != VENDOR_STATUS_REJECTED,
+                            'bg-vendor-rejected':
+                              vendor.Status == VENDOR_STATUS_REJECTED ||
+                              VendorId != vendor.VendorId,
+                            'bg-rejected':
+                              VendorId == vendor.VendorId &&
+                              vendor.Status == VENDOR_STATUS_REJECTED &&
+                              vendor.RejectedStatus == 0
+                          }"
+                        >
+                          <!--  && ApprovedVendorId != vendor.VendorId -->
+                          <td class="appspc">
+                            <div class="mt-1">
+                              <span class="float-left">
+                                <img
+                                  src="{{ vendor.ProfilePhoto }}"
+                                  class="avatar-sm img-thumbnail rounded-circle"
+                                  onerror="this.onerror=null;this.src='assets/images/icons/Vendor.png';"
+                                />
+                                &nbsp;
+                                <a class="font-weight-bold mb-1">
+                                  {{ vendor.VendorName }}
+                                </a>
+                              </span>
+                              <span
+                                class="float-right mt-1"
+                                *ngIf="
+                                  ShippingIdentityId != vendor.VendorId &&
+                                  VendorId == vendor.VendorId &&
+                                  vendor.RRVendorId &&
+                                  vendor.Status == VENDOR_STATUS_ASSIGNED
+                                "
+                              >
+                                <a (click)="removeVendor(vendor.RRVendorId)">
+                                  <i
+                                    class="fa fa-trash text-danger"
+                                    aria-hidden="true"
+                                    ngbTooltip="Remove Vendor"
+                                  ></i>
+                                </a>
+                              </span>
+                              <span
+                                class="float-right font-weight-bold mt-1"
+                                *ngIf="
+                                  vendor.Status == VENDOR_STATUS_REJECTED &&
+                                  vendor.RejectedStatus > 0
+                                "
+                              >
+                                <img
+                                  src="assets/images/icons/Rejected.png"
+                                  ngbTooltip="{{ vendor.RejectedStatusName }}"
+                                />
+                                <!-- <i class="fa fa-times redclose" aria-hidden="true"
+                                                                    ngbTooltip="Vendor Quote Rejected"></i>   && vendor.RejectedStatus < CUSTOMER_QUOTE_REJECTED-->
+                              </span>
+                              <!-- (VendorId == vendor.VendorId && QuoteId && QuoteCustomerStatus == 3) -->
+                              <span
+                                class="float-right mt-1"
+                                *ngIf="
+                                  ApprovedVendorId == vendor.VendorId &&
+                                  ApprovedRRVendorId == vendor.RRVendorId &&
+                                  vendor.Status != VENDOR_STATUS_REJECTED
+                                "
+                              >
+                                <img
+                                  src="assets/images/icons/Approved.png"
+                                  ngbTooltip="Customer Quote Approved"
+                                />
+                                <!-- <i class="fa fa-check greentick" aria-hidden="true"
+                                                                    ngbTooltip="Customer Quote Approved"></i> -->
+                              </span>
+                            </div>
+
+                            <div class="clear">&nbsp;</div>
+
+                            <div class="row mb-0">
+                              <div class="col-6">
+                                <h5 style="margin: 0">
+                                  Vendor Reference # &nbsp;
+                                  <a
+                                    href="{{ vendor.VendorRefAttachment }}"
+                                    target="_blank"
+                                    *ngIf="
+                                      vendor.VendorRefAttachment != '' &&
+                                      vendor.VendorRefAttachment != null
+                                    "
+                                    ><i class="fas fa-link"></i
+                                  ></a>
+                                </h5>
+                              </div>
+
+                              <div class="col-6">
+                                <div class="row">
+                                  <div class="col-xl-12 nopad-lt">
+                                    <input
+                                      type="text"
+                                      class="form-control"
+                                      name="VendorRefNo"
+                                      [ngModelOptions]="{ standalone: true }"
+                                      [(ngModel)]="vendor.VendorRefNo"
+                                      (change)="
+                                        updateVendorReference(
+                                          vendor.RRVendorId,
+                                          $event
+                                        )
+                                      "
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="clear">&nbsp;</div>
+
+                            <div>
+                              <div>
+                                <!-- *ngIf="vendor.GrandTotal > 0" -->
+                                <div style="margin-left: 1px">
+                                  <span style="float: left">
+                                    <h5 class="mb-0 pl2">Vendor Quote</h5>
+                                  </span>
+                                </div>
+
+                                <div class="clear"></div>
+
+                                <div class="row mt-1 ml-1">
+                                  <div class="col-lg-4 col-xl-4">
+                                    <h6 class="text-uppercase text-muted nomb">
+                                      Warranty
+                                    </h6>
+                                    <p class="mb-0 text-secondary">
+                                      <span>
+                                        {{
+                                          vendor.WarrantyPeriod | monthTransform
+                                        }}
+                                      </span>
+                                    </p>
+                                  </div>
+                                  <div class="col-lg-4 col-xl-4">
+                                    <h6 class="text-uppercase text-muted nomb">
+                                      Amount
+                                    </h6>
+                                    <p
+                                      class="mb-0 text-primary font-weight-bold"
+                                      *ngIf="vendor.GrandTotal > 0"
+                                    >
+                                      $ {{ vendor.GrandTotal }}
+                                    </p>
+                                  </div>
+                                  <div class="col-lg-4 col-xl-4">
+                                    <h6
+                                      class="text-uppercase text-muted nomb"
+                                      *ngIf="vendor.RouteCause"
+                                      ngbTooltip="{{ vendor.RouteCause }}"
+                                    >
+                                      Root Cause?
+                                    </h6>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="pl3">
+                                <button
+                                  type="button"
+                                  *ngIf="
+                                    ((ShippingStatus == 2 &&
+                                      ShippingIdentityType == 2 &&
+                                      ShippingIdentityId == vendor.VendorId) ||
+                                      ShippingIdentityId != vendor.VendorId ||
+                                      IsAllowQuoteBeforeShip == 1) &&
+                                    Status < 5
+                                  "
+                                  (click)="
+                                    vendorQuote(
+                                      vendor.VendorId,
+                                      vendor.RRVendorId,
+                                      vendor.Status
+                                    )
+                                  "
+                                  class="btn btn-info btn-sm waves-effect waves-light mt-2 mr-1"
+                                >
+                                  <span
+                                    *ngIf="
+                                      Status != MRO_COMPLETED &&
+                                      vendor.Status <= VENDOR_STATUS_APPROVED &&
+                                      Status < MRO_IN_PROGRESS
+                                    "
+                                    >Update</span
+                                  >
+                                  Vendor Quote
+                                </button>
+                                <button
+                                  type="button"
+                                  *ngIf="
+                                    ((ShippingStatus == 2 &&
+                                      ShippingIdentityType == 2 &&
+                                      ShippingIdentityId == vendor.VendorId) ||
+                                      IsAllowQuoteBeforeShip == 1) &&
+                                    vendor.GrandTotal > 0 &&
+                                      vendor.Status == VENDOR_STATUS_ASSIGNED
+                                  "
+                                  (click)="SubmitVendorQuote(vendor.RRVendorId)"
+                                  class="btn btn-success btn-sm waves-effect waves-light mt-2 mr-1"
+                                >
+                                  Submit
+                                </button>
+                                <button
+                                  type="button"
+                                  *ngIf="
+                                    vendor.Status == VENDOR_STATUS_APPROVED &&
+                                    Status < MRO_IN_PROGRESS
+                                  "
+                                  (click)="
+                                    CreateCustomerQuote(
+                                      vendor.VendorId,
+                                      vendor.RRVendorId
+                                    )
+                                  "
+                                  class="btn btn-purple btn-sm waves-effect waves-light mt-2 mr-1"
+                                >
+                                  Create Customer Quote
+                                </button>
+                                <button
+                                  type="button"
+                                  *ngIf="
+                                    ((ShippingStatus == 2 &&
+                                      ShippingIdentityType == 2 &&
+                                      ShippingIdentityId == vendor.VendorId) ||
+                                      IsAllowQuoteBeforeShip == 1 ||
+                                      (Status < MRO_COMPLETED &&
+                                        Status != MRO_NEED_SOURCED &&
+                                        Status != MRO_QUOTE_REJECTED &&
+                                        VendorId == vendor.VendorId)) &&
+                                    vendor.Status != VENDOR_STATUS_REJECTED &&
+                                    Status != MRO_NOT_REPAIRABLE &&
+                                    !CustomerInvoiceNo &&
+                                    !VendorInvoiceNo
+                                  "
+                                  (click)="
+                                    RejectVendor(
+                                      vendor.RRVendorId,
+                                      vendor.VendorId
+                                    )
+                                  "
+                                  class="btn btn-warning btn-sm waves-effect waves-light mt-2 mr-1"
+                                >
+                                  <!-- *ngIf="(vendor.GrandTotal > 0 && Status < 5 && Status !=3)"       && vendor.VendorId == VendorId                                                                    
+                                                                    *ngIf="((ShippingStatus == 2 && ShippingIdentityType == 2 && ShippingIdentityId != vendor.VendorId) || (vendor.Status <= 2  && Status < 4)) && RRVendorQuote[APPROVE_ACCESS] == 1"-->
+                                  Reject & Resource
+                                </button>
+                              </div>
+
+                              <!-- <div class="mt-2 mb-1">
+                                                                <button type="button"
+                                                                    *ngIf="(vendor.GrandTotal > 0 && vendor.Status < 2) && RRVendorQuote[APPROVE_ACCESS] == 1"
+                                                                    (click)="RejectVendorQuote(vendor.RRVendorId)"
+                                                                    class="btn btn-warning btn-sm waves-effect waves-light mr-1">
+                                                                    Reject
+                                                                </button>
+                                                            </div> -->
+                            </div>
+
+                            <!-- Customer Quote Section -->
+                            <div *ngIf="QuoteInfo.length > 0">
+                              <!-- <h5>Customer Quote</h5> -->
+                              <div
+                                *ngFor="let quote of QuoteInfo; let i = index"
+                              >
+                                <div
+                                  *ngIf="
+                                    vendor.VendorId == quote.VendorId &&
+                                    vendor.RRVendorId == quote.RRVendorId
+                                  "
+                                >
+                                  <div
+                                    class="clear mt-2"
+                                    style="
+                                      border-bottom: 1px dashed;
+                                      margin-bottom: 15px !important;
+                                    "
+                                  >
+                                    &nbsp;
+                                  </div>
+                                  <div class="mt-2">
+                                    <div class="col-xl-12 nopad">
+                                      <div
+                                        class="col-xl-8 col-lg-8 float-left nopad"
+                                      >
+                                        <h5 class="mb-0 pl2">
+                                          Customer Quote #{{ i + 1 }} &nbsp;
+                                          <i
+                                            class="fas fa-check-circle greentick"
+                                            aria-hidden="true"
+                                            *ngIf="
+                                              quote.QuoteId == ApprovedQuoteId
+                                            "
+                                            ngbTooltip="Approved Quote"
+                                          ></i>
+                                          &nbsp;
+                                          <!-- <i class="fas fa-window-close text-danger"
+                                                                                        aria-hidden="true"
+                                                                                        *ngIf="quote.QuoteCustomerStatus == 3"
+                                                                                        ngbTooltip="Rejected Quote"></i> &nbsp; -->
+                                          <span>
+                                            <a
+                                              (click)="
+                                                goToCustomerQuote(quote.QuoteId)
+                                              "
+                                              routerLink="#"
+                                              style="cursor: pointer"
+                                            >
+                                              View
+                                            </a>
+                                          </span>
+                                          &nbsp;&nbsp;
+                                          <span>
+                                            <a
+                                              (click)="
+                                                deleteQuotes(quote.QuoteId, i)
+                                              "
+                                              routerLink="#"
+                                              class="fa fa-trash text-danger"
+                                              ngbTooltip="Delete"
+                                              placement="top"
+                                            ></a>
+                                          </span>
+                                          <span
+                                            class="float-right mt-1"
+                                            *ngIf="
+                                              quote.QuoteCustomerStatus == 3
+                                            "
+                                          >
+                                            <img
+                                              src="assets/images/icons/Rejected.png"
+                                              ngbTooltip="Customer Quote Rejected"
+                                            />
+                                          </span>
+
+                                          <!-- <button
+                                                                                        *ngIf="vendor.Status <= VENDOR_STATUS_APPROVED"
+                                                                                        ngbTooltip="Send Customer Quote Email"
+                                                                                        placement="top"
+                                                                                        class="btn btn-outline-success btn-xs sendmail"
+                                                                                        type="button"
+                                                                                        (click)="sendEmailCustomerQuote(quote.QuoteId)">
+                                                                                        Send <i
+                                                                                            class="mdi mdi-email-outline"></i>
+                                                                                    </button> -->
+                                          <!-- <span class="badge badge-success"
+                                                                                        *ngIf="quote.QuoteId == ApprovedQuoteId">
+                                                                                        Selected
+                                                                                    </span> -->
+                                        </h5>
+                                      </div>
+                                      <div
+                                        class="col-xl-4 col-lg-4 float-left nopad"
+                                      >
+                                        <button
+                                          ngbTooltip="Preview Customer Quote"
+                                          placement="top"
+                                          *ngIf="
+                                            vendor.Status <=
+                                            VENDOR_STATUS_APPROVED
+                                          "
+                                          class="btn btn-outline-success mt-2 btn-xs sendmail"
+                                          type="button"
+                                          (click)="previewCustomerQuote(quote)"
+                                        >
+                                          Preview &amp; Send<i
+                                            class="mdi mdi-window-restore"
+                                          ></i>
+                                        </button>
+                                      </div>
+                                      <!-- <span
+                                                                                style="float:right !important; margin-top:7px;"
+                                                                                *ngIf="quote.RouteCause"
+                                                                                ngbTooltip="{{quote.RouteCause}}">
+                                                                                Root Cause?
+                                                                            </span> -->
+                                    </div>
+
+                                    <div class="clear"></div>
+
+                                    <div class="col-12" *ngIf="quote.QuoteId">
+                                      <div class="row mt-1">
+                                        <!-- <div class="col-lg-4 col-xl-4">
+                                                                                <h6
+                                                                                    class="text-uppercase text-muted nomb pl3">
+                                                                                    Lead Time
+                                                                                </h6>
+                                                                                <p class="mb-0 text-secondary pl3">
+                                                                                    {{quote.LeadTimes}}
+                                                                                </p>
+                                                                                </div> -->
+                                        <div class="col-lg-4 col-xl-4">
+                                          <h6
+                                            class="text-uppercase text-muted nomb"
+                                          >
+                                            Warranty
+                                          </h6>
+                                          <p class="mb-0 text-secondary">
+                                            <span *ngIf="!quote.WarrantyPeriod">
+                                              No Warranty
+                                            </span>
+                                            <span
+                                              *ngIf="quote.WarrantyPeriod > 0"
+                                            >
+                                              {{ quote.WarrantyPeriod }}
+                                              Months
+                                            </span>
+                                          </p>
+                                        </div>
+                                        <div class="col-lg-4 col-xl-4">
+                                          <h6
+                                            class="text-uppercase text-muted nomb"
+                                          >
+                                            Amount
+                                          </h6>
+                                          <p
+                                            class="mb-0 text-primary font-weight-bold"
+                                            *ngIf="quote.GrandTotal > 0"
+                                          >
+                                            $ {{ quote.GrandTotal }}
+                                          </p>
+                                        </div>
+                                        <div class="col-lg-4 col-xl-4">
+                                          <h6
+                                            class="text-uppercase text-muted nomb"
+                                            *ngIf="quote.RouteCause"
+                                            ngbTooltip="{{ quote.RouteCause }}"
+                                          >
+                                            Root Cause?
+                                          </h6>
+                                        </div>
+                                      </div>
+
+                                      <div class="row mt-1">
+                                        <div class="col-lg-12 col-xl-12">
+                                          <h6
+                                            class="text-uppercase text-muted nomb pl3"
+                                          >
+                                            Lead Time
+                                          </h6>
+                                          <p class="mb-0 text-secondary pl3">
+                                            {{ quote.LeadTimes }}
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="mt-2 pl3">
+                                    <button
+                                      type="button"
+                                      *ngIf="
+                                        quote.QuoteId &&
+                                        Status < MRO_IN_PROGRESS
+                                      "
+                                      (click)="
+                                        EditCustomerQuote(
+                                          quote.QuoteId,
+                                          quote.VendorId,
+                                          quote.QuoteCustomerStatus
+                                        )
+                                      "
+                                      class="btn btn-pink btn-sm waves-effect waves-light mr-1 mb-1"
+                                    >
+                                      <!-- <span *ngIf="Status != 7 && vendor.Status <= 2 && Status < 5">Update</span> -->
+                                      <span
+                                        *ngIf="
+                                          Status != MRO_COMPLETED &&
+                                          vendor.Status <=
+                                            VENDOR_STATUS_APPROVED &&
+                                          Status < MRO_IN_PROGRESS
+                                        "
+                                        >Update</span
+                                      >
+                                      Customer Quote
+                                    </button>
+                                  </div>
+                                  <div
+                                    class="mt-2 pl3"
+                                    *ngIf="
+                                      vendor.Status != VENDOR_STATUS_REJECTED
+                                    "
+                                  >
+                                    <button
+                                      type="button"
+                                      *ngIf="
+                                        quote.QuoteId &&
+                                        quote.QuoteCustomerStatus == 0 &&
+                                        Status < MRO_IN_PROGRESS &&
+                                        vendor.Status != VENDOR_STATUS_REJECTED
+                                      "
+                                      (click)="
+                                        SubmitCustomerQuote(
+                                          quote.QuoteId,
+                                          vendor.RRVendorId
+                                        )
+                                      "
+                                      class="btn btn-success btn-sm waves-effect waves-light mr-1 mb-1"
+                                    >
+                                      Submit Quote to Customer
+                                    </button>
+
+                                    <button
+                                      type="button"
+                                      *ngIf="
+                                        quote.QuoteId &&
+                                        quote.QuoteCustomerStatus == 1 &&
+                                        ApprovedQuoteStatus != 2 &&
+                                        Status != MRO_NOT_REPAIRABLE
+                                      "
+                                      (click)="ApproveQuote(quote.QuoteId)"
+                                      class="btn btn-success btn-sm waves-effect waves-light mr-1 mb-1"
+                                    >
+                                      Approve
+                                    </button>
+                                    <button
+                                      type="button"
+                                      *ngIf="
+                                        quote.QuoteId &&
+                                        quote.QuoteCustomerStatus == 1 &&
+                                        ApprovedQuoteStatus != 2 &&
+                                        Status != MRO_NOT_REPAIRABLE
+                                      "
+                                      (click)="
+                                        RejectCustomerQuote(
+                                          quote.QuoteId,
+                                          quote.RRVendorId
+                                        )
+                                      "
+                                      class="btn btn-warning btn-sm waves-effect waves-light mr-1 mb-1"
+                                    >
+                                      Reject
+                                    </button>
+
+                                    <div
+                                      class="row mt-2 mb-0"
+                                      *ngIf="
+                                        quote.QuoteId &&
+                                        (quote.QuoteCustomerStatus == 1 ||
+                                          quote.QuoteCustomerStatus == 2)
+                                      "
+                                    >
+                                      <div class="col-4 mt-1">
+                                        <h5>Customer PO #</h5>
+                                      </div>
+
+                                      <div class="col-8">
+                                        <div class="row">
+                                          <div class="col-xl-4 nopad-rt">
+                                            &nbsp;
+                                          </div>
+                                          <div class="col-xl-8 nopad-lt">
+                                            <input
+                                              type="text"
+                                              class="form-control"
+                                              name="CustomerPONo"
+                                              [readonly]="
+                                                ApprovedQuoteStatus > 1
+                                              "
+                                              [(ngModel)]="CustomerPONo"
+                                              formControlName="CustomerPONo"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div
+                                      *ngIf="
+                                        quote.QuoteCustomerStatus ==
+                                          CUSTOMER_QUOTE_ACCEPTED &&
+                                        Status == MRO_NOT_REPAIRABLE
+                                      "
+                                    >
+                                      <div *ngIf="CustomerSONo">
+                                        <div
+                                          class="clear mt-2"
+                                          style="
+                                            border-bottom: 1px dashed;
+                                            margin-bottom: 15px !important;
+                                          "
+                                        >
+                                          &nbsp;
+                                        </div>
+                                        <div class="clear">&nbsp;</div>
+                                        <h5 class="pl2 text-success">
+                                          Customer Sales Order #
+                                        </h5>
+                                        <div class="row">
+                                          <div class="col-4">
+                                            <p class="pt-10 pl3">
+                                              <a
+                                                (click)="goToCustomerSOView()"
+                                                routerLink="#"
+                                                style="cursor: pointer"
+                                              >
+                                                {{ CustomerSONo }}
+                                              </a>
+                                            </p>
+                                          </div>
+
+                                          <div class="col-8">
+                                            <div class="row">
+                                              <div class="col-4 pt-10 nopad-rt">
+                                                Cancelled
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div *ngIf="VendorPONo">
+                                        <div class="clear">&nbsp;</div>
+                                        <h5 class="pl2 text-success">
+                                          Vendor Purchase Order #
+                                        </h5>
+                                        <div class="row">
+                                          <div class="col-4">
+                                            <p class="pt-10 pl3">
+                                              <a
+                                                (click)="goToVendorPOView()"
+                                                routerLink="#"
+                                                style="cursor: pointer"
+                                              >
+                                                {{ VendorPONo }}
+                                              </a>
+                                            </p>
+                                          </div>
+
+                                          <div class="col-8">
+                                            <div class="row">
+                                              <div class="col-4 pt-10 nopad-rt">
+                                                Cancelled
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div
+                                      class="clear"
+                                      *ngIf="
+                                        quote.QuoteId &&
+                                        quote.QuoteCustomerStatus == 2 &&
+                                        !CustomerSONo
+                                      "
+                                    >
+                                      &nbsp;
+                                    </div>
+
+                                    <button
+                                      type="button"
+                                      *ngIf="
+                                        quote.QuoteId &&
+                                        quote.QuoteCustomerStatus == 2 &&
+                                        !CustomerSONo &&
+                                        Status != MRO_NOT_REPAIRABLE
+                                      "
+                                      (click)="CreateSO(quote.QuoteId)"
+                                      class="btn btn-purple mrobtn btn-sm waves-effect waves-light mr-1 mb-1"
+                                    >
+                                      Create Customer SO
+                                    </button>
+                                    <button
+                                      type="button"
+                                      *ngIf="
+                                        quote.QuoteId &&
+                                        quote.QuoteCustomerStatus == 2 &&
+                                        !VendorPONo &&
+                                        Status != MRO_NOT_REPAIRABLE
+                                      "
+                                      (click)="CreatePO(quote.QuoteId)"
+                                      class="btn btn-secondary mrobtn btn-sm waves-effect waves-light mr-1 mb-1"
+                                    >
+                                      Create Vendor PO
+                                    </button>
+
+                                    <!-- <button type="button"
+                                                                            *ngIf="(quote.QuoteId && quote.QuoteId == ApprovedQuoteId && CustomerSONo != '' && CustomerSONo != null && VendorPONo != '' && VendorPONo != null && !CustomerInvoiceNo && RRSalesInvoice[CREATE_ACCESS] == 1) && Status != RRS_NOT_REPAIRABLE"
+                                                                            (click)="CreateInvoice(quote.QuoteId)"
+                                                                            class="btn btn-purple btn-sm waves-effect waves-light mr-1 mb-1">
+                                                                            Create Customer Invoice
+                                                                        </button> -->
+
+                                    <button
+                                      type="button"
+                                      *ngIf="
+                                        VendorPOId &&
+                                        quote.QuoteId == ApprovedQuoteId &&
+                                        VendorPONo != '' &&
+                                        !VendorInvoiceNo &&
+                                        Status != MRO_NOT_REPAIRABLE
+                                      "
+                                      (click)="
+                                        CreateVendorInvoice(quote.QuoteId)
+                                      "
+                                      class="btn btn-info btn-sm waves-effect waves-light mr-1 mb-1"
+                                    >
+                                      Create Vendor Bill
+                                    </button>
+
+                                    <!-- <button type="button"
+                                                                            *ngIf="(quote.QuoteId == ApprovedQuoteId && Status != 7 && CustomerSONo != '' && CustomerInvoiceNo != '' && (VendorPONo != ''&& VendorPONo != null) && RRComplete[CREATE_ACCESS] == 1)"
+                                                                            (click)="CompleteRR(quote.QuoteId)"
+                                                                            class="btn btn-success btn-sm waves-effect waves-light mr-1 mb-1">
+                                                                            Complete
+                                                                        </button> -->
+                                  </div>
+
+                                  <div
+                                    *ngIf="
+                                      quote.QuoteId == ApprovedQuoteId &&
+                                      Status != MRO_NOT_REPAIRABLE
+                                    "
+                                  >
+                                    <div *ngIf="CustomerSONo">
+                                      <div
+                                        class="clear"
+                                        style="border-bottom: 1px dashed"
+                                      >
+                                        &nbsp;
+                                      </div>
+                                      <div class="clear">&nbsp;</div>
+                                      <div class="row">
+                                        <div class="col-xl-12">
+                                          <div
+                                            class="col-xl-8 col-lg-12 float-left nopad"
+                                          >
+                                            <h5 class="pl2 text-success">
+                                              Customer Sales Order #
+                                              <!-- <button ngbTooltip="Send SO Email"
+                                                                                    placement="top"
+                                                                                    *ngIf="vendor.Status <= VENDOR_STATUS_APPROVED"
+                                                                                    class="btn btn-outline-success btn-xs sendmail"
+                                                                                    type="button">
+                                                                                    Print <i
+                                                                                        class="mdi mdi-print"></i>
+                                                                                </button> -->
+                                              <!-- <button ngbTooltip="Send SO Email"
+                                                                                    placement="top"
+                                                                                    *ngIf="vendor.Status <= VENDOR_STATUS_APPROVED"
+                                                                                    class="btn btn-outline-success btn-xs sendmail"
+                                                                                    type="button"
+                                                                                    (click)="sendEmailSO(CustomerSOId)">
+                                                                                    Send <i
+                                                                                        class="mdi mdi-email-outline"></i>
+                                                                                </button> -->
+                                            </h5>
+                                          </div>
+                                          <div
+                                            class="col-xl-4 col-lg-12 mt-2 float-left nopad"
+                                          >
+                                            <button
+                                              ngbTooltip="Preview Sales Order"
+                                              placement="top"
+                                              *ngIf="
+                                                vendor.Status <=
+                                                VENDOR_STATUS_APPROVED
+                                              "
+                                              class="btn btn-outline-success btn-xs sendmail"
+                                              type="button"
+                                              (click)="previewSO(CustomerSOId)"
+                                            >
+                                              Preview &amp; Send<i
+                                                class="mdi mdi-window-restore"
+                                              ></i>
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="row">
+                                        <div
+                                          class="col-xl-4 mt-1 col-lg-12 nopad-rt"
+                                        >
+                                          <p class="pt-10 pl3">
+                                            <a
+                                              (click)="goToCustomerSOView()"
+                                              routerLink="#"
+                                              style="cursor: pointer"
+                                            >
+                                              {{ CustomerSONo }}
+                                            </a>
+                                            <i
+                                              class="fas fa-check-circle greentick"
+                                              aria-hidden="true"
+                                              *ngIf="IsSOApproved == 1"
+                                              ngbTooltip="Approved Sales Order"
+                                            ></i>
+                                            &nbsp;
+                                          </p>
+                                        </div>
+
+                                        <div class="col-xl-8 col-lg-12">
+                                          <div class="row">
+                                            <div class="col-4 pt-10 nopad-rt">
+                                              Due Date:
+                                            </div>
+                                            <div class="col-8 nopad-lt">
+                                              <input
+                                                type="hidden"
+                                                name="CustomerSONo"
+                                                [(ngModel)]="CustomerSONo"
+                                                formControlName="CustomerSONo"
+                                              />
+                                              <input
+                                                type="text"
+                                                class="form-control"
+                                                name="CustomerSODueDate"
+                                                placeholder="mm/dd/yyyy"
+                                                [(ngModel)]="CustomerSODueDate"
+                                                formControlName="CustomerSODueDate"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div *ngIf="VendorPONo">
+                                      <div class="row">
+                                        <div class="col-xl-12">
+                                          <div
+                                            class="col-xl-8 col-lg-12 float-left nopad"
+                                          >
+                                            <h5 class="pl2 text-success">
+                                              Vendor Purchase Order #
+
+                                              <!-- <button ngbTooltip="Export to PDF"
+                                                                                    placement="top"
+                                                                                    *ngIf="vendor.Status <= VENDOR_STATUS_APPROVED"
+                                                                                    class="btn btn-outline-success btn-xs sendmail"
+                                                                                    type="button"
+                                                                                    (click)="printPO(VendorPOId)">
+                                                                                    PDF <i class="mdi mdi-file-pdf-outline"></i>
+                                                                                </button>
+                                                                                <button ngbTooltip="Send PO Email"
+                                                                                    placement="top"
+                                                                                    *ngIf="vendor.Status <= VENDOR_STATUS_APPROVED"
+                                                                                    class="btn btn-outline-success btn-xs sendmail"
+                                                                                    type="button"
+                                                                                    (click)="sendEmailPO(VendorPOId)">
+                                                                                    Send <i
+                                                                                        class="mdi mdi-email-outline"></i>
+                                                                                </button> -->
+                                            </h5>
+                                          </div>
+                                          <div
+                                            class="col-xl-4 col-lg-12 mt-2 float-left nopad"
+                                          >
+                                            <button
+                                              ngbTooltip="Preview PO"
+                                              placement="top"
+                                              *ngIf="
+                                                vendor.Status <=
+                                                VENDOR_STATUS_APPROVED
+                                              "
+                                              class="btn btn-outline-success btn-xs sendmail"
+                                              type="button"
+                                              (click)="previewPO(VendorPOId)"
+                                            >
+                                              Preview &amp; Send<i
+                                                class="mdi mdi-window-restore"
+                                              ></i>
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div class="row">
+                                        <div
+                                          class="col-xl-4 mt-1 col-lg-12 nopad-rt"
+                                        >
+                                          <p class="pt-10 pl3">
+                                            <a
+                                              (click)="goToVendorPOView()"
+                                              routerLink="#"
+                                              style="cursor: pointer"
+                                            >
+                                              {{ VendorPONo }}
+                                            </a>
+                                            <i
+                                              class="fas fa-check-circle greentick"
+                                              aria-hidden="true"
+                                              *ngIf="IsPoApproved == 1"
+                                              ngbTooltip="Approved Purchase Order"
+                                            ></i>
+                                          </p>
+                                        </div>
+
+                                        <div class="col-xl-8 col-lg-12">
+                                          <div class="row">
+                                            <div class="col-4 pt-10 nopad-rt">
+                                              Due Date:
+                                            </div>
+                                            <div class="col-8 nopad-lt">
+                                              <input
+                                                type="hidden"
+                                                name="VendorPONo"
+                                                [(ngModel)]="VendorPONo"
+                                                formControlName="VendorPONo"
+                                              />
+                                              <input
+                                                type="text"
+                                                class="form-control"
+                                                name="VendorPODueDate"
+                                                placeholder="mm/dd/yyyy"
+                                                [(ngModel)]="VendorPODueDate"
+                                                formControlName="VendorPODueDate"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div *ngIf="CustomerInvoiceNo">
+                                      <div class="clear">&nbsp;</div>
+
+                                      <div class="row">
+                                        <div class="col-xl-12">
+                                          <div
+                                            class="col-xl-8 col-lg-12 float-left nopad"
+                                          >
+                                            <h5 class="pl2 text-success">
+                                              Customer Invoice #
+
+                                              <!-- <button ngbTooltip="Send Invoice Email"
+                                                                                    placement="top"
+                                                                                    *ngIf="vendor.Status <= VENDOR_STATUS_APPROVED"
+                                                                                    class="btn btn-outline-success btn-xs sendmail"
+                                                                                    type="button"
+                                                                                    (click)="sendEmailInvoice(CustomerInvoiceId)">
+                                                                                    Send <i
+                                                                                        class="mdi mdi-email-outline"></i>
+                                                                                </button> -->
+                                            </h5>
+                                          </div>
+                                          <div
+                                            class="col-xl-4 col-lg-12 mt-2 float-left nopad"
+                                          >
+                                            <button
+                                              ngbTooltip="Preview Customer Invoice"
+                                              placement="top"
+                                              *ngIf="
+                                                vendor.Status <=
+                                                VENDOR_STATUS_APPROVED
+                                              "
+                                              class="btn btn-outline-success btn-xs sendmail"
+                                              type="button"
+                                              (click)="
+                                                previewInvoice(
+                                                  CustomerInvoiceId
+                                                )
+                                              "
+                                            >
+                                              Preview &amp; Send<i
+                                                class="mdi mdi-window-restore"
+                                              ></i>
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="row">
+                                        <div
+                                          class="col-xl-4 mt-1 col-lg-12 nopad-rt"
+                                        >
+                                          <p class="pt-10 pl3">
+                                            <a
+                                              (click)="
+                                                goToCustomerInvoiceView()
+                                              "
+                                              routerLink="#"
+                                              style="cursor: pointer"
+                                            >
+                                              {{ CustomerInvoiceNo }}
+                                            </a>
+                                            <i
+                                              class="fas fa-check-circle greentick"
+                                              aria-hidden="true"
+                                              *ngIf="IsInvoiceApproved == 1"
+                                              ngbTooltip="Approved Invoice"
+                                            ></i>
+                                          </p>
+                                        </div>
+
+                                        <div class="col-xl-8 col-lg-12">
+                                          <div class="row">
+                                            <div class="col-4 pt-10 nopad-rt">
+                                              Due Date:
+                                            </div>
+                                            <div class="col-8 nopad-lt">
+                                              <input
+                                                type="hidden"
+                                                name="CustomerInvoiceNo"
+                                                [(ngModel)]="CustomerInvoiceNo"
+                                                formControlName="CustomerInvoiceNo"
+                                              />
+                                              <input
+                                                type="text"
+                                                class="form-control"
+                                                name="CustomerInvoiceDueDate"
+                                                placeholder="mm/dd/yyyy"
+                                                [(ngModel)]="
+                                                  CustomerInvoiceDueDate
+                                                "
+                                                formControlName="CustomerInvoiceDueDate"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div *ngIf="VendorInvoiceNo">
+                                      <div class="row">
+                                        <div class="col-xl-12">
+                                          <h5 class="pl2 text-success">
+                                            Vendor Bill #
+                                          </h5>
+                                        </div>
+                                      </div>
+
+                                      <div class="row">
+                                        <div
+                                          class="col-xl-4 mt-1 col-lg-12 nopad-rt"
+                                        >
+                                          <p class="pt-10 pl3">
+                                            <a
+                                              (click)="goToVendorInvoiceView()"
+                                              routerLink="#"
+                                              style="cursor: pointer"
+                                            >
+                                              {{ VendorInvoiceNo }}
+                                            </a>
+                                            <i
+                                              class="fas fa-check-circle greentick"
+                                              aria-hidden="true"
+                                              *ngIf="IsVendorBillApproved == 1"
+                                              ngbTooltip="Approved Vendor Bill"
+                                            ></i>
+                                          </p>
+                                        </div>
+
+                                        <div class="col-xl-8 col-lg-12">
+                                          <div class="row">
+                                            <div class="col-4 pt-10 nopad-rt">
+                                              Due Date:
+                                            </div>
+                                            <div class="col-8 nopad-lt">
+                                              <input
+                                                type="hidden"
+                                                name="VendorInvoiceNo"
+                                                [(ngModel)]="VendorInvoiceNo"
+                                                formControlName="VendorInvoiceNo"
+                                              />
+                                              <input
+                                                type="text"
+                                                class="form-control"
+                                                name="VendorInvoiceDueDate"
+                                                placeholder="mm/dd/yyyy"
+                                                [(ngModel)]="
+                                                  VendorInvoiceDueDate
+                                                "
+                                                formControlName="VendorInvoiceDueDate"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- Status 2 [Assign Vendor] - End -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<ng-template #NotesBar *ngIf="IsMROEdit">
+  <div class="dropdown" ngbDropdown>
+    <a
+      href="javascript: void(0);"
+      class="dropdown-toggle arrow-none"
+      ngbDropdownToggle
+      data-toggle="dropdown"
+      aria-expanded="false"
+    >
+      <i class="remixicon-honour-line ri-xl text-danger"></i
+    ></a>
+    <div
+      class="dropdown-menu dropdown-menu-right mt-0 searchbox"
+      ngbDropdownMenu
+    >
+      <div
+        class="alert alert-info"
+        role="alert"
+        *ngIf="notesArr[1] && notesArr[1].length > 0"
+      >
+        <h5 class="text-primary">
+          <i class="mdi mdi-access-point mr-1"></i> Internal
+        </h5>
+        <ul class="toast-list" *ngFor="let note of notesArr[1]; let i = index">
+          <li>
+            {{ i + 1 }}) {{ note.Notes }}
+            <span class="toastdate">
+              - {{ note.FirstName }} {{ note.LastName }} ({{
+                note.Created | date : "MMM d, y, h:mm a"
+              }})</span
+            >
+          </li>
+        </ul>
+      </div>
+
+      <div
+        class="alert alert-warning"
+        role="alert"
+        *ngIf="notesArr[2] && notesArr[2].length > 0"
+      >
+        <h5 class="text-customer">
+          <i class="mdi mdi-access-point mr-1"></i> Customer
+        </h5>
+        <ul class="toast-list" *ngFor="let note of notesArr[2]; let i = index">
+          <li>
+            {{ i + 1 }}) {{ note.Notes }}
+            <span class="toastdate">
+              - {{ note.FirstName }} {{ note.LastName }} ({{
+                note.Created | date : "MMM d,y, h:mm a"
+              }})</span
+            >
+          </li>
+        </ul>
+      </div>
+
+      <div
+        class="alert alert-danger"
+        role="alert"
+        *ngIf="notesArr[3] && notesArr[3].length > 0"
+      >
+        <h5 class="text-vendor">
+          <i class="mdi mdi-access-point mr-1"></i> Vendor
+        </h5>
+        <ul class="toast-list" *ngFor="let note of notesArr[3]; let i = index">
+          <li>
+            {{ i + 1 }}) {{ note.Notes }}
+            <span class="toastdate">
+              - {{ note.FirstName }} {{ note.LastName }} ({{
+                note.Created | date : "MMM d,y, h:mm a"
+              }})</span
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<div class="container-fluid" *ngIf="!IsMROEdit">
+  <div class="account-pages mt-5 mb-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6 col-xl-5">
+          <div class="card bg-pattern">
+            <div class="card-body p-4">
+              <div class="text-center">
+                <a routerLink="/">
+                  <span
+                    ><img
+                      src="assets/projects/ah-group/full_logo.png"
+                      alt=""
+                      height="22"
+                  /></span>
+                </a>
+              </div>
+
+              <div class="text-center mt-4">
+                <h1 class="text-error">401</h1>
+                <h3 class="mt-3 mb-2">Access Denied!</h3>
+                <p class="text-muted mb-3">
+                  You don't have permission to access this page.
+                </p>
+
+                <a
+                  routerLink="/admin/dashboard/ah-dashboard"
+                  class="btn btn-success waves-effect waves-light"
+                  >Back to Dashboard</a
+                >
+              </div>
+            </div>
+            <!-- end card-body -->
+          </div>
+          <!-- end card -->
+        </div>
+        <!-- end col -->
+      </div>
+      <!-- end row -->
+    </div>
+    <!-- end container -->
+  </div>
+</div>

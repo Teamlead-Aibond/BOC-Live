@@ -1,0 +1,185 @@
+<div class="modal-header">
+  <h4 style="color: #1abc9c" class="modal-title">Bulk Packing Slip</h4>
+  <button
+    style="cursor: pointer; border: 0"
+    ngbTooltip="Export to PDF"
+    placement="top"
+    value="Download"
+    class="btn-group btn-group-sm float-right pdfbtn-rt"
+    (click)="generatePDF()"
+    title="Export to PDF"
+  >
+    <i class="mdi mdi-file-pdf-outline"></i>
+  </button>
+  <button
+    type="button"
+    class="close"
+    aria-hidden="true"
+    (click)="modalRef.hide()"
+  >
+    ×
+  </button>
+</div>
+
+<div class="row mt-20">
+  <div class="col-12">
+    <div class="card-box popupscroll">
+      <div
+        id="contentToConvert"
+        [ngClass]="
+          hideAddress == false ? 'col-12 pdfwrap black' : 'col-12 pdfwrap'
+        "
+      >
+        <div class="row pdfex">
+          <div class="col-md-3 col-xl-3">
+            <div class="clearfix">
+              <div class="float-left mb-1">
+                <img class="img-fluid" src="assets/images/ah_logo.png" alt="" />
+              </div>
+            </div>
+            <div class="mt-3 ccs">
+              <h3>Aibond</h3>
+              <p>
+                {{ AHAddressList.StreetAddress }}
+                {{ AHAddressList.SuiteOrApt }}, {{ AHAddressList.City }},
+                <br />{{ AHAddressList.StateName }},
+                {{ AHAddressList.CountryName }} - {{ AHAddressList.Zip }}
+                <br />PH: {{ AHAddressList.PhoneNoPrimary }} <br />{{
+                  AHAddressList.Fax
+                }}
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-5 col-xl-5 text-center ccs mt12">
+            <!-- <h2 *ngIf="RRShippingHistory.ShipToIdentityName=='Vendor' && RRShippingHistory.ShipToId != CONST_AH_Group_ID">
+                            Packing List - Evaluation</h2>
+                        <h2 *ngIf="RRShippingHistory.ShipToIdentityName=='Vendor' && RRShippingHistory.ShipToId == CONST_AH_Group_ID">
+                            Packing List</h2>
+                        <h2 *ngIf="RRShippingHistory.ShipToIdentityName=='Customer' && (Status=='5' || Status=='7' )">
+                            Packing List - Repaired Unit</h2>
+                        <h2 *ngIf="RRShippingHistory.ShipToIdentityName=='Customer' && (Status=='6' || Status=='8' )">
+                            Packing List - Unit Returned Not Repaired</h2> -->
+          </div>
+
+          <div class="col-md-4 col-xl-4">
+            <div class="col-xl-12 text-center ccs mt45">
+              <h3>Packing Slip No# : {{ BulkShipId }}</h3>
+            </div>
+            <!-- <div class="col-xl-12 text-center ccs mt45">
+                            <ngx-barcode [bc-value]="RRInfo.RRNo" [bc-display-value]="true"></ngx-barcode>
+                            <ngx-barcode [bc-value]="RRInfo.MRONo" [bc-display-value]="true"></ngx-barcode>
+                            <div style="display: none;" *ngIf="RRInfo.RRNo">
+                                <ngx-barcode class="scaled" [bc-width]="2" [bc-font-size]="24" [bc-font]="'sans-serif'" [bc-value]="RRInfo.RRNo" [bc-display-value]="true"></ngx-barcode>
+                            </div>
+                            <div style="display: none;" *ngIf="RRInfo.MRONo">
+                                <ngx-barcode class="scaled" [bc-width]="2" [bc-font-size]="24" [bc-font]="'sans-serif'" [bc-value]="RRInfo.MRONo" [bc-display-value]="true"></ngx-barcode>
+                            </div>
+                        </div> -->
+          </div>
+        </div>
+
+        <div class="row mt45">
+          <div class="col-sm-6 ccs">
+            <h5>Ship To:</h5>
+            <div
+              class="addbrd"
+              *ngIf="ShipToAddressView && ShipToAddressView.length > 0"
+            >
+              <h3>{{ RRShippingHistory.ShipToName }}</h3>
+              <p>
+                {{ ShipToAddressView[0].StreetAddress }},
+                {{ ShipToAddressView[0].SuiteOrApt }}<br />{{
+                  ShipToAddressView[0].City
+                }}, {{ ShipToAddressView[0].StateName }}<br />
+                {{ ShipToAddressView[0].CountryName }} -
+                {{ ShipToAddressView[0].Zip }}
+              </p>
+            </div>
+            <div
+              class="addbrd"
+              *ngIf="!ShipToAddressView || ShipToAddressView.length == 0"
+            >
+              <h3>{{ RRShippingHistory.ShipToName }}</h3>
+              <p>
+                {{ RRShippingHistory.ReceiveStreetAddress }},
+                {{ RRShippingHistory.ReceiveSuiteOrApt }}<br />{{
+                  RRShippingHistory.ReceiveCity
+                }}, {{ RRShippingHistory.ReceiveState }}<br />
+                {{ RRShippingHistory.ReceiveCountry }}-
+                {{ RRShippingHistory.ReceiveZip }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table mt-4 table-bordered mb-0 print-table">
+                <thead class="thead-light">
+                  <tr>
+                    <th>Req.Ship Date</th>
+                    <th>Ship Via</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{{ RRShippingHistory.ShipDate | dateTransform }}</td>
+                    <td>{{ RRShippingHistory.ShipViaName || "-" }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <h5>Shipped Items</h5>
+            <div
+              style="border-bottom: 1px dashed #dcdcdc; padding-bottom: 30px"
+              class="table-responsive"
+            >
+              <table class="table mt-2 table-bordered mb-0 print-table">
+                <thead class="thead-light">
+                  <tr>
+                    <th width="6%">Line #</th>
+                    <th width="58%">Item/Description</th>
+                    <th width="12%">Serial #</th>
+                    <!-- <th width="12%">Lead Time</th> -->
+                    <th width="12%">Customer PO#</th>
+                    <th width="12%">Qty</th>
+                    <th width="12%">Order Num</th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let item of PartItem; let i = index">
+                  <tr>
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ item.PartNo }} {{ item.Description }}</td>
+                    <td>{{ item.SerialNo }}</td>
+                    <!-- <td>{{item.LeadTime}}</td> -->
+                    <td>{{ item.RRCustomerPONo }}</td>
+                    <td>{{ item.Quantity }}</td>
+                    <td>{{ item.RRNo }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="col-sm-12 nopad noteswrap">
+              <div class="clearfix pt-3">
+                <h5>Shipping Notes:</h5>
+                <p class="linebreak smallfont">-</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

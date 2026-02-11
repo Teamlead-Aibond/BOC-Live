@@ -1,0 +1,284 @@
+<div class="row">
+  <div class="col-xl-12">
+    <div class="modal-header modal-lg ht">
+      <div class="col-xl-4">
+        <h4 class="modal-title">Shipping Details</h4>
+      </div>
+      <div class="col-xl-7">
+        <div class="row">
+          <div class="col-xl-5">
+            <div class="rc1 alert alert-info text-center">Aibond</div>
+          </div>
+          <div class="col-xl-1">
+            <div class="rc2 text-center">=></div>
+          </div>
+          <div class="col-xl-5">
+            <div class="rc1 alert alert-danger text-center">
+              {{ CustomerName }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-1">
+        <button
+          type="button"
+          class="close"
+          aria-hidden="true"
+          (click)="modalRef.hide()"
+        >
+          ×
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-body modal-lg">
+  <form name="form" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+    <div class="container ship-history">
+      <div class="row">
+        <div class="col-xl-6 col-md-6">
+          <h5>Shipping Details</h5>
+          <div class="row">
+            <div class="col-xl-6">
+              <div class="form-group">
+                <label for="Customer">Ship From:</label>Aibond
+              </div>
+            </div>
+            <div class="col-xl-6">
+              <div class="form-group">
+                <label for="Customer">Ship To:</label>{{ CustomerName }}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-6">
+              <div class="form-group">
+                <label for="Customer">Date:</label>
+                {{ shippingDetails.ShipDate | dateTransform }}
+              </div>
+            </div>
+            <div class="col-xl-6">
+              <div class="form-group">
+                <label for="Customer">Shipped By:</label>
+                {{ shippingDetails.ShippedBy }}
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-12">
+              <div class="form-group">
+                <label for="Customer">Address:</label>
+                {{ shippingDetails.ShipStreetAddress }},{{
+                  shippingDetails.ShipCity
+                }},{{ shippingDetails.ShipState }},{{
+                  shippingDetails.ShipCountry
+                }}-{{ shippingDetails.ShipZip }}
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-6">
+              <div class="form-group">
+                <label for="Customer">Shipped Via:</label>
+                {{ shippingDetails.ShipViaName }}
+              </div>
+            </div>
+            <div class="col-xl-6">
+              <div class="form-group">
+                <label for="Customer">Tracking #</label>
+                {{ shippingDetails.TrackingNo }}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-6">
+              <div class="form-group">
+                <label for="Customer">Package Weight</label>
+                {{ shippingDetails.PackWeight }}
+              </div>
+            </div>
+
+            <div class="col-xl-6">
+              <div class="form-group">
+                <label for="Customer">Shipping Cost $</label>
+                {{ shippingDetails.ShippingCost }}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-12">
+              <div class="form-group">
+                <label for="Customer">Comments</label>
+                {{ shippingDetails.ShipComment }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-6 col-md-6">
+          <h5>Receiving Details</h5>
+          <!-- <div class="row">
+                        <div class="col-xl-12">
+                        <div class="form-group">
+                            <label for="Customer">Receive Quantity:
+                                <span class="red">*</span>
+                            </label>
+                            <input class="form-control" type="text" placeholder="Enter Receive Quantity">
+                            </div>
+                        </div>
+                        </div> -->
+          <div class="row">
+            <div class="col-xl-12">
+              <div class="form-group">
+                <label for="Customer"
+                  >Receive Address:
+                  <span class="red">*</span>
+                </label>
+                <ng-select
+                  [items]="AddressList"
+                  name="AddressId"
+                  placeholder="Select"
+                  [(ngModel)]="model.AddressId"
+                  #AddressId="ngModel"
+                  [ngClass]="{ 'is-invalid': f.submitted && AddressId.invalid }"
+                  required
+                  bindLabel="title"
+                  bindValue="AddressId"
+                  [searchable]="true"
+                >
+                </ng-select>
+                <div
+                  *ngIf="f.submitted && AddressId.invalid"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="AddressId.errors.required">
+                    Ship From Address is required
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-6">
+              <div class="form-group">
+                <label for="Customer"
+                  >Received By:
+                  <span class="red">*</span>
+                </label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="ReceivedBy"
+                  placeholder="Ener ReceivedBy"
+                  [(ngModel)]="model.ReceivedBy"
+                  name="ReceivedBy"
+                  #ReceivedBy="ngModel"
+                  [ngClass]="{
+                    'is-invalid': f.submitted && ReceivedBy.invalid
+                  }"
+                  required
+                />
+                <div
+                  *ngIf="f.submitted && ReceivedBy.invalid"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="ReceivedBy.errors.required">
+                    Received By is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-6">
+              <div class="form-group">
+                <label for="Customer"
+                  >Received Date:
+                  <span class="red">*</span>
+                </label>
+                <div class="input-group clockpicker">
+                  <input
+                    class="form-control m-0"
+                    placeholder="MM/DD/YYYY"
+                    name="d2"
+                    #c2="ngModel"
+                    ngbDatepicker
+                    #d2="ngbDatepicker"
+                    [(ngModel)]="model.ReceiveDate"
+                    name="ReceiveDate"
+                    #ReceiveDate="ngModel"
+                    [ngClass]="{
+                      'is-invalid': f.submitted && ReceiveDate.invalid
+                    }"
+                    required
+                    (ngModelChange)="
+                      onReceivedateValidation(this.model.ReceiveDate)
+                    "
+                  />
+                  <div class="input-group-append">
+                    <button class="blackbg" (click)="d2.toggle()" type="button">
+                      <i class="mdi blackbg white mdi-calendar"></i>
+                    </button>
+                  </div>
+                  <div
+                    *ngIf="f.submitted && ReceiveDate.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="ReceiveDate.errors.required">
+                      Receive Date is required
+                    </div>
+                  </div>
+                  <div *ngIf="ReceiveDateError" class="text-danger">
+                    Receive date shoule be greater than shipping date
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-12">
+              <div class="form-group">
+                <label for="Customer">Comments:</label>
+
+                <textarea
+                  class="form-control"
+                  id="userbio"
+                  placeholder="Receive Comment"
+                  rows="4"
+                  [(ngModel)]="model.ReceiveComment"
+                  name="ReceiveComment"
+                >
+                </textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-secondary waves-effect"
+        (click)="modalRef.hide()"
+      >
+        Close
+      </button>
+      <button
+        [disabled]="btnDisabled"
+        [ngClass]="{
+          class: btnDisabled
+            ? 'btn btn-success waves-effect waves-light'
+            : 'btn btn-light waves-effect waves-light'
+        }"
+        class="btn btn-success waves-effect waves-light"
+      >
+        Receive
+      </button>
+    </div>
+  </form>
+</div>

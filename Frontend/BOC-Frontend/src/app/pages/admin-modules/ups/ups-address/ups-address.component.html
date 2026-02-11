@@ -1,0 +1,212 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="container-fluid">
+    <app-page-title title="UPS Address Validation"></app-page-title>
+
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card-box">
+                <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="Form">
+
+
+                    <div class="col-xl-12">
+
+                       
+                        <div class="row">
+
+                            <div class="col-xl-12 form-lbox">
+                                <div class="row">
+                                    <div class="col-xl-6 float-left">
+                                        <h4 class="form-title-text bluetxt mb-20">Address Details</h4>
+                                    </div>
+
+                                    <div class="col-xl-6 mt-2">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                                <div class="form-border">
+                                    <div class="row">
+                                        <div class="col-xl-3">
+                                            <div class="form-group">
+                                                <label>Ship To Name : <span class="red">*</span></label>
+
+                                                <input type="text" class="form-control"
+                                                    placeholder="Enter Ship To Name" name="ShipToName"
+                                                    formControlName="ShipToName">
+                                                <span class="text-danger"
+                                                    *ngIf="(FormControl.ShipToName.touched || submitted) && FormControl.ShipToName.errors?.required">
+                                                    Ship To Name is required
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3">
+                                            <div class="form-group">
+                                                <label for="Customer">Ship To Attention Name: <span
+                                                        class="red">*</span></label>
+
+
+                                                <input type="text" class="form-control"
+                                                    placeholder="Enter  Ship To Attention Name"
+                                                    name="ShipToAttentionName"
+                                                    formControlName="ShipToAttentionName">
+                                                <span class="text-danger"
+                                                    *ngIf="(FormControl.ShipToAttentionName.touched || submitted) && FormControl.ShipToAttentionName.errors?.required">
+                                                    Ship To Attention Name is required
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3">
+                                            <div class="form-group">
+                                                <label for="Customer">Ship To Address Line : <span
+                                                        class="red">*</span></label>
+
+                                                <input type="text" class="form-control"
+                                                    placeholder="Enter Ship To Address Line"
+                                                    name="ShipToAddressLine" formControlName="ShipToAddressLine">
+                                                <span class="text-danger"
+                                                    *ngIf="(FormControl.ShipToAddressLine.touched || submitted) && FormControl.ShipToAddressLine.errors?.required">
+                                                    Ship To Address Line is required
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3">
+                                            <div class="form-group">
+                                                <label for="Customer">Ship To City : <span
+                                                        class="red">*</span></label>
+
+                                                <input type="text" class="form-control"
+                                                    placeholder="Enter Ship To City"
+                                                    name="ShipToCity" formControlName="ShipToCity">
+                                                <span class="text-danger"
+                                                    *ngIf="(FormControl.ShipToCity.touched || submitted) && FormControl.ShipToCity.errors?.required">
+                                                    Ship To City is required
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-xl-3">
+                                            <div class="form-group">
+                                                <label for="Customer">Ship To State Code : <span
+                                                        class="red">*</span></label>
+
+                                                <input type="text" class="form-control"
+                                                    placeholder="Enter Ship To State Code" name="ShipToStateCode"
+                                                    formControlName="ShipToStateCode">
+                                                <span class="text-danger"
+                                                    *ngIf="(FormControl.ShipToStateCode.touched || submitted) && FormControl.ShipToStateCode.errors?.required">
+                                                    Ship To State Code is required
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3">
+                                            <div class="form-group">
+                                                <label for="Customer">Ship To Postal Code : <span
+                                                        class="red">*</span></label>
+
+                                                <input type="text" class="form-control"
+                                                    placeholder="Enter Ship To Postal Code" name="ShipToPostalCode"
+                                                    formControlName="ShipToPostalCode">
+                                                <span class="text-danger"
+                                                    *ngIf="(FormControl.ShipToPostalCode.touched || submitted) && FormControl.ShipToPostalCode.errors?.required">
+                                                    Ship To Postal Code is required
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3">
+                                            <div class="form-group">
+                                                <label for="Customer">Ship To Country Code : <span
+                                                        class="red">*</span></label>
+
+                                                <input type="text" class="form-control"
+                                                    placeholder="Enter Ship To Country Code"
+                                                    name="ShipToCountryCode" formControlName="ShipToCountryCode">
+                                                <span class="text-danger"
+                                                    *ngIf="(FormControl.ShipToCountryCode.touched || submitted) && FormControl.ShipToCountryCode.errors?.required">
+                                                    Ship To Country Code is required
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3">
+                                            <div class="form-group">
+                                                <label for="Customer">Ship To Number : <span
+                                                        class="red">*</span></label>
+
+                                                <input type="text" class="form-control"
+                                                    placeholder="Enter Ship To Number" name="ShipToNumber"
+                                                    formControlName="ShipToNumber">
+                                                <span class="text-danger"
+                                                    *ngIf="(FormControl.ShipToNumber.touched || submitted) && FormControl.ShipToNumber.errors?.required">
+                                                    Ship To Number is required
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row m-2">
+                            <div class="col-xl-4 col-md-6">
+                                &nbsp;
+                            </div>
+
+                            <div class="col-xl-4 col-md-6">
+                                &nbsp;
+                            </div>
+
+                            <div class="col-xl-4 col-md-12 sales-right">
+                                <div class="btn-group btn-group-sm float-right" role="group">
+                                    <button ngbTooltip="Address Validate" placement="top" class="btn btn-icon waves-effect">
+                                        Validate </button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                </form>
+                <div class="col-xl-12">
+                <div class="row" *ngIf="success">
+                    <div class="col-xl-12 form-lbox">
+                        <div class="row">
+                            <div class="col-xl-6 float-left">
+                                <h4 class="form-title-text bluetxt mb-20">Result</h4>
+                            </div>
+                        </div>
+                        <div class='alert alert-success'>{{ success }}<br><br>
+                            <pre [innerHTML]="AddressValidationResult | prettyprint"></pre></div>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="error">
+                    <div class="col-xl-12 form-lbox">
+                        <div class="row">
+                            <div class="col-xl-6 float-left">
+                                <h4 class="form-title-text bluetxt mb-20">Result</h4>
+                            </div>
+                        </div>
+                        <p class='alert alert-danger'>{{ error }}</p>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <pre>
+    {{ xml | json }}
+</pre> -->
+<!-- <img src="data:image/gif;charset=utf-8;base64, {{gifImage}}" /> -->

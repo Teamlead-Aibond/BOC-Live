@@ -1,0 +1,32 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">Upload EDI</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg">
+    <form name="form" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+      
+     
+        <div class="row">
+            <div class="col-12">
+
+                <h5 style="margin:0;" class="m-t-0">Attachment
+                    <span class="red">*</span>
+                </h5>
+
+               
+
+                <input type="file" class="form-control" name="Attachment" (change)="fileProgress($event)" [(ngModel)]="model.Attachment" #Attachment="ngModel" [ngClass]="{ 'is-invalid': f.submitted && Attachment.invalid }" required>
+                <div *ngIf="f.submitted &&Attachment.invalid" class="invalid-feedback">
+                    <div *ngIf="Attachment.errors.required">Attachment is required</div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light">Upload</button>
+        </div>
+    </form>
+</div>

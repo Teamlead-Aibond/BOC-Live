@@ -1,0 +1,486 @@
+<div class="modal-header modal-lg wnn" *ngIf="!Isnewcheckin">
+    <h4 class="modal-title">Check In</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg wnn" *ngIf="!Isnewcheckin">
+    <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="Form">
+
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="Customer">Part No : <span class="red">*</span></label>
+
+
+                    <ng-select [items]="parts$ | async" bindLabel="PartNo" [typeahead]="partsInput$"
+                        [placeholder]="'Enter Part #'" (change)='selectEvent($event)' formControlName="PartNo">
+                    </ng-select>
+
+                    <span class="text-danger"
+                        *ngIf="(FormControl.PartNo.touched || submitted) && FormControl.PartNo.errors?.required">
+                        Part No is required
+                    </span>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="Customer">Serial No: <span class="red">*</span></label>
+                    <input type="text" class="form-control" id="SerialNo" formControlName="SerialNo"
+                        placeholder="Enter Serial No">
+                    <span class="text-danger"
+                        *ngIf="(FormControl.SerialNo.touched || submitted) && FormControl.SerialNo.errors?.required">
+                        Serial No is required
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="Customer">Part Type:</label>
+                    <select class="custom-select" formControlName="IsNew">
+                        <option>Select</option>
+                        <option value="1" ng-reflect-value="1">New</option>
+                        <option value="0" ng-reflect-value="0">Refurbrished</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="Customer">RFID:</label>
+                    <input type="text" class="form-control" formControlName="RFIDTagNo">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="form-group">
+                    <label for="Customer">Warehouse: </label>
+                    <select class="custom-select" formControlName="WarehouseId">
+                        <option value="0" disabled>Select</option>
+                        <option *ngFor="let w of warehouseList" [value]="w.id" ng-reflect-value="1">{{w.name}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="Customer">Building :</label>
+                    <select class="custom-select" formControlName="WarehouseSub1Id">
+                        <option value="0" disabled>Select</option>
+                        <option *ngFor="let w of warehouse1List" [value]="w.id" ng-reflect-value="1">{{w.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="Customer">Room :</label>
+                    <select class="custom-select" formControlName="WarehouseSub2Id">
+                        <option value="0">Select</option>
+                        <option *ngFor="let w of warehouse2List" [value]="w.id" ng-reflect-value="1">{{w.name}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="Customer">Row:</label>
+                    <select class="custom-select" formControlName="WarehouseSub3Id">
+                        <option value="0">Select</option>
+                        <option *ngFor="let w of warehouse3List" [value]="w.id" ng-reflect-value="1">{{w.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="Customer">Shelf</label>
+                    <select class="custom-select" formControlName="WarehouseSub4Id">
+                        <option value="0">Select</option>
+                        <option *ngFor="let w of warehouse4List" [value]="w.id" ng-reflect-value="1">{{w.name}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-right pt-2 mt-0">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <input type="hidden" class="form-control" id="PartItemId" formControlName="PartItemId">
+            <input type="hidden" class="form-control" id="PartId" formControlName="PartId">
+            <input type="hidden" class="form-control" id="RFIDEmployeeNo" formControlName="RFIDEmployeeNo">
+            <button class="btn btn-success waves-effect waves-light ml-1">{{task}}</button>
+            <button type="button" class="btn btn-pink waves-effect waves-light ml-1" (click)="onNewCheckin()">Add
+                Part</button>
+        </div>
+    </form>
+</div>
+
+<div class="modal-header modal-xl wnn" *ngIf="Isnewcheckin">
+    <h4 class="modal-title">New Part Details</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div style="padding-top:0 !important;" class="modal-body p-4 modal-xl wnn" *ngIf="Isnewcheckin">
+
+    <form [formGroup]="NewCheckInForm">
+        <div class="col-lg-12 col-xl-12 mt-4">
+            <div class="row">
+                <div class="col-lg-12 col-xl-12 nopad">
+                    <div class="card-box">
+                        <div class="form-horizontal ng-untouched ng-pristine ng-valid p-0" role="form">
+                            <div class="col-xl-12">
+                                <div class="row">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <h4><i class="fe-shopping-cart mr-1"></i>Product's Part Details</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Part #: <span
+                                                    class="red">*</span></label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" id="" type="text" placeholder="Enter Part #"
+                                                    formControlName="PartNo" required>
+
+                                                <span class="text-danger"
+                                                    *ngIf="(FormControl2.PartNo.touched || submitted) && FormControl2.PartNo.errors?.required">
+                                                    Part No is required
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Part
+                                                Description:</label>
+                                            <div class="col-sm-8">
+                                                <textarea class="form-control ng-pristine ng-valid ng-touched"
+                                                    formControlName="Description" name="Part Description"
+                                                    placeholder="Notes" rows="4"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label"
+                                                for="simpleinput">Manufacturer:</label>
+                                            <div class="col-sm-8">
+                                                <ng-select [items]="manufacturerList" placeholder="Select"
+                                                    formControlName="ManufacturerId" bindLabel="name" bindValue="id"
+                                                    [searchable]="true">
+                                                </ng-select>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Manufacturer Part
+                                                No:</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" type="text" id=""
+                                                    placeholder="Manufacturer Part No"
+                                                    formControlName="ManufacturerPartNo">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-6">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h5 class="header-title m-t-0 mb-2">Upload Images</h5>
+
+
+                                                <div class="row">
+                                                    <div class="col-sm-3 img-container"
+                                                        *ngFor="let vattachment of ImagesList; let i = index;">
+
+
+                                                        <span *ngIf="!vattachment.IsDeleted">
+                                                            <span *ngIf="vattachment.mimetype == 'image/jpeg'">
+                                                                <a href="{{vattachment.path}}" target="_blank">
+                                                                    <img src="{{vattachment.path}}" class="img-fluid"
+                                                                        ngbTooltip="{{vattachment.originalname}}"
+                                                                        width="200" alt="work-thumbnail">
+                                                                </a>
+                                                                <button class="btn" (click)="removeImage(i)"><span
+                                                                        aria-hidden="true"> × </span></button>
+                                                            </span>
+                                                            <span *ngIf="vattachment.mimetype == 'image/png'">
+                                                                <a href="{{vattachment.path}}" target="_blank">
+                                                                    <img src="{{vattachment.path}}" class="img-fluid"
+                                                                        ngbTooltip="{{vattachment.originalname}}"
+                                                                        width="200" alt="work-thumbnail">
+                                                                </a>
+                                                                <button class="btn" (click)="removeImage(i)"><span
+                                                                        aria-hidden="true"> × </span></button>
+                                                            </span>
+                                                        </span>
+                                                        <br>
+                                                    </div>
+                                                </div>
+                                                <input type="file" multiple="multiple" class="form-control"
+                                                    accept="image/png,image/jpeg" [(ngModel)]="Attachment"
+                                                    formControlName="Attachment"
+                                                    (change)="fileProgressMultiple($event)">
+                                                <i class="fa fa-spinner fa-spin" *ngIf="spinner"></i>
+                                                <span class="text-danger"
+                                                    *ngIf="(FormControl2.Attachment.touched || submitted) && FormControl2.Attachment.errors?.extension">
+                                                    image should be jpeg and png only
+                                                </span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12 col-xl-12 nopad">
+            <div class="row">
+                <div class="col-lg-12 col-xl-12">
+                    <div class="card-box">
+                        <div class="form-horizontal ng-untouched ng-pristine ng-valid p-0" novalidate="" role="form">
+                            <div class="col-xl-12">
+                                <div class="row">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <h4><i class="fe-shopping-cart mr-1"></i>Other Info</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Issue Unit Of
+                                                Measure:
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <select class="custom-select" formControlName="UnitType">
+                                                    <option value="">Select</option>
+                                                    <option value="1" ng-reflect-value="1">Pcs</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Date Added:</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group clockpicker">
+                                                    <input class="form-control" id="example-date" name="date"
+                                                        ngbDatepicker formControlName="StoreSince" autoClose="true"
+                                                        (click)="DateAdded.toggle()" placeholder="MM/DD/YYYY"
+                                                        #DateAdded="ngbDatepicker">
+                                                    <div class="input-group-append" (click)="DateAdded.toggle()">
+                                                        <span class="input-group-text"><i
+                                                                class="mdi mdi-calendar"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Preferred
+                                                Vendor:</label>
+                                            <div class="col-sm-8">
+                                                <ng-select [items]="vendorList" placeholder="Select"
+                                                    formControlName="PrimaryVendorId" bindLabel="name" bindValue="id"
+                                                    [searchable]="true">
+                                                </ng-select>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-6">
+                                        <div class="form-group row mb-2">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Active:</label>
+                                            <div class="col-sm-8 mt-1">
+                                                <div class="custom-control custom-switch">
+                                                    <input class="custom-control-input" id="customSwitch1"
+                                                        type="checkbox" checked>
+                                                    <label class="custom-control-label" for="customSwitch1">Toggle this
+                                                        switch element</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Tax Type:</label>
+                                            <div class="col-sm-8">
+                                                <select class="custom-select" name="TaxType" formControlName="TaxType">
+                                                    <option value="" disabled>Select</option>
+                                                    <option value="1">Taxable</option>
+                                                    <option value="2">Rolling Stack</option>
+                                                    <option value="3">Reseller/Non Taxable</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12 col-xl-12">
+                    <div class="card-box">
+                        <div class="form-horizontal ng-untouched ng-pristine ng-valid p-0" novalidate="" role="form">
+                            <div class="col-xl-12">
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="form-group row">
+                                            <div class="col-sm-12 nopad">
+                                                <h4><i class="mdi mdi-information mr-1"></i>Sales Information</h4>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Selling Price:
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text"
+                                                            id="basic-addon1">$</span></div>
+                                                    <input aria-describedby="basic-addon1" aria-label="Selling Price"
+                                                        formControlName="SellingPrice" class="form-control"
+                                                        placeholder="Selling Price" type="number">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label"
+                                                for="simpleinput">Description:</label>
+                                            <div class="col-sm-8">
+                                                <textarea class="form-control ng-pristine ng-valid ng-touched"
+                                                    formControlName="SellingPriceDescription"
+                                                    name="Selling Price Description" placeholder="Notes"
+                                                    rows="4"></textarea>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-xl-6">
+                                        <div class="form-group row">
+                                            <div class="col-sm-12">
+                                                <h4><i class="mdi mdi-information mr-1"></i>Purchase Information</h4>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Buying
+                                                Price:</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text"
+                                                            id="basic-addon1">$</span></div>
+                                                    <input aria-describedby="basic-addon1" aria-label="Buying Price"
+                                                        formControlName="BuyingPrice" class="form-control"
+                                                        placeholder="Buying Price" type="number">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label"
+                                                for="simpleinput">Description:</label>
+                                            <div class="col-sm-8">
+                                                <textarea class="form-control ng-pristine ng-valid ng-touched"
+                                                    name="BuyingPriceDescription"
+                                                    formControlName="BuyingPriceDescription"
+                                                    placeholder="Buying Price Description" rows="4"></textarea>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-xl-12">
+                    <div class="card-box">
+                        <div class="form-horizontal ng-untouched ng-pristine ng-valid p-0" novalidate="" role="form">
+                            <div class="col-xl-12">
+                                <div class="row">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <h4><i class="fe-map-pin mr-1"></i>Advanced Inventory Tracking</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-3">
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label text-right"
+                                                for="simpleinput">Warehouse:</label>
+                                            <div class="col-sm-8">
+                                                <select class="custom-select" formControlName="WarehouseId">
+                                                    <option value="">Select</option>
+                                                    <option *ngFor="let w of warehouseList" [value]="w.id"
+                                                        ng-reflect-value="1">{{w.name}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-3">
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label text-right" for="simpleinput">Opening
+                                                Stock: </label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" id="" type="number"
+                                                    placeholder="Opening Stock" formControlName="OpeningStock">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-3">
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label text-right" for="simpleinput">Min
+                                                Stock:
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" id="" type="number" placeholder="Min Stock"
+                                                    formControlName="MinStock">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-3">
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label text-right" for="simpleinput">Max
+                                                Stock:
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" id="" type="number" placeholder="Max Stock"
+                                                    formControlName="MaxStock">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-12 text-center">
+                    <input type="button" class="btn btn-bordered-primary waves-effect width-md waves-light mr-1"
+                        (click)="onNewCheckINSubmit()" value="Submit" />
+
+                    <input type="button" class="btn btn-bordered-secondary waves-effect width-md waves-light"
+                        value="Cancel" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

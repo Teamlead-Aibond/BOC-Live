@@ -1,0 +1,343 @@
+<div class="container-fluid reportswrap">
+  <app-page-title title="Reports" class="edit-title"></app-page-title>
+
+  <div class="row">
+    <div class="col-lg-4 col-xl-4">
+      <div class="card-box">
+        <div class="col-sm-12">
+          <h4><i class="fe-file-text mr-1"></i>Standard Reports</h4>
+          <ul>
+            <li class="border-bottom pt-2 pb-2">
+              <a routerLink="/admin/reports/RR-OpenOrderBySupplier"
+                ><strong>Open Order By Supplier Report</strong></a
+              >
+            </li>
+            <li class="border-bottom pt-2 pb-2">
+              <a routerLink="/admin/reports/RR-OpenOrderBySupplierWithoutVat"
+                ><strong>Open Order By Supplier Without Vat Report</strong></a
+              >
+            </li>
+            <!-- <li class="border-bottom pt-2 pb-2"><a routerLink="/admin/reports/Invoice-Monthly"><strong>Monthly Invoice
+                  Summary</strong></a></li> -->
+            <li class="border-bottom pt-2 pb-2">
+              <a routerLink="/admin/reports/Invoice-Monthly-New"
+                ><strong>Monthly Invoice Summary</strong></a
+              >
+            </li>
+            <li class="border-bottom pt-2 pb-2">
+              <a routerLink="/admin/reports/Monthly-Invoice-Currency-Report"
+                ><strong>Monthly Invoice Summary (By Currency)</strong></a
+              >
+            </li>
+            <!-- <li class="border-bottom pt-2 pb-2"><a routerLink="/admin/reports/SO-Monthly"><strong>Monthly Sales
+                  Report</strong></a></li> -->
+            <li class="border-bottom pt-2 pb-2">
+              <a routerLink="/admin/reports/SO-Monthly-New"
+                ><strong>Monthly Sales Report</strong></a
+              >
+            </li>
+            <li class="border-bottom pt-2 pb-2">
+              <a routerLink="/admin/reports/Monthly-SO-Currency-Report"
+                ><strong>Monthly Sales Report (By Currency)</strong></a
+              >
+            </li>
+            <li class="border-bottom pt-2 pb-2">
+              <a routerLink="/admin/reports/RR-costofnew"
+                ><strong>Total Cost Savings vs Cost of new</strong></a
+              >
+            </li>
+            <li class="border-bottom pt-2 pb-2">
+              <a routerLink="/admin/reports/customize-report"
+                ><strong>Repair Request Custom Report </strong></a
+              >
+            </li>
+            <li class="border-bottom pt-2 pb-2">
+              <a routerLink="/admin/reports/reject-report"
+                ><strong>Reject Report </strong></a
+              >
+            </li>
+            <li class="border-bottom pt-2 pb-2">
+              <a routerLink="/admin/reports/subtask-report"
+                ><strong>Sub Status Report </strong></a
+              >
+            </li>
+            <li class="border-bottom pt-2 pb-2">
+              <a routerLink="/admin/reports/shipvia-report"
+                ><strong>Ship Via Report </strong></a
+              >
+            </li>
+            <li class="border-bottom pt-2 pb-2">
+              <a routerLink="/admin/reports/Report-By-Location"
+                ><strong>Report by Starting Location </strong></a
+              >
+            </li>
+            <li class="border-bottom pt-2 pb-2">
+              <a routerLink="/admin/reports/rr-created-by-user-report"
+                ><strong>RRs created by User Report </strong></a
+              >
+            </li>
+            <li class="border-bottom pt-2 pb-2">
+              <a routerLink="/admin/reports/rma-report"
+                ><strong>RMA Report </strong></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- <div class="card-box">
+                <div class="col-sm-12">
+                    <h4><i class="fe-file-text mr-1"></i>Repair Request</h4>
+                    <ul>
+                        <li class="border-bottom pt-2 pb-2"><a routerLink="/admin/reports/RR-MonthlyRepairStatus"><strong>Repair
+                  Status
+                </strong></a></li>
+                        <li class="border-bottom pt-2 pb-2"><a routerLink="/admin/reports/RR-FailureTrendAnalysis"><strong>Failure
+                  Trend
+                  Analysis</strong></a></li>
+                        <li class="border-bottom pt-2 pb-2"><a routerLink="/admin/repair-savings-report"><strong>Repair Savings
+                  Report</strong></a></li>
+
+                        <li class="border-bottom pt-2 pb-2"><a routerLink="/admin/reports/RR-LPP"><strong>Total Cost Savings vs
+                  LPP</strong></a></li>
+                        <li class="border-bottom pt-2 pb-2"><a routerLink="/admin/reports/RR-OnTimeDelivery"><strong>On Time
+                  Delivery</strong></a></li>
+                        <li class="border-bottom pt-2 pb-2"><a routerLink="/admin/reports/RR-OpenOrder"><strong>Open Order Report (0
+                  charge)</strong></a></li>
+                        <li class="border-bottom pt-2 pb-2"><a routerLink="/admin/reports/RR-ProcessFitness"><strong>Process Fitness
+                  Report (Time Tracking)</strong></a></li>
+
+                        <li class="border-bottom pt-2 pb-2"><a routerLink="/admin/reports/RR-FollowupReport"><strong>Follow Up
+                  Report</strong></a></li>
+                        <li class="border-bottom pt-2 pb-2"><a routerLink="/admin/reports/RR-BPIReport"><strong>BPI
+                  Report</strong></a>
+                        </li>
+                    </ul>
+                </div>
+            </div> -->
+    </div>
+
+    <div class="col-lg-4 col-xl-4">
+      <!--<div class="card-box">
+                <div class="col-sm-12">
+                    <h4><i class="fe-file-text mr-1"></i>Sales Order Report</h4>
+                    <ul>
+                        <li class="border-bottom pt-2 pb-2"><a routerLink="/admin/reports/SO-Monthly"><strong>Monthly Sales
+                  Report</strong></a></li>
+                        <li class="border-bottom pt-2 pb-2"><a routerLink="/admin/reports/SO-ByCustomer"><strong>Sales Order By
+                  Customer</strong></a></li>
+                        <li class="border-bottom pt-2 pb-2"><a routerLink="/admin/reports/SO-ByParts"><strong>Sales By Parts
+                </strong></a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="card-box">
+                <div class="col-sm-12">
+                    <h4><i class="fe-file-text mr-1"></i>Purchase Order</h4>
+                    <ul>
+                        <li class="border-bottom pt-2 pb-2"><a routerLink="/admin/reports/PO-Monthly"><strong>Monthly
+                  Purchase Report</strong></a></li>
+                        <li class="border-bottom pt-2 pb-2"><a routerLink="/admin/reports/PO-ByVendor"><strong>Purchases By Vendor
+                </strong></a></li>
+                        <li class="border-bottom pt-2 pb-2"><a routerLink="/admin/reports/PO-ByItem"><strong>Purchases By Item
+                </strong></a></li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="card-box">
+                <div class="col-sm-12">
+                    <h4><i class="fe-file-text mr-1"></i>Invoice</h4>
+                    <ul>
+
+                      <li class="border-bottom pt-2 pb-2"><a routerLink="/admin/reports/Invoice-ByCustomer"><strong>Invoice by
+                Customer</strong></a></li>
+                      <li class="border-bottom pt-2 pb-2"><a routerLink="/admin/reports/Invoice-ByParts"><strong>Invoice by
+                Parts</strong></a></li>
+                  </ul>
+                </div>
+            </div> -->
+      <div class="card-box">
+        <div class="col-sm-12">
+          <h4><i class="fe-file-text mr-1"></i>Tax Reports</h4>
+          <ul>
+            <li class="border-bottom pt-2 pb-2">
+              <a routerLink="/admin/reports/so-vat-tax-report"
+                ><strong>SO Vat / Tax Report </strong></a
+              >
+            </li>
+            <li class="border-bottom pt-2 pb-2">
+              <a routerLink="/admin/reports/po-vat-tax-report"
+                ><strong>PO Vat / Tax Report </strong></a
+              >
+            </li>
+            <li class="border-bottom pt-2 pb-2">
+              <a routerLink="/admin/reports/payable-tax-report"
+                ><strong>Payable Tax Report </strong></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-xl-4">
+      <!-- <div class="card-box">
+                <div class="col-sm-12">
+                    <h4><i class="fe-file-text mr-1"></i>Inventory</h4>
+                    <ul>
+                        <li class="border-bottom pt-2 pb-2"><a href=""><strong>Transfer Report -From one warehouse to
+                  another</strong></a></li>
+
+                        <li class="border-bottom pt-2 pb-2"><a href=""><strong>Inventory available by Part Number</strong></a></li>
+                        <li class="border-bottom pt-2 pb-2"><a href=""><strong>Inventory by Manufacturer</strong></a></li>
+                        <li class="border-bottom pt-2 pb-2"><a href=""><strong>Min / Max Report by Part Number</strong></a></li>
+                        <li class="border-bottom pt-2 pb-2"><a href=""><strong>Global Inventory – Inventory of all parts across all
+                  warehouses</strong></a></li>
+                        <li class="border-bottom pt-2 pb-2"><a href=""><strong>Global Inventory Search by Part Number / Manufacturer
+                  / Description</strong></a></li>
+                        <li class="border-bottom pt-2 pb-2"><a href=""><strong>Customer Inventory Report</strong></a></li>
+
+                    </ul>
+                </div>
+            </div> -->
+      <div class="card-box">
+        <div class="col-sm-12">
+          <h4><i class="fe-file-text mr-1"></i>Customer Reports</h4>
+          <ul>
+            <li class="border-bottom pt-2 pb-2">
+              <a routerLink="/admin/reports/Amazon-raw-Report"
+                ><strong>Amazon OOWR_Raw Report</strong></a
+              >
+            </li>
+
+            <li class="border-bottom pt-2 pb-2">
+              <a routerLink="/admin/reports/GM-Report"
+                ><strong>GM Cost Savings Report</strong></a
+              >
+            </li>
+            <li class="border-bottom pt-2 pb-2">
+              <a routerLink="/admin/reports/gm-repair-tracker-report"
+                ><strong> GM Repair Tracker Report </strong></a
+              >
+            </li>
+            <li class="border-bottom pt-2 pb-2">
+              <a routerLink="/admin/reports/dana-cost-saving-Report"
+                ><strong>Dana Cost Savings Report</strong></a
+              >
+            </li>
+            <li class="border-bottom pt-2 pb-2">
+              <a routerLink="/admin/reports/dana-open-order-report"
+                ><strong>Dana Open Order Report</strong></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="col-lg-12 col-xl-12">
+      <div class="row">
+        <div class="col-lg-3 col-xl-3">
+          <div class="card-box">
+            <form class="form-horizontal ng-untouched ng-pristine ng-valid p-0" novalidate="" role="form">
+              <div class="col-xl-12">
+                <div class="row">
+                  <div class="form-group row pb-0">
+                    <div class="col-sm-12">
+                      <h4><i class="fe-file-text mr-1"></i>Repair Request</h4>
+                      <p>Quisque nec turpis at urna dictum luc endisse convallis dignissim eros at volutpat.</p>
+                        <ul>
+                            <li class="border-top border-bottom pt-2 pb-2"><a href=""><strong>Total Cost Savings vs Cost of new</strong></a></li>
+                            <li class="border-bottom pt-2 pb-2"><a href=""><strong>Total Cost Savings vs LPP</strong></a></li>
+                            <li class="border-bottom pt-2 pb-2"><a href=""><strong>On Time Delivery</strong></a></li>
+                            <li class="border-bottom pt-2 pb-2"><a href=""><strong>Open Order Report (0 charge)</strong></a></li>
+                            <li class="border-bottom pt-2 pb-2"><a href=""><strong>Process Fitness Report (Time Tracking)</strong></a></li>
+                            <li class="border-bottom pt-2 pb-2"><a href=""><strong>Follow Up Report</strong></a></li>
+                            <li class="border-bottom pt-2 pb-2"><a href=""><strong>BPI Report</strong></a></li>
+                        </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-lg-3 col-xl-3">
+            <div class="card-box">
+              <form class="form-horizontal ng-untouched ng-pristine ng-valid p-0" novalidate="" role="form">
+                <div class="col-xl-12">
+                  <div class="row">
+                    <div class="form-group row pb-0">
+                      <div class="col-sm-12">
+                        <h4><i class="fe-file-text mr-1"></i>Inventory</h4>
+                        <p>Quisque nec turpis at urna dictum luc endisse convallis dignissim eros at volutpat.</p>
+                          <ul>
+                              <li class="border-top border-bottom pt-2 pb-2"><a href=""><strong>Transfer Report -From one warehouse to another</strong></a></li>
+                              <li class="border-bottom pt-2 pb-2"><a href=""><strong>Issue / Allocation Report –Issued out to machine</strong></a></li>
+                              <li class="border-bottom pt-2 pb-2"><a href=""><strong>Inventory available by Part Number</strong></a></li>
+                              <li class="border-bottom pt-2 pb-2"><a href=""><strong>Inventory by Manufacturer</strong></a></li>
+                              <li class="border-bottom pt-2 pb-2"><a href=""><strong>Inventory Turn Over Report</strong></a></li>
+                              <li class="border-bottom pt-2 pb-2"><a href=""><strong>Min / Max Report by Part Number</strong></a></li>
+                              <li class="border-bottom pt-2 pb-2"><a href=""><strong>Global Inventory – Inventory of all parts across all warehouses</strong></a></li>
+                              <li class="border-bottom pt-2 pb-2"><a href=""><strong>Global Inventory Search by Part Number / Manufacturer / Description</strong></a></li>
+                          </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form> 
+            </div>
+          </div>
+          <div class="col-lg-3 col-xl-3">
+            <div class="card-box">
+              <form class="form-horizontal ng-untouched ng-pristine ng-valid p-0" novalidate="" role="form">
+                <div class="col-xl-12">
+                  <div class="row">
+                    <div class="form-group row pb-0">
+                      <div class="col-sm-12">
+                        <h4><i class="fe-file-text mr-1"></i>Sales Order Report</h4>
+                        <p>Quisque nec turpis at urna dictum luc endisse convallis dignissim eros at volutpat.</p>
+                          <ul>
+                              <li class="border-top border-bottom pt-2 pb-2"><a href=""><strong>Monthly Sales Report</strong></a></li>
+                              <li class="border-bottom pt-2 pb-2"><a href=""><strong>Inventory Allocation</strong></a></li>
+                              <li class="border-bottom pt-2 pb-2"><a href=""><strong>Customer Activity Report</strong></a></li>
+                              <li class="border-bottom pt-2 pb-2"><a href=""><strong>Open Orders By SKU Report</strong></a></li>
+                              <li class="border-bottom pt-2 pb-2"><a href=""><strong>Order Margin Report</strong></a></li>
+                              <li class="border-bottom pt-2 pb-2"><a href=""><strong>Open Orders By Due Date</strong></a></li>
+                          </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="col-lg-3 col-xl-3">
+            <div class="card-box">
+              <form class="form-horizontal ng-untouched ng-pristine ng-valid p-0" novalidate="" role="form">
+                <div class="col-xl-12">
+                  <div class="row">
+                    <div class="form-group row pb-0">
+                      <div class="col-sm-12">
+                        <h4><i class="fe-file-text mr-1"></i>Invoice</h4>
+                        <p>Quisque nec turpis at urna dictum luc endisse convallis dignissim eros at volutpat.</p>
+                          <ul>
+                              <li class="border-top border-bottom pt-2 pb-2"><a href=""><strong>Monthly Invoice Summary</strong></a></li>
+                              <li class="border-bottom pt-2 pb-2"><a href=""><strong>Inventory </strong></a></li>
+                              <li class="border-bottom pt-2 pb-2"><a href=""><strong>Sales Report </strong></a></li>
+                              <li class="border-bottom pt-2 pb-2"><a href=""><strong>GL Account Report </strong></a></li>
+                              <li class="border-bottom pt-2 pb-2"><a href=""><strong>Sales Journal Report </strong></a></li>
+                          </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+      </div>
+    </div> -->
+</div>

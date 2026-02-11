@@ -1,0 +1,635 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="container-fluid">
+    <app-page-title title="Parts"></app-page-title>
+    <form [formGroup]="AddForm">
+        <div class="col-lg-12 col-xl-12 mt-4">
+            <div class="row">
+                <div class="col-lg-12 col-xl-12 nopad">
+                    <div class="card-box">
+                        <div class="form-horizontal ng-untouched ng-pristine ng-valid p-0" role="form">
+                            <div class="col-xl-12">
+                                <div class="row ml-1">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <h4><i class="fe-shopping-cart mr-1"></i>Product's Part Details</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Part #: <span
+                                                    class="red">*</span></label>
+                                            <div class="col-sm-9 mb-2 ng-autocomplete autoselect">
+                                                <!-- <input class="form-control" id="" type="text" placeholder="Enter Part #"
+                                                    formControlName="PartNo" required>
+                                                <span class="text-danger"
+                                                    *ngIf="(AddFormControl.PartNo.touched || submitted) && AddFormControl.PartNo.errors?.required">
+                                                    Part # is required
+                                                </span> -->
+                                                    <ng-autocomplete [data]="partsData" [(ngModel)]="model.PartNo" [isLoading]="isLoading" [searchKeyword]="keyword"
+                                                        (selected)='selectEvent($event)' formControlName="PartNo" name="PartNo" placeholder="Enter Part #"
+                                                        (inputChanged)='onChangeSearch($event)' (inputFocused)='onFocused($event)' (inputCleared)='clearEvent($event)'
+                                                        [itemTemplate]="partsItemTemplate" [notFoundTemplate]="notFoundTemplate" debounceTime="1000" required>
+                                                    </ng-autocomplete>
+                        
+                                                    <ng-template #partsItemTemplate let-item>
+                                                        <a [innerHTML]="item.PartNo"></a>
+                                                    </ng-template>
+                        
+                                                    <ng-template #notFoundTemplate let-notFound>
+                                                        <div [innerHTML]="notFound"></div>
+                                                    </ng-template>
+                                                    
+                                                    <span class="text-danger"
+                                                        *ngIf="(AddFormControl.PartNo.touched || submitted) && AddFormControl.PartNo.errors?.required">
+                                                        Part # is required
+                                                    </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Part
+                                                Description:</label>
+                                            <div class="col-sm-9">
+                                                <textarea class="form-control ng-pristine ng-valid ng-touched"
+                                                    formControlName="Description" name="Part Description"
+                                                    placeholder="Notes" rows="4"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label"
+                                                for="simpleinput">Manufacturer:</label>
+                                            <div class="col-sm-9">
+                                                <select class="custom-select" formControlName="ManufacturerId"
+                                                    name="ManufacturerId">
+                                                    <option value="">Select</option>
+                                                    <option *ngFor="let v of manufacturerList" value={{v.VendorId}}>
+                                                        {{v.title}}
+                                                    </option>
+                                                    <!-- <option *ngFor="let v of manufacturerList" [value]="v.VendorId"
+                                                        > {{v.title}} </option> -->
+                                                </select>
+                                                <!-- <span class="text-danger"
+                                                    *ngIf="(AddFormControl.ManufacturerId.touched || submitted) && AddFormControl.ManufacturerId.errors?.required">
+                                                    Manufacturer is required
+                                                </span> -->
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Manufacturer Part
+                                                No:</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" type="text" id=""
+                                                    placeholder="Manufacturer Part No"
+                                                    formControlName="ManufacturerPartNo">
+                                            </div>
+                                        </div>
+                                        <!-- <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Repair Parts
+                                                :</label>
+                                            <div class="col-sm-9" style="margin-top: 9px;">
+
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <label><input type="radio" name="IsNewOrRefurbished"
+                                                                formControlName="IsNewOrRefurbished" value="2" />
+                                                            Yes
+                                                        </label>
+
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <label><input type="radio" name="IsNewOrRefurbished"
+                                                                formControlName="IsNewOrRefurbished" value="0" />
+                                                            No
+
+                                                        </label>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div> -->
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Category:</label>
+                                            <div class="col-sm-9 ">
+                                                <select class="custom-select" name="PartCategoryId"
+                                                    formControlName="PartCategoryId">
+                                                    <option value="">Select</option>
+                                                    <option *ngFor="let item of categoryList"
+                                                        value="{{item.PartCategoryId}}">{{item.title}}</option>
+                                                </select>
+                                                <!-- <span class="text-danger" *ngIf="(item.get('PartCategoryId').touched || submitted) && item.get('PartCategoryId').errors?.required">
+                                                    Category is required
+                                                </span> -->
+                                                <span class="text-danger"
+                                                    *ngIf="(AddFormControl.PartCategoryId.touched || submitted) && AddFormControl.PartCategoryId.errors?.required">
+                                                    Category is required
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Date
+                                                Added:<span class="red">*</span></label>
+                                            <div class="col-sm-9">
+                                                <div class="input-group clockpicker">
+                                                    <input class="form-control" id="example-date" name="date"
+                                                        ngbDatepicker formControlName="StoreSince" autoClose="true"
+                                                        (click)="DateAdded.toggle()" placeholder="MM/DD/YYYY"
+                                                        #DateAdded="ngbDatepicker">
+                                                    <div class="input-group-append" (click)="DateAdded.toggle()">
+                                                        <span class="input-group-text"><i
+                                                                class="mdi mdi-calendar"></i></span>
+                                                    </div>
+                                                </div>
+                                                <span class="text-danger"
+                                                    *ngIf="(AddFormControl.StoreSince.touched || submitted) && AddFormControl.StoreSince.errors?.required">
+                                                    Date Added is required
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row" style="display: none;">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Preferred
+                                                Vendor:</label>
+                                            <div class="col-sm-9">
+                                                <!-- <ng-select [items]="vendorList" formControlName="PrimaryVendorId"
+                                                    name="PrimaryVendorId" placeholder="Select" bindLabel="title"
+                                                    bindValue="VendorId" [multiple]="true">
+                                                </ng-select> -->
+                                                <ng-select [items]="vendors$ | async" [typeahead]="vendorsInput$"
+                                                    [loading]="loadingVendors" [multiple]="true" [closeOnSelect]="false"
+                                                    [searchable]="true" [virtualScroll]="true" placeholder="Select"
+                                                    bindLabel="VendorName" formControlName="PrimaryVendorId"
+                                                    name="PrimaryVendorId">
+                                                    <ng-template ng-header-tmp *ngIf="VendorsList.length > 0">
+                                                        <button type="button" (click)="selectAll()"
+                                                            class="btn btn-sm btn-link">Select all</button>
+                                                    </ng-template>
+                                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                                        <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                                                            <span class="ng-value-label">{{item.VendorName}}</span>
+                                                            <span class="ng-value-icon right" (click)="clear(item)"
+                                                                aria-hidden="true">×</span>
+                                                        </div>
+                                                        <div class="ng-value" *ngIf="items.length > 1">
+                                                            <span class="ng-value-label">+ {{items.length - 1}}
+                                                                more...</span>
+                                                        </div>
+                                                    </ng-template>
+                                                    <ng-template ng-option-tmp let-item="item" let-item$="item$"
+                                                        let-index="index">
+                                                        <input id="item-{{index}}" type="checkbox"
+                                                            [checked]="item$.selected" [ngModel]="item$.selected"
+                                                            [ngModelOptions]="{standalone: true}" />
+                                                        {{item.VendorName}}
+                                                    </ng-template>
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="form-group row mb-0 mt-1">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Currency:<span
+                                                class="red">*</span></label>
+                                                <div class="col-sm-9">
+                                            <select class="custom-select" name="LocalCurrencyCode" formControlName="LocalCurrencyCode" (change)="onCurrencyChange($event)">
+                                                <option value="" disabled>Select</option>
+                                                <option *ngFor="let item of CurrencyList"
+                                                    value={{item.CurrencyCode}}>
+                                                    {{item.CurrencyCode}}&nbsp;-{{item.CurrencySymbol}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                            <span class="text-danger"
+                                            *ngIf="(AddFormControl.LocalCurrencyCode.touched || submitted) && AddFormControl.LocalCurrencyCode.errors?.required">
+                                            Currency is required
+                                         </span>
+                                        </div> -->
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h5 class="header-title m-t-0 mb-2">Upload Images</h5>
+                                                <!-- file upload 
+                                                <file-upload class="dropzone"></file-upload>-->
+
+                                                <div class="row">
+                                                    <div class="col-sm-3 img-container"
+                                                        *ngFor="let vattachment of ImagesList; let i = index;">
+
+
+                                                        <span *ngIf="!vattachment.IsDeleted">
+                                                            <span *ngIf="vattachment.mimetype == 'image/jpeg'">
+                                                                <a href="{{vattachment.path}}" target="_blank">
+                                                                    <img src="{{vattachment.path}}" class="img-fluid"
+                                                                        ngbTooltip="{{vattachment.originalname}}"
+                                                                        width="200" alt="work-thumbnail">
+                                                                </a>
+                                                                <button class="btn" (click)="removeImage(i)"><span
+                                                                        aria-hidden="true"> × </span></button>
+                                                            </span>
+                                                            <span *ngIf="vattachment.mimetype == 'image/png'">
+                                                                <a href="{{vattachment.path}}" target="_blank">
+                                                                    <img src="{{vattachment.path}}" class="img-fluid"
+                                                                        ngbTooltip="{{vattachment.originalname}}"
+                                                                        width="200" alt="work-thumbnail">
+                                                                </a>
+                                                                <button class="btn" (click)="removeImage(i)"><span
+                                                                        aria-hidden="true"> × </span></button>
+                                                            </span>
+                                                        </span>
+                                                        <br>
+                                                    </div>
+                                                </div>
+                                                <input type="file" multiple="multiple" class="form-control"
+                                                    accept="image/png,image/jpeg" [(ngModel)]="Attachment"
+                                                    formControlName="Attachment" (change)="fileProgressMultiple($event)"
+                                                    [writeFile]="true">
+                                                <i class="fa fa-spinner fa-spin" *ngIf="spinner"></i>
+                                                <span class="text-danger"
+                                                    *ngIf="(AddFormControl.Attachment.touched || submitted) && AddFormControl.Attachment.errors?.extension">
+                                                    image should be jpeg and png only
+                                                </span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12 col-xl-12 nopad">
+
+
+            <div class="row">
+                <div class="col-lg-12 col-xl-12">
+                    <div class="card-box">
+                        <div class="form-horizontal ng-untouched ng-pristine ng-valid p-0" novalidate="" role="form">
+                            <div class="col-xl-12">
+                                <div class="row ml-1">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <h4><i class="fe-shopping-cart mr-1"></i>Online Store Part Items <span
+                                                    style="cursor:pointer;" (click)="addRepairPart()"><i
+                                                        class="mdi mdi-plus-circle mr-1"></i></span></h4>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div formArrayName="PartsItemList">
+                                    <div class="row row-box" *ngFor="let item of PartsItemList.controls; let i = index;"
+                                        [formArrayName]="i">
+                                        <div class="col-xl-12"><a (click)="removePartItem(i)"
+                                                class="float-right text-danger"
+                                                style="cursor: pointer;font-size: 20px; margin-right:10px;"
+                                                *ngIf="i != 0">
+                                                <i class="remixicon-delete-bin-line delete-btn-ico"></i>
+                                            </a></div>
+                                        <div class="col-xl-6">
+                                            <div class="form-group row mb-0">
+                                                <label class="col-sm-3 col-form-label" for="simpleinput" *ngIf="!FordTemplate">APN No:<span
+                                                        class="red">*</span>
+                                                </label>
+                                                <label class="col-sm-3 col-form-label" for="simpleinput" *ngIf="FordTemplate">Ref No 1:<span
+                                                    class="red">*</span>
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control" id="" type="text"
+                                                        placeholder="Enter APN No" formControlName="APNNo">
+                                                    <span class="text-danger"
+                                                        *ngIf="(item.get('APNNo').touched || submitted) && item.get('APNNo').errors?.required">
+                                                        APNNo is required
+                                                    </span>
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group row mb-2">
+                                                <label class="col-sm-3 col-form-label" for="simpleinput">Vendor:<span
+                                                        class="red">*</span>
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    <ng-select (ngModelChange)="vendorChange(i)" [items]="VendorsList" [loading]="loadingVendors"
+                                                        bindLabel="VendorName" bindValue="VendorId" [searchable]="true"
+                                                        formControlName="VendorId" [placeholder]="'Enter Vendor Name'"
+                                                        name="VendorId" (clear)="clearVendor(i)">
+                                                    </ng-select>
+                                                    <!-- <select (change)="vendorChange($event, i)" class="custom-select" name="VendorId" formControlName="VendorId">
+                                                        <option value="">Select</option>
+                                                        <option *ngFor="let item of VendorsList" value="{{item.VendorId}}">
+                                                            {{item.VendorName}}</option>
+                                                    </select> -->
+                                                    <span class="text-danger"
+                                                        *ngIf="(item.get('VendorId').touched || submitted) && item.get('VendorId').errors?.required">
+                                                        Vendor is required
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row mb-0">
+                                                <label class="col-sm-3 col-form-label" for="simpleinput">Selling
+                                                    Price:<span class="red">*</span></label>
+                                                <div class="col-sm-9">
+                                                    <div class="row">
+                                                        <div class="col-xl-3 pr-0">
+                                                            <select (change)="sellingCurrencyChange($event, i)"
+                                                                class="custom-select" name="SellingCurrencyCode"
+                                                                formControlName="SellingCurrencyCode">
+                                                                <option value="" disabled>Select Currency</option>
+                                                                <option *ngFor="let item of CurrencyList"
+                                                                    value={{item.CurrencyCode}}>
+                                                                    {{item.CurrencyCode}}&nbsp;-{{item.CurrencySymbol}}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-xl-9 pl-0">
+                                                            <input class="form-control" id="" type="number" min="0"
+                                                                placeholder="Enter Selling Price"
+                                                                (change)="onSellingPriceChange($event, i)"
+                                                                formControlName="SellingPrice">
+                                                        </div>
+                                                        <span class="text-danger"
+                                                            *ngIf="(item.get('SellingCurrencyCode').touched || submitted) && item.get('SellingCurrencyCode').errors?.required">
+                                                            Selling CurrencyCode is required</span>
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <span class="text-danger"
+                                                            *ngIf="(item.get('SellingPrice').touched || submitted) && item.get('SellingPrice').errors?.required">
+                                                            Selling Price is required</span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row mb-2">
+                                                <label class="col-sm-3 col-form-label" for="simpleinput">Type:<span
+                                                        class="red">*</span>
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    <ng-select [items]="partTypes" bindLabel="part_typeName"
+                                                        bindValue="part_typeId" formControlName="PartItemType"
+                                                        [placeholder]="'Select Type'" name="PartItemType">
+                                                    </ng-select>
+                                                    <span class="text-danger"
+                                                        *ngIf="(item.get('PartItemType').touched || submitted) && item.get('PartItemType').errors?.required">
+                                                        Type is required
+                                                    </span>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group row mb-0">
+
+                                                <label *ngIf="item.get('ShopPartItemId').value == ''"
+                                                    class="col-sm-3 col-form-label" for="simpleinput">Stock In Quantity:<span class="red">*</span>
+                                                </label>
+                                                <label *ngIf="item.get('ShopPartItemId').value != ''" class="col-sm-3 col-form-label" for="simpleinput">Available Quantity:
+                                                </label>
+                                                <div class="col-sm-9" *ngIf="!checkShowStockIn(i)">
+                                                    <input class="form-control" id="" type="number" min="1"
+                                                        placeholder="Enter Available Quantity"
+                                                        formControlName="ShopCurrentQuantity"
+                                                        [readonly]="item.get('ShopPartItemId').value != '' ? true : false">
+                                                        <span class="text-danger" *ngIf="(item.get('ShopCurrentQuantity').touched || submitted) && item.get('ShopCurrentQuantity').errors?.required">
+                                                            Quantity is required
+                                                        </span>
+                                                </div>
+                                                <div class="col-sm-9" *ngIf="checkShowStockIn(i)">
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <input class="form-control" id="" type="number" min="1"
+                                                                placeholder="Enter Available Quantity"
+                                                                formControlName="ShopCurrentQuantity"
+                                                                [readonly]="item.get('ShopPartItemId').value != '' ? true : false">
+                                                        </div>
+                                                        <div class="col-sm-3" *ngIf="IsAddStockInView">
+                                                            <button ngbTooltip="Stock In"
+                                                                class="btn btn-bordered-secondary waves-effect width-md waves-light"
+                                                                style="min-width: 95px;"
+                                                                (click)="addPartQuantity(i, 0)">+</button>
+                                                        </div>
+                                                        
+                                                        <div class="col-sm-3" *ngIf="IsReduceStockView">
+                                                            <button ngbTooltip="Reduce Quantity" class="btn btn-bordered-secondary waves-effect width-md waves-light" style="min-width: 95px;" (click)="addPartQuantity(i, 1)">-</button>
+                                                        </div>
+                                                        <div class="col-sm-3" *ngIf="IsViewStockLogView">
+                                                            <button ngbTooltip="Logs" class="btn btn-bordered-secondary waves-effect width-md waves-light" style="min-width: 95px;" (click)="callStockLog(i)"><i class="fa fa-history" aria-hidden="true"></i></button>
+                                                        </div>
+                                                    </div>
+                                                    <span class="text-danger" *ngIf="(item.get('ShopCurrentQuantity').touched || submitted) && item.get('ShopCurrentQuantity').errors?.required">
+                                                        Quantity is required
+                                                    </span>
+
+                                                </div>
+                                                
+                                                
+                                            </div>
+
+                                            <div class="form-group row mb-0">
+                                                <!-- <div class="row">
+                                                        <div class="col-12"> -->
+
+                                                <label class="col-sm-3 col-form-label" for="simpleinput">Upload
+                                                    Images</label>
+                                                <div class="col-sm-9">
+                                                    <input type="file" multiple="multiple" class="form-control"
+                                                        accept="image/png,image/jpeg" formControlName="ItemAttachment"
+                                                        (change)="fileProgressMultipleItem($event, i)"
+                                                        [writeFile]="true">
+                                                    <i class="fa fa-spinner fa-spin" *ngIf="spinneritem"></i>
+
+                                                    <div class="row" *ngIf="ImagesItemList && ImagesItemList[i]">
+                                                        <div class="col-sm-3 img-container"
+                                                            *ngFor="let vattachment of ImagesItemList[i]; let j = index;">
+                                                            <span *ngIf="!vattachment.IsDeleted">
+                                                                <span *ngIf="vattachment.mimetype == 'image/jpeg'">
+                                                                    <a href="{{vattachment.path}}" target="_blank">
+                                                                        <img src="{{vattachment.path}}"
+                                                                            class="img-fluid"
+                                                                            ngbTooltip="{{vattachment.originalname}}"
+                                                                            width="200" alt="work-thumbnail">
+                                                                    </a>
+                                                                    <button class="btn"
+                                                                        (click)="removeImageItem(i, j)"><span
+                                                                            aria-hidden="true"> × </span></button>
+                                                                </span>
+                                                                <span *ngIf="vattachment.mimetype == 'image/png'">
+                                                                    <a href="{{vattachment.path}}" target="_blank">
+                                                                        <img src="{{vattachment.path}}"
+                                                                            class="img-fluid"
+                                                                            ngbTooltip="{{vattachment.originalname}}"
+                                                                            width="200" alt="work-thumbnail">
+                                                                    </a>
+                                                                    <button class="btn"
+                                                                        (click)="removeImageItem(i, j)"><span
+                                                                            aria-hidden="true"> × </span></button>
+                                                                </span>
+                                                            </span>
+                                                            <br>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <span class="text-danger"
+                                                    *ngIf="(item.get('ItemAttachment').touched || submitted) && item.get('ItemAttachment').errors?.required">
+                                                    Image should be jpeg and png only
+                                                </span>
+
+                                                <!-- </div>
+                                                    </div> -->
+                                            </div>
+
+                                            <!-- <div class="form-group row mb-0">
+                                                <label class="col-sm-3 col-form-label" for="simpleinput">Available Quantity:
+                                                    </label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control" id="" type="text" placeholder="Enter Available Quantity"
+                                                        formControlName="ShopCurrentQuantity" required>
+                                                </div>
+                                            </div> -->
+                                            <!-- <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label" for="simpleinput">Display in Online Store?:<span class="red">*</span></label>
+                                                <div class="col-sm-9" style="margin-top: 9px;">
+                                                    <div class="row">
+                                                        <div class="col-sm-4">
+                                                            <label><input (change)="manageOnline($event)" id="IsEcommerceProduct" type="radio" name="IsEcommerceProduct"
+                                                                    formControlName="IsEcommerceProduct" value="1"/>
+                                                                Yes
+                                                            </label>
+
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <label><input (change)="manageOnline($event)" id="IsEcommerceProduct" type="radio" name="IsEcommerceProduct"
+                                                                    formControlName="IsEcommerceProduct" value="0"/>
+                                                                No
+
+                                                            </label>
+                                                        </div>
+                                                        <span class="text-danger" *ngIf="(item.get('IsEcommerceProduct').touched || submitted) && item.get('IsEcommerceProduct').errors?.required">
+                                                        Display in Online Store? is required
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                        </div>
+
+                                        <div class="col-xl-6">
+                                            <div class="form-group row mb-0">
+                                                <label class="col-sm-3 col-form-label" for="simpleinput">Serial No:
+                                                    <!-- <span class="red">*</span> -->
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control" id="" type="text"
+                                                        placeholder="Enter Serial No" formControlName="SerialNo">
+                                                    <span class="text-danger"
+                                                        *ngIf="(item.get('SerialNo').touched || submitted) && item.get('SerialNo').errors?.required">
+                                                        Serial No is required
+                                                    </span>
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group row mb-0">
+                                                <label class="col-sm-3 col-form-label" for="simpleinput">Vendor
+                                                    Cost:<span class="red">*</span></label>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend"><span class="input-group-text"
+                                                                id="basic-addon1">{{vendorSymbol[i]}}</span>
+                                                        </div>
+                                                        <input class="form-control" id="" type="number" min="0"
+                                                            placeholder="Enter Vendor Cost"
+                                                            formControlName="BuyingPrice"
+                                                            (change)="onBuyingPriceChange($event, i)">
+                                                    </div>
+                                                    <span class="text-danger"
+                                                        *ngIf="(item.get('BuyingPrice').touched || submitted) && item.get('BuyingPrice').errors?.required">
+                                                        Vendor Cost is required
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row mb-2">
+                                                <label class="col-sm-3 col-form-label" for="simpleinput">Location:<span
+                                                        class="red">*</span>
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    <ng-select [items]="StoreLocation" bindLabel="LocationName"
+                                                        bindValue="LocationId" [searchable]="true"
+                                                        formControlName="LocationId" [placeholder]="'Select Location'"
+                                                        name="LocationId">
+                                                    </ng-select>
+                                                    <span class="text-danger"
+                                                        *ngIf="(item.get('LocationId').touched || submitted) && item.get('LocationId').errors?.required">
+                                                        Location is required
+                                                    </span>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group row mb-2">
+                                                <label class="col-sm-3 col-form-label" for="simpleinput">Delivery:
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control" type="text"
+                                                        placeholder="Enter Delivery details"
+                                                        formControlName="PartItemDelivery">
+                                                    <span class="text-danger"
+                                                        *ngIf="(item.get('PartItemDelivery').touched || submitted) && item.get('PartItemDelivery').errors?.required">
+                                                        Delivery is required
+                                                    </span>
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group row mb-2" *ngIf="checkShowStockIn(i)">
+                                                <label class="col-sm-3 col-form-label" for="simpleinput">Total Quantity:
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control" id="" type="number" min="1"
+                                                        placeholder="Enter Total Quantity"
+                                                        formControlName="ShopTotalQuantity" readonly>
+                                                    <!-- <button class="btn btn-bordered-secondary waves-effect width-md waves-light" (click)="addPartQuantity(i)">+ Stock In</button> -->
+                                                </div>
+                                            </div>
+                                            <div class="form-group row mb-2">
+                                                <label class="col-sm-3 col-form-label" for="simpleinput">Part
+                                                    Description:
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    <textarea class="form-control" formControlName="PartItemDescription"
+                                                        rows="5" placeholder="Description"></textarea>
+                                                    <span class="text-danger"
+                                                        *ngIf="(item.get('PartItemDescription').touched || submitted) && item.get('PartItemDescription').errors?.required">
+                                                        Description is required
+                                                    </span>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="row mb-4">
+                <div class="col-12 text-center">
+                    <input type="button" class="btn btn-bordered-primary waves-effect width-md waves-light mr-1"
+                        (click)="onFormSubmit()" value="Submit" [disabled]="loadingVendors"/>
+                    <input type="button" class="btn btn-bordered-secondary waves-effect width-md waves-light"
+                        (click)="onback()" value="Cancel" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

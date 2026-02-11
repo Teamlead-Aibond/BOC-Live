@@ -1,0 +1,267 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="container-fluid">
+	<app-page-title title="Purchase Order"></app-page-title>
+
+	<div class="row">
+		<div class="d-flex justify-content-center">
+			<div class="col-xl-9">
+				<div class="fn-btns d-print-none">
+					<a
+						href="javascript:window.print()"
+						class="btn btn-primary waves-effect waves-light"
+						><i class="mdi mdi-printer mr-1"></i> Print</a
+					>
+					<input
+						type="button"
+						value="Download"
+						class="btn btn-success waves-effect waves-light ml-1"
+						(click)="generatePDF()"
+					/>
+				</div>
+				<div class="card-box">
+					<div id="contentToConvert" class="col-12 pdfwrap">
+						<div class="row">
+							<div class="col-xl-12 text-center pdflogo">
+								<img
+									style="height: 116px; width: 115px"
+									class="img-fluid"
+									src="assets/images/ahlogo.png"
+									alt=""
+								/>
+								<p>+91 8489813526 - info@aibond.ai</p>
+								<div class="greybgpdf">&nbsp;</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div style="padding-left: 18px" class="col-md-4">
+								<img src="assets/images/barcode1.png" alt="" class="barimg" />
+
+								<div class="pt-3">
+									<p>
+										<b>Shipping Account Number:</b><br />
+										<b>Ship Via:</b><br />
+										<b>Sales Order No:</b><br />
+										<b>Repair Request No:</b> RR044316<br />
+										<b>Vendor Ref #:</b><br />
+										<b>Customer Ref # 1:</b> APN: N45539<br />
+										<b>Customer Ref # 2:</b> Supplier part#32.2852<br />
+										<b>Customer Ref # 3:</b> 10/02/2020
+									</p>
+								</div>
+							</div>
+							<div class="col-md-4 text-center">
+								<h3 style="font-size: 21px; padding-top: 19px">Purchase Order</h3>
+							</div>
+							<div class="col-md-4">
+								<div style="padding-top: 10px" class="float-right po-cs">
+									<p>
+										<span class="split60 text-right"><b>PO Number :</b></span>
+										<span class="split40 nopad">PO044858</span>
+									</p>
+									<p>
+										<span class="split60 text-right"><b>Terms :</b></span>
+										<span class="split40 nopad">Net 60</span>
+									</p>
+									<p>
+										<span class="split60 text-right"><b>PO Date :</b></span>
+										<span class="split40 nopad">10/13/2020</span>
+									</p>
+									<p>
+										<span class="split60 text-right"
+											><b>Expected Delivery Date :</b></span
+										>
+										<span class="split40 nopad">10/30/2020</span>
+									</p>
+									<p>
+										<span class="split60 text-right"><b>Phone :</b></span>
+										<span class="split40 nopad"></span>
+									</p>
+									<p>
+										<span class="split60 text-right"><b>Fax :</b></span>
+										<span class="split40 nopad"></span>
+									</p>
+									<p>
+										<span class="split60 text-right"><b>Customer Ref # 4:</b></span>
+										<span class="split40 nopad">PON: 453.75</span>
+									</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="row m45">
+							<div style="padding-left: 18px" class="col-md-5">
+								<h4>Vendor</h4>
+								<p class="m-b-5">
+									GearX [ GearX ]<br />
+									35550 Mound Rd<br />
+									Sterling Heights, MI<br />
+									48310
+								</p>
+							</div>
+							<div class="col-md-4">
+								<h4>Billing Address</h4>
+								<p class="m-b-5">
+									American Hydrostatics Distribution, Inc.<br />
+									Aibond<br />
+									P.O. Box 188 <br />
+									Sterling Heights, MI, 48311
+								</p>
+							</div>
+							<div class="col-md-3">
+								<div class="float-right">
+									<h4>Shipping Address</h4>
+									<p class="m-b-5">
+										Aibond<br />
+										35550 Mound Rd<br />
+										Sterling Heights, MI,<br />
+										48310
+									</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-12 m51">
+								<div class="table-responsive">
+									<table class="table table-centered popdf">
+										<thead>
+											<tr>
+												<th width="6.7%">Line</th>
+												<th width="17.3%">Part</th>
+												<th width="25%">Part Description</th>
+												<th width="6.6%">UOM</th>
+												<th width="7.6%">Quantity</th>
+												<th width="20.4%" class="text-right">Unit Price(US$)</th>
+												<th width="16.4%" class="text-right">Amount(US$)</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>1</td>
+												<td>New Unit</td>
+												<td>AHR-440ELL5SE8 - AHMEM2005</td>
+												<td>EA</td>
+												<td>1.00</td>
+												<td class="text-right">335.44</td>
+												<td class="text-right">335.44</td>
+											</tr>
+											<tr>
+												<td>2</td>
+												<td>Repair Charges</td>
+												<td width="40%">AHR-440ELL5SE8 - AHMEM2005</td>
+												<td>EA</td>
+												<td>1.00</td>
+												<td class="text-right">0.00</td>
+												<td class="text-right">0.00</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-9">&nbsp;</div>
+							<div class="col-md-3">
+								<div class="mt-3 float-right po-cs">
+									<p>
+										<span class="split60 text-right"><b>Total Order Cost : </b></span>
+										<span class="sp40 nopad">335.44</span>
+									</p>
+									<p>
+										<span class="split60 text-right"><b>Total Taxes : </b></span>
+										<span class="sp40 nopad">0.00</span>
+									</p>
+									<p>
+										<span class="split60 text-right"><b>Freight Charges : </b></span>
+										<span class="sp40 nopad">0.00</span>
+									</p>
+									<p>
+										<span class="split60 text-right"><b>Adjust Charges : </b></span>
+										<span class="sp40 nopad">0.00</span>
+									</p>
+									<p>
+										<span class="split60 text-right"><b>Grand Total : </b></span>
+										<span class="sp40 nopad">335.44</span>
+									</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="clearfix pt-5">
+									<h6>Shipping Notes:</h6>
+									<p style="padding: 0 0 43px 3px">
+										Attn: (warehouse representative) Rudolph Wilczynski. All the outbound
+										shipping should be covered by Vendor. PLEASE NOTIFY info@aibond.ai
+										WHEN THE PART SHIPS
+									</p>
+									<div class="terms-detail">
+										<p>
+											Documentation: Confirmation of this purchase order is required.
+											Please confirm to
+											<a href="mailto:info@aibond.ai">info@aibond.ai</a>. All packing
+											slips, invoices, and other correspondence must reference the PO
+											Number or RR Number, with the Purchase Order and Invoice matching
+											exactly to receive payment.
+										</p>
+
+										<p>
+											Shipping Instructions: All ground and outbound freight charges for
+											shipments delivered back to Aibond are to be covered by Supplier, and
+											Aibond will not be responsible for any outgoing charges. No freight
+											charges or shipping & handling fees may be added to the PO or
+											invoiced amount. Please contact
+											<a href="mailto:info@aibond.ai">info@aibond.ai</a>
+											with questions.
+										</p>
+
+										<p>
+											Please see notes and “Ship Via/Shipping Account” fields for specific
+											shipping instructions/method to be used. AH will not be responsible
+											for any freight charges due to incorrect processing and if charges
+											occur, the amount of the shipping cost will be deducted from
+											Supplier’s invoiced amount. If notations/shipping account/ methods
+											are not indicated on the Purchase Order, order defaults to Supplier
+											being responsible for shipment costs back to AH.
+										</p>
+
+										<p>
+											Any changes to this order, any variance in price, delivery date,
+											specifications, quantities, or terms must be requested by returning a
+											copy of this order with proposed changes to AH. If approved, a
+											revised PO will be issued. No verbal changes are accepted.
+										</p>
+
+										<p>
+											Terms & Conditions: Please reference American Hydrostatics Terms and
+											Conditions. If you do not have a copy of these Terms, please email
+											<a href="mailto:info@aibond.ai">info@aibond.ai</a>.
+										</p>
+									</div>
+									<div class="greybgpdf">&nbsp;</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- <div class="mt-4 mb-1">
+            <div class="text-right d-print-none">
+                <a href="javascript:window.print()" class="btn btn-primary waves-effect waves-light"><i class="mdi mdi-printer mr-1"></i> Print</a>
+                <a href="javascript: void(0);" class="btn btn-success waves-effect waves-light ml-1">Submit</a>
+
+            </div>
+        </div> -->
+	</div>
+</div>

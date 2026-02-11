@@ -1,0 +1,227 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+
+<div class="container-fluid">
+    <app-page-title title="Shop Part View"></app-page-title>
+
+
+    <div class="row">
+        <div class="col-lg-3 col-xl-3">
+            <!-- <div class="card-box text-center ribbon-box" *ngIf="InventoryData"> -->
+            <div class="card-box text-center ribbon-box">
+
+             <div class="ribbon ribbon-pink float-left"><span>{{viewResult.IsActive ? "Active":
+                        "Inactive"}}</span></div>
+                <!-- <div class="ribbon ribbon-pink float-left"><span>Active</span></div> -->
+
+
+                 <img src="{{viewResult.PartImage}}" class="rounded img-thumbnail" alt="Product Image" onerror="this.src = 'assets/images/No Image Available.png';" /> 
+                <h4 class="mb-0">{{viewResult.PartNo}}</h4>
+                <!-- <p class="text-muted">Added date: {{InventoryData.data.StoreSince | date: "MM/dd/yyyy"}}</p> -->
+                <p class="text-muted">Added date : {{viewResult.StoreSince | dateTransform}}</p>
+
+                <div class="text-left mt-3">
+                    <h4 class="font-13 text-uppercase">Description:</h4>
+                    <!-- <p class=" font-13 mb-3 font-16">
+                        {{InventoryData.data.Description}}
+                    </p> -->
+                    <p class=" font-13 mb-3 font-16"> {{viewResult.Description}} </p>
+                </div>
+            </div>
+            <!-- end card-box -->
+        </div>
+        <!-- end col-->
+
+        <div class="col-lg-9 col-xl-9">
+
+            <div class="row">
+                <div class="col-lg-12 col-xl-12">
+                    <div class="card-box">
+                        <div class="form-horizontal ng-untouched ng-pristine ng-valid p-0" role="form">
+                            <div class="col-xl-12">
+                                <div class="row ml-1">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <h4><i class="fe-shopping-cart mr-1"></i>Product's Part Details</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-12">
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Part #: </label>
+                                            <div class="col-sm-9 col-form-label">
+                                                {{viewResult.PartNo}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Part
+                                                Description:</label>
+                                            <div class="col-sm-9 col-form-label">
+                                                {{viewResult.Description}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Manufacturer:</label>
+                                            <div class="col-sm-9 col-form-label">
+                                                {{viewResult.ManufacturerId}}
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Manufacturer Part
+                                                No:</label>
+                                            <div class="col-sm-9">
+                                                {{viewResult.ManufacturerPartNo}}
+
+                                            </div>
+                                        </div>
+                                        <!-- <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Repair Parts
+                                                :</label>
+                                            <div class="col-sm-9">
+                                                {{IsNewOrRefurbished}}
+
+                                            </div>
+                                        </div> -->
+                                        <div class="form-group row mb-0">
+                                                <label class="col-sm-3 col-form-label" for="simpleinput">Category:
+                                                    </label>
+                                                <div class="col-sm-9">
+                                                   {{viewResult.PartCategoryId}}
+                                                </div>
+                                        </div>
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Currency:</label>
+                                            <div class="col-sm-9">
+                                                {{viewResult.LocalCurrencyCode}}
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Date Added:</label>
+                                            <div class="col-sm-9">
+                                                {{viewResult.StoreSince | dateTransform}}
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+
+            <div class="row">
+                <div class="col-lg-12 col-xl-12">
+                    <div class="card-box">
+                        <div class="form-horizontal ng-untouched ng-pristine ng-valid p-0" novalidate="" role="form">
+                            <div class="col-xl-12">
+                                <div class="row ml-1">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <h4><i class="fe-shopping-cart mr-1"></i>Online Store Part Items </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row row-box" *ngFor="let item of this.viewResultItems;">
+                                    <div class="col-xl-6">
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput" *ngIf="!FordTemplate">APN No:
+                                                </label>
+                                                <label class="col-sm-4 col-form-label" for="simpleinput" *ngIf="FordTemplate">Ref No 1:
+                                                </label>
+                                            <div class="col-sm-8 col-form-label">
+                                               {{item.APNNo}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Vendor:</label>
+                                            <div class="col-sm-8 col-form-label">
+                                            {{item.VendorId}}
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+
+                                    <div class="col-xl-6">
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">SerialNo:</label>
+                                            <div class="col-sm-8 col-form-label">
+                                                {{item.SerialNo}}
+
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Vendor Cost:</label>
+                                            <div class="col-sm-8 col-form-label">
+                                                {{item.BuyingCurrencyCode}} {{item.BuyingPrice}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-6">
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">SellingPrice:</label>
+                                            <div class="col-sm-8 col-form-label">
+                                                {{item.SellingCurrencyCode}} {{item.SellingPrice}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">ShopCurrentQuantity:</label>
+                                            <div class="col-sm-8 col-form-label">
+                                                {{item.ShopCurrentQuantity}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Location:</label>
+                                            <div class="col-sm-8 col-form-label">
+                                            {{item.LocationId}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">ShopTotalQuantity:</label>
+                                            <div class="col-sm-8 col-form-label">
+                                            {{item.ShopTotalQuantity}}
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            
+
+            <div class="row mb-4">
+                <div class="col-12 text-center">
+                    <input class="btn btn-bordered-primary waves-effect width-md waves-light mr-1" type="button" value="Submit">
+                    <input class="btn btn-bordered-secondary waves-effect width-md waves-light" type="button" value="Cancel" (click)="onback()">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

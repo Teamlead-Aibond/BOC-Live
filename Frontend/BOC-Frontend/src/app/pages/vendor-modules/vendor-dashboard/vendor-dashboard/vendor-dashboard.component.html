@@ -1,0 +1,347 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<style>
+    .hideDiv {
+        display: none !important;
+    }
+</style>
+<div class="sideNavcontainer">
+    <app-page-title title="Dashboard" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+    <div class="row">
+        <div class="col-xl-12 nopad">
+            <div class="col-xl-12 nopad">
+                <!-- <h4 style="width:100%;font-size: 1.2rem;" class="header-title text-center pl15">
+                    <span class="mt-2">Yesterday</span>
+                    <input class="selectpicker sepick" type="text" ngxDaterangepickerMd
+                        [(ngModel)]="dateYesterdayFilter" [showCustomRangeLabel]="true"
+                        [keepCalendarOpeningWithRange]="true" [timePicker]="false" [alwaysShowCalendars]="true"
+                        [ranges]="ranges" [linkedCalendars]="true" startKey="FromDate" endKey="ToDate"
+                        [isInvalidDate]="isInvalidDate" (ngModelChange)="yesterdayStatus()" [showClearButton]="true"
+                        readonly>
+                </h4>
+                <span class="clear15"></span> -->
+
+                <div class="col-7 float-left">
+                    <div class="widget-bg-color-icon card-box card-dashpad dhh">
+                        <div class="avatar-lg rounded-circle  bg-icon-info float-left mt-1 col-4">
+                            <i class="mdi mdi-file-document-outline font-24 avatar-title text-white"></i>
+                        </div>
+                        <div class="rct mt-2 col-8">
+                            <h3 class="tdd mt-1" *ngIf="YesterdayStatus"><span>
+                                    <a *ngIf="YesterdayStatus.AwaitingQuote==0 || YesterdayStatus.AwaitingQuote==null">{{YesterdayStatus.AwaitingQuote
+                                        ||
+                                        0}}</a>
+                                    <a style="cursor: pointer;"
+                                        *ngIf="YesterdayStatus.AwaitingQuote!=0  && YesterdayStatus.AwaitingQuote!=null"
+                                        (click)="onYesterdayStatusList(2)">{{YesterdayStatus.AwaitingQuote || 0}} </a>
+                                </span>
+                            </h3>
+                            <p class="text-mute-blue mb-0">Awaiting Quote</p>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+                <div class="col-7 float-left">
+                    <div class="widget-bg-color-icon card-box card-dashpad dhh">
+                        <div class="avatar-lg rounded-circle bg-icon-purple float-left mt-1 col-4">
+                            <i class="remixicon-todo-line font-24 avatar-title text-white"></i>
+                        </div>
+                        <div class="rct mt-2 col-8">
+                            <h3 class="tdd mt-1" *ngIf="YesterdayStatus"><span>
+                                    <a *ngIf="YesterdayStatus.Quoted==0 || YesterdayStatus.Quoted==null">{{YesterdayStatus.Quoted
+                                        || 0}}</a>
+                                    <a style="cursor: pointer;"
+                                        *ngIf="YesterdayStatus.Quoted!=0 && YesterdayStatus.Quoted!=null"
+                                        (click)="onYesterdayStatusList(4)">{{YesterdayStatus.Quoted || 0}} </a>
+                                </span>
+                            </h3>
+                            <p class="text-mute-blue mb-0">Quoted</p>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+                <div class="col-7 float-left">
+                    <div class="widget-bg-color-icon card-box card-dashpad dhh">
+                        <div class="avatar-lg rounded-circle bg-icon-warning float-left mt-1 col-4">
+                            <i class="fas fa-check-circle font-24 avatar-title text-white"></i>
+                        </div>
+                        <div class="rct mt-2 col-8">
+                            <h3 class="tdd mt-1" *ngIf="YesterdayStatus"><span>
+                                    <a *ngIf="YesterdayStatus.Approved==0 || YesterdayStatus.Approved==null">{{YesterdayStatus.Approved
+                                        || 0}}</a>
+                                    <a style="cursor: pointer;"
+                                        *ngIf="YesterdayStatus.Approved!=0 && YesterdayStatus.Approved!=null"
+                                        (click)="onYesterdayStatusList(5)">{{YesterdayStatus.Approved || 0}} </a>
+                                </span>
+                            </h3>
+                            <a class="text-mute-blue mb-0">Approved</a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+                <div class="col-7 float-left">
+                    <div class="widget-bg-color-icon card-box card-dashpad dhh">
+                        <div class="avatar-lg rounded-circle bg-icon-danger float-left mt-1 col-4">
+                            <i class="fa fa-times font-24 avatar-title text-white"></i>
+                        </div>
+                        <div class="rct mt-2 col-8">
+                            <h3 class="tdd mt-1" *ngIf="YesterdayStatus"><span>
+                                    <a *ngIf="YesterdayStatus.Rejected==0 || YesterdayStatus.Rejected==null">{{YesterdayStatus.Rejected
+                                        || 0}}</a>
+                                    <a style="cursor: pointer;"
+                                        *ngIf="YesterdayStatus.Rejected!=0 && YesterdayStatus.Rejected!=null"
+                                        (click)="onYesterdayStatusList(6)">{{YesterdayStatus.Rejected || 0}} </a>
+                                </span>
+                            </h3>
+                            <a class="text-mute-blue mb-0">Rejected</a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+                <div class="col-7 float-left">
+                    <div class="widget-bg-color-icon card-box card-dashpad dhh">
+                        <div class="avatar-lg rounded-circle bg-icon-success float-left mt-1 col-4">
+                            <i class="fa fa-th-list font-24 avatar-title text-white"></i>
+                        </div>
+                        <div class="rct mt-2 col-8">
+                            <h3 class="tdd mt-1" *ngIf="YesterdayStatus"><span>
+                                    <a *ngIf="YesterdayStatus.Completed==0 || YesterdayStatus.Completed==null">{{YesterdayStatus.Completed
+                                        || 0}}</a>
+                                    <a style="cursor: pointer;"
+                                        *ngIf="YesterdayStatus.Completed!=0 && YesterdayStatus.Completed!=null"
+                                        (click)="onYesterdayStatusList(7)">{{YesterdayStatus.Completed || 0}} </a>
+                                </span>
+                            </h3>
+                            <p class="text-mute-blue mb-0">Completed</p>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12 nopad">
+            <div class="col-xl-12 nopad">
+                <h4 style="width:100%;font-size: 1.2rem;" class="header-title text-center pl15">
+                    <span class="mt-2">Today</span>
+                    <input class="selectpicker sepick" type="text" ngxDaterangepickerMd [(ngModel)]="dateTodayFilter"
+                        [showCustomRangeLabel]="true" [keepCalendarOpeningWithRange]="true" [timePicker]="false"
+                        [alwaysShowCalendars]="true" [ranges]="ranges" [linkedCalendars]="true" startKey="FromDate"
+                        endKey="ToDate" [isInvalidDate]="isInvalidDate" (ngModelChange)="todayStatus()"
+                        [showClearButton]="true" readonly>
+                </h4>
+                <span class="clear15"></span>
+
+                <div class="col-7 float-left">
+                    <div class="widget-bg-color-icon card-box card-dashpad dhh">
+                        <div class="avatar-lg rounded-circle bg-icon-info  float-left mt-1 col-4">
+                            <i class="mdi mdi-file-document-outline font-24 avatar-title text-white"></i>
+                        </div>
+                        <div class="rct mt-2 col-8">
+                            <h3 class="tdd mt-1" *ngIf="TodayStatus"><span><a style="cursor: pointer;"
+                                        *ngIf="TodayStatus.AwaitingQuote!=0 &&  TodayStatus.AwaitingQuote!=null"
+                                        (click)="onStatusList(2)">{{TodayStatus.AwaitingQuote || 0}} </a>
+                                    <a *ngIf="TodayStatus.AwaitingQuote==0 || TodayStatus.AwaitingQuote==null">{{TodayStatus.AwaitingQuote
+                                        || 0}} </a>
+                                </span>
+                            </h3>
+                            <p class="text-mute-blue mb-0">Awaiting Quote</p>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+                <div class="col-7 float-left">
+                    <div class="widget-bg-color-icon card-box card-dashpad dhh">
+                        <div class="avatar-lg rounded-circle bg-icon-purple float-left mt-1 col-4">
+                            <i class="remixicon-todo-line font-24 avatar-title text-white"></i>
+                        </div>
+                        <div class="rct mt-2 col-8">
+                            <h3 class="tdd mt-1" *ngIf="TodayStatus"><span>
+                                    <a *ngIf="TodayStatus.Quoted==0 || TodayStatus.Quoted ==null">{{TodayStatus.Quoted
+                                        || 0}}</a>
+                                    <a style="cursor: pointer;"
+                                        *ngIf="TodayStatus.Quoted!=0  &&  TodayStatus.Quoted !=null"
+                                        (click)="onStatusList(4)">{{TodayStatus.Quoted || 0}} </a>
+                                </span></h3>
+                            <p class="text-mute-blue mb-0">Quoted</p>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+                <div class="col-7 float-left">
+                    <div class="widget-bg-color-icon card-box card-dashpad dhh">
+                        <div class="avatar-lg rounded-circle bg-icon-warning float-left mt-1 col-4">
+                            <i class="fas fa-check-circle font-24 avatar-title text-white"></i>
+                        </div>
+                        <div class="rct mt-2 col-8">
+                            <h3 class="tdd mt-1" *ngIf="TodayStatus"><span>
+
+                                    <a *ngIf="TodayStatus.Approved==0 || TodayStatus.Approved ==null">
+                                        {{TodayStatus.Approved || 0}}</a>
+                                    <a style="cursor: pointer;"
+                                        *ngIf="TodayStatus.Approved!=0  &&  TodayStatus.Approved !=null"
+                                        (click)="onStatusList(5)"> {{TodayStatus.Approved || 0}} </a>
+                                </span>
+                            </h3>
+                            <p class="text-mute-blue mb-0">Approved</p>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+                <div class="col-7 float-left">
+                    <div class="widget-bg-color-icon card-box card-dashpad dhh">
+                        <div class="avatar-lg rounded-circle bg-icon-danger float-left mt-1 col-4">
+                            <i class="fa fa-times font-24 avatar-title text-white"></i>
+                        </div>
+                        <div class="rct mt-2 col-8">
+                            <h3 class="tdd mt-1" *ngIf="TodayStatus"><span>
+                                    <a *ngIf="TodayStatus.Rejected==0 || TodayStatus.Rejected==null">
+                                        {{TodayStatus.Rejected || 0}}</a>
+                                    <a style="cursor: pointer;"
+                                        *ngIf="TodayStatus.Rejected!=0  &&  TodayStatus.Rejected!=null"
+                                        (click)="onStatusList(6)"> {{TodayStatus.Rejected || 0}} </a>
+                                </span></h3>
+                            <p class="text-mute-blue mb-0">Rejected</p>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+                <div class="col-7 float-left">
+                    <div class="widget-bg-color-icon card-box card-dashpad dhh">
+                        <div class="avatar-lg rounded-circle bg-icon-success float-left mt-1 col-4">
+                            <i class="fa fa-th-list font-24 avatar-title text-white"></i>
+                        </div>
+                        <div class="rct mt-2 col-8">
+                            <h3 class="tdd mt-1" *ngIf="TodayStatus"><span>
+                                    <a *ngIf="TodayStatus.Completed==0 || TodayStatus.Completed==null">
+                                        {{TodayStatus.Completed || 0}}</a>
+                                    <a style="cursor: pointer;"
+                                        *ngIf="TodayStatus.Completed!=0  &&  TodayStatus.Completed!=null"
+                                        (click)="onStatusList(7)"> {{TodayStatus.Completed || 0}} </a>
+                                </span></h3>
+                            <p class="text-mute-blue mb-0">Completed</p>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-lg-12 nopad">
+            <div class="col-lg-6 float-left">
+                <div class="card-box" dir="ltr">
+                    <h4 class="header-title bluetxt mb-3">Logged-In Status by Date</h4>
+                    <div class="input-group clockpicker mb-3">
+                        <input ngbDatepicker class="form-control" [ngModel]="dateFilterFieldForChart"
+                            (ngModelChange)="onChartDateChange($event)" readonly autoClose="false"
+                            placeholder="dd/mm/yyyy" #date="ngbDatepicker" [autoClose]="true">
+                        <div class="input-group-append" (click)="date.toggle()">
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                        </div>
+                    </div>
+                    <div id="timelineChartData" [ngClass]="(! isTimelineChartShow)? 'hideDiv':''"></div>
+                    <div *ngIf="! isTimelineChartShow;">No Records found ...</div>
+                </div>
+            </div>
+            <div class="col-lg-6 float-left">
+                <div class="card-box" [class.fullscreen]="isOpen == true">
+                    <h4 class="header-title bluetxt mb-3">Logged-In Status</h4>
+                    <div class="card-widgets">
+
+                        <a href="javascript: void(0);" (click)="_toggleWindow()" class="mdi mdi-arrow-expand ml-1"></a>
+                    </div>
+                    <div class="row">
+                        <input class="selectpicker sepickchart" type="text" ngxDaterangepickerMd
+                            [(ngModel)]="LoggedFilter" [showCustomRangeLabel]="true"
+                            [keepCalendarOpeningWithRange]="true" [timePicker]="false" [alwaysShowCalendars]="true"
+                            [ranges]="ranges" [linkedCalendars]="true" startKey="FromDate" endKey="ToDate"
+                            [isInvalidDate]="isInvalidDate" (ngModelChange)="LoggedInStatus()" [showClearButton]="true"
+                            readonly>
+                    </div>
+                    <!-- <lib-ngx-chartist [data]="stackBarChart.data" [options]="stackBarChart.options" [type]="stackBarChart.type" [events]="stackBarChart.events">
+                    </lib-ngx-chartist>  -->
+                    <div *ngIf="arrLength.length > 0">
+                        <apx-chart [series]="basicColumChart.series" [chart]="basicColumChart.chart"
+                            [dataLabels]="basicColumChart.dataLabels" [plotOptions]="basicColumChart.plotOptions"
+                            [xaxis]="basicColumChart.xaxis" [stroke]="basicColumChart.stroke"
+                            [fill]="basicColumChart.fill" [yaxis]="basicColumChart.yaxis"
+                            [tooltip]="basicColumChart.tooltip" [legend]="basicColumChart.legend"
+                            [colors]="basicColumChart.colors"></apx-chart>
+                    </div>
+                    <br>
+                    <div *ngIf="arrLength.length ==0">No Records found ...</div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card-box">
+                <h4 class="header-title bluetxt">Purchase Order Due</h4>
+                <div class="table-responsive">
+                    <table id="datatable-angular-PODue" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                        class="table mb-15 datatables dt-responsive hover nowrap dataTable">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>RR #</th>
+                                <th>Amount</th>
+                                <th>Due Date</th>
+                                <th>Due Days</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- end col -->
+
+        <div class="col-xl-6">
+            <div class="card-box">
+                <h4 class="header-title bluetxt mb-10">Rush / Warranty RR</h4>
+                <div class="table-responsive">
+                    <table id="datatable-angular-rushWarrantyRR" datatable [dtOptions]="dtOptions2"
+                        [dtTrigger]="dtTrigger2" class="table mb-15 datatables dt-responsive hover nowrap dataTable">
+                        <thead class="thead-light">
+                            <tr>
+                                <th width="20%">RR #</th>
+                                <th width="10%">Part #</th>
+                                <th width="10%">Created</th>
+                                <th width="25%">Status</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+            </div>
+            <!-- end card-box-->
+        </div>
+        <!-- end col -->
+    </div>
+    <!-- end row -->
+
+
+</div>

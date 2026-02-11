@@ -1,0 +1,524 @@
+<div class="container-fluid">
+    <app-page-title title="Add Repair Request" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-xl-12">
+            <form class="form" role="form" (ngSubmit)="onSubmit(AddForm)" [formGroup]="AddForm">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="sticky-container">
+                            <div id="so-groups" class="right so-groups-sticky hidden-xs" style="top:198px">
+                                <!-- <a (click)="reLoad()" data-target="popup" data-popup="#popup-revert">
+                                    <span>Reset</span> <i class="mdi mdi-refresh"></i>
+                                </a> -->
+                                <button *ngIf="showsave" [disabled]="btnDisabled"
+                                    [ngClass]="{'class': (btnDisabled)? 'gray': 'btn-group btn-group-sm float-right'}">
+                                    <span>Save</span> <i class="mdi mdi-content-save"></i>
+                                </button>
+                                <button routerLink="/admin/repair-request/list" class="bg-danger" type="button">
+                                    <span>Back</span><i class="fas fa-arrow-left"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-box">
+                    <div class="row">
+                        <div class="col-xl-12 float-left">
+                            <span class="alert alert-warning" *ngIf="PriorityNotes != ''">
+                                <i class="mdi mdi-alert-outline mr-1"></i> {{PriorityNotes}}
+                            </span>
+                        </div>
+
+                        <!-- <div class="col-xl-3 sales-right">
+                            <div class="btn-group btn-group-sm float-right" role="group">
+                                <button ngbTooltip="Save" placement="top" class="btn btn-icon waves-effect"
+                                    *ngIf="showsave">
+                                    <i class="mdi mdi-content-save"></i>
+                                </button>
+                                <button ngbTooltip="Back" placement="top" class="btn btn-icon bg-primary waves-effect"
+                                    routerLink="/admin/repair-request/list">
+                                    <i class="fas fa-arrow-left"></i>
+                                </button>
+                            </div>
+                        </div> -->
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-12 float-left">
+                            <div class="repair-left">
+
+                                <div class="row">
+                                    <h4 class="page-title bluetxt ml-2 mb-3">Basic Details</h4>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xl-5 col-lg-5 float-left">
+                                        <div class="form-group">
+                                            <label for="Customer">Customer <span class="red">*</span></label>
+                                            <ng-autocomplete class="ng-autocomplete" [isLoading]="isLoading"
+                                                [data]="customerList" [initialValue]="" [placeholder]="placeholder"
+                                                (selected)='selectEvent($event)' (inputCleared)='clearEvent($event)'
+                                                [searchKeyword]="keyword" (inputChanged)='onChangeSearch($event)'
+                                                (inputFocused)='onFocused($event)' [itemTemplate]="itemTemplate"
+                                                [notFoundTemplate]="notFoundTemplate" debounceTime="1000">
+
+                                            </ng-autocomplete>
+
+                                            <span class="text-danger" style="position:relative; top:31px;"
+                                                *ngIf="(AddFormControl.CompanyName.touched || submitted) && AddFormControl.CompanyName.errors?.required">
+                                                Customer is required
+                                            </span>
+                                            <ng-template #itemTemplate let-item>
+                                                <a [innerHTML]="item.CompanyName"></a>
+                                            </ng-template>
+
+                                            <ng-template #notFoundTemplate let-notFound>
+                                                <div [innerHTML]="notFound"></div>
+                                            </ng-template>
+                                            <!-- <ng-select [items]="customerList" [searchable]="true" [virtualScroll]="true" formControlName="CustomerId" name="CustomerId" placeholder="Select" [(ngModel)]="CustomerId" (change)="getCustomerProperties(CustomerId, $event)" bindLabel="title" bindValue="CustomerId">
+
+                                            </ng-select> -->
+
+                                        </div>
+                                        <br>
+                                        <div class="row" *ngIf="CustomerCountryId!=Location && CustomerId">
+                                            <div class="col-xl-12">
+                                                <label><span class="text-danger">Country mismatch</span> -  <span class="badge badge-primary btn-xs">Customer Country</span> :{{CustomerCountry}}, <span class="badge badge-pink btn-xs">Ah Country</span> : {{LocationName}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label for="Customer">Department</label>
+                                                    <ng-select [items]="departmentList" [searchable]="true"
+                                                        [(ngModel)]="DepartmentId" formControlName="DepartmentId"
+                                                        placeholder="Select" bindLabel="DepartmentName"
+                                                        (change)="getDepartmentDetails(DepartmentId)" id="rrDepartment"
+                                                        bindValue="DepartmentId">
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label for="Customer">Machine/Asset</label>
+                                                    <ng-select [items]="assetList" [searchable]="true"
+                                                        [(ngModel)]="AssetId" formControlName="AssetId"
+                                                        placeholder="Select" bindLabel="AssetName"
+                                                        (change)="getAssetDetails(AssetId)" id="rrAsset"
+                                                        bindValue="AssetId">
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-0">
+                                            <div class="col-xl-12">
+                                                <div class="form-group">
+                                                    <label for="Customer">Warranty Recovery :</label>
+                                                    <select class="custom-select" name="IsWarrantyRecovery" formControlName="IsWarrantyRecovery">
+                                                        <option value="">Select</option>
+                                                        <option value="{{item.warranty_type_id}}" *ngFor="let item of WarrantyList">{{item.warranty_type_Name}}</option>
+                                                    </select>
+                                                  
+                                                </div>
+                                                <!-- <div class="form-group">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" id="IsWarrantyRecovery"
+                                                            value="1" formControlName="IsWarrantyRecovery"
+                                                            name="IsWarrantyRecovery" [(ngModel)]="IsWarrantyRecovery"
+                                                            type="checkbox">
+                                                        <label class="custom-control-label" for="IsWarrantyRecovery">
+                                                            Warranty Recovery
+                                                        </label>
+                                                    </div>
+                                                </div> -->
+                                            </div>
+                                            </div>
+                                            <div class="row mb-0">
+                                                <div class="col-xl-12">
+                                                <div class="form-check form-check-inline">
+                                                    <div class="form-group">
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input class="custom-control-input"
+                                                                formControlName="IsWarrantyDenied" id="IsWarrantyDenied" value="1"
+                                                                name="IsRepairTag" type="checkbox">
+                                                            <label class="custom-control-label" for="IsWarrantyDenied">
+                                                                Warranty denied?
+                                                            </label>
+                                                        </div>
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <div class="form-group">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" id="IsRushRepair" value="1"
+                                                            formControlName="IsRushRepair" name="IsRushRepair"
+                                                            type="checkbox">
+                                                        <label class="custom-control-label" for="IsRushRepair">
+                                                            Rush Repair
+                                                        </label>
+                                                    </div>
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                                <div class="form-group">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input"
+                                                            formControlName="IsRepairTag" id="IsRepairTag" value="1"
+                                                            name="IsRepairTag" type="checkbox">
+                                                        <label class="custom-control-label" for="IsRepairTag">
+                                                            Repair Tag
+                                                        </label>
+                                                    </div>
+                                                
+                                            </div>
+                                        </div>
+
+                                         <div class="form-check form-check-inline">
+                                                <div class="form-group">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input"
+                                                            formControlName="IsCriticalSpare" id="IsCriticalSpare" value="1"
+                                                            name="IsCriticalSpare" type="checkbox">
+                                                        <label class="custom-control-label" for="IsCriticalSpare">
+                                                            Critical Spare?
+                                                        </label>
+                                                    </div>
+                                                
+                                            </div>
+                                        </div>
+                                       
+                                        </div>
+                                        </div>
+                                        <div class="row mt-1 mb-2">
+                                            <div class="col-xl-12">
+                                                <label class="form-group">Upload Part Images</label>
+                                                <!-- <h5 class="header-title m-t-0 mb-2">Upload Images</h5> -->
+
+                                                <div class="row">
+                                                    <div class="col-sm-3"
+                                                        *ngFor="let vattachment of RRImagesList; let i = index;">
+                                                        <span *ngIf="vattachment.mimetype == 'image/jpeg'">
+                                                            <a href="{{vattachment.path}}" target="_blank">
+                                                                <img src="{{vattachment.path}}" class="img-fluid"
+                                                                    ngbTooltip="{{vattachment.originalname}}"
+                                                                    width="200" alt="work-thumbnail">
+                                                            </a>
+                                                        </span>
+                                                        <span *ngIf="vattachment.mimetype == 'image/png'">
+                                                            <a href="{{vattachment.path}}" target="_blank">
+                                                                <img src="{{vattachment.path}}" class="img-fluid"
+                                                                    ngbTooltip="{{vattachment.originalname}}"
+                                                                    width="200" alt="work-thumbnail">
+                                                            </a>
+                                                        </span>
+                                                        <br>
+                                                    </div>
+                                                </div>
+                                                <input type="file" multiple="multiple" class="form-control"
+                                                    accept="image/png,image/jpeg" [(ngModel)]="Attachment"
+                                                    formControlName="Attachment" (change)="fileProgressMultiple($event)"
+                                                    [writeFile]="true">
+                                                <i class="fa fa-spinner fa-spin" *ngIf="spinner"></i>
+                                                <span class="text-danger"
+                                                    *ngIf="(AddFormControl.Attachment.touched || submitted) && AddFormControl.Attachment.errors?.extension">
+                                                    image should be jpeg and png only
+                                                </span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-3 col-lg-3 float-left">
+                                        <div class="form-group">
+                                            <label for="Customer">Description <span class="red">*</span></label>
+                                            <textarea class="form-control" placeholder="Description..."
+                                                name="RRDescription" formControlName="RRDescription"
+                                                [(ngModel)]="RRDescription" rows="5"></textarea>
+                                            <span class="text-danger"
+                                                *ngIf="(AddFormControl.RRDescription.touched || submitted) && AddFormControl.RRDescription.errors?.required">
+                                                Description is required
+                                            </span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="Customer">Customer Stated Issue
+                                                <span class="red">*</span>
+                                            </label>
+                                            <textarea class="form-control" placeholder="Customer Stated Issue..."
+                                                name="StatedIssue" formControlName="StatedIssue" rows="5"></textarea>
+                                                <span class="text-danger"
+                                                *ngIf="(AddFormControl.StatedIssue.touched || submitted) && AddFormControl.StatedIssue.errors?.required">
+                                                Customer Stated Issue is required
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-4 float-left creference" #creference1>
+                                        <label class="mtt" for="Customer">Customer Reference <span class="red">*</span> </label>
+                                        <div *ngIf="customerReferenceList.length>0">
+                                            <div [formGroup]="item"
+                                                *ngFor="let item of AddForm.controls.CustomerReferenceList['controls']; let i = index;let last=last;">
+                                                <div class="form-group">
+
+                                                    <div class="row col-xl-12 nopad">
+
+
+                                                        <div class="col-xl-12 nopad-lt mtt float-left">
+
+
+                                                            <div class="col-xl-4 mtt float-left cr-txt">
+                                                                <input id="ReferenceLabelName"
+                                                                    formControlName="ReferenceLabelName"
+                                                                    name="ReferenceLabelName" type="hidden">
+                                                                <input id="CReferenceId" formControlName="CReferenceId"
+                                                                    name="CReferenceId" type="hidden">
+
+                                                                {{item.controls.ReferenceLabelName.value}} <span
+                                                                    class="float-right">:</span>
+                                                            </div>
+
+                                                            <div class="col-xl-8 nopad-rt float-left mt-2">
+
+                                                                <input type="text" class="form-control"
+                                                                    formControlName="ReferenceValue"
+                                                                    name="ReferenceValue"
+                                                                    placeholder="Enter the {{item.controls.ReferenceLabelName.value}} value">
+                                                                <span class="text-danger"
+                                                                    *ngIf="(item.controls.ReferenceValue.touched || submitted) && item.controls.ReferenceValue.errors?.required">
+                                                                    {{item.controls.ReferenceLabelName.value}} value is
+                                                                    required
+                                                                </span>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="text-danger" *ngIf="customerRef == 'Error'">
+                                            Customer Reference is required
+                                        </div>
+                                        <div class="row mt-1 mb-2">
+                                            <div class="col-xl-12">
+                                                <div class="custom-control custom-switch float-right">
+                                                    <button style="margin-right: 15px;"
+                                                        class="btn btn-pink btn-sm waves-effect raa" type="button"
+                                                        *ngIf="CustomerId && customerReferenceList.length < 6 && CustomerReference[CREATE_ACCESS] == 1"
+                                                        (click)="addReferenceType()">
+                                                        <i class="remixicon-add-fill mrg-5"></i> Add Reference Type
+                                                    </button>
+                                                    <!-- <button style="margin-right: 15px;" class="btn btn-primary btn-sm waves-effect raa" type="button" *ngIf="customerReferenceList.length != 6" (click)="addReference()">
+                                                        <i class="remixicon-add-fill mrg-5"></i> Add Reference
+                                                    </button> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    
+                                </div>
+
+                                <h4 class="page-title bluetxt mb-10">Repair Parts</h4>
+                                
+                                    <div class="table-responsive mt-15">
+                                        <table class="table table-bordered table-striped mb-0">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>Part #<span class="red">*</span></th>
+                                                    <th>Description</th>
+                                                    <th>Manufacturer Name/Part #</th>
+                                                    <!-- <th>Manufacturer Part #</th> -->
+                                                    <th>Serial # <span class="red">*</span></th>
+                                                    <th>Lead Time</th>
+                                                    <th>Qty</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td style="width: 15%;">
+                                                        <ng-select [items]="partList" [searchable]="true"
+                                                            [(ngModel)]="PartId" formControlName="PartId"
+                                                            placeholder="Select Part #" id="rrParts"
+                                                            (click)="openPopup(PartId, $event)"
+                                                            [keyDownFn]="keydownInDropdown"
+                                                            (change)="getPartDetails(PartId)" bindLabel="PartNo"
+                                                            bindValue="PartId">
+
+                                                        </ng-select>
+
+                                                        <input type="hidden" name="PartNo" [(ngModel)]="PartNo"
+                                                            formControlName="PartNo">
+                                                        <input type="hidden" name="Price" [(ngModel)]="Price"
+                                                            formControlName="Price">
+                                                        <div *ngIf="PartId"><b>New Price (Customer)</b> : {{Symbol}} {{PON}}</div>
+                                                        <!-- <div *ngIf="PartId"><b>LPP</b>&nbsp;&nbsp; : $ {{LPP}}</div> -->
+                                                    </td>
+                                                    <td style="width: 15%;">
+                                                        <textarea class="form-control" placeholder="Description..."
+                                                            name="Description" formControlName="Description"
+                                                            [(ngModel)]="Description" rows="3"></textarea>
+                                                    </td>
+                                                    <td style="width: 10%;">
+                                                        <span *ngIf="ManufactuerName">{{ManufactuerName}}</span>
+                                                        <input type="hidden" name="Manufactuer" [(ngModel)]="Manufactuer" formControlName="Manufactuer"><br>
+                                                        <input type="text" class="form-control" name="ManufacturerPartNo" [(ngModel)]="ManufacturerPartNo"
+                                                            formControlName="ManufacturerPartNo" placeholder="Manufacturer Part #">
+                                                    </td>
+                                                    <!-- <td style="width: 12%;">
+                                                        <input type="text" class="form-control" name="ManufacturerPartNo"
+                                                            [(ngModel)]="ManufacturerPartNo"
+                                                            formControlName="ManufacturerPartNo"
+                                                            placeholder="Manufacturer Part #">
+                                                    </td> -->
+                                                    <td style="width: 12%;">
+                                                        <input type="text" class="form-control" name="SerialNo"
+                                                            [(ngModel)]="SerialNo" formControlName="SerialNo"
+                                                            (change)="checkWarranty(SerialNo)" placeholder="Serial #">
+                                                    </td>
+                                                    <td style="width: 10%;">
+                                                        <div class="input-group">
+                                                            <input type="number" min="1" class="form-control"
+                                                                name="LeadTime" formControlName="LeadTime">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text">Day(s)</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td style="width: 6%;">
+                                                        <input type="text" min="1" class="form-control" name="Quantity"
+                                                            formControlName="Quantity" digitOnly [(ngModel)]="Quantity">
+
+
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-7 float-left text-danger"
+                                            *ngIf="(AddFormControl.PartId.touched || submitted) && AddFormControl.PartId.errors?.required">
+                                            Part # is required &nbsp;
+                                        </div>
+                                        <div class="col-xl-4 float-right text-danger"
+                                            *ngIf="(AddFormControl.SerialNo.touched || submitted) && AddFormControl.SerialNo.errors?.required">
+                                            Serial # is required &nbsp;
+                                        </div>
+                                        <div class="col-xl-4 float-right text-danger"
+                                            *ngIf="(AddFormControl.SerialNo.touched || submitted) && AddFormControl.SerialNo.errors?.pattern">
+                                            Serial # must be alphanumeric &nbsp;
+                                        </div>
+                                    </div>
+                                    <!-- <div class="row">
+                                        <div class="col-xl-12 float-left text-danger"
+                                            *ngIf="!showsave">
+                                            Duplicate entry. RR already exists with same part and serial no. You cannot add RR unless it is Completed / Rejected / Not Repairable
+                                        </div>
+                                        </div> -->
+                                    <div class="row">
+                                        <div class="col-xl-12 mm15">
+                                            <div class="col-xl-6 cust-part2"><input type="text" class="form-control w-95"
+                                                    name="CustomerPartNo1" formControlName="CustomerPartNo1"
+                                                    placeholder="Customer Part #1"></div>
+                                            <div class="col-xl-6 cust-part2"><input type="text" class="form-control w-95"
+                                                    name="CustomerPartNo2" formControlName="CustomerPartNo2"
+                                                    placeholder="Customer Part #2"></div>
+                                        </div>
+                                    
+                                </div>
+                                <div class="clear">&nbsp;</div>
+
+                                <h4 class="page-title bluetxt mb-10 mt-2">Contact Information</h4>
+                                <div class="table-responsive mt-15">
+                                    <table class="table table-bordered table-striped mb-0">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Phone</th>
+                                                <th>Email</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <ng-select [items]="adminList" [searchable]="true"
+                                                        [(ngModel)]="UserId" formControlName="UserId"
+                                                        placeholder="Select" (change)="getAdminView($event, UserId)"
+                                                        bindLabel="title" bindValue="UserId">
+                                                    </ng-select>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="ContactPhone"
+                                                        [(ngModel)]="ContactPhone" formControlName="ContactPhone">
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="ContactEmail"
+                                                        [(ngModel)]="ContactEmail" formControlName="ContactEmail">
+                                                    <span class="text-danger"
+                                                        *ngIf="(AddFormControl.ContactEmail.touched || submitted) && AddFormControl.ContactEmail.errors?.email">
+                                                        Enter a valid email id
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- <div class="col-xl-3 float-left mt-2">
+                            <div class="repair-right">
+                                <div class="col-xl-12">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h5 class="header-title m-t-0 mb-2">Upload Images</h5>
+
+                                            <div class="row">
+                                                <div class="col-sm-3"
+                                                    *ngFor="let vattachment of RRImagesList; let i = index;">
+
+
+                                                    <span *ngIf="vattachment.mimetype == 'image/jpeg'">
+                                                        <a href="{{vattachment.path}}" target="_blank">
+                                                            <img src="{{vattachment.path}}" class="img-fluid"
+                                                                ngbTooltip="{{vattachment.originalname}}" width="200"
+                                                                alt="work-thumbnail">
+                                                        </a>
+                                                    </span>
+                                                    <span *ngIf="vattachment.mimetype == 'image/png'">
+                                                        <a href="{{vattachment.path}}" target="_blank">
+                                                            <img src="{{vattachment.path}}" class="img-fluid"
+                                                                ngbTooltip="{{vattachment.originalname}}" width="200"
+                                                                alt="work-thumbnail">
+                                                        </a>
+                                                    </span>
+                                                    <br>
+                                                </div>
+                                            </div>
+                                            <input type="file" multiple="multiple" class="form-control"
+                                                accept="image/png,image/jpeg" [(ngModel)]="Attachment"
+                                                formControlName="Attachment" (change)="fileProgressMultiple($event)"
+                                                [writeFile]="true">
+                                            <i class="fa fa-spinner fa-spin" *ngIf="spinner"></i>
+                                            <span class="text-danger"
+                                                *ngIf="(AddFormControl.Attachment.touched || submitted) && AddFormControl.Attachment.errors?.extension">
+                                                image should be jpeg and png only
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

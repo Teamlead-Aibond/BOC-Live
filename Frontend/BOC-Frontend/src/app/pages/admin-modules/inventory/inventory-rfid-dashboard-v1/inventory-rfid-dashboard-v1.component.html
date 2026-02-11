@@ -1,0 +1,324 @@
+<div class="container-fluid inv-dahboard">
+	<app-page-title
+		title="Inventory RFID Dashboard"
+		[breadcrumbItems]="breadCrumbItems"
+	></app-page-title>
+
+	<div class="row">
+		<div class="col-xl-12">
+			<div class="row">
+				<div class="col-xl-12 nopad">
+					<h4
+						class="header-title text-center pl15"
+						style="width: 100%; font-size: 1.2rem"
+					>
+						<span class="mt-2">Today</span> <span class="sepick1">{{ today }}</span>
+					</h4>
+
+					<span class="clear15"></span>
+
+					<div class="col-12 col-xl-4 col-sm-4 col-md-4 float-left">
+						<div class="widget-bg-color-icon card-box cl card-dashpad dhh">
+							<div
+								class="avatar-lg rounded-circle bg-icon-danger float-left cl-lemon col-4 col-sm-4 col-xl-2"
+							>
+								<i class="fas fa-th-large font23 avatar-title text-white"></i>
+							</div>
+							<div class="rct col-8 col-sm-8 col-xl-10">
+								<h3 class="tdd">
+									<span class="alink">
+										<a href="#" routerLink="/admin/inventory/list" target="_blank">{{
+											this.TotalInventory ? this.TotalInventory : 0
+										}}</a>
+									</span>
+								</h3>
+								<p class="text-mute-blue mb-0">
+									Total Inventory
+									<span class="float-right" *ngIf="this.PendingInventory > 0"
+										>({{ this.PendingInventory ? this.PendingInventory : '' }})</span
+									>
+								</p>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+
+					<div class="col-12 col-xl-4 col-sm-4 col-md-4 float-left">
+						<div class="widget-bg-color-icon card-box ci card-dashpad dhh">
+							<div
+								class="avatar-lg rounded-circle bg-icon-info float-left ci-warn col-4 col-sm-4 col-xl-2"
+							>
+								<i class="fas fa-dolly-flatbed font23 avatar-title text-white"></i>
+							</div>
+							<div class="rct col-8 col-sm-8 col-xl-10">
+								<h3 class="tdd">
+									<span class="alink">
+										<a
+											href="#"
+											routerLink="/admin/inventory/stockin-list"
+											target="_blank"
+											>{{ this.StockIn ? this.StockIn : 0 }}</a
+										>
+									</span>
+								</h3>
+								<p class="text-mute-blue mb-0">Stocked In</p>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+
+					<div class="col-12 col-xl-4 col-sm-4 col-md-4 float-left">
+						<div class="widget-bg-color-icon card-box si card-dashpad dhh">
+							<div
+								class="avatar-lg rounded-circle bg-icon-warning float-left si-warn col-4 col-sm-4 col-xl-2"
+							>
+								<i class="fas fa-truck-moving font35 avatar-title text-white"></i>
+							</div>
+							<div class="rct col-8 col-sm-8 col-xl-10">
+								<h3 class="tdd">
+									<span class="alink">
+										<a
+											href="#"
+											routerLink="/admin/inventory/stockout-list"
+											target="_blank"
+											>{{ this.StockOut ? this.StockOut : 0 }}</a
+										>
+									</span>
+								</h3>
+								<p class="text-mute-blue mb-0">Stocked Out</p>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+
+					<!-- Harish Development Starts (Unlocated - UX) -->
+					<!-- <div class="col-12 col-xl-3 col-sm-4 col-md-6 float-left">
+                        <div class="widget-bg-color-icon card-box cli card-dashpad dhh">
+                            <div class="avatar-lg rounded-circle bg-icon-danger float-left cli-lemon col-4 col-sm-4 col-xl-2">
+                                <i class="fas fa-compass font23 avatar-title text-white"></i>
+                            </div>
+                            <div class="rct col-8 col-sm-8 col-xl-10">
+                                <div class="rct col-8 col-sm-8 col-xl-10">
+                                    <h3 class="tdd">
+                                        <span class="alink">
+                                            <a href="#" routerLink="Place path directory link here"
+                                            target="_blank">
+                                            {{this.PendingInventory ? this.PendingInventory : 0}}</a>
+                                        </span>
+                                    </h3>
+                                    <p class="text-mute-blue2 mb-0">Unlocated Part#</p>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div> -->
+					<!-- Harish Development Ends -->
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xl-12">
+			<div style="padding: 1.5rem 1.5rem 10px" class="card-box dash-log">
+				<div class="row">
+					<div class="col-xl-12">
+						<div class="col-xl-6 col-sm-6 col-md-6 lpe float-left">
+							<h2>Checked-In Live</h2>
+
+							<div
+								style="padding-bottom: 15px; max-height: 611px"
+								class="card"
+								appSlimScroll
+							>
+								<div class="card-header bg-white text- header-title h4 border-0 my-1">
+									<div *ngFor="let lpr of epcLoadCheckInReady">
+										<ngb-alert
+											[dismissible]="false"
+											class="alert w-100 {{
+												lpr?.stockedInStatus && lpr?.locationStatus
+													? 'alert-success'
+													: 'alert-warning'
+											}}"
+											role="alert"
+											*ngIf="lpr?.stockedIn"
+										>
+											<!-- <ngb-alert *ngFor="let lpr of rfidExitGateReaderData" [dismissible]="false" class="alert w-100 alert-warning" role="alert"> -->
+											<div class="row">
+												<div
+													(click)="
+														setPartImage(
+															lpr?.inventory?.WarehouseSub3LayoutImage,
+															lpr?.tagInventoryEvent?.epc
+														)
+													"
+													class="col-xl-12"
+												>
+													<div class="col-lg-3 float-left nopad-lt">
+														<strong>Part #:</strong><br />
+														{{ lpr?.inventory?.PartNo }}
+													</div>
+													<div class="col-lg-3 float-left nopad-lt">
+														<strong>Serial #:</strong><br />
+														{{ lpr?.inventory?.SerialNo }}
+													</div>
+													<div class="col-lg-3 float-left nopad-lt">
+														<strong>RFID #:</strong><br />
+														{{ lpr?.tagInventoryEvent?.epcHexShort }}
+													</div>
+													<div class="col-lg-3 float-left nopad-lt">
+														<strong>RR #:</strong><br />
+														{{ lpr?.inventory?.RRNo }}
+													</div>
+												</div>
+											</div>
+
+											<div class="row mt-1">
+												<div class="col-xl-12">
+													<div class="col-lg-3 float-left nopad-lt">
+														<strong>Location:</strong><br />
+														{{ lpr?.inventory?.WarehouseName }}
+													</div>
+													<div class="col-lg-3 float-left nopad-lt">
+														<strong>Antenna 1 Time:</strong><br />
+														{{ lpr?.readyAntennaTime | date : 'medium' }}
+													</div>
+													<div class="col-lg-3 float-left nopad-lt">
+														<strong>Antenna 2 Time:</strong><br />
+														{{ lpr?.acceptAntennaTime | date : 'medium' }}
+													</div>
+													<div class="col-lg-3 float-left nopad-lt">
+														<strong>Employee #:</strong><br />
+														{{ lpr?.RFIDEmployeeNo }}
+													</div>
+												</div>
+											</div>
+											<div class="row mt-1">
+												<div class="col-xl-12">
+													<div class="col-lg-3 float-left nopad-lt">
+														<button
+															type="button"
+															(click)="
+																checkIn(lpr?.tagInventoryEvent?.epc, lpr?.RFIDEmployeeNo)
+															"
+															class="btn btn-primary btn-sm mb-1 mr-1 mt-1"
+															*ngIf="!lpr?.stockedInStatus"
+														>
+															Add
+														</button>
+
+														<button
+															type="button"
+															(click)="updateCheckIn(lpr?.inventory)"
+															class="btn btn-primary btn-sm mb-1 mr-1 mt-1"
+															*ngIf="lpr?.stockedInStatus && !lpr?.locationStatus"
+														>
+															Update
+														</button>
+													</div>
+												</div>
+											</div>
+										</ngb-alert>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xl-6 col-sm-6 col-md-6 lpe float-left">
+							<h2>
+								Checked-Out Live
+								<span class="float-right">
+									<button
+										type="button"
+										(click)="clearCheckOutList()"
+										class="btn btn-primary btn-sm mb-1 mr-1 mt-1"
+										*ngIf="epcLoadCheckOutReady.length > 0"
+									>
+										Clear
+									</button>
+								</span>
+							</h2>
+
+							<div
+								style="padding-bottom: 15px; max-height: 611px"
+								class="card"
+								appSlimScroll
+							>
+								<div class="card-header bg-white text- header-title h4 border-0 my-1">
+									<div *ngFor="let lpr1 of epcLoadCheckOutReady">
+										<ngb-alert
+											[dismissible]="false"
+											class="alert w-100 alert-danger"
+											role="alert"
+											*ngIf="lpr1?.stockedOut"
+										>
+											<div class="row">
+												<div
+													(click)="
+														setPartImage(
+															lpr1?.inventory?.WarehouseSub3LayoutImage,
+															lpr1?.tagInventoryEvent?.epc
+														)
+													"
+													class="col-xl-12"
+												>
+													<div class="col-lg-3 float-left nopad-lt">
+														<strong>Part#:</strong><br />
+														{{ lpr1?.inventory?.PartNo }}
+													</div>
+													<div class="col-lg-3 float-left nopad-lt">
+														<strong>Serial#:</strong><br />
+														{{ lpr1?.inventory?.SerialNo }}
+													</div>
+													<div class="col-lg-3 float-left nopad-lt">
+														<strong>RFID#:</strong><br />
+														{{ lpr1?.tagInventoryEvent?.epcHexShort }}
+													</div>
+													<div class="col-lg-3 float-left nopad-lt">
+														<strong>RR #:</strong><br />
+														{{ lpr1?.inventory?.RRNo }}
+													</div>
+												</div>
+											</div>
+											<div class="row mt-1">
+												<div class="col-xl-12">
+													<div class="col-lg-3 float-left nopad-lt">
+														<strong>Location:</strong><br />
+														{{ lpr1?.inventory?.WarehouseName }}
+													</div>
+													<div class="col-lg-3 float-left nopad-lt">
+														<strong>Antenna 2 Time:</strong><br />
+														{{ lpr1?.acceptAntennaTime | date : 'medium' }}
+													</div>
+													<div class="col-lg-3 float-left nopad-lt">
+														<strong>Antenna 1 Time:</strong><br />
+														{{ lpr1?.readyAntennaTime | date : 'medium' }}
+													</div>
+													<div class="col-lg-3 float-left nopad-lt">
+														<strong>Employee #:</strong><br />
+														{{ lpr1?.RFIDEmployeeNo }}
+													</div>
+												</div>
+											</div>
+										</ngb-alert>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- <div class="col-xl-6 col-sm-6 col-md-6 lpe float-left">
+                            <h2>Floor Layout</h2>
+
+                            <div style="margin-bottom: 0;" class="card">
+                                <div class="card-header bg-white text- header-title h4 border-0 my-1">
+                                    <span *ngIf="partLocationImage"> <img [src]='this.partLocationImage'
+                                            style="width: 100%; height: auto;" /> </span>
+                                </div>
+                            </div>
+                        </div> -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

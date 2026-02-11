@@ -1,0 +1,122 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="sideNavcontainer">
+    <app-page-title title="Customer Blanket PO Report List" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">
+                        <div style="font-size: 15px;position: relative;font-weight: bold;">
+
+                            <ngb-tabset class="nav-bordered" type="tabs">
+                                <ngb-tab title="Search" class="nav-item d-none d-sm-inline-block">
+                                    <ng-template ngbTabContent>
+                                        <ng-template [ngTemplateOutlet]="Search"></ng-template>
+                                    </ng-template>
+                                </ngb-tab>
+
+
+
+                            </ngb-tabset>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-12">
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <!-- Table -->
+                        <div style="padding-right: 15px;" class="table-responsive">
+                            <table id="datatable-angular-po-report" datatable [dtOptions]="dtOptions"
+                                [dtTrigger]="dtTrigger" class="table datatables dt-responsive hover nowrap">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Customer</th>
+                                        <th>Customer PO #</th>
+                                        <th>Amount</th>
+                                        <th>Invoiced Amount</th>
+                                        <th>Upcoming Invoice</th>
+                                        <th>Allocated Amount</th>
+                                        <th>Balance Amount</th>
+                                        <th>CustomerId</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #Search>
+    <div class="row collapse pt-2 show">
+        <div class="col-12 col-sm-6 col-md-6 col-xl-2">
+            <label class="control-label">Customers</label>
+            <ng-select [items]="customers$ | async" [typeahead]="customersInput$" [loading]="loadingCustomers"
+                [multiple]="true" [closeOnSelect]="false" [searchable]="true" [virtualScroll]="true"
+                placeholder="Select Customer" bindLabel="CustomerCode" bindValue="CustomerId" [(ngModel)]="Customer">
+                <ng-template ng-header-tmp *ngIf="CustomersList.length > 0">
+                    <button (click)="selectAll()" class="btn btn-sm btn-link">Select all</button>
+                </ng-template>
+                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                    <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                        <span class="ng-value-label">{{item.CompanyName}}</span>
+                        <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                    </div>
+                    <div class="ng-value" *ngIf="items.length > 1">
+                        <span class="ng-value-label">+ {{items.length - 1}} more...</span>
+                    </div>
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                    <input id="item-{{index}}" type="checkbox" [checked]="item$.selected" [ngModel]="item$.selected" />
+                    {{item.CompanyName}}
+                </ng-template>
+            </ng-select>
+
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Customer PO #</label>
+            <!-- <ng-autocomplete class="ng-autocomplete" placeholder="Enter Customer PO #" [data]="CustomerPONoList"
+                [isLoading]="isLoadingCustomerPONo" [searchKeyword]="keywordForCustomerPONo"
+                (selected)='selectCustomerPONoEvent($event)' [(ngModel)]="CustomerPONo"
+                (inputChanged)='onChangeCustomerPONoSearch($event)' [itemTemplate]="CustomerPONoitemTemplate"
+                [notFoundTemplate]="notFoundCustomerPONoTemplate" debounceTime="1000">
+            </ng-autocomplete>
+            <ng-template #CustomerPONoitemTemplate let-item>
+                <a [innerHTML]="item.CustomerPONo"></a>
+            </ng-template>
+
+            <ng-template #notFoundCustomerPONoTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+            </ng-template> -->
+            <input type="text" class="form-control" id="CustomerPONo" [(ngModel)]="CustomerPONo"
+                placeholder="Enter Customer PO #">
+        </div>
+
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2" style="margin-top: 30px;">
+            <input type="button" class="btn btn-primary btn-md mr-1" value="Search" id="btnFilter"
+                (click)="onFilter($event)" />
+            <input type="button" class="btn btn-secondary btn-md" value="Clear" id="btnClear"
+                (click)="onClear($event)" />
+        </div>
+
+    </div>
+</ng-template>

@@ -1,0 +1,40 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">Add/Change Approver Feedback</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg">
+    <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="Form">
+        <!-- <div class="row">
+            <div class="col-xl-12">
+                <div class="form-group">
+                    <label for="Customer">Sub Status : <span class="red">*</span></label>
+
+                    <ng-select class="select1" name="SubStatusId" formControlName="SubStatusId" [items]="subStatusList"
+                        placeholder="Select Sub Status" bindLabel="SubStatusName" bindValue="SubStatusId"
+                        [searchable]="true">
+                    </ng-select>
+                    <span class="text-danger"
+                        *ngIf="(FormControl.SubStatusId.touched || submitted) && FormControl.SubStatusId.errors?.required">
+                        Sub Status is required
+                    </span>
+                </div>
+            </div>
+        </div> -->
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="form-group">
+                    <label for="Customer">Approver Feedback : <span class="red">*</span></label>
+                    <textarea class="form-control" id="field-7" placeholder="Approver Feedback" formControlName="ApproverFeedback" name="ApproverFeedback"></textarea>
+                    <span class="text-danger"
+                        *ngIf="(FormControl.ApproverFeedback.touched || submitted) && FormControl.ApproverFeedback.errors?.required">
+                        Approver Feedback is required
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="text-right pt-2 mt-0">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light ml-1">Save</button>
+        </div>
+    </form>
+</div>

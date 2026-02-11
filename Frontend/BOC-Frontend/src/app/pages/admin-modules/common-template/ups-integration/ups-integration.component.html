@@ -1,0 +1,91 @@
+<div class="modal-header">
+    <h4 class="modal-title">Track UPS</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<!-- <form class="form" role="form" [formGroup]="EditForm"> -->
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12" *ngIf="!error">
+                 <ng-container *ngFor="let shipment of success; let shipIdx = index">
+                    <ng-container *ngFor="let package of shipment?.TrackingNumber; let packIdx = index"> 
+                        <div class="header">
+                            <h4 class="page-title bluetxt mb-20 tnn">Tracking #: {{package}} </h4>
+                        </div>
+                        <ng-container *ngFor="let activity of shipment?.Activity; let activIdx = index">
+                            <ul class="left-timeline">
+                                <li>
+                                    <time class="left-time" datetime="2017-11-04T18:30"><span class="hidden">{{activity.GMTDate | date:'shortDate'}}</span>
+                                        <span class="large">{{ activity.Time | date:'shortTime' }}</span>
+                                    </time>
+                                <div class="left-icon">
+                                    <i class="mdi mdi-adjust fo-1"></i>
+                                </div>
+                                <div class="left-label">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="col-6 float-left">
+                                                <span style="font-weight:bold;color:black;">{{ activity?.ActivityLocation[0]?.Description }}</span>
+                                                <h2>{{activity?.ActivityLocation[0]?.Address[0]?.City}}
+                                                    <span>{{activity?.ActivityLocation[0]?.Address[0]?.StateProvinceCode}}&nbsp;
+                                                {{activity?.ActivityLocation[0]?.Address[0]?.PostalCode}}&nbsp;
+                                                {{activity?.ActivityLocation[0]?.Address[0]?.CountryCode}}</span>
+                                                </h2>
+                                            </div>
+                                            <div class="col-6 float-left">
+                                                <strong>Status</strong>
+                                                <div class="row">
+                                                    <div class="col-6 float-left">
+                                                        <p>
+                                                            Type : {{activity?.Status[0]?.StatusType[0]?.Description}}
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-6 float-left">
+                                                        <p>Code : {{activity?.Status[0]?.StatusCode[0]?.Code}}
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </ng-container> 
+                </ng-container>
+            </ng-container> 
+            </div>
+
+            <div class="col-xl-12">
+                <!-- <div class="row" *ngIf="success">
+                    <div class="col-xl-12 form-lbox">
+                        <div class="row">
+                            <div class="col-xl-6 float-left">
+                                <h4 class="form-title-text bluetxt mb-20">Result</h4>
+                            </div>
+                        </div>
+                        <div class='alert alert-success'>{{ trackingNumber }} : 
+                            <pre [innerHTML]="success | json"></pre></div>
+                    </div>
+                </div> -->
+
+                <div class="row" *ngIf="error">
+                    <div class="col-xl-12 form-lbox">
+                        <div class="row">
+                            <div class="col-xl-6 float-left">
+                                <h4 class="form-title-text bluetxt mb-20">Result</h4>
+                            </div>
+                        </div>
+                        <div class='alert alert-danger'>{{ trackingNumber }} : {{ error }}</div>
+                    </div>
+                </div>
+            </div>
+      
+      
+      
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-light waves-effect" (click)="modalRef.hide()">Close</button>
+</div>
+<!-- </form> -->

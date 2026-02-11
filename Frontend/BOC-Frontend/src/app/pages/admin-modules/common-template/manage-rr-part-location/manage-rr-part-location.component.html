@@ -1,0 +1,31 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">Part Location</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg">
+    <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="Form">
+
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="form-group">
+                    <label for="Customer">Part Location Name : <span class="red">*</span></label>
+                    <input type="text" class="form-control" placeholder="Enter Part Location Name" name="RRPartLocation"
+                        formControlName="RRPartLocation">
+                    <span class="text-danger"
+                        *ngIf="(FormControl.RRPartLocation.touched || submitted) && FormControl.RRPartLocation.errors?.required">
+                        Part Location Name is required
+                    </span>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <div class="text-right pt-2 mt-0">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light ml-1">Save</button>
+        </div>
+
+    </form>
+</div>

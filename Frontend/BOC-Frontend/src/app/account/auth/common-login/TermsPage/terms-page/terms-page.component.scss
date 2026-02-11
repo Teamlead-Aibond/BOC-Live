@@ -1,0 +1,98 @@
+/* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+
+.mangebtn {
+    background: #3f79fe;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.mangebtn:hover {
+    background: #c90303;
+    color: #ffffff !important;
+}
+
+.mangebtn {
+    margin-bottom: 10px;
+}
+
+.termsPageHeader {
+    //text-align: center;
+
+    .termsPageTitle {
+        color: #c90303; // Replace with your desired color
+        font-size: 24px;
+        margin: 0;
+    }
+}
+
+.termsPageHeader {
+    margin: 0% 50% 0% 50%;
+
+    .termsPageTitle {
+        color: #c90303; // Replace with your desired color
+        font-size: 24px;
+        margin: 0;
+    }
+}
+
+.termsPageBody {
+    margin-top: 20px;
+
+    p {
+        line-height: 1.5;
+        margin-bottom: 15px;
+
+        &.float-right {
+            float: right;
+        }
+    }
+
+    h4 {
+        color: #007bff; // Replace with your desired color
+        margin-top: 20px;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 10px 0;
+
+        li {
+            &:before {
+                content: '\2022'; // Use a bullet point as a list item marker
+                color: #007bff; // Replace with your desired color
+                display: inline-block;
+                width: 1em;
+                margin-left: -1em;
+            }
+            margin-bottom: 5px;
+            padding-left: 1.5em; // Adjust the indentation as needed
+            display: block;
+
+            &.personalDataPrivacyList {
+                font-weight: normal;
+            }
+        }
+    }
+}
+
+.footer {
+    color: #7f7f7f;
+}
+
+.footer p {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+.footer p a {
+    padding-left: 25px;
+}

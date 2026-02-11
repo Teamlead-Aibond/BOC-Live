@@ -1,0 +1,261 @@
+<div class="modal-header">
+    <h4 class="modal-title">Edit Customer Quote</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<form class="form" role="form" [formGroup]="EditForm">
+    <div class="modal-body">
+
+        <div class="row">
+            <div class="col-xl-12 float-left">
+                <div style="padding-bottom: 0;" class="approve-quotedetail">
+
+                    <table class="table table-bordered table-striped mb-0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th width="10%">Part #</th>
+                                <th width="10%">Type</th>
+                                <th width="20%">Part Description</th>
+                                <th width="20%">Customer Lead Time</th>
+                                <th>Customer Unit Price</th>
+                                <th>Quantity</th>
+                                <th width="10%">Customer Total Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="ng-autocomplete">
+
+                                        <!-- <ng-autocomplete [data]="filteredData" [isLoading]="isLoading"
+                                                                    [searchKeyword]="keyword" placeholder="Enter Part #"
+                                                                    (selected)='selectEvent($event, i)'
+                                                                    (inputChanged)='onChangeSearch($event, i)'
+                                                                    (inputCleared)='clearEvent($event, i)'
+                                                                    (closed)='closeEvent($event, i)'
+                                                                    (inputFocused)='onFocused($event)' formControlName="Part"
+                                                                    [itemTemplate]="itemTemplate"
+                                                                    [notFoundTemplate]="notFoundTemplate">
+                                                                </ng-autocomplete> -->
+
+                                        <ng-select [items]="parts$ | async" bindLabel="PartNo" [typeahead]="partsInput$"
+                                            [placeholder]="'Enter Part #'" (change)='selectEvent($event)'
+                                            formControlName="Part">
+                                        </ng-select>
+                                        <input type="hidden" class="form-control pad5" name="PartId"
+                                            formControlName="PartId">
+                                        <input type="hidden" formControlName="QuoteItemId">
+
+                                        <input type="hidden" class="form-control pad5" readonly name="PartNo"
+                                            formControlName="PartNo">
+
+
+
+                                    </div>
+                                    <span class="text-danger"
+                                        *ngIf="(EditFormControl.PartId.touched || submitted) && EditFormControl.PartId.errors?.required">
+                                        Part is required
+                                    </span>
+
+
+
+                                </td>
+                                <td>
+
+                                    <div class="ng-autocomplete nopad">
+
+
+
+                                        <select class="custom-select" name="PartType" formControlName="PartType">
+                                            <option value="" disabled>Select</option>
+                                                        <option *ngFor="let item of PartTypes"  value="{{item.part_typeId}}">{{item.part_typeName}}</option>
+                                        </select>
+                                    </div>
+
+
+                                </td>
+                                <td>
+                                    <textarea class="form-control pad5" placeholder="Description..."
+                                        name="PartDescription" formControlName="PartDescription" rows="3"></textarea>
+                                </td>
+                                <td>
+
+                                    <div class="input-group">
+                                        <input type="number" min="1" class="form-control" name="LeadTime"
+                                            formControlName="LeadTime" digitOnly>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">Day(s)</span>
+                                        </div>
+
+
+                                    </div>
+                                </td>
+                                <td>
+
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input id="Rate" type="text" name="Rate" formControlName="Rate"
+                                            class="form-control pad5" inputmode="numeric" pattern="^\d+(\.\d{1,2})?$"
+                                            placeholder="0.00" digitOnly decimal="true" (keyup)="calculatePrice()" />
+
+
+
+
+
+                                    </div>
+                                    <span class="text-danger"
+                                        *ngIf="(EditFormControl.Rate.touched || submitted) && EditFormControl.Rate.errors?.required">
+                                        Customer Unit Price is required
+                                    </span>
+                                </td>
+                                <td>
+                                    <input type="text" min="1" class="form-control" name="Quantity"
+                                        formControlName="Quantity" digitOnly (keyup)="calculatePrice()">
+                                    <span class="text-danger"
+                                        *ngIf="(EditFormControl.Quantity.touched || submitted) && EditFormControl.Quantity.errors?.required">
+                                        Quantity is required
+                                    </span>
+                                </td>
+                                <td>
+
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input type="text" class="form-control pad5" readonly name="Price"
+                                            formControlName="Price">
+
+
+
+
+
+                                    </div>
+                                    <span class="text-danger"
+                                        *ngIf="(EditFormControl.Price.touched || submitted) && EditFormControl.Price.errors?.required">
+                                        Customer Total Price is required
+                                    </span>
+                                </td>
+
+
+                            </tr>
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <div style="padding-top: 0;" class="approve-quotedetail">
+
+                    <div class="row subouter">
+                        <div class="subtotal-block" style="float: right!important">
+                            <div class="row">
+                                <div class="col">Sub Total :</div>
+                                <div class="col">
+                                    $ {{TotalValue}}
+                                    <input type="hidden" class="form-control" name="TotalValue"
+                                        formControlName="TotalValue">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">Additional Charge :</div>
+                                <div class="col">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input id="AdditionalCharge" type="text" name="AdditionalCharge"
+                                            formControlName="AdditionalCharge" class="form-control" inputmode="numeric"
+                                            pattern="^\d+(\.\d{1,2})?$" placeholder="0.00" digitOnly decimal="true"
+                                            (keyup)="calculateTotal()" />
+                                        <!-- <input type="text" digitOnly class="form-control" name="AdditionalCharge"
+                                (keyup)="calculateTotal()" formControlName="AdditionalCharge"> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">Total Tax :</div>
+                                <div class="col">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input type="text" inputmode="numeric" pattern="^\d+(\.\d{1,2})?$"
+                                            placeholder="0.00" digitOnly decimal="true" class="form-control"
+                                            name="TotalTax" readonly (keyup)="calculateTotal()"
+                                            formControlName="TotalTax">
+                                    </div>&nbsp;
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">%</span>
+                                        </div>
+                                        <input type="text" inputmode="numeric" pattern="^\d+(\.\d{1,2})?$"
+                                            placeholder="0.00" max="100" digitOnly decimal="true" class="form-control"
+                                            (keyup)="calculateTax()" name="TaxPercent" formControlName="TaxPercent">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">Discount :</div>
+                                <div class="col">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input id="Discount" type="text" name="Discount" formControlName="Discount"
+                                            class="form-control" inputmode="numeric" pattern="^\d+(\.\d{1,2})?$"
+                                            placeholder="0.00" digitOnly decimal="true" (keyup)="calculateTotal()" />
+                                        <!-- <input type="text" digitOnly class="form-control" name="Discount"
+                                (keyup)="calculateTotal()" formControlName="Discount"> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">Shipping :</div>
+                                <div class="col">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input id="ShippingFee" type="text" name="ShippingFee"
+                                            formControlName="ShippingFee" class="form-control" inputmode="numeric"
+                                            pattern="^\d+(\.\d{1,2})?$" placeholder="0.00" digitOnly decimal="true"
+                                            (keyup)="calculateTotal()" />
+                                        <!-- <input type="text" digitOnly class="form-control" name="Shipping"
+                                (keyup)="calculateTotal()" formControlName="Shipping"> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">Grand Total :</div>
+                                <div class="col">
+                                    $ {{GrandTotal}}
+                                    <input type="hidden" class="form-control" name="GrandTotal"
+                                        formControlName="GrandTotal">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-success waves-effect waves-light" [disabled]="btnDisabled" (click)="onSubmit()"
+            [ngClass]="{'class': (btnDisabled)? 'btn btn-success waves-effect waves-light': 'btn btn-light waves-effect waves-light'}">Save</button>
+        <button type="button" class="btn btn-light waves-effect" (click)="modalRef.hide()">Close</button>
+    </div>
+</form>
+
+<ng-template #itemTemplate let-item>
+    <a [innerHTML]="item.PartNo"></a>
+</ng-template>
+
+<ng-template #notFoundTemplate let-notFound>
+    <div [innerHTML]="notFound"></div>
+</ng-template>

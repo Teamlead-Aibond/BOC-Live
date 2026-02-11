@@ -1,0 +1,635 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+
+<div class="sideNavcontainer">
+    <app-page-title title="Manage Profile" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+    <div class="row">
+        <div class="col-xl-12">
+            <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="VendorEditForm">
+                <div class="card-box edit-cust">
+
+                    <div class="row m-2">
+                        <div class="col-xl-4 col-md-6">
+                            <p class="m-b-10 text-left"><strong style="color: #232323 !important;">Vendor code :
+                                </strong><span class="customerbg">{{VendorCode}}</span></p>
+                        </div>
+
+                        <div class="col-xl-4 col-md-6">
+                            <p class="m-b-10 text-left"><strong style="color: #232323 !important;">User Name : </strong>
+                                <span class="approvebg">{{UserName}}</span>
+                            </p>
+                        </div>
+
+                        <div class="col-xl-4 col-md-12 sales-right">
+                            <div class="btn-group btn-group-sm float-right" role="group">
+                                <button ngbTooltip="Save" placement="top" class="btn btn-icon waves-effect">
+                                    <i class="mdi mdi-content-save"></i></button>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Column 1 -->
+                        <div class="col-xl-6">
+                            <div class="row">
+                                <div class="col-xl-12 form-lbox">
+                                    <div class="row">
+                                        <div class="col-xl-6 col-sm-6 col-md-6 float-left">
+                                            <h4 class="form-title-text bluetxt mb-20">Basic Details</h4>
+                                        </div>
+
+                                        <div class="col-xl-6 col-sm-6 col-md-6 mt-2">
+                                            <div class="custom-control custom-switch float-right">
+                                                <input type="hidden" class="custom-control-input" name="VendorId" formControlName="VendorId">
+                                                <input type="checkbox" class="custom-control-input" id="Status" name="Status" formControlName="Status">
+                                                <label class="custom-control-label" for="Status">Is Active</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-border">
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label for="Customer">Vendor Name : <span
+                                                            class="red">*</span></label>
+                                                    <input type="text" class="form-control" id="VendorName" placeholder="Enter Vendor Name" name="VendorName" formControlName="VendorName">
+                                                    <span class="text-danger" *ngIf="(VendorEditFormControl.VendorName.touched || submitted) && VendorEditFormControl.VendorName.errors?.required">
+                                                        Vendor Name is required
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3">
+                                                <div class="form-group">
+                                                    <label for="Customer">Industry :</label>
+                                                    <input type="text" class="form-control" placeholder="Enter Industry" name="Industry" formControlName="Industry">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-3">
+                                                <div class="form-group">
+                                                    <label for="Country">Country :<span class="red">*</span></label>
+                                                    <select class="custom-select" name="VendorCountryId" formControlName="VendorCountryId">
+                                                        <option value="" disabled>Select</option>
+                                                        <option *ngFor="let country of countryList"
+                                                            value={{country.CountryId}}>
+                                                            {{country.CountryName}}
+                                                        </option>
+                                                    </select>
+                                                    <span class="text-danger" *ngIf="(VendorEditFormControl.VendorCountryId.touched || submitted) && VendorEditFormControl.VendorCountryId.errors?.required">
+                                                        CountryId is required
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xl-3">
+                                                <div class="form-group">
+                                                    <label for="Customer">Vendor Type : <span
+                                                            class="red">*</span></label>
+                                                    <select class="custom-select" name="VendorTypeId" formControlName="VendorTypeId">
+                                                        <option value="" disabled>Select</option>
+                                                        <option value="V">Vendor</option>
+                                                        <option value="M">Manufacturer</option>
+                                                        <option value="B">OEM / Vendor</option>
+                                                    </select>
+                                                    <span class="text-danger" *ngIf="(VendorEditFormControl.VendorTypeId.touched || submitted) && VendorEditFormControl.VendorTypeId.errors?.required">
+                                                        Vendor Type is required
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3">
+                                                <div class="form-group">
+                                                    <label for="Customer">Currency : <span class="red">*</span></label>
+                                                    <select class="custom-select" name="Currency" formControlName="Currency">
+                                                        <option value="" disabled>Select</option>
+                                                        <option value="US$">US $</option>
+                                                    </select>
+                                                    <span class="text-danger" *ngIf="(VendorEditFormControl.Currency.touched || submitted) && VendorEditFormControl.Currency.errors?.required">
+                                                        Currency is required
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3">
+                                                <div class="form-group">
+                                                    <label for="Customer">Terms :</label>
+                                                    <input type="text" readonly  name="Terms" class="form-control"
+                                                    formControlName="Terms">
+                                                  
+                                                    <!-- <select class="custom-select" name="TermsId"
+                                                        formControlName="TermsId">
+                                                        <option value="" disabled>Select</option>
+                                                        <option *ngFor="let Term of TermsList" value="{{Term.TermsId}}">
+                                                           {{Term.TermsName}}
+                                                       </option>
+                                                    </select>
+                                                    <span class="text-danger"
+                                                        *ngIf="(VendorEditFormControl.TermsId.touched || submitted) && VendorEditFormControl.TermsId.errors?.required">
+                                                        Terms is required
+                                                    </span> -->
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3">
+                                                <div class="form-group">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" id="IsCorpVendor" type="checkbox" name="IsCorpVendor" formControlName="IsCorpVendor">
+                                                        <label class="custom-control-label" for="IsCorpVendor">Corp.
+                                                            Vendor</label>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="IsCorpVendorCode" placeholder="Enter Corp. Vendor Code" name="IsCorpVendorCode" formControlName="IsCorpVendorCode">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label for="Customer">Email : <span class="red">*</span></label>
+                                                    <input type="text" class="form-control" id="Email" placeholder="Email" name="Email" formControlName="Email">
+                                                    <span class="text-danger" *ngIf="(VendorEditFormControl.Email.touched || submitted) && VendorEditFormControl.Email.errors?.required">
+                                                        Email is required
+                                                    </span>
+                                                    <span class="text-danger" *ngIf="(VendorEditFormControl.Email.touched || submitted) && VendorEditFormControl.Email.errors?.email">
+
+                                                        Enter a valid email address
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label for="Customer">Website :</label>
+                                                    <input type="text" class="form-control" id="Website" placeholder="Enter Website" name="Website" formControlName="Website">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <!-- <div class="col-xl-6">
+                                                <div class="form-group"> -->
+                                            <!-- <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" id="CODPayment"
+                                                            type="checkbox" name="CODPayment"
+                                                            formControlName="CODPayment">
+                                                        <label class="custom-control-label" for="CODPayment">COD
+                                                            Payment
+                                                            Required
+                                                        </label>
+                                                    </div> -->
+                                            <!-- <textarea class="form-control" name="CODNotes"
+                                                        formControlName="CODNotes" placeholder="COD Notes"
+                                                        rows="3"></textarea> -->
+                                            <!-- </div>
+                                            </div> -->
+                                            <div class="col-xl-12">
+                                                <div class="form-group">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" id="RMARequired" type="checkbox" name="RMARequired" formControlName="RMARequired">
+                                                        <label class="custom-control-label" for="RMARequired">RMA
+                                                            Required
+                                                        </label>
+                                                    </div>
+                                                    <textarea class="form-control" placeholder="RMA Notes" name="RMANotes" formControlName="RMANotes" rows="3"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-12">
+                                                <div class="form-group">
+                                                    <label for="Customer">Notes :</label>
+                                                    <textarea class="form-control" placeholder="Notes" rows="3" name="Notes" formControlName="Notes"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl-12 form-lbox">
+                                    <h4 class="form-title-text bluetxt mb-20">Company Logo</h4>
+                                    <div class="form-border">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label>Image :
+                                                </label>
+                                                <img class="img-fluid" [src]="ImagePath" *ngIf="showImagePath" width="300">
+                                                <input type="file" class="form-control" (change)="fileProgress($event)" (change)="onFileChange($event)">
+                                                <input type="hidden" name="CompanyLogo" formControlName="CompanyLogo" />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl-12 form-lbox">
+                                    <h4 class="form-title-text bluetxt mb-20">Purchase Order Delivery</h4>
+
+                                    <div class="form-border">
+                                        <div class="row">
+                                            <div class="col-xl-4">
+                                                <div class="row">
+                                                    <div class="col-xl-12">
+                                                        <div class="form-group">
+                                                            <label for="Customer">
+                                                                Shipping Account # :
+                                                            </label>
+                                                            <input type="text" class="form-control" placeholder="Enter Shipping Account #" name="ShippingAccountNo" formControlName="ShippingAccountNo">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-xl-12">
+                                                        <div class="form-group">
+                                                            <label for="Customer">
+                                                                PO Delivery Method : <span class="red">*</span>
+                                                            </label>
+                                                            <select class="custom-select" name="PODeliveryMethod" formControlName="PODeliveryMethod">
+                                                                <option value="" disabled>Select</option>
+                                                                <option value="1">EDI</option>
+                                                                <option value="2">Email</option>
+                                                                <option value="3">Print</option>
+                                                                <option value="4">Fax</option>
+                                                            </select>
+                                                            <span class="text-danger" *ngIf="(VendorEditFormControl.PODeliveryMethod.touched || submitted) && VendorEditFormControl.PODeliveryMethod.errors?.required">
+                                                                PO Delivery Method is required
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-xl-12">
+                                                        <div class="form-group">
+                                                            <label for="Customer">
+                                                                Print Format : <span class="red">*</span>
+                                                            </label>
+                                                            <select class="custom-select" name="PrintFormat" formControlName="PrintFormat">
+                                                                <option value="" disabled>Select</option>
+                                                                <option value="1">Both</option>
+                                                                <option value="2">Excel</option>
+                                                                <option value="3">PDF</option>
+                                                            </select>
+                                                            <span class="text-danger" *ngIf="(VendorEditFormControl.PrintFormat.touched || submitted) && VendorEditFormControl.PrintFormat.errors?.required">
+                                                                Print Format is required
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-8">
+                                                <div class="row">
+                                                    <div class="col-xl-12">
+                                                        <div class="form-group">
+                                                            <label for="Customer">
+                                                                Setup Information : <span class="red">*</span>
+                                                            </label>
+                                                            <textarea class="form-control" id="SetupInformation" placeholder="Enter Setup Information" rows="7" name="SetupInformation" formControlName="SetupInformation"></textarea>
+                                                            <span class="text-danger" *ngIf="(VendorEditFormControl.SetupInformation.touched || submitted) && VendorEditFormControl.SetupInformation.errors?.required">
+                                                                Setup Information is required
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-xl-12">
+                                                        <div class="form-group">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input class="custom-control-input" id="IsPOWithoutPricing" type="checkbox" name="IsPOWithoutPricing" formControlName="IsPOWithoutPricing">
+                                                                <label class="custom-control-label" for="IsPOWithoutPricing">
+                                                                    PO Without Pricing
+                                                                </label>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Column 2 -->
+                        <div class="col-xl-6">
+                            <div class="row">
+                                <div class="col-xl-12 form-rbox">
+                                    <h4 class="form-title-text bluetxt mb-20">Vendor Address</h4>
+
+
+                                    <div class="row">
+                                        <div class="col-lg-6 col-xl-6" *ngFor="let Addressdata of AddressList; let i = index;">
+
+                                            <div class="form-border">
+                                                <h6 class="text-uppercase text-primary">
+                                                    <span class="float-left">Address #{{i+1}}</span>
+                                                    <span class="float-right">
+                                                        <a (click)="editAddress(Addressdata,i)" class="fa fa-edit"
+                                                            ngbTooltip="Edit" placement="top"></a>&nbsp;
+                                                        <a (click)="deleteAddress(Addressdata.AddressId,i)"
+                                                            class="fa fa-trash text-danger" ngbTooltip="Delete"
+                                                            *ngIf="AddressList.length>1 && Addressdata.IsContactAddress != 1  && Addressdata.IsBillingAddress != 1  && Addressdata.IsShippingAddress != 1"
+                                                            placement="top"></a>
+                                                    </span>
+                                                </h6>
+                                                <div class="clearfix"></div>
+                                                <p class="text-secondary mt-2 mb-0">
+                                                    {{Addressdata.StreetAddress}}, {{Addressdata.SuiteOrApt}} <br> {{Addressdata.City}}, {{Addressdata.StateName}},<br> {{Addressdata.CountryName}} -  {{Addressdata.Zip}}<br>
+                                                    <i class="mdi mdi-phone text-primary mr-1" ngbTooltip="Primary"></i> {{Addressdata.PhoneNoPrimary}}
+                                                    <span *ngIf="Addressdata.PhoneNoSecondary"><br><i
+                                                            class="mdi mdi-phone mr-1" ngbTooltip="Secondary"></i>
+                                                        {{Addressdata.PhoneNoSecondary}}</span>
+                                                    <span *ngIf="Addressdata.Fax"><br><i class="mdi mdi-fax mr-1"></i>
+                                                        {{Addressdata.Fax}}</span><br>
+                                                </p>
+
+                                                <h6 class="text-uppercase text-muted mt-2">Default</h6>
+                                                <div class="row">
+                                                    <!-- <div class="col-xl-4">
+                                                        <input id="C{{CustomerId}}{{Addressdata.AddressId}}{{i+1}}" type="radio"
+                                                            [value]="1" name="IsContactAddress" class="mr-1" [ngModelOptions]="{standalone: true}"
+                                                            [(ngModel)]="Addressdata.IsContactAddress" (ngModelChange)="setDefaultAddress(Addressdata.AddressId, 1)">
+                                                        <label for="IsContactAddress">Contact</label>
+                                                    </div>
+                                                    <div class="col-xl-4">
+                                                        <input id="B{{CustomerId}}{{Addressdata.AddressId}}{{i+1}}" type="radio"
+                                                            [value]="1" name="IsBillingAddress" class="mr-1" [ngModelOptions]="{standalone: true}"
+                                                            [(ngModel)]="Addressdata.IsBillingAddress" (ngModelChange)="setDefaultAddress(Addressdata.AddressId, 3)">
+                                                        <label for="IsBillingAddress">Billing</label>
+                                                    </div>
+                                                    <div class="col-xl-4">
+                                                        <input id="S{{CustomerId}}{{Addressdata.AddressId}}{{i+1}}" type="radio"
+                                                            [value]="1" name="IsShippingAddress" class="mr-1" [ngModelOptions]="{standalone: true}"
+                                                            [(ngModel)]="Addressdata.IsShippingAddress" (ngModelChange)="setDefaultAddress(Addressdata.AddressId, 2)">
+                                                        <label for="IsShippingAddress">Shipping</label>
+                                                    </div>  
+
+                                                     <div class="col-xl-4">
+                                                        <input type="radio" class="form-check-input" id="C{{CustomerId}}{{Addressdata.AddressId}}{{i+1}}" 
+                                                            [value]="Addressdata.IsContactAddress" (click)="setDefaultAddress(Addressdata.AddressId, 1)"
+                                                            formControlName="IsContactAddress" name="IsContactAddress">
+                                                        <label for="IsContactAddress">Contact</label>
+                                                    </div> -->
+
+                                                    <div class="col-xl-4">
+                                                        <input id="B{{CustomerId}}{{Addressdata.AddressId}}{{i+1}}" type="radio" value="{{Addressdata.AddressId}}" [checked]="Addressdata.IsContactAddress == 1 ? true : false" name="IsContactAddress" (click)="setDefaultAddress($event, Addressdata.AddressId, 1)"
+                                                            class="mr-2">
+
+                                                        <label for="IsContactAddress">Contact</label>
+                                                    </div>
+
+                                                    <div class="col-xl-4">
+                                                        <input id="B{{CustomerId}}{{Addressdata.AddressId}}{{i+1}}" type="radio" value="{{Addressdata.AddressId}}" [checked]="Addressdata.IsBillingAddress == 1 ? true : false" name="IsBillingAddress" (click)="setDefaultAddress($event, Addressdata.AddressId, 3)"
+                                                            class="mr-2">
+
+
+                                                        <label for="IsBillingAddress">Billing</label>
+                                                    </div>
+
+
+                                                    <div class="col-xl-4">
+                                                        <input id="S{{CustomerId}}{{Addressdata.AddressId}}{{i+1}}" type="radio" value="{{Addressdata.AddressId}}" [checked]="Addressdata.IsShippingAddress == 1 ? true : false" name="IsShippingAddress" (click)="setDefaultAddress($event, Addressdata.AddressId, 2)"
+                                                            class="mr-2">
+
+                                                        <label for="IsShippingAddress">Shipping</label>
+                                                    </div>
+
+
+
+                                                </div>
+
+
+                                            </div>
+                                            <br>
+
+                                        </div>
+
+                                    </div>
+                                    <br>
+
+
+                                </div>
+
+
+
+                                <div class="row mt-0 mb-2">
+                                    <div class="custom-control custom-switch float-right">
+                                        <button class="btn btn-primary btn-sm waves-effect raa" type="button" (click)="addAddress()">
+                                            <i class="remixicon-add-fill mrg-5"></i> Add Address
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl-12 form-rbox">
+                                    <h4 class="form-title-text bluetxt mb-20">Contact Details</h4>
+                                    <div class="row">
+                                        <div class="col-lg-4 col-xl-4" *ngFor="let item of ContactList; let i = index;">
+
+                                            <div class="form-border">
+                                                <h6 class="text-uppercase text-primary">
+                                                    <span class="float-left">Contact #{{i+1}}</span>
+                                                    <span class="float-right">
+                                                        <a (click)="editContact(item,i)" class="fa fa-edit"
+                                                            ngbTooltip="Edit" placement="top"></a>&nbsp;
+                                                        <a (click)="deleteContact(item.ContactId,i)"
+                                                            class="fa fa-trash text-danger" ngbTooltip="Delete"
+                                                            placement="top"></a>
+                                                    </span>
+                                                </h6>
+                                                <div class="clearfix"></div>
+                                                <p class="text-secondary mt-2 mb-0">
+                                                    {{item.ContactName}},{{item.DepartmentId}}<br> {{item.Designation}},
+                                                    <br>
+                                                    <i class="mdi mdi-phone mr-1 text-primary" ngbTooltip="Primary"></i>{{item.PhoneNo}}<br>
+                                                    <i class="mdi mdi-email mr-1"></i> {{item.Email}}
+                                                </p>
+
+
+                                            </div>
+                                            <br>
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                                <div class="row mt-0 mb-2">
+                                    <div class="custom-control custom-switch float-right">
+                                        <button class="btn btn-primary btn-sm waves-effect raa" type="button" (click)="addContact()">
+                                            <i class="remixicon-add-fill mrg-5"></i> Add Contact
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl-12 form-rbox">
+                                    <h4 class="form-title-text bluetxt mb-20">Users
+                                        <span class="float-right">
+                                            <button class="btn btn-primary btn-sm waves-effect raa" type="button"
+                                                (click)="addUser()">
+                                                <i class="remixicon-add-fill mrg-5"></i> Add User
+                                            </button>
+                                        </span>
+
+                                    </h4>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered mb-0">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>User Name</th>
+                                                    <th>Email</th>
+                                                    <th>Account Locked</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let users of UserList;let i=index">
+                                                    <td>{{i+1}}</td>
+                                                    <td>{{users.Username}}</td>
+                                                    <td>{{users.Email}}</td>
+                                                    <td><span class="badge badge-info" [ngClass]="
+                                                        {
+                                                            'badge-success': users.AccountLocked === 'No',
+                                                            'badge-danger': users.AccountLocked === 'Yes'
+                                                        }">{{users.AccountLocked}}</span>
+                                                    </td>
+                                                    <td>
+                                                        <a (click)="editUser(users,i)" class="fa fa-edit" ngbTooltip="Edit" placement="top"></a>&nbsp;
+                                                        <a (click)="deleteUser(users.UserId,i)" class="fa fa-trash text-danger" ngbTooltip="Delete" placement="top"></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tbody *ngIf="UserList?.length == 0">
+                                                <tr>
+                                                    <td colspan="5" class="no-data-available">No data!</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl-12 form-rbox">
+                                    <h4 class="form-title-text bluetxt mb-20">Attachments
+                                        <span class="float-right">
+                                            <button class="btn btn-primary btn-sm waves-effect raa" type="button"
+                                                (click)="addAttachement()">
+                                                <i class="remixicon-add-fill mrg-5"></i> Add Attachment
+                                            </button>
+                                        </span>
+                                    </h4>
+
+                                    <div class="form-border">
+                                        <div style="padding-bottom: 15px;" class="row">
+
+
+                                            <div style="margin-bottom:40px;" class="col-sm-3" *ngFor="let vattachment of AttachmentList; let i = index;">
+                                                <div class="box h-100 d-flex justify-content-center flex-column brdimg">
+                                                    <span *ngIf="vattachment.AttachmentMimeType == 'application/pdf'">
+                                                        <a href="{{vattachment.Attachment}}" target="_blank">
+                                                            <img src="../../../../../assets/images/attachment/{{attachmentThumb['application/pdf'].thumb}}"
+                                                                class="img-fluid"
+                                                                ngbTooltip="{{vattachment.AttachmentOriginalFile}}"
+                                                                width="200" alt="work-thumbnail">
+                                                        </a>
+                                                    </span>
+                                                    <span *ngIf="vattachment.AttachmentMimeType == 'image/jpeg'">
+                                                        <a href="{{vattachment.Attachment}}" target="_blank">
+                                                            <img src="{{vattachment.Attachment}}" class="img-fluid"
+                                                                ngbTooltip="{{vattachment.AttachmentOriginalFile}}"
+                                                                width="200" alt="work-thumbnail">
+                                                        </a>
+                                                    </span>
+                                                    <span *ngIf="vattachment.AttachmentMimeType == 'image/png'">
+                                                        <a href="{{vattachment.Attachment}}" target="_blank">
+                                                            <img src="{{vattachment.Attachment}}" class="img-fluid"
+                                                                ngbTooltip="{{vattachment.AttachmentOriginalFile}}"
+                                                                width="200" alt="work-thumbnail">
+                                                        </a>
+                                                    </span>
+                                                    <span *ngIf="vattachment.AttachmentMimeType == 'application/msword'">
+                                                        <a href="{{vattachment.Attachment}}" target="_blank">
+                                                            <img src="../../../../../assets/images/attachment/{{attachmentThumb['application/msword'].thumb}}"
+                                                                class="img-fluid"
+                                                                ngbTooltip="{{vattachment.AttachmentOriginalFile}}"
+                                                                width="200" alt="work-thumbnail">
+                                                        </a>
+                                                    </span>
+                                                    <span *ngIf="vattachment.AttachmentMimeType == 'application/vnd.ms-excel'">
+                                                        <a href="{{vattachment.Attachment}}" target="_blank">
+                                                            <img src="../../../../../assets/images/attachment/{{attachmentThumb['application/vnd.ms-excel'].thumb}}"
+                                                                class="img-fluid"
+                                                                ngbTooltip="{{vattachment.AttachmentOriginalFile}}"
+                                                                width="200" alt="work-thumbnail">
+                                                        </a>
+                                                    </span>
+                                                    <span *ngIf="vattachment.AttachmentMimeType == 'text/csv'">
+                                                        <a href="{{vattachment.Attachment}}" target="_blank">
+                                                            <img src="../../../../../assets/images/attachment/{{attachmentThumb['text/csv'].thumb}}"
+                                                                class="img-fluid"
+                                                                ngbTooltip="{{vattachment.AttachmentOriginalFile}}"
+                                                                width="200" alt="work-thumbnail">
+                                                        </a>
+                                                    </span>
+                                                </div>
+                                                <p class="mb-0">
+                                                    <code class="text-primary">{{vattachment.AttachmentDesc}}</code>
+                                                </p>
+                                                <p class="mb-0">
+                                                    <code>{{vattachment.Created | date : 'M/d/yy, h:mm a'}}</code> &nbsp;
+                                                    <a style="margin-right: 10px;" (click)="editAttachement(vattachment,i)" class="fa fa-edit" ngbTooltip="Edit" placement="top"></a>
+                                                    <a (click)="deleteAttachement(vattachment.AttachmentId,i)" class="fa fa-trash text-danger" ngbTooltip="Delete" placement="top"></a>
+                                                </p>
+                                                <br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-6">
+                            &nbsp;
+
+                        </div>
+
+
+                        <div class="col-xl-6 sales-right">
+                            <div class="btn-group btn-group-sm float-right" role="group">
+                                <button ngbTooltip="Save" placement="top" class="btn btn-icon waves-effect">
+                                    <i class="mdi mdi-content-save"></i></button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

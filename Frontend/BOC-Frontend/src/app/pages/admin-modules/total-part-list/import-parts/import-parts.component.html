@@ -1,0 +1,175 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="container-fluid mx-100">
+    <app-page-title title="Parts Import"></app-page-title>
+    <app-ui-preloader [display]="loading"></app-ui-preloader>
+    <div *ngIf="!showResponse">
+    <div class="col-12 nopad">
+        <div class="card">
+            <form [formGroup]="selectedFile">
+                <div class="card-body">
+                    <div class="row">
+                       
+                        <div class="col-xl-4">
+                            <div class="form-group">
+                                <label>Upload File</label>
+                                <input #fileInput formControlName="fileupload" type="file"
+                                    (change)="onFileChange($event)" accept=".xlsx" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-xl-2 mt-2">
+                            <div class="form-group float-left"><button
+                                    class="btn btn-primary waves-effect float-left smore f5 waves-light"
+                                    (click)="fileUploadSubmit()">SUBMIT</button></div>
+                            <div class="form-group float-left"><button type="button"
+                                    routerLink="/admin/total-PartsList"
+                                    class="btn btn-secondary waves-effect backbtn smore f5 ml-2 waves-light mt-0">BACK</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="card" *ngIf="show">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="form-group">
+                            <form class="form" role="form" [formGroup]="filterForm">
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="col-lg-3 float-left nopad-lt">
+                                            <div class="form-group">
+                                                <label>Part No</label>
+                                                <select class="custom-select" formControlName="PartNo">
+                                                    <option value="">Select</option>
+                                                    <option *ngFor="let imp of importColumnList" value="{{imp}}">
+                                                        {{imp}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 float-left nopad">
+                                            <div class="form-group">
+                                                <label>Description</label>
+                                                <select class="custom-select" formControlName="Description">
+                                                    <option value="">Select</option>
+                                                    <option *ngFor="let imp of importColumnList" value="{{imp}}">
+                                                        {{imp}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 float-left nopad  ml-2">
+                                            <div class="form-group">
+                                                <label>Manufacturer</label>
+                                                <select class="custom-select" formControlName="Manufacturer">
+                                                    <option value="">Select</option>
+                                                    <option *ngFor="let imp of importColumnList" value="{{imp}}">
+                                                        {{imp}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="col-lg-3 float-left nopad-lt">
+                                            <div class="form-group">
+                                                <label>Manufacturer Part No</label>
+                                                <select class="custom-select" formControlName="ManufacturerPartNo">
+                                                    <option value="">Select</option>
+                                                    <option *ngFor="let imp of importColumnList" value="{{imp}}">
+                                                        {{imp}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 float-left nopad">
+                                            <div class="form-group">
+                                                <label>Price</label>
+                                                <select class="custom-select" formControlName="Price">
+                                                    <option value="">Select</option>
+                                                    <option *ngFor="let imp of importColumnList" value="{{imp}}">
+                                                        {{imp}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-3 float-left nopad ml-2">
+                                            <button
+                                                class="btn btn-primary waves-effect float-left smore f5 waves-light mt-2"
+                                                (click)="previewTable()">Preview</button>
+                                            <button
+                                                class="btn btn-secondary waves-effect backbtn smore f5 waves-light ml-2 mt-2"
+                                                (click)="filterForm.reset();show = !show;showTable = false">Reset</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div  class="fixed-height">
+    <table *ngIf="showTable">
+        <tr>
+            <th *ngFor="let item of tableHeader;let i=index">{{item['label']}}</th>
+        </tr>
+        <tbody>
+        <tr *ngFor="let item of tableList" >
+            <td *ngFor="let itemheader of tableHeader">
+                {{item[itemheader['key']]}}
+            </td>
+        </tr>
+    </tbody>
+    </table>
+    </div>
+    <div class="flex-rev">
+    <button class="btn btn-primary waves-effect smore f5 waves-light my-2" (click)="submit()">Import
+        Records</button>
+    </div>
+    </div> 
+   
+    <div *ngIf="showResponse">
+       <div class="card">
+        <table>
+            <tr>
+                <th>Total Records :</th>
+                <td>{{responsePayload.TotalRecords}}</td>
+              </tr>
+              <tr>
+                <th>Records Added :</th>
+                <td>{{responsePayload.RecordsAdded}}</td>
+              </tr>
+              <tr>
+                <th>Records Updated :</th>
+                <td>{{responsePayload.RecordsUpdated}}</td>
+              </tr>
+              <tr>
+                <th>Records Not Matched With DB :</th>
+                <td>{{responsePayload.RecordsNotMatchedWithDB.staffInvaildCount}} <span *ngIf="responsePayload.RecordsNotMatchedWithDB.staffInvaildCode.length"> (StaffCode : <span *ngFor="let item of responsePayload.RecordsNotMatchedWithDB.staffInvaildCode"> {{item+', '}} </span>)</span></td>
+              </tr>
+              <tr>
+                <th>Record Add/Update Failed :</th>
+                <td>{{responsePayload.RecordAddUpdateFailed.staffCount}} <span *ngIf="responsePayload.RecordAddUpdateFailed.staffCodeArr.length">(StaffCode : <span *ngFor="let item of responsePayload.RecordAddUpdateFailed.staffCodeArr"> {{item+', '}} </span>)</span></td>
+              </tr>
+             
+
+        
+              
+        </table>
+       </div>
+       <button class="btn btn-primary waves-effect" (click)="refreshFileUpload()">Back</button>
+    
+    </div> 
+</div>

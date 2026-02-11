@@ -1,0 +1,162 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="sideNavcontainer">
+    <app-page-title title="Warranty Repair Requests" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card-box">
+
+                <div class="row">
+                    <div class="btn-group btn-group-sm all-togg mbg mb-2 ml-2" style="padding-top: 10px;float: left;">
+                        <ng-template [ngTemplateOutlet]="Search"></ng-template>&nbsp;
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-12">
+                        <!-- Table -->
+                        <div style="padding-right: 15px;" class="table-responsive">
+                            <table id="datatable-angular" datatable [dtOptions]="dtOptions"
+                                class="table datatables dt-responsive hover nowrap">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Repair Request #</th>
+                                        <th>RR Image</th>
+                                        <th>Part #</th>
+                                        <th>Serial #</th>
+                                        <th>Status</th>
+                                        <th>Created</th>
+                                        <th>VendorPONo</th>
+                                        <th>RRDescription</th>
+                                        <th>CustomerPartNo1</th>
+                                        <th>IsWarrantyRecovery</th>
+                                        <th>IsRushRepair</th>
+                                        <th>IsRepairTag</th>
+                                        <th>VendorName</th>
+                                        <th>StatusName</th>
+                                        <!-- <th>Action</th> -->
+                                    </tr>
+                                </thead>
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Tab Content -->
+<ng-template #Search>
+    <div class="btn-group dropdown" ngbDropdown>
+        <a (click)="EnableSearch()" class="dropdown-toggle arrow-none btn btn-icon btn-sm" ngbDropdownToggle
+            data-toggle="dropdown" aria-expanded="false"><i class="remixicon-search-line"></i> Search</a>
+        <div class="dropdown-menu dropdown-menu-right mt-0" ngbDropdownMenu *ngIf="showSearch">
+            <div class="row collapse show searchbox">
+                <div class="col-12 col-xl-6">
+                    <label class="control-label">Repair Request #</label>
+                    <input type="text" class="form-control" id="RRNo" [(ngModel)]="RRNo"
+                        placeholder="Enter Repair Request #">
+                </div>
+                <div class="col-12 col-xl-6">
+                    <label class="control-label">Repair Request Description</label>
+                    <input type="text" class="form-control" id="RRDescription" [(ngModel)]="RRDescription"
+                        placeholder="Enter Repair Request Description">
+                </div>
+                <div class="col-12 col-xl-6 mt-15">
+                    <label class="control-label">Part #</label>
+                    <input type="text" class="form-control" id="PartNo" [(ngModel)]="PartNo" placeholder="Enter Part #">
+                </div>
+                <div class="col-12 col-xl-6 mt-15">
+                    <label class="control-label">Serial #</label>
+                    <input type="text" class="form-control" id="SerialNo" [(ngModel)]="SerialNo"
+                        placeholder="Enter Serial #">
+                </div>
+
+
+                <div class="col-12 col-xl-6 mt-15">
+                    <label class="control-label">Status</label>
+                    <select class="custom-select" [(ngModel)]="Status">
+                        <option value="">Select</option>
+                        <option value="0,1">RR Received</option>
+                        <option value="2">Awaiting Quote</option>
+                        <option value="3">Resource - Vendor Change</option>
+                        <option value="4">Quoted</option>
+                        <option value="5">Approved</option>
+                        <option value="6">RR Rejected</option>
+                        <option value="7">Completed</option>
+                        <option value="8">Not Repairable</option>
+                    </select>
+                </div>
+
+                <div class="col-12 col-xl-6 mt-15">
+                    <label class="control-label">Vendor PO #</label>
+                    <input type="text" class="form-control" id="VendorPONo" [(ngModel)]="VendorPONo"
+                        placeholder="Enter Vendor PO #">
+                </div>
+
+                <!-- <div class="col-12 col-xl-6 mt-15">
+                    <label class="control-label">Customer Name</label>
+                    <input type="text" class="form-control" id="CompanyName" [(ngModel)]="CompanyName"
+                        placeholder="Enter Customer Name">
+                </div>
+                <div class="col-12 col-xl-6 mt-15">
+                    <label class="control-label">Customer Part #</label>
+                    <input type="text" class="form-control" id="CustomerPartNo1" [(ngModel)]="CustomerPartNo1"
+                        placeholder="Enter Customer Part #">
+                </div> -->
+
+
+
+
+
+
+                <!-- <div class="col-12 col-xl-4 mt-15">
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" id="IsWarrantyRecovery" type="checkbox"
+                                [(ngModel)]="IsWarrantyRecovery">
+                            <label class="custom-control-label" for="IsWarrantyRecovery">Warranty Recovery</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-xl-4 mt-15">
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" id="IsRushRepair" type="checkbox"
+                                [(ngModel)]="IsRushRepair">
+                            <label class="custom-control-label" for="IsRushRepair">Rushed Repair Orders</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-xl-4 mt-15">
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" id="IsRepairTag" type="checkbox"
+                                [(ngModel)]="IsRepairTag">
+                            <label class="custom-control-label" for="IsRepairTag">Repair Tag</label>
+                        </div>
+                    </div>
+                </div> -->
+
+                <div class="col-12 col-xl-6 mt-15">
+                    <input type="button" class="btn btn-primary btn-md mr-2" value="Search" id="btnFilter"
+                        (click)="onFilter($event)" />
+                    <input type="button" class="btn btn-secondary btn-md mr-2" value="Clear" id="btnClear"
+                        (click)="onClear($event)" />
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,322 @@
+<div class="modal-header modal-lg ht">
+  <h4 class="modal-title">Shipping Details</h4>
+  <button
+    type="button"
+    class="close"
+    (click)="modalRef.hide()"
+    aria-hidden="true"
+  >
+    ×
+  </button>
+</div>
+<div class="modal-body p-4 modal-lg">
+  <form
+    name="form"
+    #f="ngForm"
+    (ngSubmit)="f.form.valid ? onSubmit() : false"
+    novalidate
+  >
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-6 col-md-6">
+          <div class="form-group">
+            <label for="Customer"
+              >Shipping From: <span class="red">*</span>
+            </label>
+            <div class="row rc">
+              <div class="col-xl-6">
+                <label
+                  ><input
+                    style="margin-left: 10px"
+                    type="radio"
+                    name="Type"
+                    value="1"
+                    #Type="ngModel"
+                    (change)="setCustomerShipAddress(model.Type)"
+                    [ngClass]="{ 'is-invalid': f.submitted && Type.invalid }"
+                    required
+                    [(ngModel)]="model.Type"
+                  />
+                  Customer
+                  <div
+                    *ngIf="f.submitted && Type.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="Type.errors.required">
+                      Shipping Type is required
+                    </div>
+                  </div>
+                </label>
+              </div>
+              <div class="col-xl-6">
+                <label
+                  ><input
+                    style="margin-left: 10px"
+                    type="radio"
+                    name="Type"
+                    value="0"
+                    #Type="ngModel"
+                    (change)="setAhShipAddress(model.Type)"
+                    [ngClass]="{ 'is-invalid': f.submitted && Type.invalid }"
+                    required
+                    [(ngModel)]="model.Type"
+                  />
+                  Aibond
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6">
+          <div class="form-group">
+            <label for="">Shipping To : <span class="red">*</span></label>
+
+            <div class="col-xl-12">
+              <div class="rc1" *ngIf="model.Type == '1'">Aibond</div>
+              <div class="rc1" *ngIf="model.Type == '0'">{{ ShipToName }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-xl-6 col-md-6">
+          <div class="form-group">
+            <label for="Customer"
+              >From Location :
+              <span class="red">*</span>
+            </label>
+
+            <ng-select
+              [items]="customerAddressList"
+              name="AddressId"
+              placeholder="Select"
+              [(ngModel)]="model.AddressId"
+              #AddressId="ngModel"
+              [ngClass]="{ 'is-invalid': f.submitted && AddressId.invalid }"
+              required
+              bindLabel="title"
+              bindValue="AddressId"
+              [searchable]="true"
+            >
+            </ng-select>
+            <div
+              *ngIf="f.submitted && AddressId.invalid"
+              class="invalid-feedback"
+            >
+              <div *ngIf="AddressId.errors.required">
+                Ship From Address is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6">
+          <div class="form-group">
+            <label for="Customer"
+              >Ship To Location :
+              <span class="red">*</span>
+            </label>
+
+            <ng-select
+              [items]="Ahgroup_AddressList"
+              name="ShipToAddressId"
+              placeholder="Select"
+              [(ngModel)]="model.ShipToAddressId"
+              #ShipToAddressId="ngModel"
+              [ngClass]="{
+                'is-invalid': f.submitted && ShipToAddressId.invalid
+              }"
+              required
+              bindLabel="title"
+              bindValue="ShipToAddressId"
+              [searchable]="true"
+            >
+            </ng-select>
+            <div
+              *ngIf="f.submitted && ShipToAddressId.invalid"
+              class="invalid-feedback"
+            >
+              <div *ngIf="ShipToAddressId.errors.required">
+                Ship To Address is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6">
+          <div class="form-group">
+            <label for="Customer"
+              >Ship Via :
+              <span class="red">*</span>
+            </label>
+            <select
+              class="custom-select"
+              [(ngModel)]="model.ShipViaId"
+              name="ShipViaId"
+              #ShipViaId="ngModel"
+              [ngClass]="{ 'is-invalid': f.submitted && ShipViaId.invalid }"
+              required
+            >
+              <option value="undefined" disabled>Select</option>
+              <option
+                *ngFor="let item of ShipViaList"
+                value="{{ item.ShipViaId }}"
+              >
+                {{ item.ShipViaName }}
+              </option>
+            </select>
+            <div
+              *ngIf="f.submitted && ShipViaId.invalid"
+              class="invalid-feedback"
+            >
+              <div *ngIf="ShipViaId.errors.required">Ship Via is required</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-6 col-md-6">
+          <div class="form-group">
+            <label for="Customer">Tracking # : </label>
+            <input
+              type="text"
+              class="form-control"
+              id="TrackingNo"
+              placeholder="Tracking #"
+              [(ngModel)]="model.TrackingNo"
+              name="TrackingNo"
+            />
+          </div>
+        </div>
+
+        <div class="col-xl-6 col-md-6">
+          <div class="form-group">
+            <label for="Customer">Package Weight : </label>
+            <input
+              type="text"
+              class="form-control"
+              id="PackWeight"
+              placeholder="Package Weight"
+              [(ngModel)]="model.PackWeight"
+              name="PackWeight"
+              #PackWeight="ngModel"
+              inputmode="numeric"
+              pattern="^\d+(\.\d{1,2})?$"
+              placeholder="0.00"
+              digitOnly
+              decimal="true"
+            />
+          </div>
+        </div>
+
+        <div class="col-xl-6 col-md-6">
+          <div class="form-group">
+            <label for="Customer">Shipping Cost $ : </label>
+            <input
+              type="text"
+              class="form-control"
+              id="ShippingCost"
+              placeholder="Cost $"
+              [(ngModel)]="model.ShippingCost"
+              name="ShippingCost"
+              #ShippingCost="ngModel"
+              inputmode="numeric"
+              pattern="^\d+(\.\d{1,2})?$"
+              placeholder="0.00"
+              digitOnly
+              decimal="true"
+            />
+          </div>
+        </div>
+
+        <div class="col-xl-6 col-md-6">
+          <div class="form-group">
+            <label
+              >Shipped Date:
+              <span class="red">*</span>
+            </label>
+            <div class="input-group col-xl-12 clockpicker">
+              <input
+                class="form-control"
+                style="margin-left: -10px"
+                placeholder="MM/DD/YYYY"
+                name="d2"
+                #c2="ngModel"
+                ngbDatepicker
+                #d2="ngbDatepicker"
+                [(ngModel)]="model.ShipDate"
+                name="ShipDate"
+                #ShipDate="ngModel"
+                [ngClass]="{ 'is-invalid': f.submitted && ShipDate.invalid }"
+                required
+              />
+              <div class="input-group-append">
+                <button class="blackbg" (click)="d2.toggle()" type="button">
+                  <i class="mdi blackbg white mdi-calendar"></i>
+                </button>
+              </div>
+              <div
+                *ngIf="f.submitted && ShipDate.invalid"
+                class="invalid-feedback"
+              >
+                <div *ngIf="ShipDate.errors.required">
+                  Ship Date is required
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-6 col-md-6">
+          <div class="form-group">
+            <label for="Customer"
+              >Shipped By :
+              <span class="red">*</span>
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              id="ShippedBy"
+              placeholder="Shipped By"
+              [(ngModel)]="model.ShippedBy"
+              name="ShippedBy"
+              #ShippedBy="ngModel"
+              [ngClass]="{ 'is-invalid': f.submitted && ShippedBy.invalid }"
+              required
+            />
+            <div
+              *ngIf="f.submitted && ShippedBy.invalid"
+              class="invalid-feedback"
+            >
+              <div *ngIf="ShippedBy.errors.required">
+                Shipped By is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-12 col-md-12">
+          <div class="form-group">
+            <label for="Customer">Comments :</label>
+            <textarea
+              class="form-control"
+              id="userbio"
+              placeholder="comments"
+              rows="4"
+              [(ngModel)]="model.ShipComment"
+              name="ShipComment"
+            >
+            </textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-secondary waves-effect"
+        (click)="modalRef.hide()"
+      >
+        Close
+      </button>
+      <button class="btn btn-success waves-effect waves-light">Submit</button>
+    </div>
+  </form>
+</div>

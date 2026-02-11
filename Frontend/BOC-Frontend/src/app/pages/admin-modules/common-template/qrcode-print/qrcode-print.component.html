@@ -1,0 +1,144 @@
+<div class="modal-header modallg">
+    <h4 class="modal-title">Repair Request QR Code</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body modallg {{containerClass}}" *ngIf="show">
+    <form class="form" role="form">
+
+        <div class="row print-content" style="font-family: sans-serif !important;padding:0;margin:0;" id="print-content">
+            <div style="padding: 0;margin: 0;" class="col-12 qrprint">
+                <!--<div class="col-4 float-left">-->
+                <div style="width:42%;float:left;position: relative;z-index: 0;">
+                    <div class="qrouter">
+                        <qrcode cssClass="coolQRCode" qrdata="{{RepairRequestNo}}" [elementType]="'img'">
+                        </qrcode>
+                    </div>
+                    <span style="color: #000000; text-align:center;width:100%; position:absolute; left:-5px; bottom:-15px; font-family:sans-serif !important; font-weight:bolder; font-size:26px;padding:20px 0 0 0px;">
+                        Rushed, Warranty
+                    </span>
+                </div>
+
+                <!-- <div class="col-8 float-left"> -->
+                <div style="width:58%;float:left; margin-left: -10px; z-index: 1;">
+                    <div class="row">
+                        <div style="width:100%;float:left">
+                            <div class="ldiv" style="color: #000000;width:54%;float:left;font-family:sans-serif !important; font-weight:bolder; font-size:28px;margin-top:37px;padding: 13px 0 0px 0px;">
+                                Repair Request No:</div>
+                            <div class="rdiv" style="color: #000000;width:46%;float:left;font-family:sans-serif !important; font-weight:bolder; font-size:36px;margin-top:34px; margin-left: 0; padding: 10px 0;">
+                                {{RepairRequestNo}}</div>
+
+                            <table style="color: #000000;width:90%; margin-top:-5px;" class="table-bordered table qrtable nowrap">
+                                <tbody>
+                                    <tr>
+                                        <th>Part No:</th>
+                                        <td>{{PartNo}}</td>
+                                    </tr>
+                                    <!-- <tr>
+                                                    <th>Repair Request No:</th>
+                                                    <td class="greyblack">{{RepairRequestNo}}</td>
+                                                </tr> -->
+                                    <tr>
+                                        <th>Serial No:</th>
+                                        <td>{{SerialNo}}</td>
+                                    </tr>
+                                    <tr *ngIf="RushWarrantyMessage">
+                                        <!--<th
+                                            style="color: #000000;text-align: left;font-family:sans-serif !important; padding: 5px 10px; font-weight:bold; font-size:18px;">
+                                            Customer:</th>-->
+                                        <td colspan="2" style="color: #000000;text-align: center;font-family:sans-serif !important; padding: 5px 10px; font-weight:bold; font-size:20px;">
+                                            {{RushWarrantyMessage}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="text-right pt-1 pb-3  pr-2 mt-0">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-warning waves-effect waves-light ml-1" (click)="viewQrCode()">Print</button>
+            <button class="btn btn-purple waves-effect waves-light ml-1" (click)="onPrint()">Print 4x2</button>
+        </div>
+    </form>
+</div>
+
+
+<div class="modal-body modal-lg {{containerClass}}" *ngIf="hidden">
+    <form class="form" role="form">
+
+        <div class="row print-content" style="font-family: sans-serif !important" id="print-content">
+            <div class="col-12">
+                <!--<div class="col-4 float-left">-->
+                <div style="width:35%;float:left;margin-top:-16px">
+                    <qrcode cssClass="coolQRCode" qrdata="{{RepairRequestNo}}" [width]="256" [errorCorrectionLevel]="'M'" [elementType]="'img'">
+                    </qrcode>
+                </div>
+                <!-- <div class="col-8 float-left"> -->
+                <div style="width:65%;float:left;margin-top:-27px">
+                    <div class="row">
+                        <div style="width:99%;float:left">
+                            <div class="ldiv" id="id1" style="color: #000000;width:49%;float:left;font-family:sans-serif !important; font-weight:bold; font-size:26px;font-weight: 500;margin-top:25px;padding: 10px 0 10px 1%;">
+                                Repair Request No:</div>
+                            <div class="rdiv" style="color: #000000;width:50%;float:left;font-family:sans-serif !important; font-weight:bold; font-size: 26px; font-weight: 500;margin-top:25px; margin-left: 0; padding: 10px 0;">
+                                {{RepairRequestNo}}</div>
+
+                            <table style="color: #000000;width:99%;" class="table-bordered table qrtable nowrap">
+                                <tbody>
+                                    <tr>
+                                        <th style="color: #000000;text-align: left; padding:5px 10px; font-family:sans-serif !important; font-weight:bold; font-size:18px;">
+                                            Part No:</th>
+                                        <td style="color: #000000;text-align: left;  padding:5px 10px; font-family:sans-serif !important; font-weight:bold; font-size:22px;">
+                                            {{PartNo}}
+                                        </td>
+                                    </tr>
+                                    <!-- <tr>
+                                                    <th>Repair Request No:</th>
+                                                    <td class="greyblack">{{RepairRequestNo}}</td>
+                                                </tr> -->
+                                    <tr>
+                                        <th style="color: #000000;text-align: left;font-family:sans-serif !important; padding: 5px 10px; font-weight:bold; font-size:18px;">
+                                            Serial No:</th>
+                                        <td style="color: #000000;text-align: left;font-family:sans-serif !important; padding: 5px 10px; font-weight:bold; font-size:22px;">
+                                            {{SerialNo}}
+                                        </td>
+                                    </tr>
+                                    <tr *ngFor="let item of CustomerRefList; let i = index;">
+                                        <th style="color: #000000;text-align: left;font-family:sans-serif !important; padding: 5px 10px; font-weight:bold; font-size:18px;">
+                                            Customer Reference {{i+1}}:</th>
+                                        <td style="color: #000000;text-align: left;font-family:sans-serif !important; padding: 5px 10px; font-weight:bold; font-size:18px;">
+                                            {{item.ReferenceLabelName}}
+                                        </td>
+                                    </tr>
+                                    <!-- <tr>
+                                        <th
+                                            style="color: #000000;text-align: left;font-family:sans-serif !important; padding: 5px 10px; font-weight:bold; font-size:23px;">
+                                            Customer:</th>
+                                        <td
+                                            style="color: #000000;text-align: left;font-family:sans-serif !important; padding: 5px 10px; font-weight:bold; font-size:23px;">
+                                            {{CompanyName}}
+                                        </td>
+                                    </tr> -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="text-right pt-2 mt-0">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <!-- <button class="btn btn-success waves-effect waves-light ml-1" (click)="onSubmit()">Print</button> -->
+            <button class="btn btn-warning waves-effect waves-light ml-1" (click)="onSubmit1()">Print</button>
+            <button class="btn btn-primary waves-effect waves-light ml-1" (click)="onSubmit()">Print</button>
+
+            <!-- <button ngbTooltip="Export to PDF" placement="top" value="Download" class="btn btn-icon waves-effect" (click)="generatePDF()" title="Export to PDF">
+                <i class="mdi mdi-file-pdf-outline"></i></button> -->
+        </div>
+    </form>
+</div>

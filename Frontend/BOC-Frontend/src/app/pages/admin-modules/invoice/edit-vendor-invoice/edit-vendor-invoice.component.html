@@ -1,0 +1,688 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="container-fluid">
+    <app-page-title title="Edit Vendor Bill"></app-page-title>
+    <form name="form" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+        <div class="row">
+            <div class="col-12">
+                <div class="sticky-container">
+                    <div id="so-groups" class="right so-groups-sticky hidden-xs" style="top:198px">
+                        <button *ngIf="VendorInvoiceInfo.RRId != 0 && VendorInvoiceInfo.Status!=2 && IsApproveEnabled && enableVendorApproved==1" (click)="onApprovedVendorInvoice()" type="button"><span>Approve Vendor Invoice</span>
+                            <i class="fas fa-check-circle"></i></button>
+                            <button *ngIf="VendorInvoiceInfo.RRId == 0 && VendorInvoiceInfo.Status!=2 && IsApproveEnabled" (click)="onApprovedVendorInvoice()" type="button"><span>Approve Vendor Invoice</span>
+                                <i class="fas fa-check-circle"></i></button>
+                        <button *ngIf="VendorInvoiceInfo.Status==2" (click)="onReOpenVendorInvoice()" type="button"><span>ReOpen</span>
+                            <i class="fas fa-history"></i></button>
+                        <button [disabled]="btnDisabled" *ngIf="VendorInvoiceInfo.Status!=2" [ngClass]="{'class': (btnDisabled)? 'gray': 'btn-group btn-group-sm float-right'}"><span>Save</span>
+                            <i class="mdi mdi-content-save "></i></button>
+
+                        <!-- <button  type="button">
+                            <span> <a [routerLink]="['/admin/invoice/vendor-invoice-list']"
+                                    [queryParams]="{VendorInvoiceId: this.VendorInvoiceInfo.VendorInvoiceId}"
+                                    target="_blank" class="btn btn-icon waves-effect">
+                                    View</a></span><i class="fa fa-eye"></i>
+                        </button> -->
+                        <!-- <button type="button" class="bg-danger"><span
+                                class="bg-danger"><a [routerLink]="['/admin/invoice/vendor-invoice-list']"
+                                [queryParams]="{VendorInvoiceId: this.VendorInvoiceInfo.VendorInvoiceId}"
+                                class="btn btn-icon waves-effect">
+                                Back</a></span>
+                            <i class="fas fa-arrow-left"></i></button> -->
+                            <button type="button" class="bg-danger" (click)="BackToView()"><span
+                                class="bg-danger">Back</span>
+                            <i class="fas fa-arrow-left"></i></button> 
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-12">
+                <div class="card-box">
+                    <!-- Logo & title -->
+                    <div class="clearfix">
+                        <div class="row">
+                            <div class="col-xl-6 float-left">
+                                <img src="assets/images/ah_logo.png" alt="" height="30">
+                                <br>
+                                <h4 class="page-title bluetxt mb-20">Vendor Bill #{{VendorInvoiceInfo.VendorInvNo}}
+                                </h4>
+                            </div>
+                            <div class="col-xl-6 sales-right">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div style="height: 1px;" class="clear">&nbsp;</div>
+                    <h4 class="page-title bluetxt mb-20">Vendor Bill Details</h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-xl-8">
+                                    <div class="form-group">
+                                        <label>Vendor:<span class="red">*</span></label>
+                                        <ng-select [items]="vendorList" [searchable]="true" [(ngModel)]="model.VendorId" name="VendorId" #VendorId="ngModel" [ngClass]="{ 'is-invalid': f.submitted && VendorId.invalid }" required placeholder="Select" bindLabel="VendorName" bindValue="VendorId"
+                                            (change)="getVendorProperties(model.VendorId)">
+                                        </ng-select>
+                                        <div *ngIf="f.submitted &&VendorId.invalid" class="invalid-feedback">
+                                            <div *ngIf="VendorId.errors.required">Vendor is required
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-xl-4">
+                                    <div class="form-group">
+                                        <label>Vendor Invoice # :<span class="red">*</span></label>
+                                        <input class="form-control" [(ngModel)]="model.VendorInvNo" #VendorInvNo="ngModel" [ngClass]="{ 'is-invalid': f.submitted && VendorInvNo.invalid }" required name="VendorInvNo">
+                                        <div *ngIf="f.submitted &&VendorInvNo.invalid" class="invalid-feedback">
+                                            <div *ngIf="VendorInvNo.errors.required">Vendor Invoice No is required
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4">
+                                    <div class="form-group">
+                                        <label>Terms:</label>
+                                        <select class="form-control" [(ngModel)]="model.TermsId" name="TermsId" #TermsId="ngModel" [ngClass]="{ 'is-invalid': f.submitted && TermsId.invalid }" required>
+                                            <option value="undefined" disabled>Select</option>
+                                            <option *ngFor="let item of TermsList" value="{{item.TermsId}}">
+                                                {{item.TermsName}}</option>
+
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-4">
+                                    <div class="form-group">
+                                        <label>Vendor Reference # :</label>
+                                        <input class="form-control" [(ngModel)]="model.ReferenceNo" name="ReferenceNo">
+
+                                    </div>
+                                </div>
+                                <div class="col-xl-4" *ngIf="VendorInvoiceInfo.RRNo">
+                                    <div class="form-group">
+                                        <label>Repair Request # :</label>
+
+                                        <a [routerLink]="['/admin/repair-request/edit']" [queryParams]="{RRId: this.VendorInvoiceInfo.RRId}" target="_blank">
+                                            {{VendorInvoiceInfo.RRNo}}
+                                        </a> <i class="fas fa-tools RepairTool"></i>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+
+
+
+
+
+
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <div class="float-right">
+
+
+                                <div class="row">
+
+
+                                    <div class="col-xl-5">
+                                        <div class="form-group">
+                                            <label>Invoice Date:<span class="red">*</span></label>
+
+
+                                            <div class="input-group clockpicker">
+                                                <input ngbDatepicker class="form-control" name="InvoiceDate" #InvoiceDate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && InvoiceDate.invalid }" required [(ngModel)]="model.InvoiceDate" autoClose="false" placeholder="MM/DD/YYYY" #Invoice_Date="ngbDatepicker">
+                                                <div class="input-group-append" (click)="Invoice_Date.toggle()">
+                                                    <span class="input-group-text"><i
+                                                            class="mdi mdi-calendar"></i></span>
+                                                </div>
+                                                <div *ngIf="f.submitted &&InvoiceDate.invalid" class="invalid-feedback">
+                                                    <div *ngIf="InvoiceDate.errors.required">Invoice Date is required
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-5">
+                                        <div class="form-group">
+                                            <label>Due Date:<span class="red">*</span></label>
+                                            <div class="input-group clockpicker">
+                                                <input ngbDatepicker class="form-control" name="DueDate" #DueDate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && DueDate.invalid }" required [(ngModel)]="model.DueDate" autoClose="false" placeholder="MM/DD/YYYY" #Due_Date="ngbDatepicker">
+                                                <div class="input-group-append" (click)="Due_Date.toggle()">
+                                                    <span class="input-group-text"><i
+                                                            class="mdi mdi-calendar"></i></span>
+                                                </div>
+                                                <div *ngIf="f.submitted &&DueDate.invalid" class="invalid-feedback">
+                                                    <div *ngIf="DueDate.errors.required">Due Date is required
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xl-5">
+                                        <div class="form-group">
+                                            <label>Vendor Invoice Type:<span class="red">*</span></label>
+                                            <select class="custom-select" [(ngModel)]="model.VendorInvoiceType" #VendorInvoiceType="ngModel" [ngClass]="{ 'is-invalid': f.submitted && VendorInvoiceType.invalid }" required name="VendorInvoiceType">
+                                                <option value="undefined" disabled>Select</option>
+                                                <option value="0">Regular</option>
+                                                <option value="2">Repair</option>
+                                                <option value="3">Doorship</option>
+                                            </select>
+                                            <div *ngIf="f.submitted &&VendorInvoiceType.invalid" class="invalid-feedback">
+                                                <div *ngIf="VendorInvoiceType.errors.required">Vendor Invoice Type is required
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-5">
+                                        <div class="form-group" *ngIf="VendorInvoiceInfo.Status!=2">
+
+                                            <label>Status:<span class="red">*</span></label>
+                                            <select class="custom-select" [(ngModel)]="model.Status" name="Status" #Status="ngModel" [ngClass]="{ 'is-invalid': f.submitted && Status.invalid }" required>
+                                                <option value="undefined" disabled>Select</option>
+                                                <option *ngFor="let invoice_status of Invoice_Status_edit"
+                                                    value="{{invoice_status.Invoice_StatusId}}">
+                                                    {{invoice_status.Invoice_StatusName}}</option>
+                                            </select>
+                                            <div *ngIf="f.submitted &&Status.invalid" class="invalid-feedback">
+                                                <div *ngIf="Status.errors.required">Status is required
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group" *ngIf="VendorInvoiceInfo.Status==2">
+                                            <label>Status:</label> {{VendorInvoiceInfo.StatusName}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="VendorInvoiceInfo.Status==2">
+                                    <div class="col-xl-6">
+                                        <div class="form-group">
+                                            <label>Approved By:</label>
+
+                                            <span class="approvebg">{{VendorInvoiceInfo.ApprovedByName}}</span>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6">
+
+                                        <div class="form-group">
+                                            <label>Approved Date:</label> {{VendorInvoiceInfo.ApprovedDate|dateTransform}}
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <div class="row" *ngIf="VendorInvoiceInfo.Status==5">
+                                    <div class="col-xl-6">
+                                        <div class="form-group">
+                                            <label>ReOpened By:</label>
+
+                                            <span class="approvebg">{{VendorInvoiceInfo.ReOpenedByName}}</span>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6">
+
+                                        <div class="form-group">
+                                            <label>ReOpened Date:</label> {{VendorInvoiceInfo.ReOpenedDate|dateTransform}}
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear">&nbsp;</div>
+                    <h4 class="page-title bluetxt mb-20">Item Details
+                        <button (click)="addItem(AddItem)" type="button" class="btn btn-add waves-effect" style="float: right;">
+                            <i class="remixicon-add-fill mt-3"></i> Add
+                        </button>
+                    </h4>
+                    <div class="table-responsive mt-15">
+                        <table class="table table-bordered idt mb-0" *ngIf="PartItem.length!=0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>PO #</th>
+                                    <th>Part #</th>
+                                    <th>Description</th>
+                                    <th>Quantity<span class="red">*</span></th>
+                                    <th>Unit Price<span class="red">*</span></th>
+                                    <th>{{VAT_field_Name}}</th>
+                                    <th *ngIf="VendorInvoiceInfo.MROId != 0">{{Shipping_field_Name}}</th>
+                                    <th>Price<span class="red">*</span></th>
+                                    <th *ngIf="IsDisplayBaseCurrencyValue==1">Price({{BaseCurrencySymbol}})<span class="red">*</span></th>
+                                    <th>Action</th>
+
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let item of PartItem; let i = index;">
+                                <tr>
+                                    <td>
+                                        <a routerLink="/admin/orders/purchase-list">
+                                            <p>{{item.PONo}}</p>
+                                        </a>
+
+                                    </td>
+                                    <td style="width: 15%;">
+                                        {{item.PartNo}}
+                                       
+                                    </td>
+                                    <td style="width: 15%;">
+                                        {{item.Description}}
+                                       
+                                    </td>
+                                   
+                                    <td style="width: 10%;">
+                                        <input type="text" min="1" class="form-control" name="Quantity[{{i}}]" digitOnly  [(ngModel)]="PartItem[i].Quantity" #Quantity="ngModel" [ngClass]="{ 'is-invalid': f.submitted && Quantity.invalid }" required (keyup)="calculatePrice(i)">
+                                        <div *ngIf="f.submitted &&Quantity.invalid" class="invalid-feedback">
+                                            <div *ngIf="Quantity.errors.required">Quantity is required</div>
+                                        </div>
+                                    </td>
+                                    <td style="width: 12%;">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">{{PartItem[i].ItemLocalCurrencySymbol}}</span>
+                                            </div>
+                                            <input id="Rate" type="text" name="Rate[{{i}}]"  [(ngModel)]="PartItem[i].Rate" class="form-control" inputmode="numeric" pattern="^\d+(\.\d{1,2})?$" placeholder="0.00" digitOnly #Rate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && Rate.invalid }"
+                                                required decimal="true" (keyup)="calculatePrice(i)" />
+                                            <div *ngIf="f.submitted &&Rate.invalid" class="invalid-feedback">
+                                                <div *ngIf="Rate.errors.required">Rate is required</div>
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+                                    <td style="width: 10%;">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">%</span>
+                                            </div>
+                                        <input type="text" min="1" class="form-control" 
+                                            [(ngModel)]="PartItem[i].ItemTaxPercent" #ItemTaxPercent="ngModel"
+                                            name="ItemTaxPercent[{{i}}]"  inputmode="numeric" pattern="^\d+(\.\d{1,2})?$" placeholder="0.00" digitOnly
+                                            decimal="true" 
+                                             (keyup)="calculatePrice(i)">
+                                        </div>
+                                        &nbsp;
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">{{PartItem[i].ItemLocalCurrencySymbol}}</span>
+                                            </div>
+                                            <input type="hidden" class="form-control"  readonly
+                                                #Tax="ngModel"  name="Tax[{{i}}]" [(ngModel)]="PartItem[i].Tax">
+                                            <input type="text" class="form-control"  readonly
+                                                #TaxWithQuantity="ngModel"  name="TaxWithQuantity[{{i}}]" [(ngModel)]="PartItem[i].TaxWithQuantity">
+                                           
+                                        </div>
+                                    </td>
+                                    <td style="width: 8%;" *ngIf="VendorInvoiceInfo.MROId != 0">
+                                        
+                                        &nbsp;
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">{{PartItem[i].ItemLocalCurrencySymbol}}</span>
+                                            </div>
+                                            <input type="text" class="form-control"   (keyup)="calculatePrice(i)"
+                                                #ShippingCharge="ngModel"  name="ShippingCharge[{{i}}]" 
+                                                inputmode="numeric" pattern="^\d+(\.\d{1,2})?$" placeholder="0.00" digitOnly
+                                                decimal="true"
+                                                
+                                                 [(ngModel)]="PartItem[i].ShippingCharge">
+                                           
+                                        </div>
+                                    </td>
+                                    <td style="width: 10%;">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">{{PartItem[i].ItemLocalCurrencySymbol}}</span>
+                                            </div>
+                                            <input type="text" class="form-control" name="Price[{{i}}]" readonly #Price="ngModel" [ngClass]="{ 'is-invalid': f.submitted && Price.invalid }" required [(ngModel)]="PartItem[i].Price">
+                                            <div *ngIf="f.submitted &&Price.invalid" class="invalid-feedback">
+                                                <div *ngIf="Price.errors.required">Price is required</div>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                    <td style="width: 10%;" *ngIf="IsDisplayBaseCurrencyValue==1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">{{BaseCurrencySymbol}}</span>
+                                            </div>
+                                            <input type="text" class="form-control"  readonly
+                                                #BasePrice="ngModel"  name="BasePrice[{{i}}]" 
+                                               
+                                                [ngClass]="{ 'is-invalid': f.submitted && BasePrice.invalid }"
+                                                required [(ngModel)]="PartItem[i].BasePrice">
+                                            <div *ngIf="f.submitted &&BasePrice.invalid" class="invalid-feedback">
+                                                <div *ngIf="BasePrice.errors.required">Price({{BaseCurrencySymbol}}) is required</div>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                    <td style="width: 2%;">
+                                        <a (click)="removePartItem(i,item.VendorInvoiceItemId)" *ngIf="i != 0" class="text-danger" style="cursor: pointer;"> <i class="remixicon-delete-bin-line delete-btn-ico"></i></a>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="row">
+                        <!-- end col -->
+                        <div class="col-xl-12">
+                            <div class="float-right">
+
+                                <div class="table-responsive">
+                                    <table class="table table-borderless bill mb-0">
+                                        <tbody>
+                                            <!-- <tr>
+                                                <th scope="row">
+                                                    <p><b>Sub Total:</b></p>
+                                                </th>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">$</span>
+                                                        </div>
+                                                        <input type="text" class="form-control" name="SubTotal" [(ngModel)]="SubTotal" readonly>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th scope="row">
+                                                    <p><b>Total Tax:</b></p>
+                                                </th>
+                                                <td>
+                                                    <div class="row">
+                                                        <div class="col-xl-6 col-sm-6">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">$</span>
+                                                                </div>
+                                                                <input type="text" inputmode="numeric" pattern="^\d+(\.\d{1,2})?$" placeholder="0.00" digitOnly decimal="true" class="form-control" name="TotalTax" readonly [(ngModel)]="TotalTax">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-6 col-sm-6">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">%</span>
+                                                                </div>
+                                                                <input type="text" inputmode="numeric" pattern="^\d+(\.\d{1,2})?$" placeholder="0.00" readonly digitOnly decimal="true" class="form-control" (keyup)="calculateTax()" name="TaxPercent" [(ngModel)]="TaxPercent">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th scope="row">
+                                                    <p><b>Discount :</b></p>
+                                                </th>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">$</span>
+                                                        </div>
+                                                        <input type="text" digitOnly class="form-control" name="Discount" readonly (keyup)="calculateTotal()" [(ngModel)]="Discount">
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th scope="row">
+                                                    <p><b>Shipping :</b></p>
+                                                </th>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">$</span>
+                                                        </div>
+                                                        <input type="text" digitOnly class="form-control" name="Shipping" readonly (keyup)="calculateTotal()" [(ngModel)]="Shipping">
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <th scope="row">
+                                                    <p><b>AH Processing Fee :</b></p>
+                                                </th>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">$</span>
+                                                        </div>
+                                                        <input type="text" digitOnly class="form-control" readonly name="AHFees" (keyup)="calculateTotal()" [(ngModel)]="AHFees">
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+ -->
+
+                                            <tr>
+                                                <th scope="row">
+                                                    <p><b>Grand Total :</b></p>
+                                                </th>
+                                                <td>
+                                                    <p>{{Symbol}} {{GrandTotal}} </p>
+                                                    <input type="hidden" class="form-control" name="GrandTotal" readonly [(ngModel)]="GrandTotal">
+                                                </td>
+                                            </tr>
+                                             <tr  *ngIf="IsDisplayBaseCurrencyValue==1" >
+                                                <th scope="row">
+                                                    <p><b>Grand Total ({{BaseCurrencySymbol}}) :</b></p>
+                                                </th>
+                                                <td>
+                                                    <p>{{BaseCurrencySymbol}} {{GrandTotalUSD}} </p>
+                                                    
+                                                </td>
+                                             </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                    </div>
+
+                    <div class="clear">&nbsp;</div>
+                    <h4 class="page-title bluetxt mb-10">Notes
+                        <button (click)="addNotes()" type="button" *ngIf="IsNotesAddEnabled" class="btn btn-add waves-effect">
+                            <i class="remixicon-add-fill mt-3"></i> Add
+                        </button>
+                    </h4>
+                    <div class="table-responsive mt-15" *ngIf="IsNotesEnabled">
+                        <table class="table table-bordered table-striped mb-0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Notes</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let note of VendorInvoiceNotes;let i=index">
+                                <tr>
+                                    <td class="linebreak">{{note.Notes}}</td>
+                                    <td>
+                                        <a (click)="editNotes(note,i)" *ngIf="IsNotesEditEnabled" class="fa fa-edit" ngbTooltip="Edit" placement="top"></a>&nbsp;
+                                        <a (click)="deleteNotes(note.NotesId,i)" *ngIf="IsNotesDeleteEnabled" class="fa fa-trash text-danger" ngbTooltip="Delete" placement="top"></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="VendorInvoiceNotes?.length == 0">
+                                <tr>
+                                    <td colspan="5" class="no-data-available">No data!</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    <div class="clear">&nbsp;</div>
+
+
+
+                </div>
+                <!-- end card-box -->
+            </div>
+
+            <!-- end col -->
+        </div>
+    </form>
+</div>
+
+
+<ng-template #AddItem let-modal="close">
+    <div class="modal-header">
+        <h4 class="modal-title">Add Item</h4>
+        <button type="button" class="close" (click)="modal('Cross click')" aria-hidden="true">×</button>
+    </div>
+    <div class="modal-body p-4">
+        <form name="form" #f="ngForm" (ngSubmit)="(f.form.valid) ? onItemSubmit() : false" novalidate>
+
+            <div class="row">
+                <div class="form-group">
+                    <label for="Customer">Enter PO # <span class="red">*</span></label>
+                    <div class="row col-xl-12">
+
+                        <div style="padding: 0;" class="col-xl-6">
+                            <input id="PartNo" [(ngModel)]="model.PONo" name="PONo" type="text" class="form-control" #PONo="ngModel" [ngClass]="{ 'is-invalid': f.submitted && PONo.invalid }" required>
+                            <div *ngIf="f.submitted &&PONo.invalid" class="invalid-feedback">
+                                <div *ngIf="PONo.errors.required">PO No is required</div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+
+                            <button type="button" class="btn btn-success waves-effect waves-light" (click)="SearchPONo()">Search</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="table-responsive mt-15">
+                    <table class="table table-bordered idt mb-0" *ngIf="POList.length!=0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th><input type="checkbox" [(ngModel)]="isMasterSel" name="list_name" value="h1" (change)="checkUncheckAll()"></th>
+                                <th>Part #</th>
+                                <th>Description</th>
+                                <th>Lead Time</th>
+                                <th>Quantity</th>
+                                <th>Unit Price</th>
+                                <th>{{VAT_field_Name}}</th>
+                                <th *ngIf="VendorInvoiceInfo.MROId != 0">{{Shipping_field_Name}}</th>
+                                <th>Price</th>
+                                <th *ngIf="IsDisplayBaseCurrencyValue==1">Price({{BaseCurrencySymbol}})<span class="red">*</span></th>
+
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let item of POList; let i = index;">
+                            <tr>
+                                <td style="width: 5%;">
+                                    <input type="checkbox" [(ngModel)]="item.isSelected" name="POItemId" value="{{item.POItemId}}" (change)="isAllSelected()">
+                                </td>
+                                <td style="width: 15%;">
+
+                                    {{item.PartNo}}
+
+                                </td>
+                                <td style="width: 15%;">
+                                    {{item.Description}}
+
+                                </td>
+                                <td style="width: 12%;">
+
+                                    {{item.LeadTime}}Days
+
+                                </td>
+                                <td style="width: 10%;">
+                                    {{item.Quantity}}
+
+                                </td>
+                                <td style="width: 12%;">
+
+                                    {{item.ItemLocalCurrencySymbol}} {{item.Rate}}
+
+                                </td>
+                                <td style="width: 5%;">
+                                    %{{item.ItemTaxPercent}}
+                                    <br>
+                                    <!-- {{item.ItemLocalCurrencySymbol}} {{item.Tax}} -->
+                                    {{item.ItemLocalCurrencySymbol}} {{item.TaxWithQuantity}}
+                                    
+
+                                </td>
+                                <td *ngIf="VendorInvoiceInfo.MROId != 0">
+                                    {{item.ItemLocalCurrencySymbol}} {{item.ShippingCharge}}
+                                </td>
+                                <td style="width: 10%;">
+
+                                    {{item.ItemLocalCurrencySymbol}} {{item.Price}}
+
+                                </td>
+                                <td style="width: 10%;" *ngIf="IsDisplayBaseCurrencyValue">
+
+                                    {{BaseCurrencySymbol}} {{item.BasePrice}}
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <div class="row" *ngIf="POList.length==0">
+                {{dataMessage}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary waves-effect" (click)="modal('Cross click')">Close</button>
+                <button class="btn btn-success waves-effect waves-light">Add</button>
+            </div>
+        </form>
+    </div>
+
+</ng-template>

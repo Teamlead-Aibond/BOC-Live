@@ -1,0 +1,452 @@
+<div class="container-fluid">
+    <app-page-title title="Part Tracking" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body padstock">
+                    <div class="card-title">
+                        <div style="font-size:15px;position:relative;font-weight:bold;">
+                            <form [formGroup]="form">
+                                <div class="row pt-0 show">
+                                    <div class="col-12 col-xl-2">
+                                        <label class="control-label">Enter Part Number</label>
+                                        <input type="text" class="form-control" formControlName="PartNo"
+                                            placeholder="Enter Part Number">
+                                    </div>
+                                    <div class="col-12 col-xl-2">
+                                        <label class="control-label">Enter Serial Number </label>
+                                        <input type="text" class="form-control" formControlName="SerialNo"
+                                            placeholder="Enter Serial Number">
+                                    </div>
+                                    <div class="col-2 col-xl-2">
+                                        or
+                                    </div>
+                                    <div class="col-12 col-xl-2">
+                                        <label class="control-label">RFID </label>
+                                        <input type="text" class="form-control" formControlName="RFID"
+                                            placeholder="Scan RFID Number">
+                                    </div>
+
+
+
+                                    <div class="col-12 col-xl-2" style="padding-top:30px;">
+                                        <input type="button" class="btn btn-primary btn-md mr-1" (click)="searchPart()"
+                                            value="Search" />
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-sm-12 col-md-12 parttracking-wrap">
+            <div class="card-box ribbon-box">
+
+                <div class="row">
+                    <div class="col-lg-12 col-xl-12 col-sm-12 col-md-12">
+                        <div class="table-responsive">
+                            <table id="datatable-angular-part-tracking"
+                                class="table mb-15 datatables dt-responsive hover nowrap">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>S.No</th>
+                                        <th>Part Number</th>
+                                        <th>Part Serial Number</th>
+                                        <th>Stock Available</th>
+                                        <th>Location</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngIf="part">
+                                        <td>1</td>
+                                        <td>{{part.PartNo}}</td>
+                                        <td>{{part.SerialNo}}</td>
+                                        <td><span class="badge badge-success badge-pill">Yes</span></td>
+                                        <td width="50%">
+                                            <div class="row mtm-5">
+                                                <div class="col-12">
+                                                    <div class="col-20">
+                                                        <i class="fas fa-warehouse f-15"></i>
+                                                        <p>{{part.WarehouseName}}</p>
+                                                    </div>
+                                                    <div class="col-15">-></div>
+                                                    <div class="col-20">
+                                                        <i class="fas fa-building f-16"></i>
+                                                        <p>{{part.WarehouseSub1Name}}</p>
+                                                    </div>
+                                                    <div class="col-15">-></div>
+                                                    <div class="col-20">
+                                                        <i class="remixicon-building-2-fill f-17"></i>
+                                                        <p>{{part.WarehouseSub2Name}}</p>
+                                                    </div>
+                                                    <div class="col-15">-></div>
+                                                    <div class="col-20">
+                                                        <i class="mdi mdi-table-row f-18"></i>
+                                                        <p>{{part.WarehouseSub3Name}}</p>
+                                                    </div>
+                                                    <div class="col-15">-></div>
+                                                    <div class="col-20">
+                                                        <i class="mdi mdi-file-cabinet f-19"></i>
+                                                        <p>{{part.WarehouseSub4Name}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">
+
+
+
+                        <div style="font-size:15px; position:relative;font-weight:bold;">
+                            <ngb-tabset class="nav-bordered" type="tabs" (tabChange)="tabChange($event)"
+                                #ctdTabset="ngbTabset">
+
+
+                                <ngb-tab title="3D Tracking">
+                                    <ng-template ngbTabContent>
+                                        <ng-template [ngTemplateOutlet]="ThreeDimensional"></ng-template>
+                                    </ng-template>
+                                </ngb-tab>
+                                <!-- <ngb-tab title="2D Tracking">
+                                    <ng-template ngbTabContent>
+                                        <ng-template [ngTemplateOutlet]="TwoDimensional"></ng-template>
+                                    </ng-template>
+                                </ngb-tab> -->
+
+                            </ngb-tabset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+    <!-- <div class="row">
+        <div class="col-12 text-right">
+            <input type="button" class="btn btn-primary btn-md mr-1" value="Submit" />
+        </div>
+    </div> -->
+</div>
+
+<ng-template #TwoDimensional>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body padstock">
+                    <div class="card-title">
+                        <div style="font-size:15px;position:relative;font-weight:bold;">
+
+                            <div class="row m-2">
+                                <div class="col-xl-4 col-12">
+                                    <p class="m-b-10 text-left"><strong style="color: #232323 !important;">Warehouse :
+                                        </strong><span class="customerbg">United States</span></p>
+                                </div>
+
+                                <div class="col-xl-4 col-12">
+                                    <p class="m-b-10 text-left"><strong style="color: #232323 !important;">Building :
+                                        </strong><span class="approvebg">AH Building</span></p>
+                                </div>
+
+                                <div class="col-xl-4 col-12">
+                                    <p class="m-b-10 text-left"><strong style="color: #232323 !important;">Room :
+                                        </strong><span class="roombg">Room 12</span></p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12 col-xl-12 col-sm-12 col-md-12">
+                                    <h2 style="text-align: center;">Row A</h2>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-lg-12 col-xl-12 col-sm-12 col-md-12">
+                                    <div class="table-responsive">
+                                        <table class="container">
+                                            <tbody>
+
+                                                <tr>
+                                                    <td>1C</td>
+                                                    <td>2C</td>
+                                                    <td>3C</td>
+                                                    <td>4C</td>
+                                                    <td>5C</td>
+                                                    <td>6C</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>1B</td>
+                                                    <td>2B</td>
+                                                    <td class="active">3B</td>
+                                                    <td>4B</td>
+                                                    <td>5B</td>
+                                                    <td>6B</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>1A</td>
+                                                    <td>2A</td>
+                                                    <td>3A</td>
+                                                    <td>4A</td>
+                                                    <td>5A</td>
+                                                    <td>6A</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12 col-xl-12 col-sm-12 col-md-12">
+                                    <h2 style="text-align: center;">Row B</h2>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12 col-xl-12 col-sm-12 col-md-12">
+                                    <div class="table-responsive">
+                                        <table class="container">
+                                            <tbody>
+                                                <tr>
+                                                    <td>1C</td>
+                                                    <td>2C</td>
+                                                    <td>3C</td>
+                                                    <td>4C</td>
+                                                    <td>5C</td>
+                                                    <td>6C</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>1B</td>
+                                                    <td>2B</td>
+                                                    <td>3B</td>
+                                                    <td>4B</td>
+                                                    <td>5B</td>
+                                                    <td>6B</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>1A</td>
+                                                    <td>2A</td>
+                                                    <td>3A</td>
+                                                    <td>4A</td>
+                                                    <td>5A</td>
+                                                    <td>6A</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #ThreeDimensional>
+    <div class="row" *ngIf="part">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="row m-2">
+                        <div class="col-xl-4">
+                            <p class="m-b-10 text-left"><strong style="color: #232323 !important;">Warehouse :
+                                </strong><span class="customerbg">{{ part.WarehouseName }}</span></p>
+                        </div>
+
+                        <div class="col-xl-4">
+                            <p class="m-b-10 text-left"><strong style="color: #232323 !important;">Building :
+                                </strong><span class="approvebg">{{ part.WarehouseSub1Name }}</span></p>
+                        </div>
+
+                        <div class="col-xl-4">
+                            <p class="m-b-10 text-left"><strong style="color: #232323 !important;">Room :
+                                </strong><span class="roombg">{{ part.WarehouseSub2Name }}</span></p>
+                        </div>
+                    </div>
+
+                    <!-- <div class="row m-2 threewrap">
+                        <div class="col-xl-4">
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <h1>Row A1</h1>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4">
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <h1>Row A2</h1>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4">
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <h1>Row A3</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="card-title">
+                        <div class="row">
+                            <div class="col-xl-4 flex-container pb-150 mt-2" *ngFor="let room of warehouseSub3List">
+                                <div class="row">
+                                    <div class="col-xl-12 titlehead">
+                                        <h1>{{room.WarehouseSub3Name}}</h1>
+                                    </div>
+                                </div>
+                                <div class="row" *ngFor="let slot of room.slots">
+                                    <div class="col-xl-12">
+                                        <div class="col-xl-2 float-left pos" *ngFor="let col of slot.cols">
+                                            <div
+                                                class="cube {{ (room.WarehouseSub3Id == part.WarehouseSub3Id) && col.active ? 'active' : ''}}">
+                                                <div class="topFace">
+                                                    <div>
+                                                        <h2>{{col.name}}</h2>
+                                                    </div>
+                                                </div>
+
+                                                <div class="leftFace">
+                                                    <h2>{{col.name}}</h2>
+                                                </div>
+
+                                                <div class="rightFace">
+                                                    <h2>{{col.name}}</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</ng-template>
+
+<ng-template #ThreeDimensional1>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">
+
+
+
+                        <div class="row m-2">
+                            <div class="col-xl-4">
+                                <p class="m-b-10 text-left"><strong style="color: #232323 !important;">Warehouse :
+                                    </strong><span class="customerbg">United States</span></p>
+
+                            </div>
+
+                            <div class="col-xl-4">
+                                <p class="m-b-10 text-left"><strong style="color: #232323 !important;">Building :
+                                    </strong><span class="approvebg">AH Building</span></p>
+
+                            </div>
+
+                            <div class="col-xl-4">
+                                <p class="m-b-10 text-left"><strong style="color: #232323 !important;">Room :
+                                    </strong><span class="roombg">Room 12</span></p>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <div class="card-title">
+                            <div class="row">
+                                <div class="col-xl-4 flex-container pb-150 mt-4" *ngFor="let room of warehouseSub3List">
+
+                                    <div class="row">
+                                        <div class="col-xl-12">
+                                            <ng-container *ngFor="let slot of room.slots">
+                                                <div class="col-xl-2 float-left pos" *ngFor="let col of slot.cols">
+                                                    <div class="cube">
+                                                        <div class="topFace">
+                                                            <div>
+                                                                <h2>{{col}}</h2>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="leftFace">
+                                                            <h2>{{col}}</h2>
+                                                        </div>
+
+                                                        <div class="rightFace">
+                                                            <h2>{{col}}</h2>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="row">
+                            <div class="col-lg-12 col-xl-12 col-sm-12 col-md-12">
+                                <h2 style="text-align: center;">Row A</h2>
+                            </div>
+                        </div> -->
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

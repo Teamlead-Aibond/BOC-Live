@@ -1,0 +1,436 @@
+<div class="row">
+    <div class="col-xl-12">
+        <div class="modal-header modal-xl ht">
+            <div class="col-xl-4">
+                <h4 class="modal-title">Shipping Details</h4>
+            </div>
+            <div class="col-xl-7">
+                <div class="row">
+                    <div class="col-xl-5">
+                        <div class="rc1 alert alert-info text-center">{{From}}</div>
+                    </div>
+                    <div class="col-xl-1">
+                        <div class="rc2 text-center">=></div>
+                    </div>
+                    <div class="col-xl-5">
+                        <div class="rc1 alert alert-danger text-center">{{To}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-1">
+                <button type="button" class="close" aria-hidden="true" (click)="modalRef.hide()">×</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-body modal-xl">
+    <form name="form" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+
+        <div class="container ship-history">
+            <div class="row">
+                <div class="col-xl-6 col-md-6">
+                    <h5>Shipping Details</h5>
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label for="Customer">Ship From:</label> {{shippingDetails.ShipFromName}}
+                            </div>
+
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label for="Customer">Ship To:</label> {{shippingDetails.ShipToName}}
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label for="Customer">Date:</label> {{shippingDetails.ShipDate|dateTransform}}
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label for="Customer">Shipped By:</label> {{shippingDetails.ShippedBy}}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <label for="Customer">Address:</label> {{shippingDetails.ShipStreetAddress}}, {{shippingDetails.ShipCity}}, {{shippingDetails.ShipCountry}}, {{shippingDetails.ShipState}}- {{shippingDetails.ShipZip}}
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label for="Customer">Shipped Via:</label> {{shippingDetails.ShipViaName}}
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label for="Customer">Tracking #</label> {{shippingDetails.TrackingNo}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label for="Customer">Package Weight</label> {{shippingDetails.PackWeight}}
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label for="Customer">Shipping Cost $</label> {{shippingDetails.ShippingCost}}
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <label for="Customer">Comments</label> {{shippingDetails.ShipComment}}
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-md-6" *ngIf="ShippingStatus!=3 && shippingDetails.IsPickUp== 1">
+
+                    <h5>Pick Up Details
+
+                    </h5>
+
+
+
+
+                    <div class="row">
+
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label for="field-2" class="control-label">Ready For Pick Up Date
+
+                                </label>
+                                <div class="input-group">
+
+                                    {{shippingDetails.ReadyForPickUpDate | date:'short' }}
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="form-group" style="margin-bottom: 0.5rem !important">
+                                <label for="Customer">Pick Up By:
+
+                                </label> {{shippingDetails.PickedUpBy}}
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label for="Customer">Pick Up Date:
+
+                                </label> {{shippingDetails.PickedUpDate | date:'short'}}
+
+                            </div>
+                        </div>
+                        <div class="col-xl-6" *ngIf="shippingDetails.PickUPSignature">
+                            <div class="form-group">
+                                <img style="height: 70px !important;" src="{{shippingDetails.PickUPSignature}}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5>Receiving Details
+
+                    </h5>
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <label for="Customer">Receive Address:
+                                    <span class="red">*</span>
+                                </label>
+                                <ng-select [items]="AddressList" name="AddressId" placeholder="Select" [(ngModel)]="model.AddressId" #AddressId="ngModel" [ngClass]="{ 'is-invalid': f.submitted && AddressId.invalid }" required bindLabel="title" bindValue="AddressId" [searchable]="true">
+
+                                </ng-select>
+                                <div *ngIf="f.submitted &&AddressId.invalid" class="invalid-feedback">
+                                    <div *ngIf="AddressId.errors.required">Ship From Address is required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label for="Customer">Received By:
+                                    <span class="red">*</span>
+                                </label>
+
+
+                                <input type="text" class="form-control" id="ReceivedBy" placeholder="Ener ReceivedBy" [(ngModel)]="model.ReceivedBy" name="ReceivedBy" #ReceivedBy="ngModel" [ngClass]="{ 'is-invalid': f.submitted && ReceivedBy.invalid }" required>
+                                <div *ngIf="f.submitted &&ReceivedBy.invalid" class="invalid-feedback">
+                                    <div *ngIf="ReceivedBy.errors.required">Received By is required</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label for="Customer">Received Date:
+                                    <span class="red">*</span>
+                                </label>
+                                <div class="input-group clockpicker">
+                                    <input class="form-control m-0" placeholder="MM/DD/YYYY" name="d2" #c2="ngModel" ngbDatepicker #d2="ngbDatepicker" [(ngModel)]="model.ReceiveDate" name="ReceiveDate" #ReceiveDate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && ReceiveDate.invalid }"
+                                        required>
+                                    <div class="input-group-append">
+                                        <button class="blackbg" (click)="d2.toggle()" type="button"><i
+                                                class="mdi blackbg white mdi-calendar"></i></button>
+                                    </div>
+                                    <div *ngIf="f.submitted &&ReceiveDate.invalid" class="invalid-feedback">
+                                        <div *ngIf="ReceiveDate.errors.required">Receive Date is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <label for="Customer">Comments:</label>
+
+
+
+
+                                <textarea class="form-control" id="userbio" placeholder="Receive Comment" rows="4" [(ngModel)]="model.ReceiveComment" name="ReceiveComment">
+
+            </textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-xl-12 col-md-12">
+                            <div class="form-group">
+                                <label for="Customer"><span class="float-left">Show Customer Reference:</span>
+                                    <input class="form-control checkinput checkbox-outer" name="ShowCustomerReference"
+                                        type="checkbox" [(ngModel)]="model.ShowCustomerReference"
+                                        #ShowCustomerReference="ngModel">
+                                </label>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-xl-6 col-md-6" *ngIf="ShippingStatus!=3 && shippingDetails.IsPickUp!= 1">
+                    <h5>Receiving Details</h5>
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <label for="Customer">Receive Address:
+                                    <span class="red">*</span>
+                                </label>
+                                <ng-select [items]="AddressList" name="AddressId" placeholder="Select" [(ngModel)]="model.AddressId" #AddressId="ngModel" [ngClass]="{ 'is-invalid': f.submitted && AddressId.invalid }" required bindLabel="title" bindValue="AddressId" [searchable]="true"
+                                [disabled]="showReceive > 0 ? true : false">
+
+                                </ng-select>
+                                <div *ngIf="f.submitted &&AddressId.invalid" class="invalid-feedback">
+                                    <div *ngIf="AddressId.errors.required">Ship From Address is required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label for="Customer">Received By:
+                                    <span class="red">*</span>
+                                </label>
+
+
+                                <input type="text" class="form-control" id="ReceivedBy" placeholder="Ener ReceivedBy" [(ngModel)]="model.ReceivedBy" name="ReceivedBy" #ReceivedBy="ngModel" [ngClass]="{ 'is-invalid': f.submitted && ReceivedBy.invalid }" required>
+                                <div *ngIf="f.submitted &&ReceivedBy.invalid" class="invalid-feedback">
+                                    <div *ngIf="ReceivedBy.errors.required">Received By is required</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label for="Customer">Received Date:
+                                    <span class="red">*</span>
+                                </label>
+                                <div class="input-group clockpicker">
+                                    <input class="form-control m-0" placeholder="MM/DD/YYYY" name="d2" #c2="ngModel" ngbDatepicker #d2="ngbDatepicker" [(ngModel)]="model.ReceiveDate" name="ReceiveDate" #ReceiveDate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && ReceiveDate.invalid }"
+                                        required>
+                                    <div class="input-group-append">
+                                        <button class="blackbg" (click)="d2.toggle()" type="button"><i
+                                                class="mdi blackbg white mdi-calendar"></i></button>
+                                    </div>
+                                    <div *ngIf="f.submitted &&ReceiveDate.invalid" class="invalid-feedback">
+                                        <div *ngIf="ReceiveDate.errors.required">Receive Date is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <label for="Customer">Comments:</label>
+
+
+
+
+                                <textarea class="form-control" id="userbio" placeholder="Receive Comment" rows="4" [(ngModel)]="model.ReceiveComment" name="ReceiveComment">
+
+            </textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-xl-12 col-md-12">
+                            <div class="form-group">
+                                <label for="Customer"><span class="float-left">Show Customer Reference:</span>
+                                    <input class="form-control checkinput checkbox-outer" name="ShowCustomerReference"
+                                        type="checkbox" [(ngModel)]="model.ShowCustomerReference"
+                                        #ShowCustomerReference="ngModel">
+                                </label>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-xl-6 col-md-6" *ngIf="ShippingStatus==3">
+                    <h5>Pick Up Details
+
+                    </h5>
+
+
+
+
+                    <div class="row">
+
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label for="field-2" class="control-label">Ready For Pick Up Date & Time
+                                </label>
+                                <div class="input-group">
+
+                                    {{shippingDetails.ReadyForPickUpDate | date:'short'}}
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label for="Customer">Pick Up By:
+                                    <span class="red">*</span>
+                                </label>
+
+
+                                <input type="text" class="form-control" id="ReceivedBy" placeholder="Ener Pick Up By" [(ngModel)]="model.PickedUpBy" name="PickedUpBy" #PickedUpBy="ngModel" [ngClass]="{ 'is-invalid': f.submitted && PickedUpBy.invalid }" required>
+                                <div *ngIf="f.submitted &&PickedUpBy.invalid" class="invalid-feedback">
+                                    <div *ngIf="PickedUpBy.errors.required">Picked Up By is required</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-xl-6">
+                            <div class="form-group">
+                                <label for="Customer">Pick Up Date:
+                                    <span class="red">*</span>
+                                </label>
+                                <div class="input-group clockpicker">
+                                    <input class="form-control m-0" placeholder="MM/DD/YYYY" name="d2" #c2="ngModel" ngbDatepicker #d2="ngbDatepicker" [(ngModel)]="model.PickedUpDate" name="PickedUpDate" #PickedUpDate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && PickedUpDate.invalid }"
+                                        required>
+                                    <div class="input-group-append">
+                                        <button class="blackbg" (click)="d2.toggle()" type="button"><i
+                                                class="mdi blackbg white mdi-calendar"></i></button>
+                                    </div>
+                                    <div *ngIf="f.submitted &&PickedUpDate.invalid" class="invalid-feedback">
+                                        <div *ngIf="PickedUpDate.errors.required">Pick Up Date is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <label for="field-2" class="control-label">Signature
+
+                                </label>
+                                <div class="input-group">
+
+                                    <!-- <textarea class="form-control input-disabled" name="Signature" placeholder=""
+                                        formControlName="Signature" disabled></textarea> -->
+                                    <canvas #canvas (touchstart)="startDrawing($event)" (touchmove)="moved($event)" (touchend)="savePad()"></canvas>
+
+
+                                </div>
+                                <button type="button" style="margin: 0;" class="btn btt-sm btn-secondary" (click)="clearPad()">Clear</button>
+                                <button type="button" class="btn btt-sm btn-primary" (click)="savePad()">Save</button>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <div class="col-xl-12">
+
+                <div class="row">
+                    <!-- <div class="col-xl-6 float-left" *ngIf="shippingDetails.IsPickUp==1">
+                        <h5 for="Customer"><b>Current Status : </b>
+                        <span class="badge badge-pink m-2 p-1" style="font-size: 16px;">  Ready for Pick Up </span>
+                   
+                    </h5>
+                    </div> -->
+                    <div class="col-xl-6 float-left">
+                        &nbsp;
+                    </div>
+                    <div class="col-xl-6 nopad">
+                        <button *ngIf="ShippingStatus==3" type="button" (click)="onPartsPickup()" class="btn btn-purple waves-effect waves-light ml-1  float-right">Picked Up</button>
+                        <button [disabled]="btnDisabled" *ngIf="ShippingStatus!=3" [ngClass]="{'class': (btnDisabled)? 'btn btn-success waves-effect waves-light float-right ml-1': 'btn btn-light waves-effect waves-light ml-1'}" class="btn btn-success waves-effect waves-light float-right ml-1">Receive</button>
+                        <button type="button" class="btn btn-secondary waves-effect float-right ml-1" (click)="modalRef.hide()">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

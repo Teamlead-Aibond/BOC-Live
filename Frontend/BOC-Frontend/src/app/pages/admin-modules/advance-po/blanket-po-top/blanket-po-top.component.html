@@ -1,0 +1,357 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="container-fluid">
+    <app-page-title title="REPLENISH Blanklet PO"></app-page-title>
+    <form [formGroup]="EditForm">
+
+
+        <div class="row">
+
+            <div class="col-xl-12 nopad">
+                <div class="col-xl-6 float-left">
+                    <div style="padding-left: 1rem;" class="card-box">
+                        <div class="form-horizontal ng-untouched ng-pristine ng-valid p-0" role="form">
+                            <div class="col-xl-12">
+                                <div class="row ml-2">
+                                    <div style="margin-bottom: 0.5rem;" class="form-group row">
+                                        <div class="col-sm-12 nopad">
+                                            <h4 class="bluetxt">Blanket PO Info</h4>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-xl-12 float-left">
+                                        <div class="form-group row mb-1">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Customer :
+                                            </label>
+                                            <div class="col-sm-8 mt-1">
+                                                {{result.CompanyName}}
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-1">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Customer PO # :
+
+                                            </label>
+                                            <div class="col-sm-8 mt-1">
+                                                <span class="badge badge-light-success font-15">
+                                                    {{result.CustomerPONo}}</span>
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group row mb-1">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Blanket PO Notes
+
+                                                :</label>
+                                            <div class="col-sm-8 mt-1">
+                                                {{result.BlanketPONotes}}
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-1">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Created By
+
+                                                :</label>
+                                            <div class="col-sm-8 mt-1">
+                                                {{result.UserContactName}}
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-1">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Created Date
+
+                                                :</label>
+                                            <div class="col-sm-8 mt-1">
+                                                {{result.Created | date:'shortDate'}}
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group row mb-1">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Blanket PO Date
+                                                :</label>
+                                            <div class="col-sm-8 mt-1">
+                                                {{result.BlanketPODate}}
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group row mb-1">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Starting
+                                                Balance :
+                                            </label>
+                                            <div class="col-sm-8 mt-1">
+                                            {{Symbol}} {{result.StartingBalance}}
+
+
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group row mb-1">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Current
+                                                Balance :
+                                            </label>
+                                            <div class="col-sm-8 mt-1">
+                                                {{Symbol}} {{result.CurrentBalance}}
+
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group row mb-1">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Blanket PO
+                                                Atachment :
+                                            </label>
+
+                                            <div class="col-sm-8 mt-1">
+                                                <div class="row">
+                                                    <div class="col-sm-3 img-container">
+
+                                                        <span *ngIf="mimetype == 'image/jpg'">
+                                                            <a href="{{url}}" target="_blank">
+                                                                <img src="{{url}}" class="img-fluid" width="200"
+                                                                    alt="work-thumbnail">
+                                                            </a>
+
+                                                        </span>
+                                                        <span *ngIf="mimetype =='image/png'">
+                                                            <a href="{{url}}" target="_blank">
+                                                                <img src="{{url}}" class="img-fluid" width="200"
+                                                                    alt="work-thumbnail">
+                                                            </a>
+
+                                                        </span>
+                                                        <span *ngIf="mimetype == 'image/jpeg'">
+                                                            <a href="{{url}}" target="_blank">
+                                                                <img src="{{url}}" class="img-fluid" width="200"
+                                                                    alt="work-thumbnail">
+                                                            </a>
+
+                                                        </span>
+
+                                                        <span *ngIf="mimetype == 'application/pdf'">
+                                                            <a href="{{url}}" target="_blank">
+                                                                <img src="assets/images/attachment/PDF.jpg"
+                                                                    class="img-fluid" width="200" alt="work-thumbnail">
+                                                            </a>
+
+                                                        </span>
+                                                        <br>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="form-horizontal ng-untouched topinfowrap ng-pristine ng-valid p-0" novalidate=""
+                            role="form">
+                            <div class="col-xl-12">
+                                <div class="row ml-2">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12 nopad">
+                                            <h4 class="bluetxt">REPLENISH Info</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-12">
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">REPLENISH To Date
+                                                :<span class="red">*</span></label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group clockpicker">
+                                                    <input class="form-control" id="example-date" name="date"
+                                                        ngbDatepicker formControlName="TopUptDate"
+                                                        (click)="TopUptDate.toggle()" placeholder="MM/DD/YYYY"
+                                                        #TopUptDate="ngbDatepicker">
+                                                    <div class="input-group-append" (click)="TopUptDate.toggle()">
+                                                        <span class="input-group-text"><i
+                                                                class="mdi mdi-calendar"></i></span>
+                                                    </div>
+
+                                                </div>
+                                                <span class="text-danger"
+                                                    *ngIf="(EditFormControl.TopUptDate.touched || submitted) && EditFormControl.TopUptDate.errors?.required">
+                                                    REPLENISH To Date is required
+                                                </span>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">REPLENISH Amount
+                                                :
+                                                <span class="red">*</span></label>
+                                            <div class="col-sm-8">
+                                                <div class="row">
+                                                <div class="col-sm-6">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text"
+                                                            id="basic-addon1">{{Symbol}}</span></div>
+                                                    <input aria-describedby="basic-addon1" aria-label="Price" (change)="onCalculatBaseTopUpAmount()"
+                                                    inputmode="numeric" pattern="^\d+(\.\d{1,2})?$"  digitOnly
+                                                    decimal="true"
+                                                        formControlName="TopUpAmount" class="form-control"
+                                                        placeholder="REPLENISH Amount" type="text">
+                                                </div>
+                                                <span class="text-danger"
+                                                    *ngIf="(EditFormControl.TopUpAmount.touched || submitted) && EditFormControl.TopUpAmount.errors?.required">
+                                                    REPLENISH Amount is required
+                                                </span>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend"><span class="input-group-text"
+                                                                id="basic-addon1">{{BaseCurrencySymbol}}</span></div>
+                                                        <input aria-describedby="basic-addon1" aria-label="BaseTopUpAmount" readonly
+                                                            formControlName="BaseTopUpAmount" class="form-control"
+                                                            placeholder="Base REPLENISH Amount ({{BaseCurrencySymbol}})" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">REPLENISH Atachment
+                                            </label>
+
+                                            <div class="col-sm-8">
+                                                <div class="row">
+                                                    <div class="col-sm-3 img-container">
+
+                                                        <span *ngIf="Atachmentmimetype == 'image/jpg'">
+                                                            <a href="{{Atachmenturl}}" target="_blank">
+                                                                <img src="{{Atachmenturl}}" class="img-fluid"
+                                                                    width="200" alt="work-thumbnail">
+                                                            </a>
+                                                            <button class="btn" (click)="removeImage()"><span
+                                                                    aria-hidden="true"> × </span></button>
+                                                        </span>
+                                                        <span *ngIf="Atachmentmimetype =='image/png'">
+                                                            <a href="{{Atachmenturl}}" target="_blank">
+                                                                <img src="{{Atachmenturl}}" class="img-fluid"
+                                                                    width="200" alt="work-thumbnail">
+                                                            </a>
+                                                            <button class="btn" (click)="removeImage()"><span
+                                                                    aria-hidden="true"> × </span></button>
+                                                        </span>
+                                                        <span *ngIf="Atachmentmimetype == 'image/jpeg'">
+                                                            <a href="{{Atachmenturl}}" target="_blank">
+                                                                <img src="{{Atachmenturl}}" class="img-fluid"
+                                                                    width="200" alt="work-thumbnail">
+                                                            </a>
+                                                            <button class="btn" (click)="removeImage()"><span
+                                                                    aria-hidden="true"> × </span></button>
+                                                        </span>
+
+                                                        <span *ngIf="Atachmentmimetype == 'application/pdf'">
+                                                            <a href="{{Atachmenturl}}" target="_blank">
+                                                                <img src="assets/images/attachment/PDF.jpg"
+                                                                    class="img-fluid" width="200" alt="work-thumbnail">
+                                                            </a>
+                                                            <button class="btn" (click)="removeImage()"><span
+                                                                    aria-hidden="true"> × </span></button>
+                                                        </span>
+                                                        <br>
+                                                    </div>
+                                                </div>
+                                                <div class="input-group">
+
+                                                    <input type="file" class="form-control" formControlName="Atachment"
+                                                        (change)="fileProgress($event)" [writeFile]="true">
+                                                    <i class="fa fa-spinner fa-spin" *ngIf="spinner"></i>
+                                                    <span class="text-danger"
+                                                        *ngIf="(EditFormControl.Atachment.touched || submitted) && EditFormControl.Atachment.errors?.extension">
+                                                        image should be jpg,jpeg and png and pdf only
+
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt-2 mb-2">
+                                            <div class="col-12 text-center">
+                                                <input type="button"
+                                                    class="btn btn-bordered-primary waves-effect width-md waves-light mr-1"
+                                                    (click)="onFormSubmit()" value="Submit" />
+                                                <input type="button"
+                                                    class="btn btn-bordered-secondary waves-effect width-md waves-light"
+                                                    (click)="onback()" value="Cancel" />
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+                <div class="col-xl-6 float-left">
+                    <div class="card-box">
+                        <div class="row">
+
+                            <div class="col-lg-12 col-xl-12">
+                                <h4 class="bluetxt mb-4">REPLENISH History</h4>
+
+                                <ul class="list-unstyled timeline-sm">
+                                    <li class="timeline-sm-item" *ngFor="let item of topupHistoryList">
+                                        <span class="timeline-sm-date">{{item.TopUptDate |date:'shortDate'}}</span>
+                                        <h5 class="mt-0 mb-1">{{item.TopUpAmount}}</h5>
+                                        <p>{{item.UserContactName}}</p>
+
+                                        <div class="row">
+                                            <div class="col-sm-3 img-container">
+    
+                                                <span *ngIf="item.Atachment!=''">
+                                                    <a href="{{item.Atachment}}" target="_blank">
+                                                        <i class="fe-download"></i>
+                                                    </a>
+    
+                                                </span>
+    
+                                                <br>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                </ul>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+
+    </form>
+</div>

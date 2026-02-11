@@ -1,0 +1,51 @@
+.coolQRCode {
+    filter: drop-shadow(3px 3px 3px #999);
+    img {
+        width: 250px;
+    }
+}
+
+.rrn {
+    font-size: 17px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.qr-left {
+    width: 50%;
+    float: left;
+    font-size: 17px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.ntt {
+    padding: 0;
+}
+
+.print-container {
+    color: #000000 !important;
+    font-size: 18px;
+    .print-content .ldiv {
+        color: #000000 !important;
+    }
+    .print-content .rdiv {
+        color: #000000 !important;
+        font-weight: bolder;
+    }
+}
+
+@media print {
+    
+    .print-content .ldiv {
+        color: #000000 !important;
+    }
+    .print-content .rdiv {
+        color: #000000 !important;
+        font-weight: bolder;
+    }
+}

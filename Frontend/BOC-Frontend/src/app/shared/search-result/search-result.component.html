@@ -1,0 +1,204 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="container-fluid">
+    <app-page-title title="Search Results"></app-page-title>
+
+    <div class="row">
+        <div class="col-12 search-result-box">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">
+
+                        <div class="row">
+                            <div class="col-md-8 offset-md-2">
+                                <div class="pt-3 pb-4">
+                                    <div class="input-group m-t-10">
+                                        <input type="text" class="form-control" [(ngModel)]="query"
+                                            name="searchQuery" value="Search Results">
+                                        <span class="input-group-append">
+                                            <button type="button" (click)="searchClick()"
+                                                class="btn btnblue waves-effect waves-light"><i
+                                                    class="fa fa-search mr-1"></i> Search</button>
+                                        </span>
+                                    </div>
+                                    <div class="mt-4 text-center">
+                                        <h4>Search Results For {{searchQuery}}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="font-size:15px; position:relative;font-weight:bold;">
+                            <ngb-tabset class="nav-bordered" type="tabs" (tabChange)="tabChange($event)">
+                                <ngb-tab [id]="'all'" title="All Results ({{ allTotal ? allTotal : '0'}})"
+                                    class="nav-item d-none d-sm-inline-block">
+                                    <ng-template ngbTabContent>
+                                        <ng-template [ngTemplateOutlet]="AllResults"></ng-template>
+                                    </ng-template>
+                                </ngb-tab>
+
+                                <ngb-tab class="nav-item"
+                                    *ngFor="let tab of tabs"
+                                    [id]="tab._index"
+                                    title="{{tab.view}} ({{tab.val}})">
+                                    <ng-template ngbTabContent>
+                                        <ng-template [ngTemplateOutlet]="AllResults"></ng-template>
+                                    </ng-template>
+                                </ngb-tab>
+                            </ngb-tabset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tab Content -->
+<ng-template #AllResults>
+    <ngx-spinner #ngxSpinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-spin-clockwise"
+        [fullScreen]="true"></ngx-spinner>
+    <div class="row collapse pt-2 show">
+        <div class="col-md-12">
+
+            <div class="search-item" *ngFor="let searchitem of search_results?.hits">
+                <div>
+                    <h3 *ngFor="let item of indexDescription">
+                        <ng-container *ngIf="item.index == searchitem._index">
+                            {{ item.desc }}
+                        </ng-container>
+                    </h3>
+                    <div *ngIf="searchitem._index == 'ahoms-repair-request'">
+                        <span style="font-size: 18;" class="mb-1 m-r-5"><a [routerLink]=""
+                                (click)="navigateToPage(searchitem)">{{searchitem._source.rrno}}</a></span>
+                        &nbsp;&nbsp;&nbsp;
+                        <span *ngIf="searchitem._source.companyname && IdentityType != 2" class="m-l-10">
+                            <b>Company: </b>
+                            <span>{{searchitem._source.companyname}}</span>
+                        </span>
+                    </div>
+                    <div *ngIf="searchitem._index == 'ahoms-rr-vendors'">
+                        <span style="font-size: 18;" class="mb-1 m-r-5" class="mb-1"><a [routerLink]=""
+                                (click)="navigateToPage(searchitem)">{{searchitem._source.vendorcode}}</a></span>
+                        &nbsp;&nbsp;&nbsp;
+                        <span *ngIf="searchitem._source.companyname" class="m-l-10">
+                            <b>Company: </b>
+                            <span>{{searchitem._source.companyname}}</span>
+                        </span>
+                    </div>
+                    <div *ngIf="searchitem._index == 'ahoms-rr-customer-ref'">
+                        <span style="font-size: 18;" class="mb-1 m-r-5" class="mb-1"><a [routerLink]=""
+                                (click)="navigateToPage(searchitem)">{{searchitem._source.customercode}}</a></span>
+                        &nbsp;&nbsp;&nbsp;
+                        <span *ngIf="searchitem._source.companyname && IdentityType != 2 " class="m-l-10">
+                            <b>Company: </b>
+                            <span>{{searchitem._source.companyname}}</span>
+                        </span>
+                    </div>
+                    <div *ngIf="searchitem._index == 'ahoms-sales-order' || searchitem._index == 'ahoms-sales-order-items'">
+                        <span style="font-size: 18;" class="mb-1 m-r-5" class="mb-1"><a [routerLink]=""
+                                (click)="navigateToPage(searchitem)">{{searchitem._source.sono}}</a></span>
+                        &nbsp;&nbsp;&nbsp;
+                        <span *ngIf="searchitem._source.companyname && IdentityType != 2 " class="m-l-10">
+                            <b>Company: </b>
+                            <span>{{searchitem._source.companyname}}</span>
+                        </span>
+                        &nbsp;&nbsp;&nbsp;
+                        <span *ngIf="searchitem._source.pno" class="m-l-10">
+                            <b>Part No: </b>
+                            <span>{{searchitem._source.pno}}</span>
+                        </span>
+                    </div>
+                    <div *ngIf="searchitem._index == 'ahoms-purchase-order' || searchitem._index == 'ahoms-purchase-order-items'">
+                        <span style="font-size: 18;" class="mb-1 m-r-5" class="mb-1"><a [routerLink]=""
+                                (click)="navigateToPage(searchitem)">{{searchitem._source.pono}}</a></span>
+                        &nbsp;&nbsp;&nbsp;
+                        <span *ngIf="searchitem._source.companyname && IdentityType != 2 " class="m-l-10">
+                            <b>Company: </b>
+                            <span>{{searchitem._source.companyname}}</span>
+                        </span>
+                        <span *ngIf="searchitem._source.companyname" class="m-l-10">
+                            <b>Part No: </b>
+                            <span>{{searchitem._source.pno}}</span>
+                        </span>
+                    </div>
+                    <div *ngIf="searchitem._index == 'ahoms-sales-invoice' || searchitem._index == 'ahoms-sales-invoice-items'">
+                        <span style="font-size: 18;" class="mb-1 m-r-5" class="mb-1"><a [routerLink]=""
+                                (click)="navigateToPage(searchitem)">{{searchitem._source.invoiceno}}</a></span>
+                        &nbsp;&nbsp;&nbsp;
+                        <span *ngIf="searchitem._source.companyname && IdentityType != 2 " class="m-l-10">
+                            <b>Company: </b>
+                            <span>{{searchitem._source.companyname}}</span>
+                        </span>
+                    </div>
+                    <div *ngIf="searchitem._index == 'ahoms-purchase-invoice' || searchitem._index == 'ahoms-purchase-invoice-items'">
+                        <span style="font-size: 18;" class="mb-1 m-r-5" class="mb-1"><a [routerLink]=""
+                                (click)="navigateToPage(searchitem)">{{searchitem._source.vendorinvoiceno}}</a></span>
+                        &nbsp;&nbsp;&nbsp;
+                        <span *ngIf="searchitem._source.companyname && IdentityType != 2 " class="m-l-10">
+                            <b>Company: </b>
+                            <span>{{searchitem._source.companyname}}</span>
+                        </span>
+                    </div>
+                    <div *ngIf="searchitem._index == 'ahoms-sales-quote' || searchitem._index == 'ahoms-sales-quote-items'">
+                        <span style="font-size: 18;" class="mb-1 m-r-5" class="mb-1"><a [routerLink]=""
+                                (click)="navigateToPage(searchitem)">{{searchitem._source.quoteno}}</a></span>
+                        &nbsp;&nbsp;&nbsp;
+                        <span *ngIf="searchitem._source.companyname && IdentityType != 2 " class="m-l-10">
+                            <b>Company: </b>
+                            <span>{{searchitem._source.companyname}}</span>
+                        </span>
+                    </div>
+                    <div *ngIf="searchitem._index == 'ahoms-mro' || searchitem._index == 'ahoms-mro'">
+                        <span style="font-size: 18;" class="mb-1 m-r-5" class="mb-1"><a [routerLink]=""
+                                (click)="navigateToPage(searchitem)">{{searchitem._source.mrono}}</a></span>
+                        &nbsp;&nbsp;&nbsp;
+                        <span *ngIf="searchitem._source.companyname && IdentityType != 2 " class="m-l-10">
+                            <b>Company: </b>
+                            <span>{{searchitem._source.companyname}}</span>
+                        </span>
+                    </div>
+                    <!-- <p>
+                        <b>Customer: </b>
+                        <span>{{searchitem._source.customercode}} - {{searchitem._source.customername}} </span>
+                    </p>
+                    <p>
+                        <b>Vendor: </b>
+                        <span>{{searchitem._source.vendorcode}} - {{searchitem._source.vendorname}}</span>
+                    </p> -->
+                </div>
+            </div>
+
+            <div style="margin-bottom: 25px;" class="row">
+                <div class="col-3">
+                    <div class="text-right">
+                        <ul class="pagination pagination-rounded justify-content-end">
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-md-between align-items-md-center">
+                <div class="col-7">
+                    Showing {{startIndex}} - {{endIndex}} of {{totalRecords}}
+                </div> <!-- end col-->
+                <div class="col-5">
+                    <div class="text-md-right float-md-right mt-2">
+                        <ngb-pagination (pageChange)="onPageChange($event)" [pageSize]="10" [(page)]="page"
+                            [collectionSize]="totalRecords" [maxSize]="5" [boundaryLinks]="true">
+                        </ngb-pagination>
+                        <!--Pagination-->
+                    </div>
+                </div> <!-- end col-->
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</ng-template>

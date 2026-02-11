@@ -1,0 +1,35 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">MRO Duplicate- {{MRONo}}</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body modal-lg">
+    <form name="form" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="col-xl-8">
+                    <div class="form-group">
+                        <label style="margin-bottom: 5px;" for="Customer">Customer <span class="red">*</span></label>
+                            <div class="form-group">
+                            <ng-select [items]="customerList" [searchable]="true" name="CustomerId"
+                                [(ngModel)]="model.CustomerId" placeholder="Select" bindLabel="title" bindValue="CustomerId"
+                                #CustomerId="ngModel" [ngClass]="{ 'is-invalid': f.submitted && CustomerId.invalid }" required>
+                            </ng-select>
+                            <div *ngIf="f.submitted &&CustomerId.invalid" class="invalid-feedback">
+                                <div *ngIf="CustomerId.errors.required">Customer is required</div>
+                            </div>
+                      
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light">Submit</button>
+        </div>
+    </form>
+</div>

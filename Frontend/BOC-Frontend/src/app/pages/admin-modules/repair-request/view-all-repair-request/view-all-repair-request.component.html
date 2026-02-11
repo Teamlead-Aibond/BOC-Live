@@ -1,0 +1,110 @@
+<div class="container-fluid">
+    <app-page-title title="View All Repair Request"></app-page-title>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">
+                        <div class="card-title">
+                            <div class="btn-group" style="float: right;">
+                                <span class="btn btn-sm btn-pink waves-effect waves-light">RR Generated</span>
+                                <span class="btn btn-sm btn-light  waves-effect waves-light">Awaiting Vendor
+                                    Selection</span>
+                                <span class="btn btn-sm btn-warning waves-effect waves-light">Awaiting Vendor
+                                    Quote</span>
+                                <span class="btn btn-sm btn-purple  waves-effect waves-light">Resource - Vendor
+                                    Change</span>
+                                <span class="btn btn-sm btn-primary waves-effect waves-light">Quoted - Awaiting Customer
+                                    PO</span>
+                                <span class="btn btn-sm btn-secondary waves-effect waves-light">Repair In
+                                    Progress</span>
+                                <span class="btn btn-sm btn-danger waves-effect waves-light">Quote Rejected</span>
+                                <span class="btn btn-sm btn-success waves-effect waves-light">Completed</span>
+                            </div>
+                            <div class="filter-txt">Filter</div>
+                        </div>
+                    </div>
+                    <hr class="border-primary">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-md-6 col-xl-4">
+                            <label class="control-label">Customer</label>
+                            <ng-select [items]="customerList" bindLabel="title" autofocus bindValue="CustomerId"
+                                (change)="onCustomerChange($event)" [multiple]="true" placeholder="Select Customer">
+                            </ng-select>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-6 col-xl-4">
+                            <label class="control-label">Vendor</label>
+                            <ng-select [items]="vendorList" bindLabel="VendorName" bindValue="VendorId"
+                                (change)="onVendorChange($event)" autofocus [multiple]="true"
+                                placeholder="Select Vendor"></ng-select>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-6 col-xl-4">
+                            <label class="control-label">Status</label>
+                            <ng-select [items]="status" bindLabel="title" bindValue="id"
+                                (change)="onStatusChange($event)" autofocus [multiple]="true"
+                                placeholder="Select Status"></ng-select>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class='app-calendar'>
+                        <!-- calendar -->
+                        <!-- <full-calendar #calendar [options]="calendarOptions">
+                        </full-calendar> -->
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div #tippyTemplate style="display:none;">
+    <div class="tooltipwrap">
+        <h2 style="background-color:[background] !important">[title]</h2>
+        <div class="tool-content">
+            <div class="text-muted font-15">
+                <p><strong>Created Date :</strong>
+                    <span class="ml-1">[createdDate]</span></p>
+            </div>
+            <div class="text-muted font-15">
+                <p><strong>Status :</strong>
+                    <span class="ml-1 badge badge-primary"
+                        style="background-color:[background] !important ">[Status]</span></p>
+            </div>
+            <div class="text-muted font-15">
+                <p> <strong>Customer Reference No :</strong>
+                    <span class="ml-1">[ref_no]</span></p>
+            </div>
+            <div class="text-muted font-15">
+                <p> <strong>Price:</strong>
+                    <span class="ml-1">[Price]</span></p>
+            </div>
+            <div class="text-muted font-15">
+                <p> <strong>Serial No :</strong>
+                    <span class="ml-1">[SerialNo]</span></p>
+            </div>
+        </div>
+        <div class="tool-desc">
+            <div class="text-muted font-15">
+                <p><strong>Part Description :</strong>
+                    <span class="ml-1">[Description]</span></p>
+            </div>
+            <div class="text-muted font-15">
+                <p> <strong>Vendor Name :</strong>
+                    <span class="ml-1">[vendor_name]</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

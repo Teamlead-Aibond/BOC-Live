@@ -1,0 +1,320 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">Edit Countries</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg">
+    <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="CountriesEditForm">
+
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Country: <span class="red">*</span></label>
+                    <input type="hidden" class="form-control" placeholder="Enter CountryId" name="CountryId"
+                        formControlName="CountryId">
+                    <input type="text" class="form-control" placeholder="Enter Country Name" name="CountryName"
+                        formControlName="CountryName">
+                    <span class="text-danger"
+                        *ngIf="(CountriesEditControl.CountryName.touched || submitted) && CountriesEditControl.CountryName.errors?.required">
+                        Country is required
+                    </span>
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Country Code : <span class="red">*</span></label>
+                    <input type="text" class="form-control" placeholder="Enter Country Code" name="CountryCode"
+                        formControlName="CountryCode">
+                    <span class="text-danger"
+                        *ngIf="(CountriesEditControl.CountryCode.touched || submitted) && CountriesEditControl.CountryCode.errors?.required">
+                        Country Code is required
+                    </span>
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Status:</label>
+                    <select class="custom-select" name="Status" formControlName="Status" class="form-control">
+                        <option value="" disabled>Select</option>
+                        <option value="1">
+                            Active
+                        </option>
+                        <option value="0">
+                            InActive
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Vat Tax %:<span class="red">*</span></label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">%</span>
+                        </div>
+                        <input type="text" class="form-control" name="VatTaxPercentage"
+                            formControlName="VatTaxPercentage" digitOnly placeholder="Enter Vat Tax %">
+
+                    </div>
+                    <span class="text-danger"
+                        *ngIf="(CountriesEditControl.VatTaxPercentage.touched || submitted) && CountriesEditControl.VatTaxPercentage.errors?.required">
+                        Vat Tax % is required
+                    </span>
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Currency:<span class="red">*</span></label>
+                    <select class="custom-select" name="CurrencyCode" formControlName="CurrencyCode"
+                        class="form-control">
+                        <option value="" disabled>Select</option>
+                        <option *ngFor="let item of CurrencyList" value={{item.CurrencyCode}}>
+                            {{item.CurrencyCode}}&nbsp;-{{item.CurrencySymbol}}
+                        </option>
+                    </select>
+                    <span class="text-danger"
+                        *ngIf="(CountriesEditControl.CurrencyCode.touched || submitted) && CountriesEditControl.CurrencyCode.errors?.required">
+                        Currency is required
+                    </span>
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Tax Solution Id:</label>
+                    <input type="text" class="form-control" name="TaxSolutionId" formControlName="TaxSolutionId"
+                        placeholder="Enter Tax Solution Id">
+
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Tax Detail Id (with Tax):</label>
+                    <input type="text" class="form-control" name="TaxDetailId" formControlName="TaxDetailId"
+                        placeholder="Enter Tax Detail Id (with Tax)">
+
+                </div>
+
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Tax Detail Id (No Tax):</label>
+                    <input type="text" class="form-control" name="NoTaxDetailId" formControlName="NoTaxDetailId"
+                        placeholder="Enter Tax Detail Id (No Tax)">
+
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-6 float-left">
+                <h4 class="form-title-text bluetxt mb-20">Entity Details</h4>
+            </div>
+            <div class="col-xl-6 mt-2">
+                &nbsp;
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Entity Id :</label>
+                    <input type="text" class="form-control" placeholder="Enter Entity Id" name="EntityId"
+                        formControlName="EntityId" digitOnly>
+
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Entity Name :</label>
+                    <input type="text" class="form-control" placeholder="Enter Entity Name" name="EntityName"
+                        formControlName="EntityName">
+
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Report Print As:</label>
+                    <input type="text" class="form-control" placeholder="Enter Report Print As" name="ReportPrintAs"
+                        formControlName="ReportPrintAs">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Federal Id:</label>
+                    <input type="text" class="form-control" placeholder="Enter Federal Id" name="FederalId"
+                        formControlName="FederalId">
+
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Print As:</label>
+                    <input type="text" class="form-control" placeholder="Enter Print As" name="PrintAs"
+                        formControlName="PrintAs">
+
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">First Tax Month:</label>
+                    <div class="input-group col-xl-12">
+                        <input class="form-control" style="margin-left: -10px;" placeholder="MM/DD/YYYY" name="d2"
+                            ngbDatepicker #d1="ngbDatepicker" name="FirstTaxMonth" formControlName="FirstTaxMonth">
+                        <div class="input-group-append">
+                            <button class="blackbg" (click)="d1.toggle()" type="button"><i
+                                    class="mdi blackbg white mdi-calendar"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Tax Id:</label>
+                    <input type="text" class="form-control" placeholder="Enter Tax Id" name="TaxId"
+                        formControlName="TaxId">
+
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="">Separate 1099:</label>
+                    <div class="row rc">
+                        <div class="col-xl-6">
+                            <label><input type="radio" name="Separate1099" value="1" formControlName="Separate1099" />
+                                Yes
+                            </label>
+                        </div>
+                        <div class="col-xl-6">
+                            <label><input type="radio" name="Separate1099" value="2" formControlName="Separate1099" />
+                                No
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Phone 1:</label>
+                    <input type="text" class="form-control" name="EntityPhone1" placeholder="Enter Phone 1"
+                        formControlName="EntityPhone1">
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Phone 2: </label>
+                    <input type="text" class="form-control" id="Fax" placeholder="Enter Phone 2" name="EntityPhone2"
+                        formControlName="EntityPhone2">
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Address 1: </label>
+                    <input type="text" class="form-control" id="Address1" placeholder="Enter Address 1"
+                        name="EntityAddress1" formControlName="EntityAddress1">
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Address 2: </label>
+                    <input type="text" class="form-control" id="Address2" placeholder="Enter Address 2"
+                        name="EntityAddress2" formControlName="EntityAddress2">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">City: </label>
+                    <input type="text" class="form-control" id="City" placeholder="Enter City" name="EntityCity"
+                        formControlName="EntityCity">
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">State: </label>
+                    <input type="text" class="form-control" id="State" placeholder="Enter State" name="EntityState"
+                        formControlName="EntityState">
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Zip: </label>
+                    <input type="text" class="form-control" id="Zip" placeholder="Enter Zip" name="EntityZip"
+                        formControlName="EntityZip">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Company Name:</label>
+                    <input type="text" class="form-control" placeholder="Enter Company Name" name="EntityCompanyName"
+                        formControlName="EntityCompanyName">
+
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">VAT No:</label>
+                    <input type="text" class="form-control" placeholder="Enter VAT No" name="EntityVATNo"
+                        formControlName="EntityVATNo">
+
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Email:</label>
+                    <input type="text" class="form-control" placeholder="Enter Email" name="EntityEmail"
+                        formControlName="EntityEmail">
+
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Website:</label>
+                    <input type="text" class="form-control" placeholder="Enter Website" name="EntityWebsite"
+                        formControlName="EntityWebsite">
+
+                </div>
+            </div>
+            <div class="col-xl-8">
+                <div class="form-group">
+                    <label for="Customer">Invoice Text:</label>
+                    <!-- <input type="text" class="form-control" placeholder="Enter Invoice Text" name="EntityInvoiceText"
+                        formControlName="EntityInvoiceText"> -->
+                    <textarea class="form-control" formControlName="EntityInvoiceText" name="EntityInvoiceText"
+                        placeholder="Enter Invoice Text" rows="4"></textarea>
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <div class="text-right pt-2 mt-0">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light ml-1">Save</button>
+        </div>
+
+    </form>
+</div>

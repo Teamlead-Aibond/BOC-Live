@@ -1,0 +1,46 @@
+<div class="container-fluid">
+    <app-page-title title="Indent Add"></app-page-title>
+
+    <div class="row">
+        <div style="margin-top:-52px;" class="col-xl-12 text-right">
+            <div class="button-list btn-group-sm fl-right mb-10">
+                <!-- <button class="btn btn-primary waves-effect" routerLink="/vendor-edit"><i class="mdi mdi-pencil"></i>Edit</button> -->
+                <button class="btn btn-primary waves-effect" routerLink="/admin/inventory/indent"><i
+                        class="fas fa-arrow-left"></i> Back</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-box pad35">
+                <form [formGroup]="AddForm" (submit)="onFormSubmit()">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label class="control-label">Part Number<span class="red">*</span></label>
+                            <input type="text" class="form-control" formControlName="PartNo"
+                                placeholder="Enter Part Number">
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="control-label">Warehouse<span class="red">*</span></label>
+                            <select class="custom-select" id="WarehouseId" formControlName="WarehouseId">
+                                <option value="" disabled>Select</option>
+                                <option *ngFor="let w of warehouseList" [value]="w.id" ng-reflect-value="1">{{w.name}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="control-label">Quantity<span class="red">*</span></label>
+                            <input type="number" class="form-control" formControlName="Quantity"
+                                placeholder="Enter Quantity">
+                        </div>
+                        <div class="col-lg-2 p-t-3">
+                            <input type="submit" class="btn btn-primary btn-md mt-30" value="Submit" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

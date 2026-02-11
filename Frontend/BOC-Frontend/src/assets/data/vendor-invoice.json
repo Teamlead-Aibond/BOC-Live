@@ -1,0 +1,151 @@
+{
+	"data": [
+
+		{
+			"VendorInvoice": "VI00018529",
+			"VendorInvoiceTotal": "0.00",
+			"RR": "",
+			"Status": "Open",
+			"VendorName": "GearX",
+			"CustomerInvoiceTotal": "",
+			"CustomerInvoice#": "",
+			"Reference #": ""
+        },
+        {
+			"VendorInvoice": "VI00018528",
+			"VendorInvoiceTotal": "0.00",
+			"RR": "",
+			"Status": "Open",
+			"VendorName": "2V INDUSTRIES",
+			"CustomerInvoiceTotal": "",
+			"CustomerInvoice#": "",
+			"Reference #": ""
+        },
+        {
+			"VendorInvoice": "VI00018527",
+			"VendorInvoiceTotal": "200.00",
+			"RR": "RR027763",
+			"Status": "Approved",
+			"VendorName": "GearX",
+			"CustomerInvoiceTotal": "",
+			"CustomerInvoice#": "",
+			"Reference #": ""
+        },
+        {
+			"VendorInvoice": "VI00018526",
+			"VendorInvoiceTotal": "0.00",
+			"RR": "",
+			"Status": "Open",
+			"VendorName": "A & P TOOL",
+			"CustomerInvoiceTotal": "",
+			"CustomerInvoice#": "",
+			"Reference #": ""
+        },
+        {
+			"VendorInvoice": "VI00018525",
+			"VendorInvoiceTotal": "0.00",
+			"RR": "",
+			"Status": "Open",
+			"VendorName": "2V INDUSTRIES",
+			"CustomerInvoiceTotal": "",
+			"CustomerInvoice#": "",
+			"Reference #": ""
+        },
+        {
+			"VendorInvoice": "VI00018522",
+			"VendorInvoiceTotal": "140.00",
+			"RR": "",
+			"Status": "Cancelled",
+			"VendorName": "Northline Industrial",
+			"CustomerInvoiceTotal": "",
+			"CustomerInvoice#": "",
+			"Reference #": "PO032921"
+        },
+        {
+			"VendorInvoice": "VI00018519",
+			"VendorInvoiceTotal": "100.00",
+			"RR": "RR028521",
+			"Status": "Cancelled",
+			"VendorName": "ADVANCED",
+			"CustomerInvoiceTotal": "116.00",
+			"CustomerInvoice#": "INVO032223",
+			"Reference #": "PO032909"
+        }
+
+    ],
+
+
+"viewResult":[
+	{
+              
+	"VendorCode": "2VI1891",
+	"VendorTypeId": "V",
+	"VendorName": "2V INDUSTRIES",
+	"TermsId": "0",
+	"Currency": "US$",
+	"Email": "WHAYSE@2VINDUSTRIES.COM",
+	"Industry": "",
+	"Notes": "",
+	"Website":"",
+	"Status": true,
+	"IsCorpVendor": true,
+	"IsCorpVendorCode": "",
+	"RMARequired": true,
+	"CODPayment":true,
+	"CompanyLogo": "",
+	"ShippingAccountNo":"",
+	"SetupInformation":"test",
+	"PODeliveryMethod": "1",
+	"PrintFormat": "2",
+	"IsPOWithoutPricing": true,
+	"ContactPerson1": "",
+	"ContactPerson2": "",
+	"ContactPerson3": "",
+	"Email1":"",
+	"Email2": "",
+	"Email3": "",
+	"Department1": "",
+	"Department2": "",
+	"Department3": "",
+	"VendorAddressList":
+	[
+	   {
+		"StreetAddress": "48553 WEST RD",
+		"SuiteOrApt":"1212",
+		"CountryId": "",
+		"StateId": "USA",
+		"City": "WIXOM",
+		"Zip":"48393",
+		"PhoneNoPrimary": "248-624-7943",
+		"PhoneNoSecondary": "",
+		"Fax": "248-624-1824",
+	  "IsDefaultContact": false,
+	  "IsDefaultShipping": false,
+	  "IsDefaultBilling": false
+	 },
+	 {
+		"StreetAddress": "48553 WEST RD",
+		"SuiteOrApt":"1212",
+		"CountryId": "",
+		"StateId": "USA",
+		"City": "WIXOM",
+		"Zip":"48393",
+		"PhoneNoPrimary": "248-624-7943",
+		"PhoneNoSecondary": "",
+		"Fax": "248-624-1824",
+	  "IsDefaultContact": false,
+	  "IsDefaultShipping": false,
+	  "IsDefaultBilling": false
+   }
+	],
+	"VendorAttachmentList":[]
+
+	}
+]
+
+
+
+    
+}
+
+

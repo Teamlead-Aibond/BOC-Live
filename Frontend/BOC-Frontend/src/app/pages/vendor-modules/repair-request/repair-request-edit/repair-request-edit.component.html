@@ -1,0 +1,374 @@
+<!-- 
+
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+
+<div class="sideNavcontainer">
+  <app-page-title
+    title="View Repair Request"
+    [breadcrumbItems]="breadCrumbItems"
+  ></app-page-title>
+
+  <div class="row">
+    <div class="col-12">
+      <div style="padding-top: 0.5rem" class="card-box">
+        <div class="row">
+          <div class="col-xl-10 float-left">
+            <div class="col-xl-8 float-left nopad-lt">
+              <h4 class="page-title bluetxt mb-10 mt-2">
+                Repair Request # :
+                <span class="badge badge-success m-2 p-1"> {{ RRNo }} </span>
+                <span class="Repair m-2 p-1">{{ repairMessage }}</span>
+              </h4>
+            </div>
+            <div class="col-xl-4 float-right nopad-rt mt-2">
+              Shipping Status :
+              <i
+                class="mdi mdi-history bluetxt"
+                style="cursor: pointer"
+                (click)="shippingHistory()"
+                *ngIf="ShippingStatus > 0 && RRShippingHistory.length > 0"
+              ></i>
+              <span
+                *ngIf="
+                  ShippingStatus == 0 ||
+                  ShippingStatus == null ||
+                  RRShippingHistory.length == 0
+                "
+              >
+                Not Yet Started
+              </span>
+              <span *ngIf="RRShippingHistory.length > 0">
+                <span
+                  class="blacktxt"
+                  *ngIf="ShippingStatus == 1 && ShippingIdentityType == 1"
+                >
+                  Shipped by Customer
+                </span>
+                <span
+                  class="blacktxt"
+                  *ngIf="
+                    ShippingStatus == 1 &&
+                    ShippingIdentityType == 2 &&
+                    ShippingIdentityId != CONST_AH_Group_ID
+                  "
+                >
+                  Shipped by Vendor
+                </span>
+                <span
+                  class="blacktxt"
+                  *ngIf="
+                    ShippingStatus == 1 &&
+                    ShippingIdentityType == 2 &&
+                    ShippingIdentityId == CONST_AH_Group_ID
+                  "
+                >
+                  Shipped by Aibond
+                </span>
+                <span
+                  class="blacktxt"
+                  *ngIf="ShippingStatus == 2 && ShippingIdentityType == 1"
+                >
+                  Received by Customer
+                </span>
+                <span
+                  class="blacktxt"
+                  *ngIf="
+                    ShippingStatus == 2 &&
+                    ShippingIdentityType == 2 &&
+                    ShippingIdentityId != CONST_AH_Group_ID
+                  "
+                >
+                  Received by Vendor
+                </span>
+                <span
+                  class="blacktxt"
+                  *ngIf="
+                    ShippingStatus == 2 &&
+                    ShippingIdentityType == 2 &&
+                    ShippingIdentityId == CONST_AH_Group_ID
+                  "
+                >
+                  Received by Aibond
+                </span>
+              </span>
+            </div>
+          </div>
+          <span
+            style="font-size: 1rem"
+            class="badge badge-light-success ml-1 mt-4 m-2 p-1 cpd"
+          >
+            {{ StatusName }}
+          </span>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-9">
+            <div class="repair-left">
+              <div class="row">
+                <div class="col-xl-6">
+                  <div class="form-group">
+                    <label for="Customer">Customer Stated Issue :</label>
+                    {{ StatedIssue }}
+                  </div>
+                </div>
+                <div class="col-xl-6" *ngIf="VendorPONo">
+                  <div class="form-group">
+                    <label for="Customer">Purchase Order #:</label>
+                    <a
+                      [routerLink]="['/vendor/po-view']"
+                      [queryParams]="{ POId: VendorPOId }"
+                      target="_blank"
+                      routerLink="#"
+                      style="cursor: pointer"
+                    >
+                      {{ VendorPONo }}
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="clear">&nbsp;</div>
+
+              <h4 class="page-title bluetxt mb-10 mt-2">Contact Information</h4>
+              <div class="table-responsive mt-15">
+                <table class="table table-bordered table-striped mb-0">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>Name</th>
+                      <th>Phone</th>
+                      <th>Email</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        {{ UserName }}
+                      </td>
+                      <td>
+                        {{ ContactPhone }}
+                      </td>
+                      <td>
+                        {{ ContactEmail }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="clear">&nbsp;</div>
+
+              <h4 class="page-title bluetxt mb-10">Repair Parts</h4>
+              <div class="table-responsive mt-15">
+                <table class="table table-bordered table-striped mb-0">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>Part #</th>
+                      <th>Part Description</th>
+                      <th>Manufacturer</th>
+                      <th>Manufacturer Part #</th>
+                      <th>Serial #</th>
+                      <th>Lead Time</th>
+                      <th>Qty</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <td style="width: 14%">
+                        {{ PartNo }}
+                      </td>
+                      <td style="width: 15%">
+                        {{ Description }}
+                      </td>
+                      <td style="width: 10%">
+                        <span *ngIf="Manufacturer">{{ Manufacturer }}</span>
+                      </td>
+                      <td style="width: 13%">
+                        {{ ManufacturerPartNo }}
+                      </td>
+                      <td style="width: 12%">
+                        {{ SerialNo }}
+                      </td>
+                      <td style="width: 10%">{{ LeadTime }} Day(s)</td>
+                      <td style="width: 6%">
+                        {{ Quantity }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div
+                class="row"
+                *ngIf="CustomerPartNo1 != '' || CustomerPartNo2 != ''"
+              >
+                <div class="col-xl-12 mm15">
+                  <div class="col-xl-6 cust-part2">
+                    {{ CustomerPartNo1 }}
+                  </div>
+                  <div class="col-xl-6 cust-part2">
+                    {{ CustomerPartNo2 }}
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="ApprovedQuoteStatus == 2">
+                <h4 class="page-title bluetxt mb-10">Quote Details</h4>
+                <div class="table-responsive">
+                  <table class="table table-bordered table-striped mb-0">
+                    <thead class="thead-light">
+                      <tr>
+                        <th width="15%">Part #</th>
+                        <th width="35%">Part Description</th>
+                        <th width="10%">Serial #</th>
+                        <th width="10%">Lead Time</th>
+                        <th width="10%">Quantity</th>
+                        <th width="10%">Rate</th>
+                        <th>{{ VAT_field_Name }}</th>
+                        <th width="10%">Price</th>
+                        <th *ngIf="IsDisplayBaseCurrencyValue == 1">
+                          Price({{ BaseCurrencySymbol }})<span class="red"
+                            >*</span
+                          >
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let quote of VendorPartsInfo; let i = index">
+                        <td>{{ quote.PartNo }}</td>
+                        <td>{{ quote.Description }}</td>
+                        <td></td>
+                        <td>{{ quote.LeadTime }}</td>
+                        <td>{{ quote.Quantity }}</td>
+                        <td>
+                          {{ quote.ItemLocalCurrencySymbol }} {{ quote.Rate }}
+                        </td>
+                        <td>
+                          {{ quote.ItemLocalCurrencySymbol }}
+                          {{ quote.Tax }} ({{ quote.ItemTaxPercent }}%)
+                        </td>
+                        <td>
+                          {{ quote.ItemLocalCurrencySymbol }} {{ quote.Price }}
+                        </td>
+                        <td *ngIf="IsDisplayBaseCurrencyValue == 1">
+                          {{ BaseCurrencySymbol }} {{ quote.BasePrice }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="5">&nbsp;</td>
+                        <td colspan="4">
+                          <table class="table table-borderless">
+                            <!-- <tr>
+                                                            <th>Sub Total :</th>
+                                                            <td>$ {{SubTotal}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Additional Charge :</th>
+                                                            <td>$ {{AdditionalCharge}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Total Tax :</th>
+                                                            <td>$ {{TotalTax}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Discount :</th>
+                                                            <td>$ {{Discount}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Shipping :</th>
+                                                            <td>$ {{Shipping}}</td>
+                                                        </tr> -->
+                            <tr>
+                              <th>Grand Total :</th>
+                              <td>
+                                {{ VendorsInfo[0].CurrencySymbol }}
+                                {{ QuoteGrandTotal }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th>Grand Total ({{ BaseCurrencySymbol }}) :</th>
+                              <td>
+                                {{ BaseCurrencySymbol }}
+                                {{ VendorsInfo[0].BaseGrandTotal }}
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="table-responsive" *ngIf="Warranty == true">
+                <div class="clear">&nbsp;</div>
+                <h4 class="page-title bluetxt mb-10">Warranty Info</h4>
+                <table class="table table-bordered table-striped mb-0">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>Warranty Start Date</th>
+                      <th>Warranty End Date</th>
+                      <th>Warranty Period</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngFor="let warranty of WarrantyInfo; let i = index">
+                    <tr>
+                      <td>{{ warranty.WarrantyStartDate }}</td>
+                      <td>{{ warranty.WarrantyEndDate }}</td>
+                      <td>{{ warranty.WarrantyPeriodv | monthTransform }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3">
+            <div class="repair-right">
+              <div class="row">
+                <div class="col-xl-12">
+                  <div class="example__body">
+                    <div class="example__image" *ngIf="RRImages.length > 0">
+                      <div class="zoom-left">
+                        <img
+                          [src]="currentImage.value.img"
+                          alt=""
+                          width="100%"
+                          [redZoom]="currentImage.value.img"
+                          redZoomClass="red-zoom--style--window"
+                          [redZoomLazy]="true"
+                          class="zoom"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="radio-image" *ngIf="RRImages.length > 0">
+                      <div style="padding: 0" class="col-12">
+                        <label *ngFor="let image of RRImages; let i = index">
+                          <input
+                            type="radio"
+                            [formControl]="currentImage"
+                            name="gallery"
+                            [value]="image"
+                          />
+                          <span>
+                            <img src="{{ image.img }}" alt="Thumbnail" />
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

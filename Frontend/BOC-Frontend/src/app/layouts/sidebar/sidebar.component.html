@@ -1,0 +1,262 @@
+<!-- ========== Left Sidebar Start ========== -->
+<ng-template #contentTemplate>
+
+    <div class="user-box text-center">
+        <img src="{{logo}}" alt="user-img" class="rounded-circle avatar-md">
+        <a href="javascript: void(0);" class="text-reset dropdown-toggle h5 mt-2 mb-1 d-block font-weight-medium"
+            data-toggle="dropdown">{{UserName}}
+        </a>
+    </div>
+    <!--- Sidemenu -->
+    <div id="sidebar-menu">
+        <ul class="metismenu" id="side-menu" #sideMenu *ngIf="vendorNavigation">
+            <li class="menu-title">Navigation</li>
+            <li>
+                <a routerLink="/vendor/dashboard" class="waves-effect" aria-expanded="false">
+                    <i class="remixicon-dashboard-line"></i>
+                    <span> Dashboards </span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript: void(0);" class="waves-effect">
+                    <i class="fas fa-tools"></i>
+                    <span>Repair Requests</span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <ul class="nav-second-level" aria-expanded="false">
+                    <li>
+                        <a routerLink="/vendor/rr-list" class="side-nav-link-ref" routerLinkActive="active">
+                            All Repair Requests
+                        </a>
+                    </li>
+                    <li>
+                        <a routerLink="/vendor/rush-RRList" class="side-nav-link-ref" routerLinkActive="active">
+                            Rush Repair Requests
+                        </a>
+                    </li>
+                    <li>
+                        <a routerLink="/vendor/warranty-RRList" class="side-nav-link-ref" routerLinkActive="active">
+                            Warranty Repair Requests
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- <li>
+                <a href="javascript: void(0);" class="waves-effect">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Quotes</span>
+                </a>
+            </li> -->
+
+            <li>
+                <a routerLink="/vendor/po-list" class="waves-effect">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Purchase Orders</span>
+                </a>
+                <!-- <ul class="nav-second-level" aria-expanded="false">
+                    <li>
+                        <a routerLink="/vendor/po-list" class="side-nav-link-ref" routerLinkActive="active">Purchase Order List</a>
+                    </li>                   
+                </ul> -->
+            </li>
+
+            <li>
+                <a routerLink="/vendor/vendor-bill" class="waves-effect">
+                    <i class="fa fa-files-o"></i>
+                    <span>Invoice</span>
+                </a>
+                <!-- <ul class="nav-second-level" aria-expanded="false">
+                    <li>
+                        <a routerLink="/vendor/vendor-bill" class="side-nav-link-ref" routerLinkActive="active">Invoice List</a>
+                    </li>                   
+                </ul> -->
+            </li>
+            <li>
+                <a routerLink="/vendor/warranty-list" class="waves-effect">
+                    <i class="fas fa-certificate"></i>
+                    <span>Warranty</span>
+                </a>
+            </li>
+            <li>
+                <a routerLink="/vendor/tracking" class="waves-effect">
+                    <i class="fas fa-shipping-fast"></i>
+                    <span>Shipping Tracking</span>
+                </a>
+            </li>
+            <li>
+                <a routerLink="/vendor/change-password" class="waves-effect">
+                    <i class="remixicon-lock-2-line"></i>
+                    <span>Change Password</span>
+                </a>
+                <!-- <ul class="nav-second-level" aria-expanded="false">
+                    <li>
+                        <a routerLink="/vendor/change-password" class="side-nav-link-ref" routerLinkActive="active">Change Password</a>
+                    </li>                   
+                </ul> -->
+            </li>
+            <li>
+                <a href="javascript: void(0);" class="waves-effect">
+                    <i class="mdi mdi-update"></i>
+                    <span>View / Update Profile</span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <ul class="nav-second-level" aria-expanded="false">
+                    <li>
+                        <a routerLink="/vendor/Profile" class="side-nav-link-ref" routerLinkActive="active"
+                            *ngIf="isPrimary=='1'">
+                            My Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a routerLink="/vendor/update-profile" class="side-nav-link-ref" routerLinkActive="active">
+                            My Account
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <ul class="metismenu" id="side-menu" #sideMenu *ngIf="customerNavigation">
+            <li class="menu-title">Navigation</li>
+            <li>
+                <a routerLink="/customer/dashboard" class="waves-effect" aria-expanded="false">
+                    <i class="remixicon-dashboard-line"></i>
+                    <span> Dashboards </span>
+                </a>
+            </li>
+            <li>
+                <a routerLink="/customer/RR-List" class="waves-effect">
+                    <i class="fas fa-tools"></i>
+                    <span>Repair Request</span>
+                    <!-- <span class="menu-arrow"></span> -->
+                </a>
+                <!-- <ul class="nav-second-level" aria-expanded="false">
+                    <li>
+                        <a routerLink="/customer/RR-List" class="side-nav-link-ref" routerLinkActive="active">Repair Request List</a>
+                    </li>
+                   
+                </ul> -->
+            </li>
+
+            <li>
+                <a routerLink="/customer/list-blanket-po" class="waves-effect">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>List Blanket PO</span>
+                </a>
+            </li>
+            <!-- <li>
+                <a routerLink="/customer/Quotes-List" class="waves-effect">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Quotes</span>
+
+                </a>
+              
+            </li>
+            <li>
+                <a routerLink="/customer/SO-List" class="waves-effect">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Sales Order</span>
+                </a>
+             
+            </li> -->
+            <li>
+                <a routerLink="/customer/Invoice-List" class="waves-effect">
+                    <i class="fa fa-files-o"></i>
+                    <span>Invoice</span>
+                    <!-- <span class="menu-arrow"></span> -->
+                </a>
+                <!-- <ul class="nav-second-level" aria-expanded="false">
+                    <li>
+                        <a routerLink="/customer/Invoice-List" class="side-nav-link-ref" routerLinkActive="active">Invoice List</a>
+                    </li>
+                   
+                </ul> -->
+            </li>
+            <li>
+                <a routerLink="/customer/Warranty-List" class="waves-effect">
+                    <i class="fas fa-certificate"></i>
+                    <span>Warranty</span>
+                </a>
+            </li>
+            <!-- <li>
+                <a routerLink="/customer/Tracking" class="waves-effect">
+                    <i class="fas fa-shipping-fast"></i>
+                    <span>Shipping Tracking</span>
+                </a>
+            </li> -->
+            <li>
+                <a routerLink="/customer/Change-Password" class="waves-effect">
+                    <i class="remixicon-lock-2-line"></i>
+                    <span>Change Password</span>
+                    <!-- <span class="menu-arrow"></span> -->
+                </a>
+                <!-- <ul class="nav-second-level" aria-expanded="false">
+                    <li>
+                        <a routerLink="/customer/Change-Password" class="side-nav-link-ref" routerLinkActive="active">Change Password</a>
+                    </li>
+                   
+                </ul> -->
+            </li>
+            <li>
+                <a href="javascript: void(0);" class="waves-effect">
+                    <i class="mdi mdi-update"></i>
+                    <span>View / Update Profile</span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <ul class="nav-second-level" aria-expanded="false">
+                    <li>
+                        <a routerLink="/customer/Profile" class="side-nav-link-ref" routerLinkActive="active"
+                            *ngIf="isPrimary=='1'">My Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a routerLink="/customer/Update-Profile" class="side-nav-link-ref" routerLinkActive="active">My
+                            Account
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="javascript: void(0);" class="waves-effect">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Online Store</span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <ul class="nav-second-level" aria-expanded="false">
+                    <li>
+                        <a routerLink="/admin/shop/product-list" class="side-nav-link-ref"
+                            routerLinkActive="active">Shop</a>
+                    </li>
+                     <li>
+                        <a routerLink="/admin/shop/cart" class="side-nav-link-ref" routerLinkActive="active">Cart</a>
+                    </li>
+
+                    <li>
+                        <a routerLink="/admin/shop/request-a-quote" class="side-nav-link-ref"
+                            routerLinkActive="active">Request For Quotes</a>
+                    </li>
+                    <li>
+                        <a routerLink="/admin/shop/order-history" class="side-nav-link-ref"
+                            routerLinkActive="active">Order History</a>
+                    </li>
+
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <!-- End Sidebar -->
+
+    <div class="clearfix"></div>
+</ng-template>
+
+<div class="left-side-menu">
+    <div class="slimscroll-menu" appSlimScroll *ngIf="!isCondensed">
+        <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
+    </div>
+    <div class="slimscroll-menu" *ngIf="isCondensed">
+        <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
+    </div>
+</div>
+<!-- Left Sidebar End -->

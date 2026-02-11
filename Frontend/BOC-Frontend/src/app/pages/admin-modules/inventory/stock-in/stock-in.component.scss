@@ -1,0 +1,59 @@
+.padstock {
+	padding: 1rem 1.5rem;
+}
+
+.pad15 {
+	padding-top: 15px;
+}
+
+.pad30 {
+	padding-top: 30px;
+}
+
+.pad40 {
+	padding: 35px 40px;
+}
+
+table.dataTable.nowrap th,
+table.dataTable.nowrap td {
+	vertical-align: middle;
+}
+
+.help-block {
+	margin-top: 15px;
+}
+
+.dataTables_info {
+	line-height: 35px;
+}
+
+div#datatable-angular_length {
+	margin-top: 15px !important;
+}
+
+div#datatable-angular_info {
+	line-height: 40px !important;
+}
+
+.stock-loc {
+	font-size: 1.1rem;
+	margin: 10px 0 0 0;
+	line-height: 60px;
+	color: #323a46;
+}
+
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched {
+	border: 1px solid red;
+}
+
+@media screen and (max-width: 640px) {
+	.mt70 {
+		margin-right: 5px;
+		float: left;
+		padding: 10px;
+	}
+	table#datatable-angular-partslist {
+		min-width: 1200px !important;
+	}
+}

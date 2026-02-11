@@ -1,0 +1,711 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="container-fluid">
+    <app-page-title title="View Customer" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-lg-4 col-xl-4 col-sm-4 col-md-4">
+            <div class="card-box text-center ribbon-box">
+
+                <div class="ribbon-two" [ngClass]="{
+                    'ribbon-two-success': data.StatusName === 'Active',
+                    'ribbon-two-warning': data.StatusName === 'InActive'}">
+                    <span>{{basicData.StatusName}}</span>
+                </div>
+
+                <div class="col-lg-5 col-xl-5 cl-logo">
+                    <img *ngIf="ProfilePhoto" src="{{ProfilePhoto}}" class="rounded img-thumbnail mt-1"
+                        onerror="this.onerror=null;this.src='assets/images/icons/Customer.png';">
+                </div>
+
+                <h4 class="mb-0">{{ basicData.FirstName }} {{ basicData.LastName }}</h4>
+                <p class="text-muted">Code : {{ basicData.CustomerCode }}</p>
+
+                <div class="text-left mt-2">
+                    <div class="row">
+                        <div class="col-lg-6 col-xl-6">
+                            <h6 class="text-uppercase text-muted nomb">Customer Type</h6>
+                            <p class="mb-0 text-secondary">
+                                {{ basicData.CustomerType }}
+                            </p>
+                        </div>
+                        <div class="col-lg-6 col-xl-6">
+                            <h6 class="text-uppercase text-muted nomb">Customer Name</h6>
+                            <p class="mb-0 text-secondary">
+                                {{ basicData.CompanyName }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row mtt-5">
+                        <div class="col-lg-6 col-xl-6">
+                            <h6 class="text-uppercase text-muted nomb">Customer Group</h6>
+                            <p class="mb-0 text-secondary">
+                                {{ basicData.GroupName }}
+                            </p>
+                        </div>
+                        <div class="col-lg-6 col-xl-6">
+                            <h6 class="text-uppercase text-muted nomb">Industry</h6>
+                            <p class="mb-0 text-secondary">
+                                {{ basicData.CustomerIndustry }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row mtt-5">
+                        <div class="col-lg-6 col-xl-6">
+                            <h6 class="text-uppercase text-muted nomb">Tax Type</h6>
+                            <p class="mb-0 text-secondary">
+                                {{ basicData.TaxTypeName }}
+                            </p>
+                        </div>
+                        <div class="col-lg-6 col-xl-6">
+                            <h6 class="text-uppercase text-muted nomb">Terms</h6>
+                            <p class="mb-0 text-secondary">
+                                <span class="badge badge-light-success">{{ basicData.Terms }}</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row mtt-5">
+                        <div class="col-lg-6 col-xl-6">
+                            <h6 class="text-uppercase text-muted nomb">Email</h6>
+                            <p class="mb-0 text-secondary" *ngIf="basicData.Email != ''">
+                                <a href="mailto:basicData.Email">{{ basicData.Email }}</a>
+                            </p>
+                        </div>
+                        <div class="col-lg-6 col-xl-6">
+                            <h6 class="text-uppercase text-muted nomb">Website</h6>
+                            <p class="mb-0 text-secondary" *ngIf="basicData.Website != ''">
+                                <a href="#" target="_blank">{{ basicData.Website }}</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row mtt-5">
+                        <div class="col-lg-12 col-xl-12">
+                            <h6 class="text-uppercase text-muted nomb">Notes</h6>
+                            <p class="mb-0 text-secondary">
+                                {{ basicData.Notes }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row mtt-5">
+                        <div class="col-lg-12 col-xl-12">
+                            <h6 class="text-uppercase text-muted nomb">Customer Shipping Notes</h6>
+                            <p class="mb-0 text-secondary">
+                                {{ basicData.CustomerPONotes }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row mtt-5">
+                        <div class="col-lg-12 col-xl-12">
+                            <h6 class="text-uppercase text-muted nomb">Priority Notes</h6>
+                            <p class="mb-0 text-secondary">
+                                {{ basicData.PriorityNotes}}
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- end card-box -->
+
+            <div class="card-box ribbon-box">
+
+                <div class="ribbon ribbon-primary float-left"><span>Assigned AH Manager</span></div>
+                <div class="clearfix"></div>
+
+                <div class="row">
+                    <div class="col-lg-6 col-xl-6">
+                        <h6 class="text-uppercase text-muted nomb">Name</h6>
+                        <p class="mb-0 text-secondary">
+                            {{ AHUserName }}
+                        </p>
+                    </div>
+                    <div class="col-lg-6 col-xl-6">
+                        <h6 class="text-uppercase text-muted nomb">Department</h6>
+                        <p class="mb-0 text-secondary">
+                            {{ AHDepartmentName }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row mtt-5">
+                    <div class="col-lg-6 col-xl-6">
+                        <h6 class="text-uppercase text-muted nomb">Email</h6>
+                        <p class="mb-0 text-secondary">
+                            <a href="mailto:AHEmail">{{ AHEmail }}</a>
+                        </p>
+                    </div>
+                    <div class="col-lg-6 col-xl-6">
+                        <h6 class="text-uppercase text-muted nomb">Phone</h6>
+                        <p class="mb-0 text-secondary">
+                            <i class="mdi mdi-phone mr-1" *ngIf="AHPhoneNo"></i> {{ AHPhoneNo }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- end card-box-->
+
+            <div class="card-box ribbon-box">
+                <div class="ribbon ribbon-primary float-left"><span>Address Details</span></div>
+                <div class="clearfix"></div>
+
+                <div class="row">
+                    <div class="col-lg-6 col-xl-6 mb-2" *ngFor="let address of data.AddressList; let i = index;">
+                        <!-- <h6 class="text-uppercase text-muted">Default Contact Address</h6> -->
+                        <div class="text-secondary mt-2 mb-0">
+                            <h6 class="text-uppercase text-muted">
+                                Address #{{i+1}} &nbsp;
+                                <i *ngIf="address.IsUPSVerified == 1" ngbTooltip="Address verified by UPS"
+                                    class="mdi mdi-checkbox-marked-circle text-success"></i>
+                                <i *ngIf="address.IsUPSVerified == 2" ngbTooltip="Address verified fail by UPS"
+                                    class="mdi mdi-minus-circle text-danger"></i>
+                                <i *ngIf="address.IsUPSVerified == 0" ngbTooltip="Not verified / Not US country"
+                                    class="mdi mdi-checkbox-blank-circle text-warning"></i>
+                            </h6>
+                            <div>
+                                {{ address.StreetAddress }}, {{ address.SuiteOrApt }} <br> {{ address.City }} {{address.StateName}} , {{
+                                address.CountryName }}, <br> {{ address.Zip }}
+                            </div>
+                            <div>
+                                <i class="mdi mdi-phone mr-1" *ngIf="address.PhoneNoPrimary"></i> {{
+                                address.PhoneNoPrimary }}
+                            </div>
+                            <div>
+                                <i class="mdi mdi-fax mr-1" *ngIf="address.Fax"></i> {{ address.Fax }}
+                            </div>
+                        </div>
+                        <div class="mt-2 text-muted">
+                            <div *ngIf="address.IsContactAddress == 1">Default Contact Address</div>
+                            <div *ngIf="address.IsBillingAddress == 1">Default Billing Address</div>
+                            <div *ngIf="address.IsShippingAddress == 1">Default Shipping Address</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end card-box-->
+
+            <!-- UPS card-box-->
+
+            <div class="card-box ribbon-box">
+
+                <div class="ribbon ribbon-primary float-left"><span>UPS Details</span></div>
+                <div class="clearfix"></div>
+
+                <!-- <div class="row">
+                    <div class="col-lg-6 col-xl-6">
+                        <h6 class="text-uppercase text-muted nomb">UPS Username</h6>
+                        <p class="mb-0 text-secondary">
+                            {{basicData.UPSUsername || '-'}}
+                        </p>
+                    </div>
+                    <div class="col-lg-6 col-xl-6">
+                        <h6 class="text-uppercase text-muted nomb">UPS Password</h6>
+                        <p *ngIf="basicData.UPSPassword" class="mb-0 text-secondary">
+                            {{showPassword ? basicData.UPSPassword : '*********'}} &nbsp;&nbsp;&nbsp;&nbsp;<a class="type-toggle" (click)="toggleShowPassword()"><i *ngIf="basicData.UPSPassword" class="fa fa-eye"></i></a>
+                        </p>
+                        <p *ngIf="!basicData.UPSPassword" class="mb-0 text-secondary">-</p>
+                    </div>
+                </div> -->
+
+                <div class="row mtt-5">
+                    <!-- <div class="col-lg-6 col-xl-6">
+                        <h6 class="text-uppercase text-muted nomb">UPS Access License Number</h6>
+                        <p class="mb-0 text-secondary">
+                            {{basicData.UPSAccessLicenseNumber || '-'}}
+                        </p>
+                    </div> -->
+                    <div class="col-lg-6 col-xl-6">
+                        <h6 class="text-uppercase text-muted nomb">UPS Shipper Number</h6>
+                        <p class="mb-0 text-secondary">
+                            {{basicData.UPSShipperNumber || '-'}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- Ups end card-box-->
+
+        </div>
+        <!-- end col-->
+
+        <div class="col-lg-8 col-xl-8 col-sm-8 col-md-8">
+            <div class="card-box  ribbon-box">
+                <div class="row">
+                    <div class="col-xl-12 sales-right">
+                        <div class="btn-group btn-group-sm float-right" role="group">
+                            <button (click)="editCustomer()" *ngIf="this.IsEditEnabled" ngbTooltip="Edit"
+                                placement="top" class="btn btn-icon waves-effect">
+                                <i class="mdi mdi-pencil"></i></button>
+                            <button ngbTooltip="Back" placement="top" class="btn btn-icon bg-primary waves-effect"
+                                routerLink="/admin/customer/list">
+                                <i class="fas fa-arrow-left"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 col-xl-3 col-sm-3 col-md-3 dollarsp">
+                        <h4 style="margin-top: 10px;" class="header-title">Total Amount</h4>
+                        <h2 class="mt-2">
+                            US <i class="mdi mdi-currency-usd ml-0"></i><span class="text-primary">{{
+                                PaidInvoiceAmount}}</span>
+                        </h2>
+                        <h4 style="margin-top:40px !important;" class="header-title text-warning mb-15 pam">Pending
+                            Amount
+                        </h4>
+                        <h2 class="mt-2">
+                            US <i class="mdi mdi-currency-usd ml-0"></i><span class="text-primary">{{
+                                UnPaidInvoiceAmount}}</span>
+                        </h2>
+                    </div>
+
+                    <div class="col-lg-9 col-xl-9 col-sm-9 col-md-9">
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <h4 class="header-title mss">Statistics</h4>
+                                <input style="margin-top:13px !important;" class="selectpicker sepick mt-2" type="text"
+                                    ngxDaterangepickerMd [(ngModel)]="dateFilter" [showCustomRangeLabel]="true"
+                                    [keepCalendarOpeningWithRange]="true" [timePicker]="false"
+                                    [alwaysShowCalendars]="true" [ranges]="ranges" [linkedCalendars]="true"
+                                    startKey="startDate" endKey="endDate" [isInvalidDate]="isInvalidDate"
+                                    (ngModelChange)="onStat()" [showClearButton]="true" readonly>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="row">
+                            <!-- Card -->
+                            <div class="col-xl-4 col-sm-6 col-md-6" *ngFor="let carddata of statData">
+
+                                <div class="text-center">
+                                    <div class="row card-box statpad m-0 mb-2">
+
+                                        <div class="col-lg-4 col-xl-4 float-left">
+                                            <!-- <i class="{{ carddata.icon }} font-24"></i> -->
+                                            <!--  <h3 class="text-warning" [ngClass]="{
+                                                'text-warning': carddata.Status === 'Awaiting Quotes',
+                                                'text-info': carddata.Status === 'Quoted',
+                                                'text-success': carddata.Status === 'Quotes Approved',
+                                                'text-pink': carddata.Status === 'Rush or Warranty',
+                                                'text-warning': carddata.Status === 'Overdue',
+                                                'text-danger': carddata.Status === 'Due Today',
+                                                'text-info': carddata.Status === 'Quotes Submitted',
+                                                'text-success': carddata.Status === 'Quotes Accepted',
+                                                'text-primary': carddata.Status === 'Total Requests',
+                                                'text-purple': carddata.Status === 'Received Invoices',
+                                                'text-pink': carddata.Status === 'Pending Invoices',
+                                                'text-danger': carddata.Status === 'Quotes Rejected',
+                                                'text-success': carddata.Status === 'Completed',
+                                                'text-secondary': carddata.Status === 'In Progress'
+                                                }">{{carddata.Count}}
+                                            </h3>-->
+                                            <h3 class="text-warning" [ngClass]="{  
+                                                'text-pink': carddata.Status === 0,
+                                                'text-green': carddata.Status === 1,
+                                                'text-primary': carddata.Status === 2,
+                                                'text-purple': carddata.Status === 3,
+                                                'text-pink': carddata.Status === 4,
+                                                'text-info': carddata.Status === 5,
+                                                'text-danger': carddata.Status === 6,
+                                                'text-success': carddata.Status === 7
+                                                }">{{carddata.Count}}
+                                            </h3>
+
+
+                                        </div>
+                                        <div class="col-lg-8 col-xl-8 float-right">
+                                            <p class="text-uppercase pt-2 mb-0 font-13 font-weight-medium">
+                                                {{carddata.StatusName}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-box">
+                <ngb-tabset type="pills">
+
+                    <ngb-tab title="Repair Requests">
+                        <ng-template ngbTabContent>
+                            <div style="padding-top:0;" class="tab-content">
+                                <div class="tab-pane show active" id="RepairRequest">
+                                    <!-- <div class="table-responsive">
+                                        <table class="table table-bordered mb-0">
+                                            <thead class="thead-dark ">
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>RR #</th>
+                                                    <th>Part #</th>
+                                                    <th>Part Description</th>
+                                                    <th>Serial #</th>
+                                                    <th>Vendor</th>
+                                                    <th>Date</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let repair of RepairRequestData">
+                                                    <td>{{repair.id}}</td>
+                                                    <td><a href="#" target="_blank">{{repair.RRNo}}</a> </td>
+                                                    <td>{{repair.Part}} </td>
+                                                    <td>{{repair.Desc}} </td>
+                                                    <td>{{repair.Serial}} </td>
+                                                    <td>{{repair.Vendor}} </td>
+                                                    <td>{{repair.Date}} </td>
+                                                    <td><span class="badge badge-info" [ngClass]="
+                                                        {
+                                                            'badge-success': repair.Status === 'Completed',
+                                                            'badge-danger': repair.Status === 'Repair In Progress'
+                                                        }">{{repair.Status}}</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div> -->
+
+                                    <div class="table-responsive">
+                                        <table id="datatable-angular-rrparts" datatable [dtOptions]="dtOptions"
+                                            class="table mb-15 datatables dt-responsive hover nowrap">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>RR No</th>
+                                                    <th>Part No</th>
+                                                    <th>Part Description</th>
+                                                    <th>Serial No</th>
+                                                    <th>Vendor</th>
+                                                    <th>Date</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody *ngIf="datalen">
+                                                <tr>
+                                                    <td colspan="7" class="no-data-available nodata-center">No data!
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+
+                    <ngb-tab title="Parts">
+                        <ng-template ngbTabContent>
+                            <div class="tab-content">
+                                <div class="tab-pane show active" id="Parts">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered mb-0">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Part #</th>
+                                                    <th>User Description</th>
+
+                                                </tr>
+                                            </thead>
+                                            <!-- <tbody>
+                                                <tr *ngFor="let parts of PartsData">
+                                                    <td>{{parts.id}}</td>
+                                                    <td><a href="#" target="_blank">{{parts.PartNo}}</a> </td>
+                                                    <td>{{parts.PartDesc}}</td>
+
+                                                </tr>
+                                            </tbody> -->
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="7" class="no-data-available nodata-center">No data!
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+
+                    <!-- <ngb-tab title="Users">
+                        <ng-template ngbTabContent>
+                            <div class="tab-content">
+                                <div class="tab-pane show active" id="Users">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered mb-0">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>User ID</th>
+                                                    <th>User Name</th>
+                                                    <th>User Rights</th>
+                                                    <th>Customer</th>
+                                                    <th>Account Locked</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let users of UsersData">
+                                                    <td>{{users.id}}</td>
+                                                    <td>{{users.userId}}</td>
+                                                    <td>{{users.name}}</td>
+                                                    <td><a href="#" target="_blank">{{users.rights}}</a> </td>
+                                                    <td><a href="#" target="_blank">{{users.assigned}}</a></td>
+                                                    <td><span class="badge badge-info" [ngClass]="
+                                                        {
+                                                            'badge-success': users.status === 'No',
+                                                            'badge-danger': users.status === 'Yes'
+                                                        }">{{users.status}}</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab> -->
+
+                    <ngb-tab title="Sales Order">
+                        <ng-template ngbTabContent>
+                            <div style="padding-top:0;" class="tab-content">
+                                <div class="tab-pane show active" id="SalesOrder">
+                                    <div class="table-responsive">
+
+                                        <table id="datatable-angular-salesorder" datatable [dtOptions]="dtOptions2"
+                                            class="table mb-15 datatables dt-responsive hover nowrap">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>SO No</th>
+                                                    <th>Date Requested</th>
+                                                    <th>Due Date</th>
+                                                    <th>Invoice No</th>
+                                                    <th>Status Name</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody *ngIf="datalen">
+                                                <tr>
+                                                    <td colspan="7" class="no-data-available nodata-center">No data!
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+
+                    <ngb-tab title="Warranty Claims">
+                        <ng-template ngbTabContent>
+                            <div class="tab-content">
+                                <div class="tab-pane show active" id="ReturnHistory">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered mb-0">
+                                            <tbody>
+                                                <tr>
+                                                    <td>No Records Found</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Departments">
+                        <ng-template ngbTabContent>
+                            <div class="tab-content">
+                                <div class="tab-pane show active" id="Departments">
+                                    <table class="table table-bordered mb-0">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Department</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let department of data.CustomerDepartmentList">
+                                                <td>{{department.DepartmentContactName}}</td>
+                                                <td>{{department.CustomerDepartmentName}}</td>
+                                                <td><a href="mailto:department.DepartmentContactEmail">{{
+                                                        department.DepartmentContactEmail }}</a>
+                                                </td>
+                                                <td><i class="mdi mdi-phone mr-1"></i>
+                                                    {{department.DepartmentContactPhone}}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody *ngIf="data.CustomerDepartmentList.length ==0">
+                                            <tr>
+                                                <td colspan="4" class="no-data-available nodata-center">No data!</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+
+                    <ngb-tab title="Machine/Assets">
+                        <ng-template ngbTabContent>
+                            <div class="tab-content">
+                                <div class="tab-pane show active" id="SalesOrder">
+                                    <table class="table table-bordered mb-0">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Asset ID</th>
+                                                <th>Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let asset of data.CustomerAssetList">
+                                                <td>#{{asset.CustomerAssetId}}</td>
+                                                <td>{{asset.CustomerAssetName}}</td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody *ngIf="data.CustomerAssetList.length ==0">
+                                            <tr>
+                                                <td colspan="2" class="no-data-available nodata-center">No data!</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Attachment">
+                        <ng-template ngbTabContent>
+                            <div class="row">
+
+                                <div class="col-sm-2" *ngFor="let vattachment of data.AttachmentList; let i = index;">
+                                    <div class="box h-100 d-flex justify-content-center flex-column brdimg">
+                                        <span *ngIf="vattachment.AttachmentMimeType == 'application/pdf'">
+                                            <a href="{{vattachment.Attachment}}" target="_blank">
+                                                <img src="../../../../../assets/images/attachment/{{attachmentThumb['application/pdf'].thumb}}"
+                                                    class="img-fluid"
+                                                    ngbTooltip="{{vattachment.AttachmentOriginalFile}}" width="200"
+                                                    alt="work-thumbnail">
+                                            </a>
+                                        </span>
+                                        <span *ngIf="vattachment.AttachmentMimeType == 'image/jpeg'">
+                                            <a href="{{vattachment.Attachment}}" target="_blank">
+                                                <img src="{{vattachment.Attachment}}" class="img-fluid"
+                                                    ngbTooltip="{{vattachment.AttachmentOriginalFile}}" width="200"
+                                                    alt="work-thumbnail">
+                                            </a>
+                                        </span>
+                                        <span *ngIf="vattachment.AttachmentMimeType == 'image/png'">
+                                            <a href="{{vattachment.Attachment}}" target="_blank">
+                                                <img src="{{vattachment.Attachment}}" class="img-fluid"
+                                                    ngbTooltip="{{vattachment.AttachmentOriginalFile}}" width="200"
+                                                    alt="work-thumbnail">
+                                            </a>
+                                        </span>
+                                        <span *ngIf="vattachment.AttachmentMimeType == 'application/msword'">
+                                            <a href="{{vattachment.Attachment}}" target="_blank">
+                                                <img src="../../../../../assets/images/attachment/{{attachmentThumb['application/msword'].thumb}}"
+                                                    class="img-fluid"
+                                                    ngbTooltip="{{vattachment.AttachmentOriginalFile}}" width="200"
+                                                    alt="work-thumbnail">
+                                            </a>
+                                        </span>
+                                        <span *ngIf="vattachment.AttachmentMimeType == 'application/vnd.ms-excel'">
+                                            <a href="{{vattachment.Attachment}}" target="_blank">
+                                                <img src="../../../../../assets/images/attachment/{{attachmentThumb['application/vnd.ms-excel'].thumb}}"
+                                                    class="img-fluid"
+                                                    ngbTooltip="{{vattachment.AttachmentOriginalFile}}" width="200"
+                                                    alt="work-thumbnail">
+                                            </a>
+                                        </span>
+                                        <span *ngIf="vattachment.AttachmentMimeType == 'text/csv'">
+                                            <a href="{{vattachment.Attachment}}" target="_blank">
+                                                <img src="../../../../../assets/images/attachment/{{attachmentThumb['text/csv'].thumb}}"
+                                                    class="img-fluid"
+                                                    ngbTooltip="{{vattachment.AttachmentOriginalFile}}" width="200"
+                                                    alt="work-thumbnail">
+                                            </a>
+                                        </span>
+                                    </div>
+
+                                    <p class="mb-0">
+                                        <code class="text-primary">{{vattachment.AttachmentDesc}}</code>
+                                    </p>
+                                    <p class="mb-0">
+                                        <code>{{vattachment.Created | date : 'M/d/yy, h:mm a'}}</code> &nbsp;
+
+                                    </p>
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="data.AttachmentList.length==0">
+                                <div class="table-responsive">
+                                    <table class="table table-borderless mb-0">
+                                        <tbody>
+                                            <tr>
+                                                <td align="center">No data!</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+
+                    <ngb-tab title="Directed Vendors">
+                        <ng-template ngbTabContent>
+                            <div class="tab-content">
+                                <div class="tab-pane show active" id="Users">
+                                    <div class="table-responsive">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered mb-0">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Vendor Code</th>
+                                                        <th>Vendor Name</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let users of DirectedVendorList;let i=index">
+                                                        <td>{{i+1}}</td>
+                                                        <td>{{users.VendorCode}}</td>
+                                                        <td>{{users.VendorName}}</td>
+
+
+                                                    </tr>
+                                                </tbody>
+                                                <tbody *ngIf="DirectedVendorList?.length == 0">
+                                                    <tr>
+                                                        <td colspan="5" class="no-data-available">No data!</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+
+
+
+
+                </ngb-tabset>
+            </div>
+        </div>
+    </div>
+</div>

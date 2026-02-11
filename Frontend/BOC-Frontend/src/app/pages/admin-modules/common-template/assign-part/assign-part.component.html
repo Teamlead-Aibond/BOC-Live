@@ -1,0 +1,121 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">Part Details</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-2 modal-lg">
+    <form name="form" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+
+        <div style="padding:15px 20px;" class="container">
+
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="form-group row">
+                        <label class="col-sm-6 col-form-label" for="simpleinput">Part # :</label>
+                        <div class="col-sm-6">
+                            {{item.PartNo}}
+                        </div>
+                    </div>
+                </div>
+                <!-- Start -->
+                <div class="col-xl-6">
+                    <div class="form-group row">
+                        <label class="col-sm-6 col-form-label" for="simpleinput">Customer Part #1 : <span class="red"></span></label>
+                        <div class="col-sm-6">
+                            <input id="CustomerPartNo1" style="width: 90%;" [(ngModel)]="model.CustomerPartNo1" name="CustomerPartNo1" 
+                            #CustomerPartNo1="ngModel" type="text" class="form-control" placeholder="Customer Part #1">
+
+                        <!-- <div *ngIf="f.submitted &&CustomerPartNo1.invalid" class="invalid-feedback">
+                            <div *ngIf="CustomerPartNo1.errors.required">CustomerPartNo1 is required</div>
+                        </div> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6">
+                    <div class="form-group row">
+                        <label class="col-sm-6 col-form-label" for="simpleinput">Customer Part #2 : <span class="red"></span></label>
+                        <div class="col-sm-6">
+                            <input id="CustomerPartNo2" style="width: 90%;" [(ngModel)]="model.CustomerPartNo2" name="CustomerPartNo2" 
+                            #CustomerPartNo1="ngModel" type="text" class="form-control" placeholder="Customer Part #2">
+
+                        <!-- <div *ngIf="f.submitted &&CustomerPartNo2.invalid" class="invalid-feedback">
+                            <div *ngIf="CustomerPartNo2.errors.required">CustomerPartNo1 is required</div>
+                        </div> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- End -->
+
+                <div class="col-xl-6">
+                    <div class="form-group row">
+                        <label class="col-sm-6 col-form-label" for="simpleinput">AH Price :</label>
+                        <div class="col-sm-6 mt-2">
+                            {{item.Price}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="form-group row">
+                        <label class="col-sm-6 col-form-label" for="simpleinput">AHH Inc Price (New) : <span class="red">*</span></label>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text"
+                                        id="basic-addon1">{{CurrencySymbol}}</span>
+                            <input id="NewPrice" style="width: 90%;" [(ngModel)]="model.NewPrice" name="NewPrice" decimal="true" (change)="onCalculateBaseNewPrice()"
+                            #NewPrice="ngModel" type="text" class="form-control" inputmode="numeric" pattern="^\d+(\.\d{1,2})?$" placeholder="0.00" digitOnly
+                            [ngClass]="{ 'is-invalid': f.submitted && NewPrice.invalid }" required>
+                        </div>
+                        </div>
+                        <div *ngIf="f.submitted &&NewPrice.invalid" class="invalid-feedback">
+                            <div *ngIf="NewPrice.errors.required">New Price is required</div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6">
+                    <div class="form-group row">
+                        <label class="col-sm-6 col-form-label" for="simpleinput">LPP :</label>
+                        <div class="col-sm-6 mt-2">
+                           0
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="col-xl-6">
+                <div class="form-group row">
+                    <label class="col-sm-6 col-form-label" for="simpleinput">AHH Inc Price (New)({{BaseCurrencySymbol}}) : <span class="red">*</span></label>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span class="input-group-text"
+                                    id="basic-addon1">{{BaseCurrencySymbol}}</span>
+                        <input id="NewPrice" style="width: 90%;" [(ngModel)]="model.BaseNewPrice" name="BaseNewPrice" decimal="true" readonly
+                        #BaseNewPrice="ngModel" type="text" class="form-control" inputmode="numeric" pattern="^\d+(\.\d{1,2})?$" placeholder="0.00" digitOnly
+                        [ngClass]="{ 'is-invalid': f.submitted && BaseNewPrice.invalid }" required>
+                    </div>
+                    </div>
+                    <div *ngIf="f.submitted &&BaseNewPrice.invalid" class="invalid-feedback">
+                        <div *ngIf="BaseNewPrice.errors.required">New Price({{BaseCurrencySymbol}}) is required</div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 text-danger">
+                    {{responseMessage}}
+                </div>
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light">Submit</button>
+        </div>
+    </form>
+</div>

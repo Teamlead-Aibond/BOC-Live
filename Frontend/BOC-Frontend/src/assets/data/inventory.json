@@ -1,0 +1,38 @@
+{
+	"data": [
+		{
+			"Img": "assets/images/amp.png",
+			"Part": "MAT1",
+			"Manufacturer": "-",
+			"Desc": "micro attire",
+			"New": "5",
+			"Reburbished": "18",
+			"Qty": "23",
+			"Price": "$530",
+			"Status": "Active"
+		} ,
+		{
+			"Img": "assets/images/amp3.png",
+			"Part": "AHR-532270",
+			"Manufacturer": "2V INDUSTRIES",
+			"Desc": "Repair of Festo Checkbox CHB-C-P",
+			"New": "12",
+			"Reburbished": "10",
+			"Qty": "22",
+			"Price": "$450",
+			"Status": "Active"
+		} ,
+		{
+			"Img": "assets/images/amp.png",
+			"Part": "INVIS0002",
+			"Manufacturer": "Keyence Corp. of America ",
+			"Desc": "Mobile part",
+			"New": "5",
+			"Reburbished": "2",
+			"Qty": "7",
+			"Price": "$25.5",
+			"Status": "Inactive"
+		} 
+
+	]
+}

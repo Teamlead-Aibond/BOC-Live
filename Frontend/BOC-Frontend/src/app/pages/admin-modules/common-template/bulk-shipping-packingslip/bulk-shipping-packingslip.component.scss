@@ -1,0 +1,547 @@
+div#collapseExample {
+    visibility: visible !important;
+}
+
+table.table.carinfo td {
+    border-top: 0;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.linebreak {
+    white-space: pre-line;
+    color: #000;
+    font-size: 14px;
+}
+.popupscroll{border:0;overflow-y: auto;height: 500px;}
+
+// .grandouterdanger {
+//     border-top: 1px solid #b91a41 !important;
+//     border-bottom: 2px solid #b91a41 !important;
+//     background: #f1556c;
+//     margin: 0;
+// }
+// .grandouterdanger h2 {
+//     font-size: 22px !important;
+//     padding: 0px 0 5px 0px !important;
+//     color: #000 !important;
+//     font-weight: 600 !important;
+//     line-height: 35px !important;
+// }
+.pdfbtn-rt {
+    background: #09518e;
+    position: absolute;
+    right: 50px;
+    color: #fff;
+}
+
+.linebreak {
+    white-space: pre-line;
+}
+
+.sales-left .scrollbar {
+    height: 120vh;
+}
+
+.evn {
+    border-bottom: 1px dashed #dcdcdc;
+    padding-bottom: 10px;
+    padding-left: 0;
+}
+
+.evn1 {
+    border-bottom: 1px dashed #dcdcdc;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+
+.btn-group .btn-group-sm .btn .mbg:hover i {
+    color: #09518e !important;
+}
+
+.dropdown-menu {
+    width: 600px !important;
+    height: auto !important;
+}
+
+.additem {
+    position: relative;
+    top: 30px;
+    z-index: 1;
+}
+
+.searchbox {
+    padding: 10px 20px 10px 20px !important;
+}
+
+.smallfont {
+    font-size: 0.75rem;
+    font-weight: 400;
+}
+
+.bill p {
+    width: 100%;
+    float: left;
+    line-height: 25px;
+    font-weight: 400;
+    font-size: 16px;
+    font-style: normal;
+    margin: 0;
+    padding: 0;
+}
+
+.table {
+    color: #000;
+}
+
+.table .thead-light th {
+    color: #000;
+}
+
+.table.bill td {
+    padding: 0.4rem 5px;
+}
+
+.table.bill th {
+    text-align: right;
+    padding: 0.4rem 15px;
+}
+
+.table.bill1 th {
+    text-align: right;
+    padding: 0rem 15px;
+}
+
+.table.bill1 td {
+    padding: 0rem 5px;
+}
+
+.bill1 p {
+    width: 100%;
+    float: left;
+    line-height: 25px;
+    font-weight: 400;
+    font-size: 16px;
+    font-style: normal;
+    margin: 0;
+    padding: 0 0 6px;
+}
+
+.bill1 {
+    margin-top: -9px;
+}
+
+.table thead th {
+    vertical-align: middle;
+}
+
+.order-date {
+    padding-bottom: 1px;
+    display: inline-block;
+}
+
+.ccs p strong {
+    font-weight: 500 !important;
+}
+
+.mt-6 {
+    margin-top: 6px !important;
+    margin-right: 5px;
+}
+
+.ccs p {
+    width: 100%;
+    float: left;
+    line-height: 28px;
+    font-weight: 400;
+    font-size: 16px;
+    font-style: normal;
+    margin: 0;
+    padding: 0 0 5px;
+    color: #000;
+    font-family: "Roboto", sans-serif !important;
+}
+
+table.print-table td,
+table.print-table th {
+    font-size: 17px;
+}
+
+.pdfwrap p {
+    font-size: 16px;
+    line-height: 28px !important;
+    color: #000;
+    padding-bottom: 5px;
+    margin: 0;
+    font-family: "Roboto", sans-serif !important;
+}
+
+.ccs h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 20px;
+    color: #000;
+    padding: 0;
+    margin: 0 0 2px;
+}
+
+.ccs h3 {
+    font-size: 1.3rem;
+    line-height: 20px;
+    color: #000;
+    padding: 0;
+    margin: 0 0 2px;
+}
+
+.ccs h5 {
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 20px;
+    color: #000;
+    padding: 0;
+    margin: 0 0px 8px 0;
+}
+
+.ccs h6 {
+    font-size: 1rem;
+    line-height: 20px;
+    color: #000;
+    padding: 0;
+    margin: 0 55px 2px 0;
+    text-align: right;
+    font-weight: 800;
+}
+
+.black table.print-table td,
+.black table.print-table th {
+    font-size: 17px;
+}
+
+.black .pdfwrap p {
+    font-size: 16px;
+    line-height: 28px !important;
+    color: #000;
+    padding-bottom: 5px;
+    margin: 0;
+    font-family: "Roboto", sans-serif !important;
+}
+
+.table thead th {
+    text-align: center;
+}
+
+.mt12 {
+    margin-top: 20px;
+    width: 50%;
+}
+
+.mt45 {
+    margin-top: 45px;
+}
+
+.addbrd {
+    border: 1px solid #dee2e6;
+    float: left;
+    padding: 10px;
+    width: 100%;
+}
+
+.carinfo th {
+    background: #ffffff !important;
+}
+
+.carinfo p {
+    padding: 0;
+    margin: 0;
+}
+
+.btntype {
+    padding: 0.25rem 0.9rem;
+}
+
+.customerbg {
+    font-weight: bold;
+    padding: 5px 10px;
+    background-color: #fbcfd6;
+    border: 1px solid #efa0ac;
+    color: #000;
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact !important;
+}
+
+.pon {
+    color: #000;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.LLP {
+    color: #000;
+    display: inline;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.LLP b,
+strong,
+.pon b,
+strong {
+    font-weight: bold;
+}
+
+.greyhead {
+    background-color: #c4c4c4;
+    width: 100%;
+    padding: 8px;
+    margin: 5px 12px;
+    color: #000;
+    font-size: 17px;
+    font-weight: 500;
+    border-top: 2px solid #707070;
+    border-bottom: 2px solid #707070;
+}
+
+.pdfwrap h5 .smtxt {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.newprice {
+    color: #09518e;
+    display: inline;
+}
+
+.hidden {
+    display: none;
+}
+
+address {
+    font-size: 16px;
+    margin: 0 0 15px;
+}
+
+.pdfwrap h5 {
+    font-size: 1rem;
+}
+
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid #dee2e6;
+    font-size: 14px;
+    text-align: center;
+}
+
+.black address {
+    font-size: 16px;
+    margin: 0 0 15px;
+}
+
+.mailpad {
+    padding: 0.2rem 0.8rem 0.1rem;
+}
+
+.idt .thead-dark th {
+    border-color: #dee2e6;
+}
+
+#contentToConvert.black {
+    padding: 35px 59px 38px 50px;
+}
+
+.black .grandouter {
+    // background-color: #000;
+    color: #000 !important;
+    background-color: #fff;
+    border-top: 1px solid #000 !important;
+    border-bottom: 0px;
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+}
+
+.black .ccs h2 {
+    font-size: 1.5rem !important;
+}
+
+.black .carinfo th,
+.black .carinfo td {
+    background: #fff;
+    border-top: 1px solid #fff !important;
+    border-bottom: 1px solid #000 !important;
+}
+
+.black .addbrd p {
+    font-style: italic !important;
+}
+
+.black .pdfwrap h5 {
+    font-size: 1.5rem !important;
+    color: #ff0000;
+}
+
+.black .carinfo p,
+.black .carinfo td {
+    font-size: 18px;
+}
+
+.black .addbrd {
+    border: 1px solid #000;
+}
+
+.black address,
+.black .bill p,
+.black .ccs p,
+.pdfwrap h5,
+.black .table td,
+.black .text-muted {
+    color: #000 !important;
+}
+
+.black .bill p,
+.black .ccs p {
+    width: 100%;
+    float: left;
+    line-height: 25px;
+    font-weight: 400;
+    font-size: 18px !important;
+    font-style: normal;
+    margin: 0;
+    padding: 0;
+}
+
+.black .table .thead-light th {
+    border-color: #000;
+}
+
+.black .table-bordered th {
+    border-bottom: 0;
+    border-color: #000;
+}
+
+.black .print-table {
+    border-right: 1px solid #000;
+}
+
+.black .table-bordered td {
+    border: 1px solid #000;
+    border-right: 0;
+    border-top: 0;
+    font-size: 18px;
+}
+
+.black .table thead th {
+    background-color: #fff;
+    color: #38414a;
+    font-size: 18px;
+    border-right: 0;
+    font-weight: 700;
+    border-bottom: 1px solid #000;
+}
+
+.Repair {
+    font-weight: bold;
+    padding: 0px;
+    color: red
+}
+
+.approvebg {
+    font-weight: bold;
+    padding: 5px 10px;
+    background-color: rgba(0, 0, 0, .075);
+    border: 1px solid rgba(0, 0, 0, .075);
+    color: #000;
+    text-transform: uppercase;
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact !important;
+}
+
+.order {
+    background: #ececec;
+    color: #000;
+    padding: 1px 5px;
+    margin-right: 8px;
+}
+
+.equlaization {
+    padding-top: 65px;
+}
+
+#contentToConvert {
+    //padding: 50px 57px 38px 57px;
+    padding: 35px 49px 38px 50px;
+    margin: 0;
+}
+
+.allsalebtn {
+    padding-left: 10px !important;
+}
+
+.black .d-print-none {
+    display: none;
+}
+
+.table thead th {
+    background-color: #f1f5f7;
+}
+
+.btn-success {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact !important;
+}
+
+.table tbody+tbody {
+    border-top: 1px solid #dee2e6;
+}
+
+.grandouter p {
+    font-size: 18px !important;
+    padding: 7px 0 5px !important;
+}
+
+@media screen and (max-width:640px) {
+    p.m-b-10.text-right {
+        text-align: left !important;
+    }
+}
+
+@media print {
+    .card-box {
+        background-color: #fff;
+        background-clip: border-box;
+        border: 0px solid #e7eaed;
+        padding: 0px !important;
+        margin: 0px !important;
+        border-radius: 0rem;
+    }
+    // .black tr.grandouter p {
+    //     color: #fff !important;
+    // }
+    .pdfwrap {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    #contentToConvert {
+        padding: 0px !important;
+        margin: 0 !important;
+    }
+    // .table {
+    //     float: left;
+    // }
+    .table thead th {
+        background-color: #38414a !important;
+        -webkit-print-color-adjust: exact;
+        color-adjust: exact !important;
+        color: #fff;
+    }
+    body {
+        -webkit-print-color-adjust: exact;
+        color-adjust: exact !important;
+    }
+    @page {
+        size: A4 landscape;
+        margin-left: 0px;
+        margin-right: 0px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        margin: 0;
+        -webkit-print-color-adjust: exact;
+    }
+}

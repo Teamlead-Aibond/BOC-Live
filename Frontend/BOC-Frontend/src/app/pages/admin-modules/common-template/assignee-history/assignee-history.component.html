@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <h4 class="modal-title">Assignee History</h4>
+    <button type="button" class="close" aria-hidden="true" (click)="modalRef.hide()">×</button>
+</div>
+<div class="modal-body p-6 mt-2" *ngIf="History.length>0">
+    <ul class="list-unstyled timeline-sm" *ngFor="let item of History">
+        <li class="timeline-sm-item">
+            <span class="timeline-sm-date">{{item.Created|dateTransform}}<br>{{item.Created|date:'shortTime'}}</span>
+            <h5 class="mt-0 mb-1">{{item.AssigneeName==null?'-':item.AssigneeName}}</h5>
+            <p>Changed By: <span class="badge badge-light-primary">{{item.ModifiedByName}}</span>
+            </p>
+        </li>
+
+    </ul>
+</div>
+<div class="modal-body p-6 mt-2" *ngIf="History.length==0">
+    <div class="text-center">No Data!</div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-light waves-effect" (click)="modalRef.hide()">Close</button>
+</div>

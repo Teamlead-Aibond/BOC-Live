@@ -1,0 +1,151 @@
+<div class="container-fluid">
+    <app-page-title title="Stock Out" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+    <div class="row">
+        <div style="margin-top:-52px;" class="col-xl-12 text-right">
+            <div class="button-list btn-group-sm fl-right mb-10">
+                <button class="btn btn-primary waves-effect" routerLink="/admin/inventory/stockout-list"><i
+                        class="fas fa-arrow-left"></i> Back</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body padstock">
+                    <div class="card-title">
+                        <div style="font-size:15px;position:relative;font-weight:bold;">
+                            <div class="row pt-0 show">
+                                <div class="col-12 col-xl-2">
+                                    <label class="control-label">Enter Part #</label>
+                                    <input type="text" class="form-control" id="PartNo"
+                                        placeholder="Enter Part #" [(ngModel)]="PartNo">
+                                </div>
+                                OR
+
+                                <div class="col-12 col-xl-2">
+                                    <label class="control-label">Enter Serial Number </label>
+                                    <input type="text" class="form-control" id="quantity"
+                                        placeholder="Enter Serial Number" [(ngModel)]="SerialNo">
+                                </div>
+
+                                <div class="col-12 col-xl-2" style="padding-top:30px;">
+                                    <input type="button" class="btn btn-primary btn-md mr-1" value="Search"
+                                        (click)="onSearch()" />
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-sm-12 col-md-12 parttracking-wrap">
+            <div class="card-box ribbon-box">
+                <p class="text-danger">{{responseMessage}}</p>
+
+                <div class="row">
+                    <div class="col-12 col-xl-2" style="padding-bottom:30px; float: right;">
+                        <input type="button" class="btn btn-primary btn-md mr-1" value="Reset" (click)="reset()" />
+                    </div>
+                    <div class="col-lg-12 col-xl-12 col-sm-12 col-md-12">
+
+                        <div class="table-responsive">
+                            <table class="table  table-bordered  hover nowrap">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>&nbsp;</th>
+                                        <th>Part Number</th>
+                                        <th>Part Serial Number</th>
+                                        <th *ngIf="rfidEnabled">Tag No</th>
+                                        <th>Stock Available</th>
+                                        <!-- <th>Count</th> -->
+                                        <th>Time</th>
+                                        <th>Location</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngIf="result?.length != 0">
+                                    <tr *ngFor="let stack of result; let i=index">
+                                        <input type="checkbox" [checked]="stack?.inventory?.checked"
+                                            (change)="rowCheckChange($event, stack?.inventory?.SerialNo)" />
+                                        <td>{{stack?.inventory?.PartNo}}</td>
+                                        <td>{{stack?.inventory?.SerialNo}}</td>
+                                        <td *ngIf="rfidEnabled">{{stack?.tagInventoryEvent?.epcHexShort}}</td> 
+                                        <td><span class="badge badge-success badge-pill">{{stack?.inventory?.Available}}</span></td>
+                                        <!-- <td>{{stack.readerCount}}</td> -->
+                                        <td>{{stack?.timestamp | date:'medium' }}</td>
+                                        <td width="50%">
+                                            <div class="row mtm-5">
+                                                <div class="col-12">
+                                                    <div class="col-20">
+                                                        <i class="fas fa-warehouse f-15"></i>
+                                                        <p>{{stack?.inventory?.WarehouseName}}</p>
+                                                    </div>
+                                                    <div class="col-15">-></div>
+                                                    <div class="col-20">
+                                                        <i class="fas fa-building f-16"></i>
+                                                        <p>{{stack?.inventory?.WarehouseSub1Name}}</p>
+                                                    </div>
+                                                    <div class="col-15">-></div>
+                                                    <div class="col-20">
+                                                        <i class="remixicon-building-2-fill f-17"></i>
+                                                        <p>{{stack?.inventory?.WarehouseSub2Name}}</p>
+                                                    </div>
+                                                    <div class="col-15">-></div>
+                                                    <div class="col-20">
+                                                        <i class="mdi mdi-table-row f-18"></i>
+                                                        <p>{{stack?.inventory?.WarehouseSub3Name}}</p>
+                                                    </div>
+                                                    <div class="col-15">-></div>
+                                                    <div class="col-20">
+                                                        <i class="mdi mdi-file-cabinet f-19"></i>
+                                                        <p>{{stack?.inventory?.WarehouseSub4Name}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                                <tbody *ngIf="result?.length == 0">
+                                    <tr>
+                                        <td colspan="7" class="no-data-available">{{dataTableMessage}}</td>
+                                    </tr>
+                                <tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-lg-12 col-xl-12 col-sm-12 col-md-12">
+                        <div class="col-lg-8 col-xl-8 col-sm-8 col-md-8 float-left nopad">
+                            <label>Comments</label>
+                            <textarea class="form-control" maxlength="225" rows="3"></textarea>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8 col-xl-8 col-sm-8 col-md-8 float-left nopad">
+                        &nbsp;
+                    </div>
+                    <div class="col-lg-4 col-xl-4 col-sm-4 col-md-4 float-left text-right">
+                        <input type="button" class="btn btn-primary btn-md mt70" value="Stock Out"
+                            (click)="onStockOut()">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="row">
+        <div class="col-12 text-right">
+            <input type="button" class="btn btn-primary btn-md mr-1" value="Submit" />
+        </div>
+    </div> -->
+</div>

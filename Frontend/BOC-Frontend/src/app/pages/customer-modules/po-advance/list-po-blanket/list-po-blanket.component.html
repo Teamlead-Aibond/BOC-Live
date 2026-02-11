@@ -1,0 +1,42 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="sideNavcontainer">
+    <app-page-title title="Blanket SO Report List" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card-box">
+                <!-- {{ "test" | monthTransform }} -->
+
+
+                <div class="row">
+                    <div class="col-xl-12">
+                        <!-- Table -->
+                        <div style="padding-right: 15px;" class="table-responsive">
+                            <table id="datatable-angular-so-report" datatable [dtOptions]="dtOptions"
+                                [dtTrigger]="dtTrigger" class="table datatables dt-responsive hover nowrap">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>PO #</th>
+                                        <th>SO #</th>
+                                        <th>Invoice #</th>
+                                        <th>Total</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

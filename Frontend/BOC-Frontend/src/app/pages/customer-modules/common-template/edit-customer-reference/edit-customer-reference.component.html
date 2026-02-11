@@ -1,0 +1,28 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">Edit Customer Reference</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg">
+    <form name="form" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+
+        <div class="container">
+            <div class="form-group">
+                <label for="Customer">Customer Reference # <span class="red">*</span></label>
+                <div class="row col-xl-12">
+                    <input id="CReferenceName" [(ngModel)]="model.CReferenceName" name="CReferenceName"
+                        #CReferenceName="ngModel" type="text" class="form-control"
+                        [ngClass]="{ 'is-invalid': f.submitted && CReferenceName.invalid }" required>
+
+                    <div *ngIf="f.submitted &&CReferenceName.invalid" class="invalid-feedback">
+                        <div *ngIf="CReferenceName.errors.required">Customer Reference is required</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light">Submit</button>
+        </div>
+    </form>
+</div>

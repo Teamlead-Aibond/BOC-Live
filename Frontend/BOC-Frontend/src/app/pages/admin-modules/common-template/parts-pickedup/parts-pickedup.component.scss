@@ -1,0 +1,19 @@
+.input-disabled {
+    background-color: grey !important;
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    border: 1px solid #ced4da;
+    background-color: var(--ion-color-success);
+}
+
+button {
+    margin: 10px;
+    margin-left: 10px;
+}
+
+.form-group label {
+    margin-bottom: 10px;
+}

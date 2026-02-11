@@ -1,0 +1,52 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">{{title}}</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg">
+    <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="Form">
+
+        <div class="row">
+            <div class="col-xl-4">
+                <label for="Customer"> <span style="color: black;"> Part No: {{partData.PartNo || '-'}} </span> </label>
+            </div>
+            <div class="col-xl-4">
+                <label for="Customer"><span style="color: black;"> Current Quantity: {{partData.ShopCurrentQuantity ||
+                        '-'}} </span></label>
+            </div>
+            <div class="col-xl-4">
+                <label for="Customer"> <span style="color: black;"> Total Quantity: {{partData.ShopTotalQuantity ||
+                        '-'}} </span></label>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="form-group">
+                    <label *ngIf="partData.Type == 0" for="Customer mb-1">Stock In Quantity : <span class="red">*</span></label>
+                    <label *ngIf="partData.Type == 1" for="Customer mb-1">Reduce Quantity : <span class="red">*</span></label>
+                    <input *ngIf="partData.Type == 0" type="text" class="form-control " placeholder="Enter Stock In Quantity" name="Quantity"
+                        formControlName="Quantity">
+                    <input *ngIf="partData.Type == 1" type="text" class="form-control " placeholder="Enter Reduce Quantity" name="Quantity"
+                        formControlName="Quantity">
+                    <span class="text-danger"
+                        *ngIf="(FormControl.Quantity.touched || submitted) && FormControl.Quantity.errors?.required">
+                        Quantity is required
+                    </span>
+
+                    <span class="text-danger"
+                        *ngIf="(FormControl.Quantity.touched || submitted) && ( FormControl.Quantity.errors?.min || FormControl.Quantity.errors?.max)">
+                        Quantity must be grater than 0 and less than or equal to {{partData.ShopCurrentQuantity}}
+                    </span>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <div class="text-right pt-2 mt-0">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light ml-1">Save</button>
+        </div>
+
+    </form>
+</div>

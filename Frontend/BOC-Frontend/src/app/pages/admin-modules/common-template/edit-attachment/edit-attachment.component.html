@@ -1,0 +1,67 @@
+<div class="modal-header">
+    <h4 class="modal-title">Edit Attachment</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4">
+
+    <div class="col-xl-12">
+        <div class="row">
+            <div class="col-12">
+
+                <span *ngIf="AttachmentMimeType == 'application/pdf'">
+                    <a href="{{Attachment}}" target="_blank">
+                        <img src="../../../../../assets/images/attachment/{{attachmentThumb['application/pdf'].thumb}}"
+                            class="img-fluid img-thumbnail" ngbTooltip="{{AttachmentOriginalFile}}" width="200"
+                            alt="work-thumbnail">
+                    </a>
+                </span>
+                <span *ngIf="AttachmentMimeType == 'image/jpeg'">
+                    <a href="{{Attachment}}" target="_blank">
+                        <img src="{{Attachment}}" class="img-fluid img-thumbnail"
+                            ngbTooltip="{{AttachmentOriginalFile}}" width="200" alt="work-thumbnail">
+                    </a>
+                </span>
+                <span *ngIf="AttachmentMimeType == 'image/png'">
+                    <a href="{{Attachment}}" target="_blank">
+                        <img src="{{Attachment}}" class="img-fluid img-thumbnail"
+                            ngbTooltip="{{AttachmentOriginalFile}}" width="200" alt="work-thumbnail">
+                    </a>
+                </span>
+                <span *ngIf="AttachmentMimeType == 'application/msword'">
+                    <a href="{{Attachment}}" target="_blank">
+                        <img src="../../../../../assets/images/attachment/{{attachmentThumb['application/msword'].thumb}}"
+                            class="img-fluid img-thumbnail" ngbTooltip="{{AttachmentOriginalFile}}" width="200"
+                            alt="work-thumbnail">
+                    </a>
+                </span>
+                <span *ngIf="AttachmentMimeType == 'application/vnd.ms-excel'">
+                    <a href="{{Attachment}}" target="_blank">
+                        <img src="../../../../../assets/images/attachment/{{attachmentThumb['application/vnd.ms-excel'].thumb}}"
+                            class="img-fluid img-thumbnail" ngbTooltip="{{AttachmentOriginalFile}}" width="200"
+                            alt="work-thumbnail">
+                    </a>
+                </span>
+                <span *ngIf="AttachmentMimeType == 'text/csv'">
+                    <a href="{{Attachment}}" target="_blank">
+                        <img src="../../../../../assets/images/attachment/{{attachmentThumb['text/csv'].thumb}}"
+                            class="img-fluid img-thumbnail" ngbTooltip="{{AttachmentOriginalFile}}" width="200"
+                            alt="work-thumbnail">
+                    </a>
+                </span>
+
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-12">
+                <h5 class="m-t-0 mb-2">Description</h5>
+                <textarea class="form-control" row="10" [(ngModel)]="AttachmentDesc" name="AttachmentDesc"></textarea>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="modal-footer modal-lg">
+        <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+        <button class="btn btn-success waves-effect waves-light" (click)="onSubmit()">Save</button>
+    </div>
+</div>

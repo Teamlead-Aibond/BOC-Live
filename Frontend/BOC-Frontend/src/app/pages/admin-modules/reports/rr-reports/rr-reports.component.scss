@@ -1,0 +1,122 @@
+.searchbt {
+    margin-top: 29px;
+}
+.spin-loader {
+    top: -16px !important;
+    position: absolute;
+    left: 6px;
+}
+.active {
+    border-color: blue;
+}
+
+.sidebar-heading {
+    padding: 25px;
+    color: #fff;
+    text-align: center;
+}
+
+table.datatables {
+    margin-top: 15px !important;
+}
+
+button.btn.btn-sm.btn-link {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.button-list {
+    position: relative;
+    top: 43px;
+    z-index: 1;
+}
+
+.searchbt {
+    margin-top: 29px;
+}
+
+.block {
+    display: block;
+}
+
+.form-check-inline {
+    margin-bottom: 10px !important;
+    width: 31.3% !important;
+}
+
+i.remixicon-arrow-drop-down-line {
+    font-size: 30px;
+    float: right;
+}
+
+.table-responsive {
+    overflow: auto !important;
+}
+
+.datatables thead tr th {
+    min-width:205px !important;
+    vertical-align: top;
+}
+#datatable-angular-SoByMonthly {
+    font-size: 1.2rem;
+}
+
+.customerbg {
+    font-weight: bold;
+    padding: 5px 10px;
+    background-color: #fbcfd6;
+    border: 1px solid #efa0ac;
+    color: #333333;
+    float: center;
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact !important;
+}
+
+.checkboxouter {
+    margin-left: 15px;
+    padding-top: 45px;
+}
+
+.button-list {
+    position: relative;
+    top: -30px !important;
+}
+
+.form-check-label {
+    margin-bottom: 0;
+    color: #333;
+}
+
+.row.copyright {
+    margin-top: 6px;
+    padding: 0 10px;
+}
+
+.topic {
+    // background-color: #000;
+    font-weight: bold;
+    padding: 5px 10px;
+    background-color: #fbcfd6;
+    border: 1px solid #efa0ac;
+    color: #333333;
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact !important;
+    float: center !important;
+}
+
+.heading {
+    color: #09518e !important;
+    background-color: #fff;
+    border-top: 0px solid #333 !important;
+    border-bottom: 0px solid #333 !important;
+    -webkit-print-color-adjust: exact !important;
+    text-align: center;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+@media screen and (max-width:640px) {
+    .block .form-check-inline {
+        width: 100% !important;
+    }
+}

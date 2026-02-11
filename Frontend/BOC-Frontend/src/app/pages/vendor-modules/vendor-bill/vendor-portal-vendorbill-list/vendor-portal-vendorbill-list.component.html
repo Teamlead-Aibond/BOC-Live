@@ -1,0 +1,172 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="sideNavcontainer">
+    <div class="row">
+        <div class="col-xl-9">
+            <app-page-title title="Vendor Bill List"></app-page-title>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div style="padding-bottom:0;" class="card-body">
+                    <div class="card-title">
+                        <div style="font-size: 15px;position: relative;font-weight: bold;">
+                            <ngb-tabset class="nav-bordered" type="tabs">
+                                <ngb-tab title="Search" class="nav-item d-none d-sm-inline-block">
+                                    <ng-template ngbTabContent>
+                                        <ng-template [ngTemplateOutlet]="Search"></ng-template>
+                                    </ng-template>
+                                </ngb-tab>
+
+                            </ngb-tabset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card-box">
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <!-- Table -->
+                        <div class="table-responsive">
+                            <table id="datatable-angular" datatable [dtOptions]="dtOptions"
+                                class="table datatables dt-responsive hover nowrap">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Vendor Bill #</th>
+                                        <th>RR #</th>
+                                        <th>PO #</th>
+                                        <th>Status</th>
+                                        <th>Grand Total</th>
+                                        <th>Vendor Bill Type</th>
+                                        <th>Invoice Date</th>
+                                        <th>Due Date</th>
+                                        <th>InvoiceDate To</th>
+                                        <th>DueDateTo</th>
+                                        <th>Action</th>
+
+                                    </tr>
+                                </thead>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Search -->
+<ng-template #Search>
+    <!-- <form class="form" role="form" [formGroup]="searchForm"> -->
+    <div class="row collapse pt-2 mb-4 show">
+        <!-- <div class="col-12 col-sm-3 col-md-3 col-xl-2">
+            <label class="control-label">Customer Code</label>
+            <input type="text" [(ngModel)]="CustomerCode" class="form-control" id="CustomerCode"
+                placeholder="Enter Customer Code">
+        </div> -->
+        <div class="col-12 col-sm-3 col-md-3 col-xl-2">
+            <label class="control-label">Repair Request # </label>
+            <input type="text" class="form-control" placeholder="Enter Repair Request #" [(ngModel)]="RRNo">
+
+        </div>
+        <div class="col-12 col-sm-3 col-md-3 col-xl-2">
+            <label class="control-label">Vendor Invoice #</label>
+            <input type="text" class="form-control" placeholder="Enter Vendor Invoice #" [(ngModel)]="VendorInvoiceNo">
+        </div>
+        <div class="col-12 col-sm-3 col-md-3 col-xl-2">
+            <label class="control-label">PO #</label>
+            <input type="text" class="form-control" placeholder="Enter PO #" [(ngModel)]="PONo">
+        </div>
+
+        <div class="col-12 col-sm-3 col-md-3 col-xl-2">
+            <label class="control-label">Invoice Date From</label>
+            <div class="input-group clockpicker">
+                <input ngbDatepicker class="form-control" [(ngModel)]="InvoiceDate"
+                    (ngModelChange)="InvoiceDateFormat(InvoiceDate)" autoClose="false" placeholder="MM/DD/YYYY"
+                    #Invoice_Date_from="ngbDatepicker">
+                <div class="input-group-append" (click)="Invoice_Date_from.toggle()">
+                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-3 col-md-3 col-xl-2">
+            <label class="control-label">Invoice Date To</label>
+            <div class="input-group clockpicker">
+                <input ngbDatepicker class="form-control" [(ngModel)]="InvoiceDateTo"
+                    (ngModelChange)="InvoiceDateToFormat(InvoiceDateTo)" autoClose="false" placeholder="MM/DD/YYYY"
+                    #Invoice_Date_to="ngbDatepicker">
+                <div class="input-group-append" (click)="Invoice_Date_to.toggle()">
+                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-3 col-md-3 col-xl-2">
+
+            <label class="control-label">Due Date From</label>
+            <div class="input-group clockpicker">
+                <input ngbDatepicker class="form-control" [(ngModel)]="DueDate" (ngModelChange)="DueDateFormat(DueDate)"
+                    autoClose="false" placeholder="MM/DD/YYYY" #Due_Date_from="ngbDatepicker">
+                <div class="input-group-append" (click)="Due_Date_from.toggle()">
+                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="col-12 col-sm-3 col-md-3 col-xl-2 mt-2">
+            <label class="control-label">Due Date To</label>
+            <div class="input-group clockpicker">
+                <input ngbDatepicker class="form-control" [(ngModel)]="DueDateTo"
+                    (ngModelChange)="DueDateToFormat(DueDateTo)" autoClose="false" placeholder="MM/DD/YYYY"
+                    #Due_Date_to="ngbDatepicker">
+                <div class="input-group-append" (click)="Due_Date_to.toggle()">
+                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-3 col-md-3 col-xl-2 mt-2">
+            <label class="control-label">Vendor Invoice Type</label>
+            <select class="custom-select" [(ngModel)]="VendorInvoiceType">
+                <option value="">Select</option>
+                <option value="0">Regular</option>
+                <option value="2">Repair</option>
+                <option value="3">Doorship</option>
+            </select>
+        </div>
+
+        <div class="col-12 col-sm-3 col-md-3 col-xl-2 mt-2">
+            <label class="control-label">Status</label>
+            <select class="custom-select" [(ngModel)]="Status">
+                <option value="">Select</option>
+                <option *ngFor="let invoice_status of Invoice_Status" value="{{invoice_status.Invoice_StatusId}}">
+                    {{invoice_status.Invoice_StatusName}}</option>
+            </select>
+        </div>
+
+        <div class="col-12 col-sm-3 col-md-3 col-xl-4" style="padding-top:41px;">
+            <input type="button" class="btn btn-primary btn-md mr-2" value="Search" (click)="onFilter($event)" />
+            <input type="button" class="btn btn-secondary btn-md mr-2" value="Clear" (click)="onClear($event)" />
+        </div>
+    </div>
+    <!-- </form> -->
+</ng-template>

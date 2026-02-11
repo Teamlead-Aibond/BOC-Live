@@ -1,0 +1,346 @@
+<div class="container-fluid inv-dahboard">
+    <app-page-title title="Inventory RFID Dashboard" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-xl-12">
+
+            <div class="row">
+                <div class="col-xl-12 nopad">
+                    <h4 class="header-title text-center pl15" style="width:100%;font-size:1.2rem;"><span class="mt-2">Today</span> <input class="selectpicker sepick" type="text" ngxDaterangepickerMd [(ngModel)]="dateTodayFilter" [showCustomRangeLabel]="true" [keepCalendarOpeningWithRange]="true" [timePicker]="false" [alwaysShowCalendars]="true"
+                            [ranges]="ranges" [linkedCalendars]="true" startKey="FromDate" endKey="ToDate" [isInvalidDate]="isInvalidDate" [showClearButton]="true" readonly (ngModelChange)="onTodayStatisticsCount()">
+                    </h4>
+                    <!-- <button (click)="showSuccessToaster()">Success</button> -->
+                    <!-- <button (click)="showToasterSuccess()">
+                        Success Toaster
+                    </button> -->
+                    <span class="clear15"></span>
+                    <div class="col-12 col-xl-3 col-sm-6 col-md-6 float-left">
+                        <div class="widget-bg-color-icon card-box card-dashpad dhh">
+                            <div class="avatar-lg rounded-circle bg-icon-danger float-left col-4">
+                                <i class="fas fa-truck-loading font23 avatar-title text-white"></i>
+                            </div>
+                            <div class="rct col-8">
+                                <h3 class="tdd"><span>{{TodayStatisticsCount.StockIn || 0}}</span></h3>
+                                <p class="text-mute-blue mb-0">Stock In</p>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-xl-3 col-sm-6 col-md-6 float-left">
+                        <div class="widget-bg-color-icon card-box card-dashpad dhh">
+                            <div class="avatar-lg rounded-circle bg-icon-info float-left col-4">
+                                <i class="mdi mdi-truck-fast font35 avatar-title text-white"></i>
+                            </div>
+                            <div class="rct col-8">
+                                <h3 class="tdd"><span>{{TodayStatisticsCount.StockOut || 0}}</span></h3>
+                                <p class="text-mute-blue mb-0">Stock Out</p>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-xl-3 col-sm-6 col-md-6 float-left">
+                        <div class="widget-bg-color-icon card-box card-dashpad dhh">
+                            <div class="avatar-lg rounded-circle bg-icon-warning float-left col-4">
+                                <i class="mdi mdi-truck-delivery font28 avatar-title text-white"></i>
+                            </div>
+                            <div class="rct col-8">
+                                <h3 class="tdd"><span>{{TodayStatisticsCount.ReadyForShipping || 0}}</span></h3>
+                                <p class="text-mute-blue mb-0">Ready for Shipping</p>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-xl-3 col-sm-6 col-md-6 float-left">
+                        <div class="widget-bg-color-icon card-box card-dashpad dhh">
+                            <div class="avatar-lg rounded-circle bg-icon-success float-left col-4">
+                                <i class="fas fa-house-damage font28 avatar-title text-white"></i>
+                            </div>
+                            <div class="rct col-8">
+                                <h3 class="tdd"><span>{{TodayStatisticsCount.Damage || 0}}</span></h3>
+                                <p class="text-mute-blue mb-0">Damaged</p>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card-box is-wrap">
+                <div class="row">
+                    <div class="col-xl-12">
+
+                        <div class="col-xl-6 col-sm-6 col-md-6 lpe float-left">
+                            <div style="margin-bottom: 0;" class="card">
+                                <div class="card-header bg-white text- header-title h4 border-0 my-1">
+                                    <h2>Loss Prevention (Exit Antena) - Live Tracking</h2>
+                                    <div *ngFor="let lpr of rfidExitGateReaderData">
+                                        <div (click)="setPartImage()" *ngIf="lpr?.inventory?.StockOutId > 0" class="alert {{lpr?.inventory?.StockOutId <= 0 ? 'alert-danger' : 'alert-success'}} w-100" role="alert">
+                                            <i class="mdi mdi-check-all mr-2"></i> Part No
+                                            <strong>{{lpr?.inventory?.PartNo}}</strong><br />
+                                            <i class="mdi mdi-check-all mr-2"></i> Sl No
+                                            <strong>{{lpr?.inventory?.SerialNo}}</strong>, Tag No
+                                            <strong>{{lpr?.tagInventoryEvent?.epcHexShort}}</strong> <span class="float-right"><i class="far fa-calendar-alt"></i> {{lpr.timestamp
+                                                | date: "medium"
+                                                }}</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-sm-6 col-md-6 lpe float-left">
+                            <div style="margin-bottom: 0;" class="card">
+                                <div class="card-header bg-white text- header-title h4 border-0 my-1">
+                                    <h2>Part Item Location</h2>
+
+                                    <img [src]="partLocationImage" onerror="this.src='assets/images/A1.jpg'" style="width: 100%;
+                                    height: auto;" />
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-sm-6 col-md-6 lpe float-left">
+                            <div style="margin-bottom: 0;" class="card">
+                                <div class="card-header bg-white text- header-title h4 border-0 my-1">
+                                    <h2>Stokout - Live Monitoring</h2>
+                                    <div *ngFor="let lpr of rfidExitGateReaderData">
+                                        <div (click)="setPartImage()" *ngIf="lpr?.inventory?.StockOutId > 0" class="alert {{lpr?.inventory?.StockOutId <= 0 ? 'alert-danger' : 'alert-success'}} w-100" role="alert">
+                                            <i class="mdi mdi-check-all mr-2"></i> Part No
+                                            <strong>{{lpr?.inventory?.PartNo}}</strong><br />
+                                            <i class="mdi mdi-check-all mr-2"></i> Sl No
+                                            <strong>{{lpr?.inventory?.SerialNo}}</strong>, Tag No
+                                            <strong>{{lpr?.tagInventoryEvent?.epcHexShort}}</strong> <span class="float-right"><i class="far fa-calendar-alt"></i> {{lpr.timestamp
+                                                | date: "medium"
+                                                }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-sm-6 col-md-6 float-left">
+                            <app-portlet title="Line with Data Labels" headerClass="header-title h4 border-0 my-1" (onContentRefresh)="contentRefresh()" color="white" headerClass="header-title h4 border-0 my-1">
+
+
+                                <!-- <div class="card-widgets">
+                        
+                        <a href="javascript: void(0);" (click)="_toggleWindow()" class="mdi mdi-arrow-expand ml-1"></a>
+                    </div> -->
+                                <div class="row ml-4">
+                                    <input class="selectpicker sepickchart" type="text" ngxDaterangepickerMd [(ngModel)]="LinchartFilter" [showCustomRangeLabel]="true" [keepCalendarOpeningWithRange]="true" [timePicker]="false" [alwaysShowCalendars]="true" [ranges]="ranges" [linkedCalendars]="true"
+                                        startKey="FromDate" endKey="ToDate" [isInvalidDate]="isInvalidDate" (ngModelChange)="Linechart()" [showClearButton]="true" readonly>
+                                </div>
+                                <!-- line with data labels chart -->
+                                <div class="card-body pt-0" *ngIf="arrLength > 0">
+                                    <apx-chart [series]="linewithDataChart.series" [chart]="linewithDataChart.chart" [colors]="linewithDataChart.colors" [stroke]="linewithDataChart.stroke" [title]="linewithDataChart.title" [dataLabels]="linewithDataChart.dataLabels" [responsive]="linewithDataChart.responsive"
+                                        [legend]="linewithDataChart.legend" [xaxis]="linewithDataChart.xaxis" [yaxis]="linewithDataChart.yaxis" [stroke]="linewithDataChart.stroke" [markers]="linewithDataChart.markers">
+                                    </apx-chart>
+                                </div>
+                            </app-portlet>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-12 nopad">
+            <div class="col-xl-3 col-sm-3 col-md-3 float-left">
+                <div class="card-box">
+                    <h4 class="header-title mb-2 damm">Latest Stock In</h4>
+
+                    <div class="inbox-widget" appSlimScroll style="max-height: 394px;" *ngIf="LatestStockInList.length != 0">
+                        <div class="inbox-item" *ngFor="let stockin of LatestStockInList">
+                            <div class="col-12 nopad">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="inbox-item-author bg-grn">RFID NO - {{stockin.RFIDTagNo}}</p>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <p class="inbox-item-author">Part No - {{stockin.PartNo}}</p>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p class="inbox-item-author">Serial No - {{stockin.SerialNo}}</p>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p class="inbox-item-text"><i class="far fa-calendar-alt dam"></i> {{stockin.Created|dateTransform}} <i class="mdi mdi-update dam-time"></i> {{stockin.Created|date:'shortTime'}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-12 text-center pt-2"><button routerLink="/admin/inventory/stockin-list" type="button" class="btn btn-success waves-effect waves-light">View More</button></div>
+                    </div>
+                    <div class="inbox-widget" *ngIf="LatestStockInList.length == 0">
+                        <div class="inbox-item">
+                            <div class="col-12 nopad">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="inbox-item-author">No Records Available</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-sm-3 col-md-3 float-left">
+                <div class="card-box">
+                    <h4 class="header-title mb-2 sobb">Latest Stock Out</h4>
+
+                    <div class="inbox-widget" appSlimScroll style="max-height: 394px;" *ngIf="LatestStockOutList.length != 0">
+                        <div class="inbox-item" *ngFor="let stockout of LatestStockOutList">
+
+                            <div class="col-12 nopad">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="inbox-item-author bg-blu">RFID NO - {{stockout.RFIDTagNo}}</p>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <p class="inbox-item-author">Part No - {{stockout.PartNo}}</p>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p class="inbox-item-author">Serial No - {{stockout.SerialNo}}</p>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p class="inbox-item-text"><i class="far fa-calendar-alt sob"></i> {{stockout.Created|dateTransform}} <i class="mdi mdi-update sob-time"></i> {{stockout.Created|date:'shortTime'}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-12 text-center pt-2"><button routerLink="/admin/inventory/stockout-Historylist" type="button" class="btn btn-primary waves-effect waves-light">View More</button></div>
+                    </div>
+
+                    <div class="inbox-widget" *ngIf="LatestStockOutList.length == 0">
+                        <div class="inbox-item">
+                            <div class="col-12 nopad">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="inbox-item-author">No Records Available</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-sm-3 col-md-3  float-left">
+                <div class="card-box">
+                    <h4 class="header-title mb-2 rfss">Stock Out (Ready for shipping)</h4>
+
+                    <div class="inbox-widget" appSlimScroll style="max-height: 394px;" *ngIf="StockOutInWarehouse.length != 0">
+                        <div class="inbox-item" *ngFor="let stockoutstillin of StockOutInWarehouse">
+
+
+                            <div class="col-12 nopad">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="inbox-item-author bg-ylw">RFID NO - {{stockoutstillin.RFIDTagNo}}</p>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <p class="inbox-item-author">Part No - {{stockoutstillin.PartNo}}</p>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p class="inbox-item-author">Serial No - {{stockoutstillin.SerialNo}}</p>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p class="inbox-item-text"><i class="far fa-calendar-alt rfs"></i> {{stockoutstillin.Created | dateTransform}} <i class="mdi mdi-update rfs-time"></i> {{stockoutstillin.Created|date:'shortTime'}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-12 text-center pt-2"><button type="button" routerLink="/admin/inventory/stockout-list" class="btn btn-warning waves-effect waves-light">View More</button></div>
+                    </div>
+
+
+                    <div class="inbox-widget" *ngIf="StockOutInWarehouse.length == 0">
+                        <div class="inbox-item">
+                            <div class="col-12 nopad">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="inbox-item-author">No Records Available</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-sm-3 col-md-3 float-left">
+                <div class="card-box">
+                    <h4 class="header-title mb-2 sibb">Loss Prevention Log</h4>
+
+                    <div class="inbox-widget" appSlimScroll style="max-height: 394px;" *ngIf="PartsExistWithOutEntry.length != 0">
+
+                        <div class="inbox-item" *ngFor="let partsExistWithOutEntry of PartsExistWithOutEntry">
+
+
+                            <div class="col-12 nopad">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="inbox-item-author bg-ping">RFID NO - {{partsExistWithOutEntry.RFIDTagNo}}
+                                        </p>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <p class="inbox-item-author">Part No - {{partsExistWithOutEntry.PartNo}}</p>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p class="inbox-item-author">Serial No - {{partsExistWithOutEntry.SerialNo}}</p>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p class="inbox-item-text"><i class="far fa-calendar-alt sib"></i> {{partsExistWithOutEntry.Created | dateTransform}} <i class="mdi mdi-update sib-time"></i> {{partsExistWithOutEntry.Created | date:'shortTime'}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-12 text-center pt-2"><button type="button" class="btn btn-danger waves-effect waves-light">View More</button></div>
+                    </div>
+
+                    <div class="inbox-widget" *ngIf="PartsExistWithOutEntry.length == 0">
+                        <div class="inbox-item">
+                            <div class="col-12 nopad">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="inbox-item-author">No Records Available</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

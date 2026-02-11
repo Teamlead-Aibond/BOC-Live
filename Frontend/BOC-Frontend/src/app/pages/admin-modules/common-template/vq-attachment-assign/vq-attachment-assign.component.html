@@ -1,0 +1,42 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">Add/Change Assign To</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg">
+    <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="Form">
+        <!-- <div class="row">
+            <div class="col-xl-12">
+                <div class="form-group">
+                    <label for="Customer">Sub Status : <span class="red">*</span></label>
+
+                    <ng-select class="select1" name="SubStatusId" formControlName="SubStatusId" [items]="subStatusList"
+                        placeholder="Select Sub Status" bindLabel="SubStatusName" bindValue="SubStatusId"
+                        [searchable]="true">
+                    </ng-select>
+                    <span class="text-danger"
+                        *ngIf="(FormControl.SubStatusId.touched || submitted) && FormControl.SubStatusId.errors?.required">
+                        Sub Status is required
+                    </span>
+                </div>
+            </div>
+        </div> -->
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="form-group">
+                    <label for="Customer">Assign To : <span class="red">*</span></label>
+                    <ng-select class="select1" name="Assignee" formControlName="AssigneeUserId" [items]="adminList"
+                        placeholder="Assign To" bindLabel="title" bindValue="UserId" [searchable]="true">
+                    </ng-select>
+                    <span class="text-danger"
+                        *ngIf="(FormControl.AssigneeUserId.touched || submitted) && FormControl.AssigneeUserId.errors?.required">
+                        Assign To is required
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="text-right pt-2 mt-0">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light ml-1">Save</button>
+        </div>
+    </form>
+</div>

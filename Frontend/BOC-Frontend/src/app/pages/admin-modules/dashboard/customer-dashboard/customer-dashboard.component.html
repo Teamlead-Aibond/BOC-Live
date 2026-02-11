@@ -1,0 +1,351 @@
+<div class="container-fluid">
+    <app-page-title title="Dashboard 2" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <!-- content-->
+    <div class="row">
+        <div class="col-xl-5 col-sm-12 col-12">
+            <div class="">
+                <div class="card-box">
+                    <div class="table-responsive">
+                        <table class="table table-bordered countwrap">
+                            <tr>
+                                <td colspan="4">
+                                    <div class="card-box bg-primary border-primary mb-0">
+                                        <div class="text-white text-center">
+                                            <h4 class="text-white">
+                                                <b>{{time | date : 'fullDate'}}</b>
+                                            </h4>
+                                            <h2 class="text-white mb-0 ttddhh">{{time | date : 'hh:mm:ss a'}}</h2>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">
+                                    <h5 class="header-title mt-3 mb-2">Total Repairs </h5>
+                                    <div>
+                                        <h1 class="mt-0 pt-1 text-secondary mb-1 count-txt">
+                                            <span [CountTo]="14" [from]="0" [duration]="1">14</span>
+                                        </h1>
+                                        <p class="text-muted mb-0">Expected : 15</p>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <h5 class="header-title  mt-3 mb-2">Total Invoices </h5>
+                                    <div>
+                                        <h1 class="mt-0 pt-1 text-success mb-1 count-txt">
+                                            <span [CountTo]="14" [from]="0" [duration]="1">14</span>
+                                        </h1>
+                                        <p class="text-muted mb-0">Expected : 15</p>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <h5 class="header-title  mt-3 mb-2">Approved Bills</h5>
+                                    <div>
+                                        <h1 class="mt-0 pt-1 text-warning mb-1 count-txt">
+                                            <span [CountTo]="14" [from]="0" [duration]="1">14</span>
+                                        </h1>
+                                        <p class="text-muted mb-0">Expected : 15</p>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <h5 class="header-title  mt-3 mb-2">Open Bills</h5>
+                                    <div>
+                                        <h1 class="mt-0 pt-1 text-danger mb-1 count-txt">
+                                            <span [CountTo]="14" [from]="0" [duration]="1">14</span>
+                                        </h1>
+                                        <p class="text-muted mb-0">Expected : 15</p>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="text-center">
+                                    <h5 class="header-title  mt-3 mb-2">Shipment Cost</h5>
+                                    <div>
+                                        <h1 class="mt-0 pt-1 text-pink mb-1 count-txt">
+                                            <span [CountTo]="14" [from]="0" [duration]="1">14</span>
+                                        </h1>
+                                        <p class="text-muted mb-0">Expected : 15</p>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <h5 class="header-title  mt-3 mb-2">Quote Approved Cost</h5>
+                                    <div>
+                                        <h1 class="mt-0 pt-1 text-purple mb-1 count-txt">
+                                            <span [CountTo]="14" [from]="0" [duration]="1">14</span>
+                                        </h1>
+                                        <p class="text-muted mb-0">Expected : 15</p>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <h5 class="header-title  mt-3 mb-2">Approved Bills Cost</h5>
+                                    <div>
+                                        <h1 class="mt-0 pt-1 text-info mb-1 count-txt">
+                                            <span [CountTo]="14" [from]="0" [duration]="1">14</span>
+                                        </h1>
+                                        <p class="text-muted mb-0">Expected : 15</p>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <h5 class="header-title  mt-3 mb-2">Total Cost</h5>
+                                    <div>
+                                        <h1 class="mt-0 pt-1 text-primary mb-1 count-txt">
+                                            <span [CountTo]="14" [from]="0" [duration]="1">14</span>
+                                        </h1>
+                                        <p class="text-muted mb-0">Expected : 15</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end col -->
+
+        <div class="col-xl-3 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-widgets">
+                        <a data-toggle="collapse" href="#cardCollpaseCountry" role="button" aria-expanded="false" aria-controls="cardCollpaseCountry"><i class="mdi mdi-minus"></i></a>
+                        <a href="#" data-toggle="remove"><i class="mdi mdi-close"></i></a>
+                    </div>
+                    <h5 class="card-title mb-0">Top Customers</h5>
+
+                    <div id="cardCollpaseCountry" class="collapse pt-3 show">
+                        <table class="table table-bordered row-border hover">
+                            <thead class="thead-blue">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Customer Name</th>
+                                    <th>Orders</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        <a href="#">ABC TECHNOLOGIES</a>
+                                    </td>
+                                    <td>500</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>
+                                        <a href="#">AAM Twinsburg Manufacturing Facility</a>
+                                    </td>
+                                    <td>455</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>
+                                        <a href="#">Acument Global Technologies</a>
+                                    </td>
+                                    <td>385</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>
+                                        <a href="#">ABB, INC</a>
+                                    </td>
+                                    <td>360</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>
+                                        <a href="#">A FINKL & SONS</a>
+                                    </td>
+                                    <td>325</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-body topvendors">
+                    <div class="card-widgets">
+                        <a data-toggle="collapse" href="#cardCollpaseCountry" role="button" aria-expanded="false" aria-controls="cardCollpaseCountry"><i class="mdi mdi-minus"></i></a>
+                        <a href="#" data-toggle="remove"><i class="mdi mdi-close"></i></a>
+                    </div>
+                    <h5 class="card-title mb-0">Top Vendors</h5>
+
+                    <div id="cardCollpaseCountry" class="collapse pt-3 show">
+                        <table class="table table-bordered row-border hover">
+                            <thead class="thead-blue">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Vendor Name</th>
+                                    <th>Orders</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        <img src="assets/images/vendor/2v.jpg" alt="contact-img" title="contact-img" class="avatar-sm img-thumbnail" />
+                                        <a href="#">2V INDUSTRIES</a>
+                                    </td>
+                                    <td>2500</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>
+                                        <img src="assets/images/vendor/2v.jpg" alt="contact-img" title="contact-img" class="avatar-sm img-thumbnail" /> <a href="#">A & P TOOL</a>
+                                    </td>
+                                    <td>2455</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>
+                                        <img src="assets/images/vendor/2v.jpg" alt="contact-img" title="contact-img" class="avatar-sm img-thumbnail" /> <a href="#">AIRTECH CONTROLS COMPANY</a>
+                                    </td>
+                                    <td>2385</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>
+                                        <img src="assets/images/vendor/2v.jpg" alt="contact-img" title="contact-img" class="avatar-sm img-thumbnail" /> <a href="#">AH - AMERICAN HYDROSTATICS</a>
+                                    </td>
+                                    <td>2360</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>
+                                        <img src="assets/images/vendor/2v.jpg" alt="contact-img" title="contact-img" class="avatar-sm img-thumbnail" /> <a href="#">AJACS DIE SALES CORP</a></td>
+                                    <td>1925</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+        <!-- end col -->
+    </div>
+
+    <div class="row">
+        <div class="col-xl-4">
+            <div class="card-box">
+                <ng-template [ngTemplateOutlet]="CardActions"></ng-template>
+
+                <h4 class="header-title">Earning Reports</h4>
+                <p class="text-muted">1 Mar - 31 Mar Showing Data</p>
+                <h2 class="mb-4"><i class="mdi mdi-currency-usd text-primary"></i>25,632.78</h2>
+
+                <div class="row mb-4">
+                    <div class="col-6">
+                        <p class="text-muted mb-1">This Month</p>
+                        <h3 class="mt-0 font-20">$120,254 <small class="badge badge-light-success font-13">+15%</small>
+                        </h3>
+                    </div>
+
+                    <div class="col-6">
+                        <p class="text-muted mb-1">Last Month</p>
+                        <h3 class="mt-0 font-20">$98,741 <small class="badge badge-light-danger font-13">-5%</small>
+                        </h3>
+                    </div>
+                </div>
+
+                <h5 class="font-16 mb-5"><i class="mdi mdi-chart-donut text-primary"></i> Weekly Earning Report</h5>
+
+                <!-- Earning report bar chart -->
+                <apx-chart [series]="earningReportBarChart.series" [chart]="earningReportBarChart" [tooltip]="earningReportBarChart.tooltip" [colors]="earningReportBarChart.colors" [dataLabels]="earningReportBarChart.dataLabels" [plotOptions]="earningReportBarChart.plotOptions">
+                </apx-chart>
+                <!-- end chart -->
+
+            </div>
+            <!-- end card-box -->
+        </div>
+        <!-- end col -->
+        <div class="col-xl-8">
+            <div class="card-box">
+                <ng-template [ngTemplateOutlet]="CardActions"></ng-template>
+
+                <h4 class="header-title mb-3">Revenue History</h4>
+
+                <div class="table-responsive">
+                    <table class="table table-borderless table-hover table-centered m-0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Marketplaces</th>
+                                <th>Date</th>
+                                <th>US Tax Hold</th>
+                                <th>Payouts</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of tabledata">
+                                <td>
+                                    <h5 class="m-0 font-weight-normal">{{ data.marketplaces }}</h5>
+                                </td>
+                                <td>{{ data.date }}</td>
+                                <td>{{ data.taxhold }}</td>
+                                <td>{{ data.payout }}</td>
+                                <td><span class="badge" [ngClass]="{
+                                  'badge-light-success': data.status === 'Paid',
+                                  'badge-light-warning': data.status === 'Upcoming',  
+                                  'badge-light-danger': data.status === 'Overdue'  
+                              }">{{ data.status }} </span></td>
+                                <td>
+                                    <a href="javascript: void(0);" class="btn btn-xs btn-secondary"><i
+                                            class="mdi mdi-pencil"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <!-- end .table-responsive-->
+            </div>
+            <!-- end card-box-->
+        </div>
+        <!-- end col -->
+    </div>
+    <!-- end row -->
+
+</div>
+<ng-template #CardActions>
+    <div class="dropdown float-right" ngbDropdown>
+        <a href="javascript: void(0)" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false" ngbDropdownToggle>
+            <i class="mdi mdi-dots-horizontal"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
+            <!-- item-->
+            <a href="javascript:void(0);" class="dropdown-item">Settings</a>
+            <!-- item-->
+            <a href="javascript:void(0);" class="dropdown-item">Download</a>
+            <!-- item-->
+            <a href="javascript:void(0);" class="dropdown-item">Upload</a>
+            <!-- item-->
+            <a href="javascript:void(0);" class="dropdown-item">Action</a>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #CardData let-card='card'>
+    <div class="col-xl-3 col-md-6">
+        <div class="widget-simple text-center card-box">
+            <h3 class="text-{{card.color}} mt-0"><span [CountTo]="card.value" [from]="0" [duration]="1">{{card.value}}</span>
+            </h3>
+            <p class="text-muted mb-0">{{card.title}}</p>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="widget-simple text-center card-box">
+            <h3 class="text-{{card.color}} mt-0"><span [CountTo]="card.value" [from]="0" [duration]="1">{{card.value}}</span>
+            </h3>
+            <p class="text-muted mb-0">{{card.title}}</p>
+        </div>
+    </div>
+</ng-template>

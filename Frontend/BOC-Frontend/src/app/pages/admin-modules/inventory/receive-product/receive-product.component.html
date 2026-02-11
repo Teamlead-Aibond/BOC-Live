@@ -1,0 +1,177 @@
+<div class="container-fluid">
+    <app-page-title title="Receive Product" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body padstock">
+                    <div class="card-title">
+                        <div style="font-size:15px;position:relative;font-weight:bold;">
+                            <div class="row">
+                                <div class="col-12 col-xl-2">
+                                    <label class="control-label">Warehouse</label>
+                                    <select class="custom-select" [(ngModel)]="WarehouseId">
+                                        <option value="" disabled>Select</option>
+                                        <option *ngFor="let w of warehouseList" [value]="w.id">
+                                            {{w.name}}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-12 col-xl-2">
+                                    <label class="control-label">Building</label>
+                                    <select class="custom-select" [(ngModel)]="WarehouseSub1Id">
+                                        <option value="" disabled>Select</option>
+                                        <option *ngFor="let w of warehouse1List" [value]="w.id">
+                                            {{w.name}}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-12 col-xl-2">
+                                    <label class="control-label">Room</label>
+                                    <select class="custom-select" [(ngModel)]="WarehouseSub2Id">
+                                        <option value="" disabled>Select</option>
+                                        <option *ngFor="let w of warehouse2List" [value]="w.id">
+                                            {{w.name}}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-12 col-xl-2">
+                                    <label class="control-label">Row</label>
+                                    <select class="custom-select" [(ngModel)]="WarehouseSub3Id">
+                                        <option value="" disabled>Select</option>
+                                        <option *ngFor="let w of warehouse3List" [value]="w.id">
+                                            {{w.name}}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-12 col-xl-2">
+                                    <label class="control-label">Shelf</label>
+                                    <select class="custom-select" [(ngModel)]="WarehouseSub4Id">
+                                        <option value="" disabled>Select</option>
+                                        <option *ngFor="let w of warehouse4List" [value]="w.id">
+                                            {{w.name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row pt-2 show">
+                                <div class="col-12 col-xl-3">
+                                    <label class="control-label">Transfer Request Number</label>
+                                    <input type="text" class="form-control" id="firstname" [(ngModel)]="TransferNo"
+                                        placeholder="Transfer Request Number">
+                                </div>
+                                <div class="col-12 col-xl-2" style="padding-top:30px;">
+                                    <input type="button" class="btn btn-primary btn-md mr-1" (click)="onSubmit()"
+                                        value="Submit" />
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card-box pad40">
+                <form [formGroup]="AddForm">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <!-- Table -->
+                            <div class="table-responsive stockouter">
+                                <table id="datatable-angular-receiveproduct" datatable [dtOptions]="dtOptions"
+                                    [dtTrigger]="dtTrigger" class="table datatables dt-responsive hover nowrap">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Part Number</th>
+                                            <th>Part Serial number</th>
+                                            <th>Selling Price</th>
+                                            <th>Warehouse</th>
+                                            <th>Building</th>
+                                            <th>Room</th>
+                                            <th>Row</th>
+                                            <th>Shelf</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr [formGroup]="item"
+                                            *ngFor="let item of AddForm.controls.PartItems['controls']; let i = index;let last=last;">
+                                            <td>{{i + 1}}</td>
+                                            <td>{{item.value.PartNo}}</td>
+                                            <td>{{item.value.SerialNo}}</td>
+                                            <td><input type="text" formControlName="SellingPrice" class="form-control">
+                                            </td>
+                                            <td>
+                                                <select class="custom-select" formControlName="WarehouseId" required>
+                                                    <option value="" disabled>Select</option>
+                                                    <option *ngFor="let w of warehouseList" [value]="w.id"
+                                                        ng-reflect-value="1">{{w.name}}</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="custom-select" formControlName="WarehouseSub1Id"
+                                                    required>
+                                                    <option value="" disabled>Select</option>
+                                                    <option *ngFor="let w of warehouse1List" [value]="w.id"
+                                                        ng-reflect-value="1">{{w.name}}</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="custom-select" formControlName="WarehouseSub2Id"
+                                                    required>
+                                                    <option value="" disabled>Select</option>
+                                                    <option *ngFor="let w of warehouse2List" [value]="w.id"
+                                                        ng-reflect-value="1">{{w.name}}</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="custom-select" formControlName="WarehouseSub3Id"
+                                                    required>
+                                                    <option value="" disabled>Select</option>
+                                                    <option *ngFor="let w of warehouse3List" [value]="w.id"
+                                                        ng-reflect-value="1">{{w.name}}</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="custom-select" formControlName="WarehouseSub4Id"
+                                                    required>
+                                                    <option value="" disabled>Select</option>
+                                                    <option *ngFor="let w of warehouse4List" [value]="w.id"
+                                                        ng-reflect-value="1">{{w.name}}</option>
+                                                </select>
+                                            </td>
+                                            <td class="text-center">
+                                                <button style="padding:8px 12px 3px;" class="btn btn-icon waves-effect"
+                                                    title="Save" (click)="receiveOne(i)">
+                                                    <i style="font-size:16px;"
+                                                        class="mdi mdi-content-save text-secondary"></i></button>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row p-t-5">
+                        <div class="col-lg-8 col-xl-8 col-sm-4 float-left">
+                            &nbsp;
+                        </div>
+                        <div class="col-lg-4 col-xl-4 col-sm-8 col-12 float-left text-right pt-3">
+                            <input type="button" class="btn btn-secondary btn-md mt70" value="Receive All" (click)="receiveAll()">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

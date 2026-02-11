@@ -1,0 +1,802 @@
+/* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+.thead-blue {
+    background-color: #09518e;
+    color: #ffffff;
+}
+
+.avatar-sm {
+    margin-right: 10px;
+}
+
+.mt-m-15 {
+    margin-top: -15px !important;
+}
+
+.selectpicker {
+    margin-left: 0px !important;
+    width: 61% !important;
+}
+
+.p-10 {
+    padding: 10px !important;
+}
+
+// .md-drppicker {
+//     left: -347px !important;
+// }
+@media screen and (max-width:1024px) {
+    .ttddhh {
+        font-size: 23px;
+    }
+    .count-txt {
+        font-size: 1.6rem;
+    }
+    .countwrap .header-title {
+        min-height: 35px;
+        font-size: 0.95rem;
+    }
+    .countwrap p {
+        font-size: 12px;
+    }
+    .countwrap {
+        margin-bottom: 0;
+    }
+    .topvendors {
+        padding-bottom: 0 !important;
+    }
+}
+
+@media screen and (max-width:640px) {
+    .countwrap.table th,
+    .table td {
+        padding: 10px 3px 10px 5px;
+    }
+    .countwrap {
+        margin-left: -7px;
+    }
+    .countwrap .header-title {
+        min-height: 35px;
+        font-size: 0.85rem;
+    }
+    .countwrap .card-box {
+        padding: 1rem !important;
+    }
+    .fc-toolbar-title {
+        margin: 10px 0 !important;
+    }
+}
+
+.dash-wrap {
+    width: 14.285%;
+    flex: 0 0 14.285%;
+    max-width: 14.285%;
+    float: left;
+}
+
+.col-7 {
+    flex: 0 0 14.25%;
+    max-width: 14.25%;
+}
+
+.header-title {
+    //float: left;
+    width: 100%;
+    padding-top: 11px;
+    margin-bottom: 0px;
+}
+
+.sepick {
+    padding: 0 10px;
+    background: #565d66;
+    color: #fff;
+    font-weight: bold;
+}
+
+.sepickchart {
+    padding: 0 10px;
+    background: #565d66;
+    color: black;
+    font-weight: bold;
+}
+
+.card-dashpad {
+    padding: 0.9rem 1rem 0.3rem 1.3rem;
+    float: left;
+    width: 100%;
+}
+
+.dash-wrap:last-child {
+    margin-right: 0;
+}
+
+.dash-in {
+    background-color: #f9f9f9;
+    border: 1px solid #d9d9d9;
+    width: 92%;
+    padding: 12px 10px 10px;
+    border-radius: 7px;
+}
+
+.dhh {
+    min-height: 120px;
+}
+
+.text-mute-blue {
+    font-size: 16px;
+    text-align: center;
+}
+
+.pl15 {
+    padding-left: 15px;
+}
+
+.clear15 {
+    height: 1px;
+    clear: both;
+    width: 100%;
+    float: left;
+    padding-bottom: 15px;
+}
+
+.avatar-title {
+    display: flex !important;
+}
+
+.tdd {
+    font-size: 2.5rem;
+    color: #09518e !important;
+    line-height: 23px;
+    text-align: center;
+}
+
+.pad-line {
+    font-size: 1.5rem;
+    line-height: 20px;
+    text-align: center;
+}
+
+.rct {
+    float: right;
+    padding: 0;
+    text-align: right;
+}
+
+.dh3 {
+    font-size: 1.3rem;
+    text-align: center;
+    margin-bottom: 0px;
+}
+
+.dash-in h2 {
+    font-size: 1.3rem;
+    margin: 5px 0 10px 0;
+    text-align: center;
+    color: #09518e;
+}
+
+.dash-in h3 {
+    font-size: 1.5rem;
+    margin: 0 0 5px 0;
+    text-align: center;
+}
+
+.dash-in h5 {
+    font-size: 1.05rem;
+    margin: 6px 0 21px 0;
+    text-align: center;
+}
+
+.font-24 {
+    font-size: 16px !important;
+    color: #7c7c7c !important;
+}
+
+.font-28 {
+    font-size: 25px !important;
+}
+
+.greybg-icon {
+    border: 6px solid rgba(50, 58, 70, .3)!important;
+    background-color: rgba(50, 58, 70, .75)!important;
+}
+
+.card-dashpad .avatar-lg {
+    height: 3.5em !important;
+    width: 3.4rem !important;
+}
+
+ul.chart-list {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    text-align: center;
+}
+
+ul.chart-list li {
+    color: #ffffff;
+    display: inline;
+    list-style-position: inside;
+    list-style-type: none;
+    margin: 0 5px 0 0;
+    padding: 2px 10px 5px;
+    font-size: 11px;
+    line-height: 18px;
+    text-transform: uppercase;
+    height: 12px;
+    width: 12px;
+    left: 0px;
+    top: 0px;
+    border-width: 0px;
+    border-color: rgb(255, 255, 255);
+    border-radius: 12px;
+}
+
+.mt-6 {
+    margin-top: 1rem !important;
+}
+
+@media screen and (max-width:1920px) {
+    .card-dashpad .avatar-lg {
+        height: 4.5em !important;
+        width: 4.5rem !important;
+    }
+}
+
+@media screen and (max-width:1680px) {
+    .card-dashpad {
+        padding: 0.6rem 1rem 0.3rem 1.3rem;
+    }
+    .card-dashpad .avatar-lg {
+        height: 3rem !important;
+        width: 3rem !important;
+    }
+    .table-responsive {
+        overflow: auto !important;
+    }
+}
+
+@media screen and (max-width: 1600px) {
+    .nrp {
+        font-size: 13px !important;
+    }
+    .dh3 {
+        font-size: 1.1rem;
+    }
+    .card-dashpad .avatar-lg {
+        height: 3rem !important;
+        width: 3rem !important;
+    }
+}
+
+@media screen and (max-width: 1536px) {
+    .table-responsive {
+        overflow: auto !important;
+    }
+}
+
+@media screen and (max-width:1440px) {
+    .table-responsive {
+        overflow: auto !important;
+    }
+    .nrp {
+        font-size: 13px !important;
+    }
+    .card-dashpad {
+        padding: 0.5rem 0.5rem 0.7rem !important;
+    }
+    .dh3 {
+        font-size: 1.1rem;
+    }
+    .card-dashpad .avatar-lg {
+        height: 3rem !important;
+        width: 3rem !important;
+    }
+}
+
+@media screen and (max-width:1366px) {
+    .table-responsive {
+        overflow: auto !important;
+    }
+    .datatables thead tr th:before {
+        top: 6px;
+    }
+    .datatables thead tr th:after {
+        top: 14px;
+    }
+    .dh3 {
+        font-size: 1.1rem;
+    }
+    .nrp {
+        font-size: 13px !important;
+    }
+    .card-dashpad {
+        padding: 0.5rem 0.5rem 0.7rem !important;
+    }
+    .card-dashpad .avatar-lg {
+        height: 2.7rem !important;
+        width: 2.75rem !important;
+    }
+    .dhh {
+        min-height: 115px;
+    }
+}
+
+@media screen and (max-width:1280px) {
+    .table-responsive {
+        overflow: auto !important;
+    }
+    .card-dashpad .avatar-lg {
+        height: 2.7rem !important;
+        width: 2.75rem !important;
+    }
+    .sepickchart {
+        width: 35%;
+    }
+    .aw {
+        margin-top: -4px;
+    }
+}
+
+@media screen and (max-width:1152px) {
+    .col-7 .greybg-icon:first-child {
+        display: none !important;
+    }
+}
+
+@media screen and (max-width:1024px) {
+    .col-7 {
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+    .widget-bg-color-icon .float-right {
+        float: none !important;
+    }
+    .sepickchart {
+        width: 44%;
+    }
+    .sepick {
+        width: 20%;
+    }
+}
+
+@media screen and (max-width:768px) {
+    .col-7 {
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+    .widget-bg-color-icon .float-right {
+        float: none !important;
+    }
+}
+
+@media screen and (max-width:640px) {
+    .card-box {
+        padding: 1rem 1.2rem 1.5rem;
+    }
+    .header-title {
+        padding-bottom: 11px;
+    }
+    ul.chart-list li {
+        padding: 2px 5px 5px !important;
+    }
+    .widget-bg-color-icon .float-right {
+        float: none !important;
+    }
+    .card-dashpad {
+        padding: 0.5rem 0.8rem 0.7rem 1.2rem !important;
+    }
+    .apexcharts-toolbar {
+        top: -30px !important;
+    }
+}
+
+.countwrap h2 {
+    font-size: 19px;
+    margin: 0;
+    padding: 0 0 20px;
+    text-align: center;
+    color: #831238;
+    width: 100%;
+    text-transform: uppercase;
+}
+
+ng-select.selectpicker {
+    padding-top: 0 !important;
+    line-height: 10px !important;
+}
+
+.dateinput {
+    position: relative;
+    font-size: 16px;
+    font-weight: 500;
+    padding-left: 5px;
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.datedisplay {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    width: 100%;
+    align-content: center;
+    align-items: flex-start;
+}
+
+.today-inp {
+    padding-right: 0 !important;
+}
+
+.dashshadow {
+    box-shadow: 0 0 8px 0 rgb(207 207 207 / 30%) !important;
+}
+
+.effect {
+    text-shadow: 0px 1px 1px #000;
+    font-size: 20px !important;
+}
+
+.effect2 {
+    text-shadow: 0px 1px 1px #000;
+    font-size: 20px !important;
+    position: absolute;
+    left: 25px;
+    text-align: left !important;
+    width: 75% !important;
+}
+
+.statcell h4 {
+    font-size: 1.1rem;
+    margin: 0;
+    padding: 0 0 12px;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+.statcell h2 {
+    font-size: 1.2rem;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.t20 {
+    padding: 7px 0 !important;
+}
+
+.selectpicker {
+    height: 36px !important;
+}
+
+.mr-38 {
+    padding-right: 30px;
+}
+
+.w100 {
+    width: 100% !important;
+    border: 0 !important;
+}
+
+.w100 .ng-select-container {
+    height: 36px !important
+}
+
+select.selectpicker.sepick:hover,
+select.selectpicker.sepick:focus {
+    outline: none !important;
+}
+
+.pt30 {
+    width: 100%;
+    font-size: 1.2rem;
+}
+
+.nopad-lt {
+    padding-left: 0;
+}
+
+.nopad-rt {
+    padding-right: 0;
+}
+
+.ml-10 {
+    margin-left: 10px;
+}
+
+.lt-black {
+    color: #343a40;
+}
+
+.dateicon {
+    position: absolute;
+    right: 2px;
+    z-index: 1;
+    top: 0;
+}
+
+.ng-select {
+    display: block;
+    position: relative;
+}
+
+.select-w100 {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.countwrap .card-body {
+    padding: 1.5rem 1.5rem 1.2rem;
+}
+
+.selectpicker {
+    height: 36px;
+    background: #fbfbfb;
+}
+
+.ng-autocomplete {
+    width: 100% !important;
+}
+
+ng-autocomplete.ng-autocomplete.selectpicker {
+    padding-left: 0 !important;
+}
+
+.nopad-rt {
+    padding-right: 0;
+}
+
+@media (max-width:1680px) {
+    .statcell .dashshadow {
+        min-height: auto;
+    }
+}
+
+@media (max-width:1024px) {
+    .effect {
+        font-size: 18px !important;
+    }
+    .dashshadow {
+        min-height: auto !important;
+        padding-bottom: 15px;
+    }
+    // .dashshadow {
+    //     min-height: 100px;
+    // }
+    .statcell h4 {
+        line-height: 18px;
+    }
+    .countwrap .card-body {
+        padding: 1rem 1.5rem 1.2rem;
+    }
+    .dtab {
+        min-height: 85px;
+    }
+}
+
+@media (max-width:768px) {
+    // .dashshadow {
+    //     min-height: 90px;
+    // }
+    .dashshadow {
+        min-height: auto !important;
+        padding-bottom: 15px;
+    }
+    .dtab {
+        min-height: 85px;
+    }
+}
+
+@media (max-width:640px) {
+    .dashshadow {
+        min-height: auto !important;
+        padding-bottom: 15px;
+    }
+    .countwrap .card-body {
+        padding-top: 0.8rem !important;
+    }
+    .today-inp {
+        margin-bottom: 10px;
+    }
+}
+
+///second row css
+.countwrap .card-body {
+    padding: 1.5rem 1.5rem 1.2rem;
+}
+
+.countwrap1 .card-body {
+    padding: 1.5rem 1.5rem 1.2rem;
+    height: 255px;
+}
+
+.countwrap2 .card-body {
+    padding: 1.5rem 1.5rem 1.2rem;
+    height: 360px;
+}
+
+.countwrap3 .card-body {
+    padding: 1.5rem 1.5rem 1.2rem;
+    height: 310px;
+}
+
+.dashshadow {
+    //box-shadow: 0 0 8px 0 rgb(207 207 207 / 30%) !important;
+    border-radius: 12px;
+    box-shadow: 0 6px 10px -4px rgba(0, 0, 0, .15) !important;
+}
+
+.s-txt {
+    font-size: .85rem;
+    color: crimson;
+}
+
+.txt-clr {
+    color: #09518e;
+}
+
+.txt-clr1 {
+    color: #000000;
+}
+
+.font30 {
+    font-size: 1rem !important;
+}
+
+.font35 {
+    font-size: 2rem !important;
+}
+
+.rcolor {
+    color: #ff0000;
+}
+
+.effect3 {
+    font-size: 1.2rem;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    display: flex;
+}
+
+.rbadge {
+    display: inline-block;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 10rem;
+    overflow: hidden;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.rbadge-secondary {
+    color: #fff;
+    height: 2.5rem;
+    width: 2.5rem;
+    font-size: 1.3rem;
+    justify-content: center !important;
+    align-items: center !important;
+    display: flex;
+}
+
+.rsuccess {
+    background-color: #09518e;
+    ;
+    border-color: #09518e
+}
+
+.rprimary {
+    background-color: #3bafda;
+    border-color: #3bafda;
+}
+
+.rdanger {
+    background-color: #f1556c;
+    border-color: #f1556c;
+}
+
+.rwarning {
+    background-color: #f7b84b;
+    border-color: #f7b84b;
+}
+
+.rinfo {
+    background-color: #37cde6;
+    border-color: #37cde6;
+}
+
+.rpink {
+    background-color: #f672a7;
+    border-color: #f672a7;
+}
+
+.rpurple {
+    background-color: #4a3cc3;
+    border-color: #4a3cc3;
+}
+
+.border {
+    border: 1px solid #dee2e6 !important;
+}
+
+.softinfo {
+    color: #37cde6;
+    background-color: rgba(55, 205, 230, .18);
+    border-color: rgba(55, 205, 230, .12);
+}
+
+.softsuccess {
+    color: #1abc9c;
+    background-color: rgba(121, 245, 220, .18);
+    border-color: rgba(26, 188, 156, .12);
+}
+
+.softprimary {
+    color: #3bafda;
+    background-color: rgba(122, 215, 249, .18);
+    border-color: rgba(59, 175, 218, .12);
+}
+
+.softwarning {
+    color: #f7b84b;
+    background-color: rgba(247, 184, 75, .18);
+    border-color: rgba(247, 184, 75, .12);
+}
+
+.softdanger {
+    color: #f1556c;
+    background-color: rgba(251, 165, 178, .18);
+    border-color: rgba(241, 85, 108, .12);
+}
+
+.softpurple {
+    color: #6559cc;
+    background-color: rgba(196, 190, 247, .18);
+    border-color: rgba(101, 89, 204, .12);
+}
+
+.softpink {
+    color: #f672a7;
+    background-color: rgba(255, 178, 209, .18);
+    border-color: rgba(246, 114, 167, .12);
+}
+
+.effect {
+    text-shadow: 0px 1px 1px #000;
+    font-size: 20px !important;
+}
+
+.col-5 {
+    flex: 0 0 20%;
+    max-width: 20%;
+}
+
+@media screen and (max-width:1152px) {
+    .col-5 .greybg-icon:first-child {
+        display: none !important;
+    }
+}
+
+@media screen and (max-width:1024px) {
+    .col-5 {
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+}
+
+@media screen and (max-width:768px) {
+    .col-5 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}

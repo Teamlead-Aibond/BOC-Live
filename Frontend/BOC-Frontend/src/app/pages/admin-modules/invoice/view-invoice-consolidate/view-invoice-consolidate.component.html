@@ -1,0 +1,79 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="container-fluid" *ngIf="IsViewEnabled">
+    <div class="row">
+        <div class="col-xl-9">
+            <app-page-title title="Consolidate Invoice View"> </app-page-title>
+        </div>
+        <div class="col-xl-3">
+            <a class="gridview-ico" (click)="onbackToList()" ngbTooltip="Grid List" *ngIf="IsViewEnabled">
+                <img src="../../../../assets/images/icons/Grid.png">
+            </a>
+        </div> 
+    </div>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card-box ribbon-box">
+               
+                <div class="row">
+
+                    <div class="col-xl-12 sales-right">
+                        <div class="row mb-10 d-print-none">
+                            <div class="col-xl-6 col-sm-6 col-12">
+                                <h2>Consolidate Invoice #{{InvoiceInfo.CInvoiceNo}}</h2>
+                            </div>
+                            <div class="col-xl-6 col-sm-6 col-12">
+                                <div class="btn-group btn-group-sm float-right" role="group">
+                                    <button ngbTooltip="Edit" *ngIf="IsEditEnabled" placement="top" class="btn btn-icon waves-effect"
+                                        title="Edit" type="button">
+                                        <a [routerLink]="['/admin/ConsolidateInvoice-Edit']" [queryParams]="{ConsolidateInvoiceId: this.ConsolidateInvoiceId}"
+                                            target="_blank" class="btn btn-icon waves-effect">
+                                            <i class="remixicon-pencil-line"></i>
+                                        </a>
+                                    </button>
+                    
+                    
+                    
+                                    <button *ngIf="IsPrintPDFEnabled"  ngbTooltip="Export to PDF" placement="top" value="Download"
+                                        class="btn btn-icon waves-effect" (click)="generatePDF()" title="Export to PDF">
+                                        <i class="mdi mdi-file-pdf-outline"></i></button>
+                    
+                    
+                    
+                    
+                                    <button  *ngIf="IsPrintPDFEnabled" ngbTooltip="Print" (click)="generatePrint()" placement="top"
+                                        class="btn btn-icon waves-effect" title="Print">
+                                        <i class="fe-printer "></i></button>
+                    
+                                    <button *ngIf="IsDeleteEnabled" ngbTooltip="Delete" placement="top" (click)="onDelete()"
+                                        class="btn btn-icon bg-danger waves-effect" title="Delete" type="button">
+                                        <i class="mdi mdi-delete-outline"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card-box nopad">
+                                    <app-consolidate-invoice-view [ConsolidateInvoiceId]="ConsolidateInvoiceId">
+                                    </app-consolidate-invoice-view>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<ngx-spinner #ngxSpinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-spin-clockwise"
+    [fullScreen]="true"></ngx-spinner>

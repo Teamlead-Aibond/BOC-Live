@@ -1,0 +1,47 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">Edit Terms</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg">
+    <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="TermsEditForm">
+
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Terms Name : <span class="red">*</span></label>
+                    <input type="hidden" class="form-control" name="TermsId" formControlName="TermsId">
+                    <input type="text" class="form-control" placeholder="Enter Terms Name" name="TermsName" formControlName="TermsName">
+                    <span class="text-danger" *ngIf="(TermsEditFormControl.TermsName.touched || submitted) && TermsEditFormControl.TermsName.errors?.required">
+                    Terms Name is required
+                    </span>
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Terms Days : <span class="red">*</span></label>
+                    <input type="text" class="form-control" placeholder="Enter Terms Days" name="TermsDays" formControlName="TermsDays">
+                    <span class="text-danger" *ngIf="(TermsEditFormControl.TermsDays.touched || submitted) && TermsEditFormControl.TermsDays.errors?.required">
+                    Terms Days is required
+                    </span>
+                </div>
+            </div>
+            <div class="col-xl-4">
+
+                <div class="form-group">
+                    <label class="address">
+                        Is Default Term:
+                    </label>
+                    <input type="checkbox" name="IsDefaultTerm" formControlName="IsDefaultTerm">
+
+                </div>
+            </div>
+        </div>
+
+       
+        <div class="text-right pt-2 mt-0">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light ml-1">Save</button>
+        </div>
+
+    </form>
+</div>

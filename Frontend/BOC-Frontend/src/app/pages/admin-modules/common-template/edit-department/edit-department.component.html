@@ -1,0 +1,81 @@
+<div class="modal-header">
+    <h4 class="modal-title">Edit Departments</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg">
+    <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="DepartmentForm">
+
+        <div class="row">
+
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="field-2" class="control-label">Department Name
+                        <span class="red">*</span>
+                    </label>
+                    <input class="form-control" type="hidden" name="CustomerDepartmentId" placeholder=""
+                        formControlName="CustomerDepartmentId">
+                    <input class="form-control" type="text" name="CustomerDepartmentName"
+                        placeholder="Enter Department Name" formControlName="CustomerDepartmentName">
+                    <span class="text-danger"
+                        *ngIf="(DepartmentFormControl.CustomerDepartmentName.touched || submitted) && DepartmentFormControl.CustomerDepartmentName.errors?.required">
+                        Customer Department Name is required
+                    </span>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="field-2" class="control-label">Contact Name
+                        <span class="red">*</span>
+                    </label>
+                    <input class="form-control" type="text" name="DepartmentContactName"
+                        placeholder="Enter Contact Name" formControlName="DepartmentContactName">
+                    <span class="text-danger"
+                        *ngIf="(DepartmentFormControl.DepartmentContactName.touched || submitted) && DepartmentFormControl.DepartmentContactName.errors?.required">
+                        Department Contact Name is required
+                    </span>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="field-2" class="control-label">Contact Phone
+                        <span class="red">*</span>
+                    </label>
+                    <input class="form-control" type="text" name="DepartmentContactPhone"
+                        placeholder="Enter Contact Phone" formControlName="DepartmentContactPhone">
+                    <span class="text-danger"
+                        *ngIf="(DepartmentFormControl.DepartmentContactPhone.touched || submitted) && DepartmentFormControl.DepartmentContactPhone.errors?.required">
+                        Department Contact Phone is required
+                    </span>
+
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="field-2" class="control-label">Contact Email
+                        <span class="red">*</span>
+                    </label>
+                    <input class="form-control" type="text" lass="form-control" id="" placeholder="Enter Contact Email"
+                        name="DepartmentContactEmail" formControlName="DepartmentContactEmail">
+                    <span class="text-danger"
+                        *ngIf="(DepartmentFormControl.DepartmentContactEmail.touched || submitted) && DepartmentFormControl.DepartmentContactEmail.errors?.required">
+                        Email is required
+                    </span>
+                    <span class="text-danger"
+                        *ngIf="(DepartmentFormControl.DepartmentContactEmail.touched || submitted) && DepartmentFormControl.DepartmentContactEmail.errors?.email">
+
+                        Enter a valid email address
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="text-right pt-4 mt-2">
+            <button type="button" class="btn btn-light" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success ml-1">Submit</button>
+        </div>
+
+    </form>
+</div>

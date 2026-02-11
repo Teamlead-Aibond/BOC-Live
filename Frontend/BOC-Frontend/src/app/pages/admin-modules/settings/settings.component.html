@@ -1,0 +1,233 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="container-fluid">
+    <app-page-title title="Settings" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+
+        <div class="col-md-6 col-xl-3">  
+            <!-- Simple card -->
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="page-title">
+                        <i class="fe-settings mr -1"></i> General Setup</h4>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <h5 class="card-title">
+                            <a (click)="centerModal(basicSettings)" class="root" style="cursor: pointer;">Basic Settings</a>
+                        </h5>
+                        Manage the basic settings
+                    </li>
+                    <li class="list-group-item">
+                        <h5 class="card-title">
+                            <a href="#">User Roles</a>
+                        </h5>
+                        Manage the user roles
+                    </li>
+                    <li class="list-group-item">
+                        <h5 class="card-title">
+                            <a href="#">Warehouse Management</a>
+                        </h5>
+                        Manage multiple warehouse details
+                    </li>
+                    <li class="list-group-item">
+                        <h5 class="card-title">
+                            <a href="#">Terms Management</a>
+                        </h5>
+                        Manage the terms
+                    </li>
+                </ul>
+                <div class="card-body">
+                    &nbsp;
+                </div>
+            </div>
+        </div><!-- end col -->
+
+        <div class="col-md-6 col-xl-3">
+            <!-- Simple card -->
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="page-title">
+                        <i class="fas fa-dollar-sign mr -1"></i> Point of Sale</h4>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <h5 class="card-title">
+                            <a href="#">Invoice Template</a>
+                        </h5>
+                        Configure details displayed on invoices issued to your clients
+                    </li>
+                    <li class="list-group-item">
+                        <h5 class="card-title">
+                            <a href="#">Taxes</a>
+                        </h5>
+                        Manage tax rates that apply to items sold at checkout
+                    </li>
+                    <li class="list-group-item">
+                        <h5 class="card-title">
+                            <a href="#">Payment Types</a>
+                        </h5>
+                        Set up manual payment types for use during checkout
+                    </li>
+                    <li class="list-group-item">
+                        <h5 class="card-title">
+                            <a href="#">Discount Types</a>
+                        </h5>
+                        Set up manual discount types for use during checkout
+                    </li>
+                    <li class="list-group-item">
+                        <h5 class="card-title">
+                            <a href="#">Sales Settings</a>
+                        </h5>
+                        Manage the default voucher expiry period
+                    </li>
+                </ul>
+                <div class="card-body">
+                    &nbsp;
+                </div>
+            </div>
+        </div><!-- end col -->
+
+        
+
+        <div class="col-md-6 col-xl-3">
+            <!-- Simple card -->
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="page-title">
+                        <i class="fa fa-university mr -1"></i>
+                         Account Setup</h4>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <h5 class="card-title">
+                            <a href="#">Audit Settings</a>
+                        </h5>
+                        Manage the audit settings
+                    </li>
+                    <li class="list-group-item">
+                        <h5 class="card-title">
+                            <a href="#">Paypal Account</a>
+                        </h5>
+                        Manage the Paypal account settings
+                    </li>
+                    <li class="list-group-item">
+                        <h5 class="card-title">
+                            <a href="#">Sage Account</a>
+                        </h5>
+                        Manage the Sage account settings
+                    </li>
+                </ul>
+                <div class="card-body">
+                    &nbsp;
+                </div>
+            </div>
+        </div><!-- end col -->
+    </div>
+
+
+</div>
+
+<ng-template #basicSettings let-modal="close">
+    <div class="modal-header">
+        <h4 class="modal-title">Basic Settings</h4>
+        <button type="button" class="close" (click)="modal('Cross click')"
+            aria-hidden="true">×</button>
+    </div>
+    <div class="modal-body p-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="field-2" class="control-label">Site Name</label>
+                    <input type="text" name="packweight" value="" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="field-2" class="control-label">Default Country</label>
+                    <select class="custom-select">
+                        <option selected="selected" value="0">Select</option>
+                        <option value="1">Dollar</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group no-margin">
+                    <label for="field-7" class="control-label">Site Logo</label>
+                    <input type="file" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="field-2" class="control-label">Currency</label>
+                    <select class="custom-select">
+                        <option selected="selected" value="0">Select</option>
+                        <option value="1">Dollar</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="field-2" class="control-label">Timezone</label>
+                    <select class="custom-select">
+                        <option selected="selected" value="0">Select</option>
+                        <option value="1">GMT+5.30</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="field-2" class="control-label">Date Format</label>
+                    <select class="custom-select">
+                        <option selected="selected" value="0">Select</option>
+                        <option value="1">MM/DD/YYYY</option>
+                        <option value="2">DD/MM/YYYY</option>
+                        <option value="2">DD MM, YYYY</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="field-2" class="control-label">Time Format</label>
+                    <select class="custom-select">
+                        <option selected="selected" value="0">Select</option>
+                        <option value="1">12 Hours</option>
+                        <option value="1">24 Hours</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group no-margin">
+                    <label for="field-7" class="control-label">Items per page</label>
+                    <select class="custom-select">
+                        <option selected="selected" value="0">Select</option>
+                        <option value="1">10</option>
+                        <option value="1">25</option>
+                        <option value="1">50</option>
+                        <option value="1">100</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary waves-effect"
+            (click)="modal('Cross click')">Close</button>
+        <button type="button" class="btn btn-success waves-effect waves-light">Save</button>
+    </div>
+</ng-template>

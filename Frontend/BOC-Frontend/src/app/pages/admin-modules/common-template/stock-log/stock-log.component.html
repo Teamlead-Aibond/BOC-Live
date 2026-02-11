@@ -1,0 +1,23 @@
+<div class="modal-header">
+    <h4 class="modal-title">Shop Parts Log History</h4>
+    <button type="button" class="close" aria-hidden="true" (click)="modalRef.hide()">×</button>
+</div>
+<div class="modal-body p-6 mt-2" *ngIf="Logs && Logs.length > 0">
+    <ul class="list-unstyled timeline-sm" *ngFor="let item of Logs">
+        <li class="timeline-sm-item">
+            <span class="timeline-sm-date">{{item.Created|dateTransform}}<br>{{item.Created|date:'shortTime'}}</span>
+            <h5 class="mt-0 mb-1 badge badge-pill badge-primary">{{item.StockType == 1 ? "IN" : "OUT"}}</h5>
+            <p>Quantity: <span class="badge badge-light-primary">{{item.Quantity}}</span>
+            <p *ngIf="item.MROId > 0">MRO#: <span class="badge badge-light">{{item.MROId}}</span>
+            <p *ngIf="item.SOItemId > 0">SO Item#: <span class="badge badge-light">{{item.SOItemId}}</span>
+            <p>Done By: <span class="badge badge-light-info">{{item.CreatedByName}}</span>
+            </p>
+        </li>
+    </ul>
+</div>
+<div class="modal-body p-6 mt-2" *ngIf="Logs.length == 0">
+    <p class="text-center">No logs found!</p>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-light waves-effect" (click)="modalRef.hide()">Close</button>
+</div>

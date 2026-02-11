@@ -1,0 +1,951 @@
+<div class="modal-header">
+	<h4 class="modal-title">Move Part to Aibond Store</h4>
+
+	<button
+		type="button"
+		class="close"
+		aria-hidden="true"
+		(click)="modalRef.hide()"
+	>
+		×
+	</button>
+</div>
+<div class="modal-body">
+	<form *ngIf="!addFormShow" [formGroup]="AddForm">
+		<div formArrayName="PartsItemList">
+			<div
+				*ngFor="let item of PartsItemList.controls; let i = index"
+				[formArrayName]="i"
+			>
+				&nbsp;&nbsp;
+				<button
+					*ngIf="
+						this.ShopPartItems[i].IsEcommerceProduct != 0 &&
+						!showQuantityForm[i] &&
+						!addFormShow[i]
+					"
+					type="button"
+					class="btn btn-success waves-effect waves-light"
+					aria-hidden="true"
+					(click)="addQuantityInPartItem(i)"
+				>
+					+ Add/Stock In into this Part Item
+				</button>
+				&nbsp;&nbsp;
+				<button
+					*ngIf="this.ShopPartItems[i].IsEcommerceProduct != 0 && !addFormShow[i]"
+					type="button"
+					class="btn btn-success waves-effect waves-light"
+					aria-hidden="true"
+					(click)="addNewPartItem(i)"
+				>
+					+ Add as a New Part Item
+				</button>
+				&nbsp;&nbsp;
+				<h3 *ngIf="this.ShopPartItems[i].IsEcommerceProduct == 1">
+					Store - Existing Part Items
+				</h3>
+				<h3 *ngIf="this.ShopPartItems[i].IsEcommerceProduct == 0">
+					Store - Add New Part Items
+				</h3>
+				<div class="container ship-history">
+					<div class="row mb-2">
+						<div class="col-xl-6 mt-2">
+							<div class="form-group row mb-0">
+								<label class="col-sm-3 col-form-label" for="simpleinput"
+									>Part #: <span class="red">*</span></label
+								>
+								<div class="col-sm-9">
+									<input
+										class="form-control"
+										type="text"
+										formControlName="PartNo"
+										readonly
+									/>
+									<!-- <span class="text-danger"
+                                            *ngIf="(AddFormControl.PartNo.touched || submitted) && AddFormControl.PartNo.errors?.required">
+                                            Part No is required
+                                        </span> -->
+									<span
+										class="text-danger"
+										*ngIf="
+											(item.get('PartNo').touched || submitted) &&
+											item.get('PartNo').errors?.required
+										"
+									>
+										Part No is required
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-6 mt-2">
+							<div class="form-group row mb-0">
+								<label class="col-sm-3 col-form-label" for="simpleinput"
+									>Category:</label
+								>
+								<div class="col-sm-9">
+									<select
+										*ngIf="this.ShopPartItems[i].IsEcommerceProduct == 0"
+										class="custom-select"
+										name="PartCategoryId"
+										formControlName="PartCategoryId"
+									>
+										<option value="">Select</option>
+										<option
+											*ngFor="let item of categoryList"
+											value="{{ item.PartCategoryId }}"
+										>
+											{{ item.title }}
+										</option>
+									</select>
+									<select
+										*ngIf="this.ShopPartItems[i].IsEcommerceProduct == 1"
+										class="custom-select"
+										name="PartCategoryId"
+										formControlName="PartCategoryId"
+										disabled
+									>
+										<option value="">Select</option>
+										<option
+											*ngFor="let item of categoryList"
+											value="{{ item.PartCategoryId }}"
+										>
+											{{ item.title }}
+										</option>
+									</select>
+									<!-- <span class="text-danger"
+                                            *ngIf="(AddFormControl.PartCategoryId.touched || submitted) && AddFormControl.PartCategoryId.errors?.required">
+                                            Part Category is required
+                                        </span> -->
+									<span
+										class="text-danger"
+										*ngIf="
+											(item.get('PartCategoryId').touched || submitted) &&
+											item.get('PartCategoryId').errors?.required
+										"
+									>
+										Category is required
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-6 mt-2">
+							<div class="form-group row mb-0">
+								<label class="col-sm-3 col-form-label" for="simpleinput"
+									>APN #: <span class="red">*</span></label
+								>
+								<div class="col-sm-9">
+									<input
+										class="form-control"
+										id=""
+										type="text"
+										placeholder="Enter APN No"
+										[readonly]="
+											this.ShopPartItems[i].IsEcommerceProduct == 0 ? false : true
+										"
+										formControlName="APNNo"
+										required
+									/>
+									<!-- <span class="text-danger"
+                                        *ngIf="(AddFormControl.APNNo.touched || submitted) && AddFormControl.APNNo.errors?.required">
+                                        APN No is required
+                                    </span> -->
+									<span
+										class="text-danger"
+										*ngIf="
+											(item.get('APNNo').touched || submitted) &&
+											item.get('APNNo').errors?.required
+										"
+									>
+										APNNo is required
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-6 mt-2">
+							<div class="form-group row mb-0">
+								<label class="col-sm-3 col-form-label" for="simpleinput"
+									>Serial No #:</label
+								>
+								<div class="col-sm-9">
+									<input
+										class="form-control"
+										id=""
+										type="text"
+										placeholder="Enter Serial No"
+										[readonly]="
+											this.ShopPartItems[i].IsEcommerceProduct == 0 ? false : true
+										"
+										formControlName="SerialNo"
+									/>
+									<!-- <span class="text-danger"
+                                            *ngIf="(AddFormControl.SerialNo.touched || submitted) && AddFormControl.SerialNo.errors?.required">
+                                            Serial No is required
+                                        </span> -->
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xl-6 mt-2">
+							<div class="form-group row mb-0">
+								<label class="col-sm-3 col-form-label" for="simpleinput"
+									>Vendor: <span class="red">*</span></label
+								>
+								<div class="col-sm-9">
+									<ng-select
+										[readonly]="
+											this.ShopPartItems[i].IsEcommerceProduct == 1 ? true : false
+										"
+										(ngModelChange)="vendorChange(i)"
+										[loading]="loadingVendors"
+										[items]="VendorsList"
+										bindLabel="VendorName"
+										bindValue="VendorId"
+										[searchable]="true"
+										formControlName="VendorId"
+										[placeholder]="'Select Vendor Name'"
+										name="VendorId"
+										(clear)="clearVendor(i)"
+									>
+									</ng-select>
+									<span
+										class="text-danger"
+										*ngIf="
+											(item.get('VendorId').touched || submitted) &&
+											item.get('VendorId').errors?.required
+										"
+									>
+										Vendor is required
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-6 mt-2">
+							<div class="form-group row mb-0">
+								<label class="col-sm-3 col-form-label" for="simpleinput"
+									>Vendor Cost: <span class="red">*</span></label
+								>
+								<div class="col-sm-9">
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text" id="basic-addon1">{{
+												vendorSymbol[i]
+											}}</span>
+										</div>
+										<input
+											class="form-control"
+											id=""
+											type="text"
+											placeholder="Enter Vendor Cost"
+											[readonly]="
+												this.ShopPartItems[i].IsEcommerceProduct == 0 ? false : true
+											"
+											formControlName="BuyingPrice"
+											(change)="onBuyingPriceChange($event, i)"
+											required
+										/>
+									</div>
+									<!-- <input class="form-control" id="" type="text" placeholder="Enter Vendor Cost" [readonly]="this.ShopPartItems[i].IsEcommerceProduct == 0 ? false : true"
+                                            formControlName="BuyingPrice" (change)="onBuyingPriceChange($event, i)" required> -->
+									<!-- <span class="text-danger"
+                                            *ngIf="(AddFormControl.BuyingPrice.touched || submitted) && AddFormControl.BuyingPrice.errors?.required">
+                                            Vendor Cost is required
+                                        </span> -->
+									<span
+										class="text-danger"
+										*ngIf="
+											(item.get('BuyingPrice').touched || submitted) &&
+											item.get('BuyingPrice').errors?.required
+										"
+									>
+										Vendor cost is required
+									</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xl-6 mt-2">
+							<div class="form-group row mb-0">
+								<label class="col-sm-3 col-form-label" for="simpleinput"
+									>Selling Price: <span class="red">*</span></label
+								>
+								<div class="row ml-0">
+									<div class="col-xl-5">
+										<select
+											(change)="sellingCurrencyChange($event, i)"
+											*ngIf="this.ShopPartItems[i].IsEcommerceProduct == 0"
+											class="custom-select"
+											name="SellingCurrencyCode"
+											formControlName="SellingCurrencyCode"
+										>
+											<option value="" disabled>Select Currency</option>
+											<option
+												*ngFor="let item of CurrencyList"
+												value="{{ item.CurrencyCode }}"
+											>
+												{{ item.CurrencyCode }}&nbsp;-{{ item.CurrencySymbol }}
+											</option>
+										</select>
+										<select
+											*ngIf="this.ShopPartItems[i].IsEcommerceProduct == 1"
+											class="custom-select"
+											name="SellingCurrencyCode"
+											formControlName="SellingCurrencyCode"
+											disabled
+										>
+											<option value="" disabled>Select Currency</option>
+											<option
+												*ngFor="let item of CurrencyList"
+												value="{{ item.CurrencyCode }}"
+											>
+												{{ item.CurrencyCode }}&nbsp;-{{ item.CurrencySymbol }}
+											</option>
+										</select>
+										<!-- <span class="text-danger"
+                                                        *ngIf="(AddFormControl.SellingCurrencyCode.touched || submitted) && AddFormControl.SellingCurrencyCode.errors?.required">
+                                                        Selling Currency Code is required
+                                                    </span> -->
+										<span
+											class="text-danger"
+											*ngIf="
+												(item.get('SellingCurrencyCode').touched || submitted) &&
+												item.get('SellingCurrencyCode').errors?.required
+											"
+										>
+											Selling Currency Code is required
+										</span>
+									</div>
+									<div class="col-xl-7">
+										<input
+											class="form-control"
+											id=""
+											type="number"
+											min="0"
+											placeholder="Enter Selling Price"
+											[readonly]="
+												this.ShopPartItems[i].IsEcommerceProduct == 0 ? false : true
+											"
+											(change)="onSellingPriceChange($event, i)"
+											formControlName="SellingPrice"
+											required
+										/>
+										<!-- <span class="text-danger"
+                                                            *ngIf="(AddFormControl.SellingPrice.touched || submitted) && AddFormControl.SellingPrice.errors?.required">
+                                                            Selling Price is required
+                                                        </span> -->
+										<span
+											class="text-danger"
+											*ngIf="
+												(item.get('SellingPrice').touched || submitted) &&
+												item.get('SellingPrice').errors?.required
+											"
+										>
+											Selling Price is required
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xl-6 mt-2">
+							<div class="form-group row mb-0">
+								<label class="col-sm-3 col-form-label" for="simpleinput"
+									>Location:<span class="red">*</span>
+									<!-- <span class="red">*</span> -->
+								</label>
+								<div class="col-sm-9">
+									<ng-select
+										[items]="StoreLocation"
+										bindLabel="LocationName"
+										[readonly]="
+											this.ShopPartItems[i].IsEcommerceProduct == 1 ? true : false
+										"
+										bindValue="LocationId"
+										[searchable]="true"
+										formControlName="LocationId"
+										[placeholder]="'Select Location'"
+										name="LocationId"
+									>
+									</ng-select>
+									<span
+										class="text-danger"
+										*ngIf="
+											(item.get('LocationId').touched || submitted) &&
+											item.get('LocationId').errors?.required
+										"
+									>
+										Location is required
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-6 mt-2">
+							<div class="form-group row mb-2">
+								<label class="col-sm-3 col-form-label" for="simpleinput"
+									>Type:<span class="red">*</span>
+								</label>
+								<div class="col-sm-9">
+									<ng-select
+										[items]="partTypes"
+										bindLabel="part_typeName"
+										bindValue="part_typeId"
+										formControlName="PartItemType"
+										[placeholder]="'Select Type'"
+										name="PartItemType"
+										[readonly]="
+											this.ShopPartItems[i].IsEcommerceProduct == 0 ? false : true
+										"
+									>
+									</ng-select>
+									<span
+										class="text-danger"
+										*ngIf="
+											(item.get('PartItemType').touched || submitted) &&
+											item.get('PartItemType').errors?.required
+										"
+									>
+										Type is required
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-6 mt-2">
+							<div class="form-group row mb-2">
+								<label class="col-sm-3 col-form-label" for="simpleinput"
+									>Delivery:
+								</label>
+								<div class="col-sm-9">
+									<input
+										class="form-control"
+										type="text"
+										placeholder="Enter Delivery details"
+										formControlName="PartItemDelivery"
+										[readonly]="
+											this.ShopPartItems[i].IsEcommerceProduct == 0 ? false : true
+										"
+									/>
+									<span
+										class="text-danger"
+										*ngIf="
+											(item.get('PartItemDelivery').touched || submitted) &&
+											item.get('PartItemDelivery').errors?.required
+										"
+									>
+										Delivery is required
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-6 mt-2">
+							<div class="form-group row mb-2">
+								<label class="col-sm-3 col-form-label" for="simpleinput"
+									>Part Description:
+								</label>
+								<div class="col-sm-9">
+									<textarea
+										class="form-control"
+										formControlName="PartItemDescription"
+										rows="2"
+										placeholder="Description"
+										[readonly]="
+											this.ShopPartItems[i].IsEcommerceProduct == 0 ? false : true
+										"
+									></textarea>
+									<span
+										class="text-danger"
+										*ngIf="
+											(item.get('PartItemDescription').touched || submitted) &&
+											item.get('PartItemDescription').errors?.required
+										"
+									>
+										Description is required
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-6 mt-2">
+							<div class="form-group row mb-0">
+								<label class="col-sm-3 col-form-label" for="simpleinput"
+									>Stock in Quantity:<span class="red">*</span>
+								</label>
+								<div class="col-sm-9">
+									<input
+										class="form-control"
+										id=""
+										type="number"
+										min="1"
+										placeholder="Enter Quantity"
+										formControlName="ShopCurrentQuantity"
+										[readonly]="
+											this.ShopPartItems[i].IsEcommerceProduct == 1 ? true : false
+										"
+									/>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-xl-12 mt-2 mb-2" *ngIf="showQuantityForm[i]">
+						<div class="form-group">
+							<label for="Customer mb-1"
+								>Stock In Quantity : <span class="red">*</span></label
+							>
+							<input
+								type="text"
+								class="form-control"
+								placeholder="Enter Quantity"
+								name="Quantity"
+								formControlName="Quantity"
+								(change)="quantityChange($event, i)"
+							/>
+							<span
+								class="text-danger"
+								*ngIf="
+									(QuantityFormControl.Quantity.touched || submitted) &&
+									QuantityFormControl.Quantity.errors?.required
+								"
+							>
+								Stock In Quantity is required
+							</span>
+						</div>
+						<div class="text-right pt-2 mt-0">
+							<button
+								type="button"
+								class="btn btn-secondary waves-effect"
+								(click)="closeQuantity(i)"
+							>
+								Close
+							</button>
+							<button
+								class="btn btn-success waves-effect waves-light ml-1"
+								(click)="saveQuantity(i)"
+							>
+								Save
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button
+						*ngIf="this.ShopPartItems[i].IsEcommerceProduct == 0"
+						type="button"
+						class="btn btn-secondary waves-effect"
+						(click)="modalRef.hide()"
+					>
+						Close
+					</button>
+					<button
+						*ngIf="this.ShopPartItems[i].IsEcommerceProduct == 0"
+						class="btn btn-success waves-effect waves-light"
+						(click)="addNew(i)"
+					>
+						Add
+					</button>
+					<!-- <button *ngIf="this.ShopPartItems[i].IsEcommerceProduct == 1"
+                            class="btn btn-success waves-effect waves-light" (click)="add()">Save</button> -->
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<!-- <form *ngIf="!addFormShow && showQuantityForm && this.ShopPartItems[i].IsEcommerceProduct == 1" class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="QuantityForm">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="form-group">
+                        <label for="Customer mb-1">Stock In Quantity : <span class="red">*</span></label>
+                        <input type="text" class="form-control " placeholder="Enter Stock In Quantity" name="Quantity"
+                            formControlName="Quantity">
+                        <span class="text-danger"
+                            *ngIf="(QuantityFormControl.Quantity.touched || submitted) && QuantityFormControl.Quantity.errors?.required">
+                            Stock In Quantity is required
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            <div class="text-right pt-2 mt-0">
+                <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+                <button class="btn btn-success waves-effect waves-light ml-1">Save</button>
+            </div>
+
+        </form> -->
+
+	<form *ngIf="addFormShow" [formGroup]="AddFormNew">
+		<h3>Store - Add New Part Items</h3>
+		<div class="container ship-history">
+			<div class="row mb-2">
+				<div class="col-xl-6 mt-2">
+					<div class="form-group row mb-0">
+						<label class="col-sm-3 col-form-label" for="simpleinput"
+							>Part #: <span class="red">*</span></label
+						>
+						<div class="col-sm-9">
+							<input
+								class="form-control"
+								type="text"
+								formControlName="PartNo"
+								readonly
+							/>
+							<span
+								class="text-danger"
+								*ngIf="
+									(AddFormNewControl.PartNo.touched || submitted) &&
+									AddFormNewControl.PartNo.errors?.required
+								"
+							>
+								Part No is required
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-6 mt-2">
+					<div class="form-group row mb-0">
+						<label class="col-sm-3 col-form-label" for="simpleinput">Category:</label>
+						<div class="col-sm-9">
+							<select
+								class="custom-select"
+								name="PartCategoryId"
+								formControlName="PartCategoryId"
+							>
+								<option value="">Select</option>
+								<option
+									*ngFor="let item of categoryList"
+									value="{{ item.PartCategoryId }}"
+								>
+									{{ item.title }}
+								</option>
+							</select>
+							<span
+								class="text-danger"
+								*ngIf="
+									(AddFormNewControl.PartCategoryId.touched || submitted) &&
+									AddFormNewControl.PartCategoryId.errors?.required
+								"
+							>
+								Part Category is required
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-6 mt-2">
+					<div class="form-group row mb-0">
+						<label class="col-sm-3 col-form-label" for="simpleinput"
+							>APN #: <span class="red">*</span></label
+						>
+						<div class="col-sm-9">
+							<input
+								class="form-control"
+								id=""
+								type="text"
+								placeholder="Enter APN No"
+								formControlName="APNNo"
+								required
+							/>
+							<span
+								class="text-danger"
+								*ngIf="
+									(AddFormNewControl.APNNo.touched || submitted) &&
+									AddFormNewControl.APNNo.errors?.required
+								"
+							>
+								APN No is required
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-6 mt-2">
+					<div class="form-group row mb-0">
+						<label class="col-sm-3 col-form-label" for="simpleinput"
+							>Serial No #:
+						</label>
+						<div class="col-sm-9">
+							<input
+								class="form-control"
+								id=""
+								type="text"
+								placeholder="Enter Serial No"
+								formControlName="SerialNo"
+							/>
+							<!--
+                            <span class="text-danger"
+                                    *ngIf="(AddFormNewControl.SerialNo.touched || submitted) && AddFormNewControl.SerialNo.errors?.required">
+                                    Serial No is required
+                                </span>-->
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xl-6 mt-2">
+					<div class="form-group row mb-0">
+						<label class="col-sm-3 col-form-label" for="simpleinput"
+							>Vendor: <span class="red">*</span></label
+						>
+						<div class="col-sm-9">
+							<ng-select
+								[items]="VendorsList"
+								bindLabel="VendorName"
+								bindValue="VendorId"
+								[searchable]="true"
+								formControlName="VendorId"
+								[loading]="loadingVendors"
+								[placeholder]="'Select Vendor Name'"
+								name="VendorId"
+								(change)="vendorChangeNewForm()"
+								[(ngModel)]="VendorIdForNewForm"
+								(clear)="clearVendorNewForm()"
+							>
+							</ng-select>
+							<!-- <select (change)="vendorChangeNewForm($event)" class="custom-select" name="VendorId" formControlName="VendorId" >
+                                    <option value="">Select</option>
+                                    <option *ngFor="let item of VendorsList" value="{{item.VendorId}}">
+                                        {{item.VendorName}}</option>
+                                </select> -->
+							<span
+								class="text-danger"
+								*ngIf="
+									(AddFormNewControl.VendorId.touched || submitted) &&
+									AddFormNewControl.VendorId.errors?.required
+								"
+							>
+								Vendor is required
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-6 mt-2">
+					<div class="form-group row mb-0">
+						<label class="col-sm-3 col-form-label" for="simpleinput"
+							>Vendor Cost: <span class="red">*</span></label
+						>
+						<div class="col-sm-9">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="basic-addon1">{{
+										vendorSymbolNewForm
+									}}</span>
+								</div>
+								<input
+									class="form-control"
+									id=""
+									type="text"
+									placeholder="Enter Vendor Cost"
+									formControlName="BuyingPrice"
+									(change)="onBuyingPriceChangeNewForm($event)"
+									required
+								/>
+							</div>
+							<!-- <input class="form-control" id="" type="text" placeholder="Enter Vendor Cost"
+                                formControlName="BuyingPrice" (change)="onBuyingPriceChange($event)" required> -->
+							<span
+								class="text-danger"
+								*ngIf="
+									(AddFormNewControl.BuyingPrice.touched || submitted) &&
+									AddFormNewControl.BuyingPrice.errors?.required
+								"
+							>
+								Vendor Cost is required
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xl-6 mt-2">
+					<div class="form-group row mb-0">
+						<label class="col-sm-3 col-form-label" for="simpleinput"
+							>Selling Price: <span class="red">*</span></label
+						>
+						<div class="row ml-0">
+							<div class="col-xl-3">
+								<select
+									(change)="sellingCurrencyChangeNewForm($event)"
+									class="custom-select"
+									name="SellingCurrencyCode"
+									formControlName="SellingCurrencyCode"
+								>
+									<option value="">Select Currency</option>
+									<option
+										*ngFor="let item1 of CurrencyList"
+										value="{{ item1.CurrencyCode }}"
+									>
+										{{ item1.CurrencyCode }}&nbsp;-{{ item1.CurrencySymbol }}
+									</option>
+								</select>
+								<span
+									class="text-danger"
+									*ngIf="
+										(AddFormNewControl.SellingCurrencyCode.touched || submitted) &&
+										AddFormNewControl.SellingCurrencyCode.errors?.required
+									"
+								>
+									Selling Currency Code is required
+								</span>
+							</div>
+							<div class="col-xl-9">
+								<input
+									class="form-control"
+									id=""
+									type="number"
+									min="0"
+									placeholder="Enter Selling Price"
+									(change)="onSellingPriceChangeNewForm($event)"
+									formControlName="SellingPrice"
+									required
+								/>
+								<span
+									class="text-danger"
+									*ngIf="
+										(AddFormNewControl.SellingPrice.touched || submitted) &&
+										AddFormNewControl.SellingPrice.errors?.required
+									"
+								>
+									Selling Price is required
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xl-6 mt-2">
+					<div class="form-group row mb-0">
+						<label class="col-sm-3 col-form-label" for="simpleinput"
+							>Location:<span class="red">*</span>
+							<!-- <span class="red">*</span> -->
+						</label>
+						<div class="col-sm-9">
+							<ng-select
+								[items]="StoreLocation"
+								bindLabel="LocationName"
+								bindValue="LocationId"
+								[searchable]="true"
+								formControlName="LocationId"
+								[placeholder]="'Select Location'"
+								name="LocationId"
+							>
+							</ng-select>
+							<span
+								class="text-danger"
+								*ngIf="
+									(AddFormNewControl.LocationId.touched || submitted) &&
+									AddFormNewControl.LocationId.errors?.required
+								"
+							>
+								Location is required
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-6 mt-2">
+					<div class="form-group row mb-2">
+						<label class="col-sm-3 col-form-label" for="simpleinput"
+							>Type:<span class="red">*</span>
+						</label>
+						<div class="col-sm-9">
+							<ng-select
+								[items]="partTypes"
+								bindLabel="part_typeName"
+								bindValue="part_typeId"
+								formControlName="PartItemType"
+								[placeholder]="'Select Type'"
+								name="PartItemType"
+							>
+							</ng-select>
+							<span
+								class="text-danger"
+								*ngIf="
+									(AddFormNewControl.PartItemType.touched || submitted) &&
+									AddFormNewControl.PartItemType.errors?.required
+								"
+							>
+								Type is required
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-6 mt-2">
+					<div class="form-group row mb-2">
+						<label class="col-sm-3 col-form-label" for="simpleinput"
+							>Delivery:
+						</label>
+						<div class="col-sm-9">
+							<input
+								class="form-control"
+								type="text"
+								placeholder="Enter Delivery details"
+								formControlName="PartItemDelivery"
+							/>
+							<span
+								class="text-danger"
+								*ngIf="
+									(AddFormNewControl.PartItemDelivery.touched || submitted) &&
+									AddFormNewControl.PartItemDelivery.errors?.required
+								"
+							>
+								Delivery is required
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-6 mt-2">
+					<div class="form-group row mb-2">
+						<label class="col-sm-3 col-form-label" for="simpleinput"
+							>Part Description:
+						</label>
+						<div class="col-sm-9">
+							<textarea
+								class="form-control"
+								formControlName="PartItemDescription"
+								rows="2"
+								placeholder="Description"
+							></textarea>
+							<span
+								class="text-danger"
+								*ngIf="
+									(AddFormNewControl.PartItemDescription.touched || submitted) &&
+									AddFormNewControl.PartItemDescription.errors?.required
+								"
+							>
+								Description is required
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-6 mt-2">
+					<div class="form-group row mb-0">
+						<label class="col-sm-3 col-form-label" for="simpleinput"
+							>Stock in Quantity:<span class="red">*</span>
+						</label>
+						<div class="col-sm-9">
+							<input
+								class="form-control"
+								id=""
+								type="number"
+								min="1"
+								placeholder="Enter Quantity"
+								formControlName="ShopCurrentQuantity"
+							/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal-footer">
+			<button
+				type="button"
+				class="btn btn-secondary waves-effect"
+				(click)="modalRef.hide()"
+			>
+				Close
+			</button>
+			<button
+				class="btn btn-success waves-effect waves-light"
+				(click)="addNewForm()"
+			>
+				Add
+			</button>
+		</div>
+	</form>
+</div>

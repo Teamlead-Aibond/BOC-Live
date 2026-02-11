@@ -1,0 +1,247 @@
+/* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+
+.pdfwrap p,
+.po-cs p {
+    color: #000;
+    width: 100%;
+    float: left;
+    line-height: 25px;
+    font-weight: 500;
+    font-family: "Roboto", sans-serif !important;
+    font-size: 16px;
+    font-style: normal;
+    margin: 0;
+    padding: 0;
+}
+
+.pdfwrap p b,
+.po-cs p b strong {
+    font-weight: 700;
+    color: #000;
+    font-style: normal;
+}
+
+.pdflogo p {
+    color: #000;
+    width: 100%;
+    float: left;
+    line-height: 24px;
+    font-weight: 600;
+    font-family: "Roboto", sans-serif !important;
+    font-size: 15px;
+    font-style: normal;
+    padding-bottom: 6px;
+    margin: 0;
+}
+
+.pdfwrap h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
+    font-style: normal;
+    font-family: "Roboto", sans-serif !important;
+}
+
+.pdfwrap h4 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 16px;
+    font-style: normal;
+    font-family: "Roboto", sans-serif !important;
+    color: #000;
+    padding-bottom: 5px;
+}
+
+.pdflogo img {
+    width: auto;
+    height: auto;
+    margin-bottom: 15px;
+    padding: 0;
+}
+
+.pdfwrap b,
+strong {
+    font-weight: 500;
+    font-style: normal;
+    font-family: "Roboto", sans-serif !important;
+}
+
+.split60 {
+    width: 60%;
+    float: left;
+}
+
+table.print-table td,
+table.print-table th {
+    font-size: 17px;
+}
+
+.pdfwrap p {
+    font-size: 16px;
+    line-height: 28px !important;
+    color: #000;
+    padding-bottom: 5px;
+    margin: 0;
+    font-family: "Roboto", sans-serif !important;
+}
+
+.split40 {
+    width: 40%;
+    float: left;
+    padding-left: 10px;
+    font-weight: 500;
+    font-size: 15px;
+    font-style: normal;
+    font-family: "Roboto", sans-serif !important;
+}
+
+.sp40 {
+    width: 40%;
+    float: right;
+    text-align: right;
+}
+
+.fn-btns {
+    float: right;
+    padding: 15px 0px 0 0;
+    display: block;
+    text-align: right;
+    margin-top: -60px;
+}
+
+#contentToConvert {
+    padding: 35px 64px 38px 57px;
+    margin: 0;
+}
+
+#contentToConvert h6 {
+    color: #000;
+    font-size: 15px;
+    font-weight: 700;
+    padding-left: 3px;
+    padding-bottom: 9px;
+    font-style: normal;
+    font-family: "Roboto", sans-serif !important;
+}
+
+.terms-detail {
+    padding-bottom: 62px;
+    float: left;
+    width: 100%;
+}
+
+.terms-detail p {
+    padding-bottom: 17px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 18px;
+    font-style: normal;
+    font-family: "Roboto", sans-serif !important;
+}
+
+.terms-detail p a {
+    color: #0b08f0;
+    text-decoration: underline;
+    font-size: 16px;
+    font-style: normal;
+    font-family: "Roboto", sans-serif !important;
+}
+
+.popdf {
+    margin-bottom: 4px;
+}
+
+table.popdf th {
+    background-color: #b9b9b9;
+    border-top: 2px solid #707070;
+    border-bottom: 2px solid #707070;
+    font-size: 15px;
+    color: #000;
+    font-style: normal;
+    font-weight: 700;
+    font-family: "Roboto", sans-serif !important;
+    border-left: 0 !important;
+    border-right: 0px solid #b9b9b9 !important;
+    padding: 5px 5px 8px;
+    opacity: 1;
+}
+
+table.popdf td {
+    font-size: 15px;
+    color: #000;
+    opacity: 1;
+    font-style: normal;
+    font-weight: 500;
+    border: 0 !important;
+    padding: 5px 5px 8px;
+    font-family: "Roboto", sans-serif !important;
+}
+
+table.popdf tbody {
+    border-bottom: 1px solid #d3d3d3;
+}
+
+.barimg {
+    height: auto;
+    width: 100%;
+    max-width: 75%;
+    display: block;
+    margin-bottom: 3px;
+}
+
+.greybgpdf {
+    width: 100%;
+    float: left;
+    margin-bottom: 16px;
+    height: 31px !important;
+    background-color: #808080;
+}
+
+.m51 {
+    margin-top: 51px;
+}
+
+.m45 {
+    margin-top: 45px;
+}
+
+.black table.print-table td,
+.black table.print-table th {
+    font-size: 17px;
+}
+
+.black .pdfwrap p {
+    font-size: 16px;
+    line-height: 28px !important;
+    color: #000;
+    padding-bottom: 5px;
+    margin: 0;
+    font-family: "Roboto", sans-serif !important;
+}
+
+@media print {
+    .card-box {
+        background-color: #fff;
+        background-clip: border-box;
+        border: 0px solid #e7eaed;
+        padding: 0px !important;
+        margin: 0px !important;
+        border-radius: 0rem;
+    }
+    .pdfwrap {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    #contentToConvert {
+        padding: 0px !important;
+        margin: 0 !important;
+    }
+    .fn-btns {
+        display: none;
+    }
+}

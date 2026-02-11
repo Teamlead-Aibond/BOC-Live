@@ -1,0 +1,273 @@
+/* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap');
+.pdfwrap p,
+.po-cs p {
+    color: #000;
+    width: 100%;
+    float: left;
+    line-height: 25px;
+    font-weight: 500;
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    margin: 0;
+    padding: 0;
+}
+
+.pdfwrap p b,
+.po-cs p b strong {
+    font-weight: 700;
+    color: #000;
+    font-style: normal;
+}
+
+.pdflogo p {
+    color: #000;
+    width: 100%;
+    float: left;
+    line-height: 24px;
+    font-weight: 600;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    padding-bottom: 6px;
+    margin: 0;
+}
+
+.pdfwrap h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
+    font-style: normal;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.pdfwrap h4 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 17px;
+    font-style: normal;
+    font-family: 'Open Sans', sans-serif;
+    color: #000;
+    padding-bottom: 5px;
+}
+
+.pdflogo img {
+    width: auto;
+    height: auto;
+    margin-bottom: 15px;
+    padding: 0;
+}
+
+.pdfwrap b,
+strong {
+    font-weight: 500;
+    font-style: normal;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.split60 {
+    // width: 60%;
+    float: left;
+}
+
+.split40 {
+    // width: 40%;
+    // float: left;
+    padding-left: 10px;
+    font-weight: 500;
+    font-size: 15px;
+    font-style: normal;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.sp40 {
+    width: 35%;
+    text-align: right;
+    float: left;
+}
+
+.sp60 {
+    width: 65%;
+    float: left;
+}
+
+.fn-btns {
+    float: right;
+    padding: 15px 0px 0 0;
+    display: block;
+    text-align: right;
+    margin-top: -60px;
+}
+
+.pdftitle {
+    font-size: 21px;
+    padding-top: 8px;
+}
+
+.sincere {
+    padding: 50px 0 43px 0px;
+    width: 100%;
+    float: left;
+}
+
+#contentToConvert {
+    padding: 35px 64px 38px 57px;
+    margin: 0;
+}
+
+#contentToConvert h6 {
+    color: #000;
+    font-size: 15px;
+    font-weight: 700;
+    padding-left: 3px;
+    padding-bottom: 9px;
+    font-style: normal;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.terms-detail {
+    padding-bottom: 62px;
+    float: left;
+    width: 100%;
+}
+
+.terms-detail p {
+    padding-bottom: 17px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 18px;
+    font-style: normal;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.terms-detail p a {
+    color: #0b08f0;
+    text-decoration: underline;
+    font-size: 16px;
+    font-style: normal;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.popdf {
+    margin-bottom: 4px;
+}
+
+table.popdf th {
+    background-color: #b9b9b9;
+    border-top: 2px solid #707070;
+    border-bottom: 2px solid #707070;
+    font-size: 15px;
+    color: #000;
+    font-style: normal;
+    font-weight: 700;
+    font-family: 'Open Sans', sans-serif;
+    border-left: 0 !important;
+    border-right: 1px solid #b9b9b9 !important;
+    padding: 5px 5px 8px;
+    opacity: 1;
+    text-align: center;
+}
+
+table.popdf td {
+    font-size: 15px;
+    color: #000;
+    opacity: 1;
+    text-align: center;
+    font-style: normal;
+    font-weight: 500;
+    border: 0 !important;
+    padding: 5px 5px 8px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+table.popdf tbody {
+    border-bottom: 1px solid #d3d3d3;
+}
+
+.barimg {
+    height: auto;
+    width: 100%;
+    max-width: 75%;
+    display: block;
+    margin-bottom: 0px;
+}
+
+.greybgpdf {
+    width: 100%;
+    float: left;
+    margin-bottom: 15px;
+    height: 31px !important;
+    background-color: #808080;
+}
+
+.npv {
+    margin-top: 17px;
+}
+
+// .m51 {
+//     margin-top: 51px;
+// }
+// .m45 {
+//     margin-top: 45px;
+// }
+.mt16 {
+    margin-top: 16px;
+}
+
+.mt161 {
+    margin-top: 16px;
+    margin-bottom: 36px;
+}
+
+.pl3 {
+    padding-left: 3px;
+}
+
+// .mt20 {
+//     margin-top: 20px;
+// }
+// .mt25 {
+//     margin-top: 25px;
+// }
+.mt20 h6 {
+    margin: 0;
+    padding: 0;
+}
+
+@media print {
+    .card-box {
+        background-color: #fff;
+        background-clip: border-box;
+        border: 0px solid #e7eaed;
+        padding: 0px !important;
+        margin: 0px !important;
+        border-radius: 0rem;
+    }
+    .pdfwrap {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    #contentToConvert {
+        padding: 0px !important;
+        margin: 0 !important;
+    }
+    body {
+        -webkit-print-color-adjust: exact;
+        color-adjust: exact !important;
+    }
+    @page {
+        size: A4 landscape;
+        margin-left: 0px;
+        margin-right: 0px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        margin: 0;
+        -webkit-print-color-adjust: exact;
+    }
+}

@@ -1,0 +1,362 @@
+        .inv-dahboard h2 {
+            font-size: 1.25rem;
+            margin: 0;
+            padding: 0 0 15px;
+        }
+        
+        #chart {
+            max-width: 650px;
+            margin: 0px auto;
+        }
+        
+        .is-wrap {
+            float: left;
+            padding-bottom: 5px;
+            width: 100%;
+        }
+        
+        .input-group-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        
+        .form-control {
+            height: calc(2em + 0.9rem + 2px) !important;
+            padding: 0.4rem 0.9rem !important;
+            font-size: 1rem !important;
+        }
+        
+        .apexcharts-legend.position-bottom.apexcharts-align-center,
+        .apexcharts-legend.position-top.apexcharts-align-center {
+            bottom: 0 !important;
+        }
+        
+        .greyl {
+            background: #fbfbfb;
+            padding-bottom: 1.3rem;
+        }
+        
+        .form-control2 {
+            display: block;
+            width: 100%;
+            height: calc(1.5em + 0.9rem + 2px);
+            padding: 0.45rem 0.9rem;
+            font-size: 0.9rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #6c757d;
+            background-color: #ffffff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: 0.2rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+        
+        .col-15 {
+            flex: 0 0 5%;
+            width: 5%;
+            float: left;
+            text-align: center;
+            min-height: 38px;
+            padding-top: 8px;
+        }
+        
+        .col-20 {
+            flex: 0 0 15%;
+            width: 15%;
+            float: left;
+            text-align: center;
+        }
+        
+        .f-15 {
+            font-size: 16px;
+            color: #0a406d;
+        }
+        
+        .f-16 {
+            font-size: 17px;
+            color: #0a406d;
+        }
+        
+        .f-17 {
+            font-size: 20px;
+            line-height: 6px;
+            position: relative;
+            top: 5px;
+            color: #0a406d;
+        }
+        
+        .f-18 {
+            font-size: 29px;
+            line-height: 6px;
+            position: relative;
+            top: 5px;
+            color: #0a406d;
+        }
+        
+        .f-19 {
+            font-size: 22px;
+            line-height: 6px;
+            position: relative;
+            top: 3px;
+            color: #0a406d;
+        }
+        
+        .info-box {
+            display: block;
+            min-height: 90px;
+            background: #fff;
+            width: 100%;
+            box-shadow: 0 1px 10px #d8d8d8;
+            border-radius: 0px;
+            margin-bottom: 15px;
+        }
+        
+        .info-box-icon {
+            background: none;
+            border-top-left-radius: 0px;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0px;
+            font-size: 36px;
+        }
+        
+        .info-box-content {
+            padding: 5px 10px;
+            margin-left: 90px;
+        }
+        
+        .info-box-text {
+            font-size: 13px;
+            font-weight: lighter;
+            text-decoration: solid;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .info-box-number {
+            display: block;
+            font-weight: normal;
+            font-size: 28px;
+            font-family: 'Montserrat', sans-serif;
+            color: #1e1e1e;
+        }
+        
+        .ist {
+            font-size: 21px;
+            color: #09518e;
+        }
+        
+        .f-25 {
+            font-size: 23px;
+            font-weight: 700;
+        }
+        
+        .sepick {
+            padding: 0 10px;
+            background: #565d66;
+            color: #fff;
+            font-weight: bold;
+        }
+        
+        .clear15 {
+            height: 1px;
+            clear: both;
+            width: 100%;
+            float: left;
+            padding-bottom: 15px;
+        }
+        
+        .rct {
+            float: right;
+            padding: 0;
+            text-align: center;
+        }
+        
+        .text-mute-blue {
+            font-size: 16px;
+            text-align: center;
+        }
+        
+        .font23 {
+            font-size: 23px !important;
+        }
+        
+        .font28 {
+            font-size: 28px !important;
+        }
+        
+        .font35 {
+            font-size: 35px !important;
+        }
+        
+        .avatar-title {
+            display: flex !important;
+        }
+        
+        .pl15 {
+            padding-left: 15px;
+        }
+        
+        .greyl:hover {
+            box-shadow: 0 0px 2px 0px rgb(0 0 0 / 20%), 0 0px 0px 0px rgb(0 0 0 / 19%);
+        }
+        
+        .form-control3 {
+            height: calc(1.5em + 0.9rem + 2px) !important;
+            padding: 0.4rem 0.9rem !important;
+            font-size: 1rem !important;
+            width: 35%;
+        }
+        
+        .pnn {
+            margin-top: -7px;
+            margin-bottom: 5px;
+        }
+        
+        .w20 {
+            width: 19%;
+            margin-right: 1%;
+        }
+        
+        .dhh {
+            min-height: 103px;
+        }
+        
+        .card-dashpad {
+            padding: 0.9rem 1rem 0.3rem 1.3rem;
+            float: left;
+            width: 100%;
+        }
+        
+        .w20:last-child {
+            margin-right: 0%;
+        }
+        
+        @media screen and (max-width:1920px) {
+            .card-dashpad .avatar-lg {
+                height: 4.3em !important;
+                width: 4.3rem !important;
+            }
+        }
+        
+        @media screen and (max-width:1680px) {
+            .card-dashpad {
+                padding: 0.6rem 1rem 0.3rem 1.3rem;
+            }
+            .card-dashpad .avatar-lg {
+                height: 3rem !important;
+                width: 3rem !important;
+            }
+            .table-responsive {
+                overflow: auto !important;
+            }
+            .dhh {
+                min-height: 95px;
+            }
+            .greyl {
+                padding-bottom: 1rem;
+            }
+        }
+        
+        @media screen and (max-width: 1600px) {
+            .dh3 {
+                font-size: 1.1rem;
+            }
+            .card-dashpad .avatar-lg {
+                height: 3rem !important;
+                width: 3rem !important;
+            }
+        }
+        
+        @media screen and (max-width: 1536px) {
+            .greyl {
+                padding-bottom: 1rem;
+            }
+            .dhh {
+                min-height: 92px;
+            }
+        }
+        
+        @media screen and (max-width:1440px) {
+            .dhh {
+                min-height: 88px;
+            }
+            .nrp {
+                font-size: 13px !important;
+            }
+            .card-dashpad {
+                padding: 0.5rem 0.3rem 0.7rem 1rem !important;
+            }
+            .dh3 {
+                font-size: 1.1rem;
+            }
+            .card-dashpad .avatar-lg {
+                height: 3rem !important;
+                width: 3rem !important;
+            }
+            .greyl {
+                padding-bottom: 1rem;
+            }
+        }
+        
+        @media screen and (max-width:1366px) {
+            .dhh {
+                min-height: 87px;
+            }
+            .table-responsive {
+                overflow: auto !important;
+            }
+            .dh3 {
+                font-size: 1.1rem;
+            }
+            .nrp {
+                font-size: 13px !important;
+            }
+            .card-dashpad {
+                padding: 0.5rem 0.3rem 0.7rem 0.5rem !important;
+            }
+            .card-dashpad .avatar-lg {
+                height: 2.7rem !important;
+                width: 2.75rem !important;
+            }
+            .font35 {
+                font-size: 28px !important;
+            }
+            .font28 {
+                font-size: 22px !important;
+            }
+            .font23 {
+                font-size: 18px !important;
+            }
+            .greyl {
+                padding-bottom: 1rem;
+            }
+        }
+        
+        @media screen and (max-width:1280px) {
+            .card-dashpad .avatar-lg {
+                height: 2.7rem !important;
+                width: 2.75rem !important;
+            }
+            .sepickchart {
+                width: 35%;
+            }
+            .aw {
+                margin-top: -4px;
+            }
+            .text-mute-blue {
+                font-size: 15px;
+            }
+        }
+        
+        @media screen and (max-width:768px) {
+            .dhh {
+                min-height: auto !important;
+            }
+        }
+        
+        @media screen and (max-width:640px) {
+            .w20 {
+                width: 100%;
+            }
+        }

@@ -1,0 +1,13 @@
+<div class="modal-header">
+    <h4 class="modal-title">Generate Link</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4">
+    <div class="text-center mb-4">
+        <a href="{{url}}" target="_blank">{{url}}</a>
+    </div>
+    <div class="modal-footer modal-lg">
+        <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+        <button class="btn btn-success waves-effect waves-light" (click)="copyText(url)">Copy Link</button>
+    </div>
+</div>

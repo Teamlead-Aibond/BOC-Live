@@ -1,0 +1,38 @@
+<header id="topnav" *ngIf="showNav">
+    <app-topbar class="topbar-light" (settingsButtonClicked)="onSettingsButtonClicked()" (mobileMenuButtonClicked)="onToggleMobileMenu()">
+    </app-topbar>
+    <app-sidebar [isCondensed]="isCondensed" *ngIf="showSideNav"></app-sidebar>
+
+    <app-navbar *ngIf="showNav" [showMobileMenu]="showMobileMenu"></app-navbar>
+
+</header>
+
+<div class="wrapper" *ngIf="showNav">
+
+    <router-outlet></router-outlet>
+</div>
+
+
+
+
+<div id="wrapper" *ngIf="showSideNav">
+
+    <app-topbar class="topbar-light" (settingsButtonClicked)="onSettingsButtonClicked()" (mobileMenuButtonClicked)="onToggleMobileMenu()">
+    </app-topbar>
+    <app-sidebar [isCondensed]="isCondensed" *ngIf="showSideNav"></app-sidebar>
+
+    <app-navbar *ngIf="showNav" [showMobileMenu]="showMobileMenu"></app-navbar>
+
+    <div class="content-page">
+        <div class="content">
+            <!-- content -->
+            <router-outlet></router-outlet>
+        </div>
+
+
+    </div>
+</div>
+
+<app-footer></app-footer>
+
+<app-rightsidebar></app-rightsidebar>

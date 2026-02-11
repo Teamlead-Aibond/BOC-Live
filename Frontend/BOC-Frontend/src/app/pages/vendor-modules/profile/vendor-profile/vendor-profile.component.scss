@@ -1,0 +1,49 @@
+/* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+
+.customerbg {
+    font-weight: bold;
+    padding: 5px;
+    background-color: #fbcfd6;
+    border: 1px solid #efa0ac;
+    color: #333333;
+}
+
+.form-group label {
+    padding-bottom: 6px;
+}
+
+.approvebg {
+    font-weight: bold;
+    padding: 5px;
+    background-color: rgba(0, 0, 0, .075);
+    border: 1px solid rgba(0, 0, 0, .075);
+    color: #333333;
+    text-transform: uppercase;
+}
+
+.address {
+    color: #232323 !important;
+}
+
+@media screen and (max-width:768px) {
+    .edit-cust {
+        padding: 15px 13px 15px 0px;
+    }
+    .form-rbox {
+        padding: 0 1.8rem 0rem 3rem;
+    }
+    .raa {
+        margin-left: 25px;
+    }
+}
+
+@media screen and (max-width:640px) {
+    .edit-cust {
+        padding: 15px 13px 15px 0px;
+    }
+}

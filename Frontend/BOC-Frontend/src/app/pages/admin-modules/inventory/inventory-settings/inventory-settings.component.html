@@ -1,0 +1,367 @@
+<div class="container-fluid">
+	<app-page-title
+		title="Inventory Settings"
+		class="edit-title"
+		[breadcrumbItems]="breadCrumbItems"
+	></app-page-title>
+	<form [formGroup]="form" (ngSubmit)="onSubmit()">
+		<div class="card-box">
+			<h4>Notification Settings</h4>
+			<div class="row">
+				<div class="col-xl-6">
+					<div class="form-group row mb-0">
+						<label class="col-sm-3 col-form-label" for="simpleinput"
+							>Email
+
+							<span class="red">*</span></label
+						>
+						<div class="col-sm-9">
+							<input
+								type="text"
+								class="form-control"
+								formControlName="InventoryNotificationEmail"
+								id="InventoryNotificationEmail"
+							/>
+							<div
+								*ngIf="
+									f.InventoryNotificationEmail.touched &&
+									f.InventoryNotificationEmail.invalid
+								"
+								class="alert alert-danger"
+							>
+								<div *ngIf="f.InventoryNotificationEmail.errors.required">
+									Notification Mobile Number is required.
+								</div>
+								<div *ngIf="f.InventoryNotificationEmail.errors.email">
+									Notification Email must be a valid email address
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xl-6">
+					<div class="form-group row mb-2">
+						<label class="col-sm-3 col-form-label" for="simpleinput"
+							>Mobile No: <span class="red">*</span></label
+						>
+						<div class="col-sm-9 mt-1">
+							<input
+								type="text"
+								class="form-control"
+								name="InventoryNotificationMobile"
+								formControlName="InventoryNotificationMobile"
+								id="InventoryNotificationMobile"
+							/>
+							<div
+								*ngIf="
+									f.InventoryNotificationMobile.touched &&
+									f.InventoryNotificationMobile.invalid
+								"
+								class="alert alert-danger"
+							>
+								<div *ngIf="f.InventoryNotificationMobile.errors.required">
+									Notification Mobile Number is required.
+								</div>
+								<div *ngIf="f.InventoryNotificationMobile.errors.pattern">
+									Please, Enter 10 digit Mobile Number.
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<h4>RFID Settings</h4>
+			<div class="row">
+				<div class="col-xl-6">
+					<div class="form-group row mb-0">
+						<label class="col-sm-3 col-form-label" for="simpleinput"
+							>{{ 'Enable RFID' }} <span class="red">*</span></label
+						>
+						<div class="form-check form-check-inline">
+							<input
+								type="radio"
+								class="form-check-input"
+								[value]="1"
+								name="IsRFIDEnabled"
+								formControlName="IsRFIDEnabled"
+							/>
+							<label class="form-check-label" for="inlineRadio1">Yes</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input
+								type="radio"
+								class="form-check-input"
+								[value]="0"
+								name="IsRFIDEnabled"
+								formControlName="IsRFIDEnabled"
+								checked
+							/>
+							<label class="form-check-label" for="inlineRadio1">No</label>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" *ngIf="form.get('IsRFIDEnabled').value == '1'">
+				<div class="col-xl-6">
+					<div class="form-group row mb-2">
+						<label class="col-sm-3 col-form-label" for="simpleinput"
+							>Reader Interface Host <span class="red">*</span></label
+						>
+						<div class="col-sm-9 mt-1">
+							<input
+								type="text"
+								class="form-control"
+								name="ReaderInterfaceHost"
+								formControlName="ReaderInterfaceHost"
+								id="ReaderInterfaceHost"
+							/>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-6">
+					<div class="form-group row mb-0">
+						<label class="col-sm-3 col-form-label" for="simpleinput"
+							>Reader Host <span class="red">*</span></label
+						>
+						<div class="col-sm-9">
+							<input
+								type="text"
+								class="form-control"
+								name="ReaderHost"
+								formControlName="ReaderHost"
+								id="ReaderHost"
+							/>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-6">
+					<div class="form-group row mb-0">
+						<label class="col-sm-3 col-form-label" for="simpleinput"
+							>Reader Id <span class="red">*</span></label
+						>
+						<div class="col-sm-9 mt-1">
+							<input
+								type="number"
+								class="form-control"
+								name="ReaderId"
+								formControlName="ReaderId"
+								id="ReaderId"
+							/>
+						</div>
+					</div>
+				</div>
+				<!-- <div class="col-xl-6">
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-3 col-form-label" for="simpleinput">Reader Timeout (mins) <span
+                                class="red">*</span></label>
+                        <div class="col-sm-9 mt-1">
+                            <input type="number" class="form-control" name="RFIDStorageTime" formControlName="RFIDStorageTime" value="60"
+                                id="RFIDStorageTime" />
+                        </div>
+                    </div>
+                </div> -->
+				<div class="col-xl-6">
+					<div class="form-group row mb-2">
+						<label class="col-sm-3 col-form-label" for="simpleinput"
+							>Preset Name <span class="red">*</span></label
+						>
+						<div class="col-sm-9 mt-1">
+							<input
+								type="text"
+								class="form-control"
+								name="PresetName"
+								formControlName="PresetName"
+								id="PresetName"
+							/>
+						</div>
+					</div>
+				</div>
+				<!-- RFIDStorageTime -->
+				<div class="col-xl-6">
+					<div class="form-group row mb-2">
+						<label class="col-sm-3 col-form-label" for="simpleinput"
+							>RFID StorageTime <span class="red">*</span></label
+						>
+						<div class="col-sm-9 mt-1">
+							<input
+								type="number"
+								min="1"
+								class="form-control"
+								name="RFIDStorageTime"
+								formControlName="RFIDStorageTime"
+								id="RFIDStorageTime"
+							/>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" *ngIf="form.get('IsRFIDEnabled').value == '1'">
+				<div class="col-lg-12">
+					<div class="card-box edit-data mt-2 mb-4">
+						<div class="row">
+							<div class="col-xl-6 col-6 col-sm-6">
+								<h4>Zone</h4>
+							</div>
+							<div class="col-xl-6 col-6 col-sm-6 text-right">
+								<!-- <button type="button" class="btn btn-primary waves-effect waves-light ng-star-inserted" (click)="addReference()">Add Zone</button> -->
+							</div>
+						</div>
+						<div class="row">
+							<div class="table-responsive">
+								<table
+									id="datatable-angular-partslist"
+									class="table mb-15 hover nowrap"
+								>
+									<thead class="thead-light">
+										<tr>
+											<!-- <th>#</th> -->
+											<th *ngIf="false">Zone Id<span class="red">*</span></th>
+											<th>Zone Name<span class="red">*</span></th>
+											<th>
+												<span class="text-blue">Ready State (Antenna #)</span
+												><span class="red">*</span>
+											</th>
+											<th>
+												<span class="text-green">Confirmation State (Antenna #)</span
+												><span class="red">*</span>
+											</th>
+											<th>Action<span class="red">*</span></th>
+										</tr>
+									</thead>
+									<tbody>
+										<ng-container
+											*ngFor="let item of form.controls.Zones['controls']; let i = index"
+										>
+											<tr [formGroup]="item" *ngIf="item.get('IsDeleted').value == 0">
+												<!-- <td>{{i + 1}}</td> -->
+												<td *ngIf="false">
+													<input
+														type="number"
+														class="form-control"
+														formControlName="ZoneId"
+														required
+													/>
+												</td>
+												<td>
+													<input
+														type="text"
+														class="form-control"
+														formControlName="Zone"
+														required
+													/>
+												</td>
+												<td>
+													<input
+														type="number"
+														class="form-control"
+														formControlName="readyAntennaPort"
+														required
+													/>
+												</td>
+												<td>
+													<input
+														type="number"
+														class="form-control"
+														formControlName="acceptAntennaPort"
+														required
+													/>
+												</td>
+												<td>
+													<a class="action-item" (click)="onZoneDelete(i)" *ngIf="i > 1"
+														><i
+															class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"
+														></i
+													></a>
+												</td>
+											</tr>
+										</ng-container>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<h4>Antenna Configurations</h4>
+					<ng-container
+						*ngFor="
+							let item1 of form.controls.AntennaConfigs['controls'];
+							trackBy: trackByFn
+						"
+					>
+						<div class="card-box edit-data mt-2 mb-4">
+							<div class="row" [formGroup]="item1">
+								<div class="col-xl-6">
+									<div class="form-group row mb-2">
+										<label class="col-sm-3 col-form-label" for="simpleinput"
+											>Antenna Name <span class="red">*</span></label
+										>
+										<div class="col-sm-9 mt-1">
+											<input
+												type="text"
+												class="form-control"
+												formControlName="AntennaName"
+											/>
+										</div>
+									</div>
+								</div>
+								<div class="col-xl-6">
+									<div class="form-group row mb-2">
+										<label class="col-sm-3 col-form-label" for="simpleinput"
+											>RF Mode <span class="red">*</span></label
+										>
+										<div class="col-sm-9 mt-1">
+											<input type="text" class="form-control" formControlName="RFMode" />
+										</div>
+									</div>
+								</div>
+								<div class="col-xl-6">
+									<div class="form-group row mb-2">
+										<label class="col-sm-3 col-form-label" for="simpleinput"
+											>Transmit Power Cdbm <span class="red">*</span></label
+										>
+										<div class="col-sm-9 mt-1">
+											<input
+												type="text"
+												class="form-control"
+												formControlName="TransmitPowerCdbm"
+											/>
+										</div>
+									</div>
+								</div>
+								<div class="col-xl-6">
+									<div class="form-group row mb-2">
+										<label class="col-sm-3 col-form-label" for="simpleinput"
+											>Receive Sensitivity Dbm <span class="red">*</span></label
+										>
+										<div class="col-sm-9 mt-1">
+											<input
+												type="text"
+												class="form-control"
+												formControlName="ReceiveSensitivityDbm"
+											/>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</ng-container>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xl-6">&nbsp;</div>
+				<div class="col-xl-6">
+					<button
+						class="btn btn-success waves-effect waves-light"
+						style="float: right !important; margin-top: 10px"
+					>
+						Submit
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

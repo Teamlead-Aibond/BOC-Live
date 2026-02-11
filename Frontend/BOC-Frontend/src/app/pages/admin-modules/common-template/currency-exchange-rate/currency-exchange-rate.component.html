@@ -1,0 +1,110 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">Currency Exchange Rate</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg">
+    <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="Form">
+
+        <div class="row">
+
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="Customer">Source Currency:<span class="red">*</span></label>
+                    <select class="custom-select" name="SourceCurrencyCode" formControlName="SourceCurrencyCode">
+                        <option value="" disabled>Select</option>
+                        <option *ngFor="let item of CurrencyList" value={{item.CurrencyCode}}>
+                            {{item.CurrencyCode}}&nbsp;-{{item.CurrencySymbol}}
+                        </option>
+                    </select>
+                    <span class="text-danger"
+                        *ngIf="(FormControl.SourceCurrencyCode.touched || submitted) && FormControl.SourceCurrencyCode.errors?.required">
+                        Source Currency is required
+                    </span>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="Customer">Target Currency:<span class="red">*</span></label>
+                    <select class="custom-select" name="TargetCurrencyCode" formControlName="TargetCurrencyCode">
+                        <option value="" disabled>Select</option>
+                        <option *ngFor="let item of CurrencyList" value={{item.CurrencyCode}}>
+                            {{item.CurrencyCode}}&nbsp;-{{item.CurrencySymbol}}
+                        </option>
+                    </select>
+                    <span class="text-danger"
+                        *ngIf="(FormControl.TargetCurrencyCode.touched || submitted) && FormControl.TargetCurrencyCode.errors?.required">
+                        Target Currency is required
+                    </span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="form-group">
+                    <label for="Customer">Exchange Rate : <span class="red">*</span></label>
+                    <input type="text" class="form-control" placeholder="Enter Exchange Rate" name="ExchangeRate"
+                        formControlName="ExchangeRate" inputmode="numeric" pattern="^\d+(\.\d{1,4})?$"
+                        placeholder="0.00" digitOnly decimal="true">
+                    <span class="text-danger"
+                        *ngIf="(FormControl.ExchangeRate.touched || submitted) && FormControl.ExchangeRate.errors?.required">
+                        Exchange Rate is required
+                    </span>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="form-group">
+
+                    <label for="Customer">From Date:
+                        <span class="red">*</span>
+                    </label>
+                    <div class="input-group col-xl-12">
+                        <input class="form-control" style="margin-left: -10px;" placeholder="MM/DD/YYYY" name="d2"
+                            ngbDatepicker #d1="ngbDatepicker" name="FromDate" formControlName="FromDate">
+                        <div class="input-group-append">
+                            <button class="blackbg" (click)="d1.toggle()" type="button"><i
+                                    class="mdi blackbg white mdi-calendar"></i></button>
+                        </div>
+
+                    </div>
+                    <span class="text-danger"
+                        *ngIf="(FormControl.FromDate.touched || submitted) && FormControl.FromDate.errors?.required">
+                        From Rate is required
+                    </span>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="form-group">
+
+                    <label for="Customer">To Date:
+                        <span class="red">*</span>
+                    </label>
+                    <div class="input-group col-xl-12">
+                        <input class="form-control" style="margin-left: -10px;" placeholder="MM/DD/YYYY" name="d2"
+                            ngbDatepicker #d2="ngbDatepicker" name="ToDate" formControlName="ToDate">
+                        <div class="input-group-append">
+                            <button class="blackbg" (click)="d2.toggle()" type="button"><i
+                                    class="mdi blackbg white mdi-calendar"></i></button>
+                        </div>
+
+                    </div>
+                    <span class="text-danger"
+                        *ngIf="(FormControl.ToDate.touched || submitted) && FormControl.ToDate.errors?.required">
+                        To Rate is required
+                    </span>
+                </div>
+            </div>
+
+        </div>
+        <div class="text-right pt-2 mt-0">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light ml-1">Save</button>
+        </div>
+
+    </form>
+</div>

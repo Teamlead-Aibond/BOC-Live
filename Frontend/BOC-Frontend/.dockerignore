@@ -1,0 +1,39 @@
+# Node.js and Angular files
+npm-debug.log
+yarn-error.log
+dist
+
+# Ignore all log files
+*.log
+
+# Ignore local environment variables
+.env
+
+# Ignore all git files and directories
+.git
+.gitignore
+.github
+
+# Ignore all the markdown files (like README.md)
+*.md
+
+# Ignore cache and temporary files that might be generated during local development
+.cache/
+.tmp/
+.temp/
+
+# Ignore all editor/IDE specific temp files
+*.swp
+*.swo
+*~
+.DS_Store
+.idea/
+.vscode/
+Thumbs.db
+
+# Ignore other non-essential files
+coverage
+
+# Temporary and backup files
+*.tmp
+*.bak

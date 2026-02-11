@@ -1,0 +1,35 @@
+<div class="modal-header modal-lg ht">
+    <h4 class="modal-title">Not Repairable</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg">
+    <form  [formGroup]="EditForm" (ngSubmit)="onSubmit()">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-xl-12 col-md-12">
+                    <div class="group-gap">
+                        <h5 class="mb-3">Reason :</h5>
+                        <div class="d-block my-3">
+
+                            <div class="custom-control custom-radio" *ngFor="let reason of not_repairable_reasons;  let i = index;">
+                                <input id="reason{{i+1}}" type="radio" class="custom-control-input" value="{{reason.id}}"
+                                    name="reason" formControlName="reason">
+                                <label class="custom-control-label" for="reason{{i+1}}">{{reason.title}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-danger"
+              *ngIf="submitted && EditFormControl.reason.errors?.required">
+              Please select the Reason!
+          </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light"> Submit</button>
+        </div>
+    </form>
+</div>

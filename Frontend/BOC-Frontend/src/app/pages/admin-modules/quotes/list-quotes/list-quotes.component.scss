@@ -1,0 +1,29 @@
+/* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+
+    .gridview-ico {
+        float: right;
+        padding-top: 22px;
+        padding-right: 4px;
+        cursor: pointer;
+    }
+    
+    table#datatable-sq {
+        width: 100% !important;
+    }
+    
+    @media only screen and (max-width:1680px) {
+        .table-responsive {
+            overflow: visible !important;
+        }
+    }
+    
+    @media only screen and (max-width:1366px) {
+        .table-responsive {
+            overflow: auto !important;
+        }
+    }

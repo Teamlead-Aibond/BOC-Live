@@ -1,0 +1,710 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="container-fluid">
+    <app-page-title title="Create Sales Quotes" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-xl-12">
+            <form name="form" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+
+                <div class="card-box">
+                    <div class="row mb-1">
+                        <div class="col-xl-6 float-left">
+                            &nbsp;
+                        </div>
+
+                        <div class="col-xl-6 sales-right">
+                            <div class="btn-group btn-group-sm float-right" role="group">
+                                <button ngbTooltip="Save" placement="top" class="btn btn-icon waves-effect"
+                                    [disabled]="btnDisabled"
+                                    [ngClass]="{'class': (btnDisabled)? 'gray': 'btn-group btn-group-sm float-right'}">
+                                    <i class="mdi mdi-content-save"></i></button>
+                                <button type="button" ngbTooltip="Back" placement="top"
+                                    class="btn btn-icon bg-primary waves-effect" routerLink="/admin/Quotes-List">
+                                    <i class="fas fa-arrow-left"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- <div class="card-box"> -->
+                            <!-- Logo & title -->
+                            <div class="clearfix">
+                                <div class="float-left">
+                                    <img src="assets/images/ah_logo.png" alt="" height="30">
+                                </div>
+                                <div class="float-right  sales-right">
+                                    <h2 class="m-0 d-print-none"> Sales Quotes #AUTO</h2>
+                                </div>
+                            </div>
+                            <div class="clear">&nbsp;</div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h4 class="page-title bluetxt mb-20"> Customer Details</h4>
+
+                                    <div class="row">
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>Customer:<span class="red">*</span></label>
+                                                <ng-select [items]="customerList" [searchable]="true" name="CustomerId"
+                                                    (change)="getCustomerProperties(model.CustomerId)"
+                                                    [(ngModel)]="model.CustomerId" placeholder="Select"
+                                                    bindLabel="title" bindValue="CustomerId" #CustomerId="ngModel"
+                                                    [ngClass]="{ 'is-invalid': f.submitted && CustomerId.invalid }"
+                                                    required>
+                                                </ng-select>
+                                                <div *ngIf="f.submitted &&CustomerId.invalid" class="invalid-feedback">
+                                                    <div *ngIf="CustomerId.errors.required">Customer is required</div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>Customer Name:</label>
+                                                <input type="text" [(ngModel)]="model.CompanyName" name="CompanyName"
+                                                    class="form-control" placeholder="Enter Customer Name">
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>First Name:</label>
+                                                <input class="form-control" [(ngModel)]="model.FirstName"
+                                                    placeholder="Enter First Name" name="FirstName">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>Last Name:</label>
+                                                <input class="form-control" [(ngModel)]="model.LastName" name="LastName"
+                                                    placeholder="Enter Last Name">
+
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>Email:</label>
+                                                <input class="form-control" [(ngModel)]="model.Email"
+                                                    placeholder="Enter Email" name="Email">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>Contact Address:<span class="red">*</span></label>
+                                                <ng-select [items]="customerAddressList" name="AddressId"
+                                                    #contact_AddressId="ngModel"
+                                                    [ngClass]="{ 'is-invalid': f.submitted && contact_AddressId.invalid }"
+                                                    required name="contact_AddressId"
+                                                    [(ngModel)]="model.contact_AddressId" placeholder="Select"
+                                                    bindLabel="title" bindValue="AddressId">
+                                                </ng-select>
+                                                <div *ngIf="f.submitted &&contact_AddressId.invalid"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="contact_AddressId.errors.required">Contact Address is
+                                                        required
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+
+
+
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>Terms:<span class="red">*</span></label>
+
+                                                <select class="form-control" [(ngModel)]="model.TermsId" name="TermsId"
+                                                    #TermsId="ngModel"
+                                                    [ngClass]="{ 'is-invalid': f.submitted && TermsId.invalid }"
+                                                    required>
+                                                    <option value="undefined" disabled>Select</option>
+                                                    <option *ngFor="let item of TermsList" value="{{item.TermsId}}">
+                                                        {{item.TermsName}}</option>
+
+                                                </select>
+                                                <div *ngIf="f.submitted &&TermsId.invalid" class="invalid-feedback">
+                                                    <div *ngIf="TermsId.errors.required">Terms is required</div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>Tax Type:<span class="red">*</span></label>
+
+                                                <select class="form-control" [(ngModel)]="model.TaxType" name="TaxType"
+                                                    #TaxType="ngModel"
+                                                    [ngClass]="{ 'is-invalid': f.submitted && TaxType.invalid }"
+                                                    required>
+                                                    <option value="undefined" disabled>Select</option>
+                                                    <option *ngFor="let item of taxType" value="{{item.TaxType}}">
+                                                        {{item.TaxTypeName}}</option>
+
+                                                </select>
+                                                <div *ngIf="f.submitted &&TaxType.invalid" class="invalid-feedback">
+                                                    <div *ngIf="TaxType.errors.required">Tax Type is required</div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>Bill Address:<span class="red">*</span></label>
+                                                <ng-select [items]="customerAddressList" name="AddressId"
+                                                    #CustomerBillToId="ngModel" name="CustomerBillToId"
+                                                    [ngClass]="{ 'is-invalid': f.submitted && CustomerBillToId.invalid }"
+                                                    required [(ngModel)]="model.CustomerBillToId" placeholder="Select"
+                                                    bindLabel="title" bindValue="AddressId">
+                                                </ng-select>
+                                                <div *ngIf="f.submitted &&CustomerBillToId.invalid"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="CustomerBillToId.errors.required">Billing Address is
+                                                        required
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>Ship Address:<span class="red">*</span></label>
+
+                                                <ng-select [items]="customerAddressList" name="AddressId"
+                                                    #CustomerShipToId="ngModel" name="CustomerShipToId"
+                                                    [ngClass]="{ 'is-invalid': f.submitted && CustomerShipToId.invalid }"
+                                                    required [(ngModel)]="model.CustomerShipToId" placeholder="Select"
+                                                    bindLabel="title" bindValue="AddressId">
+                                                </ng-select>
+                                                <div *ngIf="f.submitted &&CustomerShipToId.invalid"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="CustomerShipToId.errors.required">Shipping Address is
+                                                        required
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-6">
+                                    <h4 class="page-title bluetxt mb-20">Quotes/Estimate Details</h4>
+
+                                    <div class="row">
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>Status:<span class="red">*</span></label>
+                                                <select class="custom-select" #QuoteStatus="ngModel"
+                                                    [ngClass]="{ 'is-invalid': f.submitted && QuoteStatus.invalid }"
+                                                    required [(ngModel)]="model.QuoteStatus" name="QuoteStatus"
+                                                    class="form-control">
+                                                    <option value="undefined" disabled>Select</option>
+                                                    <option *ngFor="let SQ_status of SalesQuoteStatusList"
+                                                        [value]="SQ_status.SalesQuote_StatusId">
+                                                        {{SQ_status.SalesQuote_StatusName}}</option>
+                                                </select>
+                                                <div *ngIf="f.submitted &&QuoteStatus.invalid" class="invalid-feedback">
+                                                    <div *ngIf="QuoteStatus.errors.required">Status is required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>Quote Type:<span class="red">*</span></label>
+                                                <select class="custom-select" [(ngModel)]="model.QuoteType"
+                                                    #QuoteType="ngModel"
+                                                    [ngClass]="{ 'is-invalid': f.submitted && QuoteType.invalid }"
+                                                    required name="QuoteType">
+                                                    <option value="undefined" disabled>Select</option>
+                                                    <option *ngFor="let Type of QuoteTypeList"
+                                                        value={{Type.Quote_TypeId}}>
+                                                        {{Type.Quote_TypeName}}
+                                                    </option>
+
+                                                </select>
+                                                <div *ngIf="f.submitted &&QuoteType.invalid" class="invalid-feedback">
+                                                    <div *ngIf="QuoteType.errors.required">Quote Type is required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-xl-12">
+                                            <div class="form-group">
+                                                <label>Quote Date:<span class="red">*</span></label>
+                                                <div class="input-group clockpicker">
+                                                    <input ngbDatepicker class="form-control" name="QuoteDate"
+                                                        #QuoteDate="ngModel"
+                                                        [ngClass]="{ 'is-invalid': f.submitted && QuoteDate.invalid }"
+                                                        required [(ngModel)]="model.QuoteDate" autoClose="false"
+                                                        placeholder="MM/DD/YYYY" #Quote_Date="ngbDatepicker">
+                                                    <div class="input-group-append" (click)="Quote_Date.toggle()">
+                                                        <span class="input-group-text"><i
+                                                                class="mdi mdi-calendar"></i></span>
+                                                    </div>
+                                                    <div *ngIf="f.submitted &&QuoteDate.invalid"
+                                                        class="invalid-feedback">
+                                                        <div *ngIf="QuoteDate.errors.required">Quote Date is required
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>Admin Name:</label>
+                                                <input type="text" class="form-control">
+
+                                            </div>
+                                        </div> -->
+
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-xl-12">
+
+                                            <div class="form-group">
+                                                <label>Description:</label>
+                                                <textarea class="form-control" row="2" [(ngModel)]="model.Description"
+                                                    name="Description" style="height:120px;"></textarea>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xl-12">
+                                            <div class="form-group">
+                                                <label>Notes:</label>
+
+                                                <textarea class="form-control" row="2" [(ngModel)]="model.Notes"
+                                                    name="Notes"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height:1px;" class="clear">&nbsp;</div>
+                            <!-- end row -->
+                            <h4  *ngIf="showlineItem"class="page-title bluetxt mb-20">Item Details
+                                <button (click)="AddItem()" type="button" class="btn btn-add waves-effect">
+                                    <i class="remixicon-add-fill mt-3"></i> Add
+                                </button>
+                            </h4>
+
+
+                            <div *ngIf="showlineItem" class="table-responsive">
+                                <table class="table table-bordered idt mb-0">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Part #<span class="red">*</span></th>
+                                            <th>Description</th>
+                                            <th>Lead Time</th>
+                                            <th>Quantity<span class="red">*</span></th>
+                                            <th>Unit Price<span class="red">*</span></th>
+                                            <th>{{VAT_field_Name}}</th>
+                                            <th>Price<span class="red">*</span></th>
+                                            <th *ngIf="IsDisplayBaseCurrencyValue==1">Price({{BaseCurrencySymbol}})<span class="red">*</span></th>
+                                            <th>Warranty Period<span class="red">*</span></th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngFor="let item of PartItem;let i=index;">
+                                        <tr>
+                                            <td style="width: 20%;" class="ng-autocomplete">
+                                                <ng-autocomplete placeholder="Enter Part #" [data]="filteredData"
+                                                    [isLoading]="isLoading" [searchKeyword]="keyword"
+                                                    (selected)='selectEvent($event,i)' [(ngModel)]="PartItem[i].Part"
+                                                    (inputChanged)='onChangeSearch($event,i)' 
+                                                    (inputFocused)='onFocused($event,i)' [itemTemplate]="itemTemplate"
+                                                    [notFoundTemplate]="notFoundTemplate" debounceTime="1000"
+                                                    #Part="ngModel" name="Part[{{i}}]" 
+                                                    [ngClass]="{ 'is-invalid': f.submitted && Part.invalid }" required>
+                                                </ng-autocomplete>
+
+                                                <ng-template #itemTemplate let-item>
+                                                    <a [innerHTML]="item.PartNo"></a>
+                                                </ng-template>
+
+                                                <ng-template #notFoundTemplate let-notFound>
+                                                    <div [innerHTML]="notFound"></div>
+                                                </ng-template>
+                                                <input type="hidden"  name="PartId[{{i}}]"  [(ngModel)]="PartItem[i].PartId">
+
+                                                <input type="hidden"  name="PartNo[{{i}}]" [(ngModel)]="PartItem[i].PartNo">
+                                                <br>
+                                                <div class="pon" *ngIf="PartItem[i].PartId !=''"><b>PON</b>: {{PartItem[i].ItemLocalCurrencySymbol}}
+                                                    {{item.PON}}
+                                                </div>
+                                                <div class="pon" *ngIf="PartItem[i].PartId !=''"><b>Recommended</b>: {{PartItem[i].ItemLocalCurrencySymbol}}
+                                                    {{item.RecommendedPrice||'-'}}
+                                                </div>
+
+                                                <div *ngIf="f.submitted &&Part.invalid" class="invalid-feedback">
+                                                    <div *ngIf="Part.errors.required">Part is required</div>
+                                                </div>
+                                            </td>
+                                            <td style="width: 15%;">
+                                                <textarea class="form-control" placeholder="Description..."
+                                                name="PartDescription[{{i}}]" [(ngModel)]="PartItem[i].PartDescription" 
+                                                    rows="3"></textarea>
+                                                <!-- <div *ngIf="PartItem[i].PartId !=''">
+                                                        <div *ngFor="let LLPdata of LLPList; let i =index ">
+                                                        <b>LLP {{i+1}}</b>&nbsp; : $ {{LLPdata.LLP}}
+                                                    </div>
+                                                    </div>  -->
+
+
+                                                <br>
+                                                <div class="pon" *ngFor="let item of PartItem[i].LPPList; let i =index">
+                                                    <b>LPP {{i+1}}</b>:&nbsp;{{Symbol}} {{item.LPP}},&nbsp;
+                                                </div>
+                                            </td>
+                                            <td style="width: 8%;">
+                                                <div class="input-group">
+                                                    <input type="text" digitOnly class="form-control" 
+                                                        [(ngModel)]="PartItem[i].LeadTime"  name="LeadTime[{{i}}]">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text">Day(s)</span>
+                                                    </div>
+
+                                                </div>
+
+                                            </td>
+                                            <td style="width: 5%;">
+                                                <input type="text" min="1" class="form-control" 
+                                                    digitOnly [(ngModel)]="PartItem[i].Quantity" #Quantity="ngModel"
+                                                    name="Quantity[{{i}}]" 
+                                                    [ngClass]="{ 'is-invalid': f.submitted && Quantity.invalid }"
+                                                    required (keyup)="calculatePrice(i)">
+                                                <div *ngIf="f.submitted && Quantity.invalid" class="invalid-feedback">
+                                                    <div *ngIf="Quantity.errors.required">Quantity is required</div>
+                                                </div>
+                                            </td>
+                                            <td style="width: 8%;">
+
+                                               
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">{{PartItem[i].ItemLocalCurrencySymbol}}</span>
+                                                    </div>
+                                                    <input type="text" [(ngModel)]="PartItem[i].Rate" name="Rate[{{i}}]"  
+                                                        class="form-control" inputmode="numeric" 
+                                                        pattern="^\d+(\.\d{1,2})?$" placeholder="0.00" digitOnly
+                                                        #Rate="ngModel"
+                                                        [ngClass]="{ 'is-invalid': f.submitted && Rate.invalid }"
+                                                        required decimal="true" (keyup)="calculatePrice(i)" />
+                                                    <div *ngIf="f.submitted &&Rate.invalid" class="invalid-feedback">
+                                                        <div *ngIf="Rate.errors.required">Unit Price is required</div>
+                                                    </div>
+                                                  
+                                                </div>
+                                                <div class="newprice" *ngIf="PartItem[i].Rate && PartItem[i].PON">
+                                                    <br> {{PartItem[i].NewPricePercent | number}}% of New<br> Save :
+                                                    {{PartItem[i].ItemLocalCurrencySymbol}} {{PartItem[i].SaveAmount}}
+                                                </div>
+                                            </td>
+
+                                            <td style="width: 7%;">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">%</span>
+                                                    </div>
+                                                <input type="text" min="1" class="form-control" 
+                                                     [(ngModel)]="PartItem[i].ItemTaxPercent" #ItemTaxPercent="ngModel"  inputmode="numeric" pattern="^\d+(\.\d{1,2})?$" placeholder="0.00" digitOnly
+                                                     decimal="true"
+                                                    name="ItemTaxPercent[{{i}}]" 
+                                                     (keyup)="calculatePrice(i)">
+                                                </div>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">{{PartItem[i].ItemLocalCurrencySymbol}}</span>
+                                                    </div>
+                                                    <input type="text" class="form-control"  readonly
+                                                        #Tax="ngModel"  name="Tax[{{i}}]" 
+                                                       
+                                                        
+                                                         [(ngModel)]="PartItem[i].Tax">
+                                                   
+                                                </div>
+                                            </td>
+                                           
+                                            <td style="width: 10%;">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">{{PartItem[i].ItemLocalCurrencySymbol}}</span>
+                                                    </div>
+                                                    <input type="text" class="form-control"  readonly
+                                                        #Price="ngModel"  name="Price[{{i}}]" 
+                                                       
+                                                        [ngClass]="{ 'is-invalid': f.submitted && Price.invalid }"
+                                                        required [(ngModel)]="PartItem[i].Price">
+                                                    <div *ngIf="f.submitted &&Price.invalid" class="invalid-feedback">
+                                                        <div *ngIf="Price.errors.required">Price is required</div>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                            <td style="width: 10%;" *ngIf="IsDisplayBaseCurrencyValue==1">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">{{BaseCurrencySymbol}}</span>
+                                                    </div>
+                                                    <input type="text" class="form-control"  readonly
+                                                        #BasePrice="ngModel"  name="BasePrice[{{i}}]" 
+                                                       
+                                                        [ngClass]="{ 'is-invalid': f.submitted && BasePrice.invalid }"
+                                                        required [(ngModel)]="PartItem[i].BasePrice">
+                                                    <div *ngIf="f.submitted &&BasePrice.invalid" class="invalid-feedback">
+                                                        <div *ngIf="BasePrice.errors.required">Price({{BaseCurrencySymbol}}) is required</div>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                            <td style="width: 12%;">
+                                                <select class="custom-select" name="WarrantyPeriod[{{i}}]" 
+                                                    #WarrantyPeriod="ngModel" 
+                                                    [ngClass]="{ 'is-invalid': f.submitted && WarrantyPeriod.invalid }"
+                                                    required [(ngModel)]="PartItem[i].WarrantyPeriod">
+                                                    <option value="undefined">Select</option>
+                                                    <option *ngFor="let warranty of warrantyList"
+                                                        value="{{warranty.WarrantyPeriodId}}">
+                                                        {{warranty.WarrantyPeriodValue}}
+                                                    </option>
+                                                </select>
+                                                <div *ngIf="f.submitted &&WarrantyPeriod.invalid"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="WarrantyPeriod.errors.required">Warranty Period is
+                                                        required
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td style="width: 2%;">
+                                                <a (click)="removePartItem(i)" *ngIf="i != 0" class="text-danger"
+                                                    style="cursor: pointer;"> <i
+                                                        class="remixicon-delete-bin-line delete-btn-ico"></i></a>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <div *ngIf="showlineItem" class="row">
+                                <!-- end col -->
+                                <div class="col-xl-12">
+                                    <div class="text-right">
+
+                                        <div class="table-responsive">
+                                            <table class="table table-borderless bill mb-0">
+                                                <tbody>
+                                                    <!-- <tr>
+                                                        <th width="80%" scope="row">
+                                                            <p><b>Sub Total:</b></p>
+                                                        </th>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">$</span>
+                                                                </div>
+                                                                <input type="text" class="form-control" name="SubTotal"
+                                                                    [(ngModel)]="SubTotal" readonly>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <th scope="row">
+                                                            <p><b>Total Tax:</b></p>
+                                                        </th>
+                                                        <td>
+                                                            <div class="row">
+                                                                <div class="col-xl-6">
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-prepend">
+                                                                            <span class="input-group-text">$</span>
+                                                                        </div>
+                                                                        <input type="text" inputmode="numeric"
+                                                                            pattern="^\d+(\.\d{1,2})?$"
+                                                                            placeholder="0.00" digitOnly decimal="true"
+                                                                            class="form-control" name="TotalTax"
+                                                                            readonly [(ngModel)]="TotalTax">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xl-6">
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-prepend">
+                                                                            <span class="input-group-text">%</span>
+                                                                        </div>
+                                                                        <input type="text" inputmode="numeric"
+                                                                            pattern="^\d+(\.\d{1,2})?$"
+                                                                            placeholder="0.00" digitOnly decimal="true"
+                                                                            class="form-control"
+                                                                            (keyup)="calculateTax()" name="TaxPercent"
+                                                                            [(ngModel)]="TaxPercent">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <th scope="row">
+                                                            <p><b>Discount :</b></p>
+                                                        </th>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">$</span>
+                                                                </div>
+                                                                <input type="text" digitOnly class="form-control"
+                                                                    name="Discount" (keyup)="calculateTotal()"
+                                                                    [(ngModel)]="Discount">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <th scope="row">
+                                                            <p><b>Shipping :</b></p>
+                                                        </th>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">$</span>
+                                                                </div>
+                                                                <input type="text" digitOnly class="form-control"
+                                                                    name="Shipping" (keyup)="calculateTotal()"
+                                                                    [(ngModel)]="Shipping">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+
+                                                    <tr>
+                                                        <th scope="row">
+                                                            <p><b>AH Processing Fee :</b></p>
+                                                        </th>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">$</span>
+                                                                </div>
+                                                                <input type="text" digitOnly class="form-control"
+                                                                    name="AHFees" (keyup)="calculateTotal()"
+                                                                    [(ngModel)]="AHFees">
+                                                            </div>
+                                                        </td>
+                                                    </tr> -->
+                                                    <tr >
+                                                        <th  width="90%" scope="row">
+                                                            <p><b>Grand Total:</b></p>
+                                                        </th>
+                                                        <td>
+                                                            <p>{{Symbol}} {{GrandTotal}} </p>
+                                                            <input type="hidden" class="form-control" name="GrandTotal"
+                                                                [(ngModel)]="GrandTotal">
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="grandouter"  *ngIf="IsDisplayBaseCurrencyValue==1" >
+                                                        <th  width="90%" scope="row">
+                                                            <p><b>Grand Total ({{BaseCurrencySymbol}}) :</b></p>
+                                                        </th>
+                                                        <td>
+                                                            <p>{{BaseCurrencySymbol}} {{GrandTotalUSD}} </p>
+                                                            
+                                                        </td>
+                                                    </tr>
+                                                    
+                                                   
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+
+
+
+
+
+                            </div>
+                            <!-- end card-box -->
+
+
+
+                        </div>
+                        <!-- end col -->
+                    </div>
+                    <div class="row mt-1">
+                        <div class="col-xl-6 float-left">
+                            &nbsp;
+                        </div>
+
+                        <div class="col-xl-6 sales-right">
+                            <div class="btn-group btn-group-sm float-right" role="group">
+                                <button ngbTooltip="Save" placement="top" class="btn btn-icon waves-effect"
+                                    [disabled]="btnDisabled"
+                                    [ngClass]="{'class': (btnDisabled)? 'gray': 'btn-group btn-group-sm float-right'}">
+                                    <i class="mdi mdi-content-save"></i></button>
+                                <button type="button" ngbTooltip="Back" placement="top"
+                                    class="btn btn-icon bg-primary waves-effect"  routerLink="/admin/Quotes-List">
+                                    <i class="fas fa-arrow-left"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+
+            </form>
+            <!-- end card-box -->
+        </div>
+        <!-- end col -->
+    </div>
+</div>

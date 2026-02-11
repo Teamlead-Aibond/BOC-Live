@@ -1,0 +1,327 @@
+<!-- /* ===================================================
+ * @copyright Copyright  2020 - 2023 Aibond Corp.
+ *
+ * All Rights Reserved.
+ *
+ * ========================================================== */ -->
+
+<div
+  class="container-fluid"
+  style="width: 98%; max-width: 98%"
+  *ngIf="IsAddToCart || loginType == 1"
+>
+  <app-page-title
+    title="Cart"
+    [breadcrumbItems]="breadCrumbItems"
+  ></app-page-title>
+  <div class="row d-flex justify-content-center my-2">
+    <div class="col-md-12">
+      <div class="card p-3">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="card mb-4">
+              <div class="card-header py-2">
+                <h4 class="m-0">
+                  Cart - {{ cartList?.BasketItem?.length }} items
+                </h4>
+              </div>
+              <div class="card-body">
+                <div *ngFor="let cart of cartList?.BasketItem; let i = index">
+                  <div class="row">
+                    <div
+                      class="col-md-3 d-flex align-items-center justify-content-center"
+                    >
+                      <img
+                        src="{{
+                          cart.image
+                            ? cart.image
+                            : '../../../../../assets/images/noimage.jpeg'
+                        }}"
+                        height="100"
+                      />
+                    </div>
+                    <div
+                      class="col-md-5 d-flex flex-column justify-content-center"
+                    >
+                      <p class="mb-2" *ngIf="cart.APNNo != null">
+                        <strong>APN: {{ cart.APNNo }}</strong>
+                      </p>
+                      <p class="mb-0">Part #: {{ cart.PartNo }}</p>
+                    </div>
+                    <div
+                      class="col-md-4 d-flex flex-column justify-content-center"
+                    >
+                      <div class="d-flex mb-1">
+                        <button
+                          class="btn btn-light px-2 me-2"
+                          (click)="buttonMinus(cart, i)"
+                        >
+                          <!-- <button class="btn btn-light px-3 me-2" (click)="buttonMinus(i)"> -->
+                          <i class="fas fa-minus"></i>
+                        </button>
+                        <div class="form-outline">
+                          <input
+                            id="form1"
+                            min="0"
+                            name="quantity"
+                            value="{{ cart.Quantity }}"
+                            type="number"
+                            readonly
+                            class="form-control text-center"
+                          />
+                        </div>
+                        <button
+                          class="btn btn-light px-2 ms-2"
+                          (click)="
+                            buttonPlus(cart, i, cart.ShopCurrentQuantity)
+                          "
+                        >
+                          <!-- <button class="btn btn-light px-3 ms-2" (click)="buttonPlus(i)"> -->
+                          <i class="fas fa-plus"></i>
+                        </button>
+                        <button
+                          type="button"
+                          class="btn remove_btn ml-2"
+                          data-mdb-toggle="tooltip"
+                          title="Remove item"
+                          (click)="removeFromCart(cart)"
+                        >
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </div>
+
+                      <p class="text-start text-center m-0">
+                        <strong
+                          >{{ cart.ItemLocalCurrencySymbol }}
+                          {{ cart.Price }}</strong
+                        >
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="text-danger"
+                    *ngIf="cart.Quantity > cart.ShopCurrentQuantity"
+                  >
+                    This part is out of stock or less quantity ( Available
+                    Quantity :
+                    {{ cart.ShopCurrentQuantity }} )!
+                  </span>
+                  <hr class="my-3" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card mb-4">
+              <div class="card-header py-2">
+                <h4 class="m-0">Summary</h4>
+              </div>
+              <div class="card-body">
+                <ul class="list-group list-group-flush mb-3">
+                  <!-- <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                                        <label>Products</label>
+                                        <span>{{cartList?.BasketInfo[0]?.CurrencySymbol}}
+                                            {{cartList?.BasketInfo[0]?.GrandTotal | number:'.2'}}</span>
+                                    </li> -->
+
+                  <!--        <li
+                                        class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                                        <label>Shipping Cost</label>
+                                        <span>0</span>
+                                    </li> -->
+                  <li
+                    class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0"
+                  >
+                    <label>Vat/Tax</label>
+                    <span
+                      >{{ cartList?.BasketInfo[0]?.CurrencySymbol }}
+                      {{ cartList?.BasketInfo[0]?.Tax }}</span
+                    >
+                  </li>
+                  <li
+                    class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0"
+                  >
+                    <label>Products(Total)</label>
+                    <span
+                      >{{ cartList?.BasketInfo[0]?.CurrencySymbol }}
+                      {{
+                        cartList?.BasketInfo[0]?.GrandTotal | number : ".2"
+                      }}</span
+                    >
+                  </li>
+                  <!-- <li *ngIf="loginType != '1'" class="list-group-item border-0 px-0 pb-0 mb-2">
+                                        <label>Customer</label>
+                                        <select class="custom-select d-block w-100" id="state" required>
+                                            <option value="">Select...</option>
+                                            <option selected>AH On-site Training </option>
+                                            <option selected>A Finkl and Sons </option>
+                                            <option selected>AmazonMTN5 </option>
+                                        </select>
+                                    </li> -->
+                  <li class="list-group-item border-0 px-0 pb-0 mb-2">
+                    <label>Customer</label>
+                    <p>{{ cartList?.BasketInfo[0]?.CompanyName }}</p>
+                  </li>
+                  <li class="list-group-item border-0 px-0 pb-0 mb-2">
+                    <label>Billing Address</label>
+                    <select
+                      class="custom-select d-block w-100"
+                      id="billing"
+                      [(ngModel)]="Billing"
+                      required
+                    >
+                      <option value="">Select...</option>
+                      <option
+                        *ngFor="let bill of BillAddressList"
+                        [value]="bill.AddressId"
+                      >
+                        {{ bill.title }}
+                      </option>
+                      <!-- <option selected>AH On-site Training </option>
+                                        <option selected>A Finkl and Sons </option> -->
+                    </select>
+                  </li>
+                  <li class="list-group-item border-0 px-0 pb-0 mb-2">
+                    <label>Shipping Address</label>
+                    <select
+                      class="custom-select d-block w-100"
+                      id="shipping"
+                      [(ngModel)]="Shipping"
+                      required
+                    >
+                      <option value="">Select...</option>
+                      <option
+                        *ngFor="let ship of ShipAddressList"
+                        [value]="ship.AddressId"
+                      >
+                        {{ ship.title }}
+                      </option>
+                      <!-- <option selected>AH On-site Training </option>
+                                        <option selected>A Finkl and Sons </option> -->
+                    </select>
+                  </li>
+                  <li class="list-group-item border-0 px-0 pb-0">
+                    <label>Customer PO #</label>
+                    <select
+                      class="custom-select d-block w-100 mb-2"
+                      [(ngModel)]="poName"
+                      (change)="ChoosePOType($event)"
+                      id="po_name"
+                      required
+                    >
+                      <option selected value="blanket">Blanket PO</option>
+                      <option value="custom">Custom PO</option>
+                    </select>
+                    <div class="blanket_po mb-2" *ngIf="poName === 'blanket'">
+                      <label>Blanket PO #</label>
+                      <select
+                        name="CustomerBlanketPOId"
+                        class="form-control"
+                        [(ngModel)]="CustomerBlanketPOId"
+                        (change)="onPOValidation(CustomerBlanketPOId)"
+                        required
+                      >
+                        <option
+                          *ngFor="let item of BlanketddlList"
+                          value="{{ item.CustomerBlanketPOId }}"
+                        >
+                          {{ item.title }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="custom_po" *ngIf="poName === 'custom'">
+                      <label>Custom PO #</label>
+                      <input
+                        id="form1"
+                        min="0"
+                        name="custom_po"
+                        placeholder="Customer PO  #"
+                        [(ngModel)]="CustomerCustomerPONo"
+                        type="text"
+                        class="form-control"
+                      />
+                    </div>
+                    <div
+                      class="text-danger"
+                      *ngIf="POValidationError == 'Error'"
+                    >
+                      {{ POValidationErrorMessage }}
+                    </div>
+                  </li>
+                </ul>
+                <!-- href="/#/admin/shop/checkout" -->
+                <div class="row">
+                  <div class="col-xl-6">
+                    <a
+                      (click)="proceedToCheckout()"
+                      class="btn btn-primary btn-block"
+                    >
+                      Proceed to checkout
+                    </a>
+                  </div>
+                  <div class="col-xl-6">
+                    <a (click)="onback()" class="btn btn-secondary btn-block">
+                      Back
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ngx-spinner
+    #ngxSpinner
+    bdColor="rgba(249,249,249,0.8)"
+    size="medium"
+    color="#000"
+    type="ball-spin-clockwise"
+    [fullScreen]="true"
+  ></ngx-spinner>
+</div>
+<div class="container-fluid" *ngIf="!IsAddToCart && loginType != 1">
+  <div class="account-pages mt-5 mb-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6 col-xl-5">
+          <div class="card bg-pattern">
+            <div class="card-body p-4">
+              <div class="text-center">
+                <a routerLink="/">
+                  <span
+                    ><img
+                      src="assets/projects/ah-group/full_logo.png"
+                      alt=""
+                      height="22"
+                  /></span>
+                </a>
+              </div>
+
+              <div class="text-center mt-4">
+                <h1 class="text-error">401</h1>
+                <h3 class="mt-3 mb-2">Access Denied!</h3>
+                <p class="text-muted mb-3">
+                  You don't have permission to access this page.
+                </p>
+
+                <a
+                  routerLink="/admin/dashboard/ah-dashboard"
+                  class="btn btn-success waves-effect waves-light"
+                  >Back to Dashboard</a
+                >
+              </div>
+            </div>
+            <!-- end card-body -->
+          </div>
+          <!-- end card -->
+        </div>
+        <!-- end col -->
+      </div>
+      <!-- end row -->
+    </div>
+    <!-- end container -->
+  </div>
+</div>

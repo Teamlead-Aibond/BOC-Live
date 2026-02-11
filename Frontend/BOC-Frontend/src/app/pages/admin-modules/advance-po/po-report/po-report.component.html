@@ -1,0 +1,62 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="container-fluid">
+    <app-page-title title="Customer Blanket PO Report List" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card-box">
+
+                <div class="row">
+                    <div class="col-md-4 col-xl-4 invoicepara">
+                            <table class="table mt-2 table-bordered mb-0 inv-table print-table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th colspan="2">Customer Info</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <p><b>Customer :</b><span class="ml-2">{{CompanyName}}</span></p>
+                                        </td>
+                                    </tr>
+                                   
+                                </tbody>
+                            </table>             
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-xl-12">
+                        <!-- Table -->
+                        <div style="padding-right: 15px;" class="table-responsive">
+                            <table id="datatable-angular-po-report" datatable [dtOptions]="dtOptions"
+                                [dtTrigger]="dtTrigger" class="table datatables dt-responsive hover nowrap">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Customer</th>
+                                        <th>Customer PO #</th>
+                                        <th>Starting Balance</th>
+                                        <th>Amount</th>
+                                        <th>Invoiced Amount</th>
+                                        <th>Upcoming Invoice</th>
+                                        <th>Allocated Amount</th>
+                                        <th>Balance Amount</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

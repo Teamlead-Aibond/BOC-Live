@@ -1,0 +1,330 @@
+<!-- /* ===================================================
+ * @copyright Copyright  2020 - 2023 Aibond Corp.
+ *
+ * All Rights Reserved.
+ *
+ * ========================================================== */ -->
+
+<div
+  class="container-fluid"
+  style="width: 98%; max-width: 98%"
+  *ngIf="IsOnlineShop || loginType == 1"
+>
+  <app-page-title
+    title="Shop"
+    [breadcrumbItems]="breadCrumbItems"
+  ></app-page-title>
+  <div class="row">
+    <div style="padding-left: 0" class="col-md-3 mb-5">
+      <div class="product_sidebar pt-4">
+        <div class="widget_wrap mb-3" *ngIf="loginType != 1">
+          <h3>Customer</h3>
+          <div class="input-container col-sm-12" style="padding-left: 0">
+            <ng-select
+              [items]="customerList"
+              placeholder="Select"
+              [(ngModel)]="CustomerId"
+              bindLabel="CompanyName"
+              (change)="selectCustomer()"
+              bindValue="CustomerId"
+              [searchable]="true"
+            >
+            </ng-select>
+          </div>
+          <div
+            class="text-danger"
+            *ngIf="loginType != 1 && (CustomerId == null || CustomerId == 0)"
+          >
+            <p>Please choose customer to continue the shopping.</p>
+          </div>
+        </div>
+
+        <div class="widget_wrap mb-3">
+          <h3>Filter by Category</h3>
+          <div class="form-check form-switch">
+            <div
+              class="mb-2"
+              *ngFor="let category of categoryrList; let i = index"
+            >
+              <input
+                class="form-check-input"
+                value="{{ category.PartCategoryId }}"
+                [(ngModel)]="category.isChecked"
+                (change)="changeCategorySelection()"
+                type="checkbox"
+              /><span>{{ category.PartCategoryName }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="widget_wrap  mb-5">
+                    <h3>Filter by Price</h3>
+                    <input type="range" class="form-range form-control" min="0" max="5" id="customRange1">
+                    <p class="mb-0">$30</p>
+                </div> -->
+        <div class="widget_wrap mb-3">
+          <h3>Part No</h3>
+          <div class="input-container col-sm-12" style="padding-left: 0">
+            <input
+              class="form-control"
+              id=""
+              type="text"
+              placeholder="Enter Part #"
+              [(ngModel)]="filterPartNo"
+              (keyup)="filter($event)"
+            />
+          </div>
+        </div>
+        <div class="widget_wrap mb-3">
+          <h3>APN No</h3>
+          <div class="input-container col-sm-12" style="padding-left: 0">
+            <input
+              class="form-control"
+              id=""
+              type="text"
+              placeholder="Enter APN #"
+              [(ngModel)]="filterAPNNo"
+              (keyup)="filter($event)"
+            />
+          </div>
+        </div>
+        <div class="widget_wrap mb-3">
+          <h3>Availability</h3>
+          <div class="form-check form-switch">
+            <input
+              [(ngModel)]="filterExcludeOutOfStock"
+              (change)="filter($event)"
+              class="form-check-input"
+              type="checkbox"
+            /><span>Exclude Out Of Stock</span>
+          </div>
+        </div>
+        <div class="widget_wrap mb-3">
+          <h3>Filter by Manufacturer</h3>
+          <ng-select
+            [items]="manufacturerList"
+            placeholder="Select"
+            [(ngModel)]="selectedManufacturers"
+            bindLabel="title"
+            bindValue="VendorId"
+            [searchable]="true"
+            [multiple]="true"
+            (change)="changeSelection()"
+          >
+          </ng-select>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9 mb-5">
+      <!-- <i class="fa fa-spinner fa-spin align-items-center" *ngIf="showSpinner"></i> -->
+      <ngx-spinner
+        #ngxSpinner
+        bdColor="rgba(249,249,249,0.8)"
+        size="medium"
+        color="#000"
+        type="ball-spin-clockwise"
+        [fullScreen]="false"
+      ></ngx-spinner>
+      <div class="row">
+        <div class="col-xl-12 nopad">
+          <div
+            class="col-xl-4 col-sm-6 col-md-6 col-12 float-left mb-3"
+            *ngFor="let product of displayData; let i = index"
+          >
+            <div class="ribbon-box" *ngIf="product.PartItemType > 0">
+              <div
+                class="ribbon-two ribbon-two-secondary"
+                *ngIf="product.PartItemType == 1"
+              >
+                <span>{{ product.PartItemTypeName }}</span>
+              </div>
+              <div
+                class="ribbon-two ribbon-two-pink"
+                *ngIf="product.PartItemType == 2"
+              >
+                <span>{{ product.PartItemTypeName }}</span>
+              </div>
+              <div
+                class="ribbon-two ribbon-two-success"
+                *ngIf="product.PartItemType == 3"
+              >
+                <span>{{ product.PartItemTypeName }}</span>
+              </div>
+              <div
+                class="ribbon-two ribbon-two-info"
+                *ngIf="product.PartItemType == 4"
+              >
+                <span>{{ product.PartItemTypeName }}</span>
+              </div>
+              <div
+                class="ribbon-two ribbon-two-primary"
+                *ngIf="product.PartItemType == 5"
+              >
+                <span>{{ product.PartItemTypeName }}</span>
+              </div>
+            </div>
+            <div class="product_card ribbon-box">
+              <!-- <div class="ribbon ribbon-success float-left">(Customized)</div> -->
+
+              <div (click)="productViewPage(product)" class="product_img">
+                <a
+                  ><img
+                    class="img-fluid"
+                    src="{{
+                      product.image
+                        ? product.image
+                        : '../../../../../assets/images/noimage.jpeg'
+                    }}"
+                /></a>
+              </div>
+              <div (click)="productViewPage(product)" class="product_title">
+                <h3 *ngIf="product.APNNo != null">APN: {{ product.APNNo }}</h3>
+                <h3>Part#: {{ product.PartNo }}</h3>
+                <h5>
+                  Delivery :
+                  {{
+                    product.ShopCurrentQuantity > 0 && product.PartItemDelivery
+                      ? product.PartItemDelivery
+                      : "-"
+                  }}
+                </h5>
+              </div>
+              <!-- <div class="product_details">
+                            <div class="product_meta">
+                                <h4 class="mb-0"> {{product.Price}}</h4>
+                                <p class="mb-0 text-danger">{{product.ShopCurrentQuantity}} left</p>
+                            </div>
+                            <p *ngIf="product.ShopCurrentQuantity > 0" class="mb-0"><a class="btn btn-primary btn-md" (click)="addToCart(product, false)">Cart +</a></p>
+                            <p *ngIf="product.ShopCurrentQuantity > 0" class="mb-0"><a class="btn btn-secondary btn-md" (click)="addToCart(product, true)">Buy</a></p>
+                            <p *ngIf="product.ShopCurrentQuantity <= 0" class="mb-0"><a class="btn btn-primary btn-md" href="javascript:void(0);">Out Of Stock</a></p>
+                        </div> -->
+              <div class="product_details">
+                <div class="row">
+                  <div class="col-xl-12 nopad">
+                    <div class="col-xl-5 col-12 col-sm-12 float-left">
+                      <div class="product_meta">
+                        <h4 class="mb-0">{{ product.Price }}</h4>
+                        <p style="font-weight: 700" class="mb-0 text-danger">
+                          {{ product.ShopCurrentQuantity }} left
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      style="padding-right: 0"
+                      class="col-xl-7 col-12 col-sm-12 text-right float-left"
+                    >
+                      <p
+                        style="float: right; margin-right: 10px"
+                        *ngIf="
+                          (loginType == 1 || IsAddToCart) &&
+                          product.ShopCurrentQuantity > 0
+                        "
+                        class="mb-0"
+                      >
+                        <a
+                          class="btn btn-primary btn-md"
+                          (click)="addToCart(product, false)"
+                          >Cart +</a
+                        >
+                      </p>
+                      <p
+                        style="float: right; margin-right: 10px"
+                        *ngIf="
+                          (loginType == 1 || IsAddToCart) &&
+                          product.ShopCurrentQuantity > 0
+                        "
+                        class="mb-0"
+                      >
+                        <a
+                          class="btn btn-secondary btn-md"
+                          (click)="addToCart(product, true)"
+                          >Buy</a
+                        >
+                      </p>
+                      <p
+                        style="float: right; margin-right: 10px"
+                        *ngIf="product.ShopCurrentQuantity <= 0"
+                        class="mb-0"
+                      >
+                        <a
+                          class="btn btn-primary btn-md"
+                          href="javascript:void(0);"
+                          >Out Of Stock</a
+                        >
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-md-12"
+            *ngIf="displayData && displayData.length === 0"
+          >
+            <p class="justify-content-center" style="text-align: center">
+              No Products Found!
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div
+        *ngIf="displayLoadMore && displayData && displayData.length > 0"
+        class="col-md-12 mb-3 mt-4 text-center"
+      >
+        <p>
+          <a
+            (click)="loadMore(loadMoreLength)"
+            class="btn btn-primary load_more btn-md"
+            >Load More</a
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid" *ngIf="!IsOnlineShop && loginType != 1">
+  <div class="account-pages mt-5 mb-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6 col-xl-5">
+          <div class="card bg-pattern">
+            <div class="card-body p-4">
+              <div class="text-center">
+                <a routerLink="/">
+                  <span
+                    ><img
+                      src="assets/projects/ah-group/full_logo.png"
+                      alt=""
+                      height="22"
+                  /></span>
+                </a>
+              </div>
+
+              <div class="text-center mt-4">
+                <h1 class="text-error">401</h1>
+                <h3 class="mt-3 mb-2">Access Denied!</h3>
+                <p class="text-muted mb-3">
+                  You don't have permission to access this page.
+                </p>
+
+                <a
+                  routerLink="/admin/dashboard/ah-dashboard"
+                  class="btn btn-success waves-effect waves-light"
+                  >Back to Dashboard</a
+                >
+              </div>
+            </div>
+            <!-- end card-body -->
+          </div>
+          <!-- end card -->
+        </div>
+        <!-- end col -->
+      </div>
+      <!-- end row -->
+    </div>
+    <!-- end container -->
+  </div>
+</div>

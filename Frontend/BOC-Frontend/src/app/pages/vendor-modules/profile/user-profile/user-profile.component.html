@@ -1,0 +1,147 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+
+<div class="sideNavcontainer">
+    <app-page-title title="Edit Profile"></app-page-title>
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card-box">
+                <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="UserForm">
+                    <div class="col-xl-12">
+                        <div class="row m-2">
+                            <div class="col-xl-4 col-md-6 mh">
+                                &nbsp;
+                            </div>
+                            <div class="col-xl-4 col-md-6 mh">
+                                &nbsp;
+                            </div>
+                            <div class="col-xl-4 col-md-12 sales-right">
+                                <div class="btn-group btn-group-sm float-right" role="group">
+                                    <button ngbTooltip="Save" placement="top" class="btn btn-icon waves-effect">
+                                        <i class="mdi mdi-content-save"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 form-lbox">
+                                <div class="row">
+                                    <div class="col-xl-6 float-left">
+                                        <h4 class="form-title-text bluetxt mb-20">Basic Details</h4>
+                                    </div>
+
+                                    <div class="col-xl-6 mt-2">
+                                        <div class="custom-control custom-switch float-right">
+                                            <input type="checkbox" class="custom-control-input" id="Status" name="Status" formControlName="Status">
+                                            <label class="custom-control-label" for="Status">Is Active</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-border">
+                                    <div class="row">
+                                        <div class="col-xl-3">
+                                            <div class="form-group">
+                                                <label>Title : <span class="red">*</span></label>
+
+                                                <input type="hidden" class="form-control" placeholder="Enter IdentityType" name="UserId" formControlName="UserId">
+                                                <select class="custom-select" name="Title" formControlName="Title">
+                                                    <option value="" disabled>Select</option>
+                                                    <option value="1">Mr.</option>
+                                                    <option value="2">Mrs.</option>
+                                                    <option value="3">Ms.</option>
+
+                                                </select>
+                                                <span class="text-danger" *ngIf="(UserFormControl.Title.touched || submitted) && UserFormControl.Title.errors?.required">
+                                                    Title is required
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3">
+                                            <div class="form-group">
+                                                <label for="Customer">First Name : <span class="red">*</span></label>
+                                                <input type="text" class="form-control" placeholder="Enter First Name" name="FirstName" formControlName="FirstName">
+                                                <span class="text-danger" *ngIf="(UserFormControl.FirstName.touched || submitted) && UserFormControl.FirstName.errors?.required">
+                                                    First Name is required
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3">
+                                            <div class="form-group">
+                                                <label for="Customer">Last Name : <span class="red">*</span></label>
+                                                <input type="text" class="form-control" placeholder="Enter Last Name" name="LastName" formControlName="LastName">
+                                                <span class="text-danger" *ngIf="(UserFormControl.LastName.touched || submitted) && UserFormControl.LastName.errors?.required">
+                                                    Last Name is required
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3">
+                                            <div class="form-group">
+                                                <label for="Customer">Email: <span class="red">*</span></label>
+                                                <input type="text" class="form-control" name="Email" formControlName="Email" placeholder="Enter Email">
+                                                <span class="text-danger" *ngIf="(UserFormControl.Email.touched || submitted) && UserFormControl.Email.errors?.required">
+                                                    Email is required
+                                                </span>
+                                                <span class="text-danger" *ngIf="(UserFormControl.Email.touched || submitted) && UserFormControl.Email.errors?.email">
+                                                    Enter a valid email address
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-3">
+                                            <div class="form-group">
+                                                <label>
+                                                    Username: <span class="red">*</span>
+                                                </label>
+                                                <input type="text" class="form-control" placeholder="Enter Username" name="Username" formControlName="Username">
+                                                <span class="text-danger" *ngIf="(UserFormControl.Username.touched || submitted) && UserFormControl.Username.errors?.required">
+                                                    User Name is required
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3">
+                                            <div class="form-group">
+                                                <div class="form-group">
+                                                    <label for="Customer">Department :</label>
+                                                    <select class="custom-select" name="DepartmentId" formControlName="DepartmentId">
+                                                        <option value="" disabled>Select</option>
+                                                        <option *ngFor="let Department of DepartmentList"
+                                                            value={{Department.DepartmentId}}>
+                                                            {{Department.DepartmentName}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-12 form-lbox">
+                                <h4 class="form-title-text bluetxt mb-20">Profile Image</h4>
+                                <div class="form-border">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label>Image : </label>
+                                            <img class="img-fluid" [src]="ProfilePhoto" *ngIf="ProfilePhoto" width="300">
+                                            <input type="file" class="form-control" (change)="onFileChange($event)" (change)="fileProgress($event)">
+                                            <input type="hidden" name="ProfilePhoto" formControlName="ProfilePhoto" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,112 @@
+/* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+.customerbg {
+    font-weight: bold;
+    padding: 5px;
+    background-color: #fbcfd6;
+    border: 1px solid #efa0ac;
+    color: #333333;
+}
+
+.form-group label {
+    padding-bottom: 6px;
+}
+
+.card-box.edit-cust {
+    padding-left: 0.7rem;
+    padding-right: 0.9rem;
+}
+
+.approvebg {
+    font-weight: bold;
+    padding: 5px;
+    background-color: rgba(0, 0, 0, .075);
+    border: 1px solid rgba(0, 0, 0, .075);
+    color: #333333;
+}
+
+.address {
+    color: #232323 !important;
+}
+
+.sales-right {
+    margin-top: 0;
+}
+
+.srr {
+    margin-right: 15px;
+}
+
+@media screen and (max-width:1440px) {
+    .sideNavcontainer .card-box {
+        padding: 17px 10px 0 0;
+    }
+    .form-lbox .col-xl-3 {
+        padding-right: 5px !important;
+    }
+}
+
+@media screen and (max-width:1366px) {
+    .sideNavcontainer .card-box {
+        padding: 17px 10px 0 0;
+    }
+    .form-border .col-xl-3 {
+        padding-right: 0;
+    }
+    .card-box.edit-cust {
+        padding: 1.5rem 0;
+    }
+    .form-lbox {
+        padding: 0 0.5rem 1.3rem 2.5rem;
+    }
+    .form-rbox {
+        padding: 0 2rem 1.3rem 1.5rem;
+    }
+}
+
+@media screen and (max-width:1152px) {
+    .form-lbox {
+        padding: 0 2rem 1.3rem 2.5rem;
+    }
+}
+
+@media screen and (max-width:1024px) {
+    .form-lbox {
+        padding: 0 2rem 1.3rem 2.5rem;
+    }
+    .form-rbox {
+        padding: 0 2rem 1.3rem 2.5rem;
+    }
+}
+
+@media screen and (max-width:768px) {
+    .edit-cust {
+        padding: 15px 13px 15px 0px;
+    }
+    .form-rbox {
+        padding: 0 1.8rem 0rem 3rem;
+    }
+    .raa {
+        margin-left: 25px;
+    }
+    .customerbg,
+    .approvebg {
+        float: left;
+    }
+}
+
+@media screen and (max-width:640px) {
+    .edit-cust {
+        padding: 15px 13px 15px 0px;
+    }
+    .customerbg,
+    .approvebg {
+        float: left;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+}

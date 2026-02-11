@@ -1,0 +1,220 @@
+<div class="modal-header modal-xl">
+    <h4 class="modal-title">Create PO</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body  modal-xl">
+
+    <form class="form" role="form" (ngSubmit)="onSubmit()">
+
+        <div style="padding-bottom:0" class="modal-body">
+
+            <div class="row brd-btm" *ngFor="let item of viewResult; let i = index">
+
+
+                <div class="col-xl-2">
+                    <div class="row">
+                        <div class="col-xl-2 nopad float-left">
+                            <input type="checkbox" [checked]="item.checked"
+                                (change)="isAvaliableshow($event,i,item.VendorId)">
+                        </div>
+                        <div class="col-xl-10 nopad float-left">
+                            <div class="form-group">
+
+                                <label for="field-2" class="control-label">Part #
+
+                                </label>
+                                {{item.PartNo}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2">
+
+                    <div class="form-group">
+
+                        <label for="field-2" class="control-label">Vendor Name
+
+                        </label>
+                        {{item.VendorName}}
+
+                    </div>
+                </div>
+                <div class="col-xl-1">
+                    <div class="form-group">
+                        <label for="field-2" class="control-label">Quantity
+
+                        </label>
+                        {{item.Quantity}}
+
+                    </div>
+                </div>
+                <div class="col-xl-1">
+                    <div class="form-group">
+                        <label for="field-2" class="control-label">Attachment 
+
+                        </label>
+                        <span *ngIf="item.WebLink != ''">
+                            Web Link: <a class="bluetxt" style="cursor: pointer;" (click)="onWebLink(item.WebLink)">{{item.WebLink}}
+                                </a>
+                            </span>
+                        <span *ngIf="item.VendorAttachment != ''">
+                            <a [href]="item.VendorAttachment" target="_blank">Preview
+                               
+                            </a>
+                        </span>
+
+                    </div>
+                </div>
+                <div class="col-xl-2">
+                    <div class="form-group">
+                        <label for="field-2" class="control-label">Vendor Lead time
+
+                        </label>
+                        {{item.LeadTime}} Days
+
+                    </div>
+                </div>
+                <div class="col-xl-2">
+                    <div class="form-group">
+                        <label for="field-2" class="control-label">Vendor Unit Price
+
+
+                        </label>
+                        {{item.ItemLocalCurrencySymbol}} {{item.Rate}}
+                    </div>
+                </div>
+                <div class="col-xl-2">
+                    <div class="form-group">
+                        <label for="field-2" class="control-label">Customer Unit Price
+
+                        </label>
+                        {{item.ItemLocalCurrencySymbol}} {{item.CustomerUnitPrice}}
+
+                    </div>
+                </div>
+                <div class="col-xl-2  ml-2 mb-1" *ngIf="item.checked">
+                    <div class="form-group">
+                        <label for="field-2" class="control-label">Enter PO Quantity
+                            <input class="form-control" name="AvaliableQuantity" placeholder="Enter the PO Quantity"
+                                [(ngModel)]="item.AvaliableQuantity" >
+                            <span class="text-danger" *ngIf="item.showQtyerror==true">
+                                PO Quantity is required
+                            </span>
+                            <!-- <span class="text-danger" *ngIf="item.MaxQtyerror==true">
+                                PO Quantity should not exceeds SO Quantity (change)="MaxQuantity(i)"
+                            </span> -->
+                        </label>
+
+                    </div>
+                </div>
+                <hr>
+            </div>
+
+
+
+
+
+            <!-- <div class="row">
+                <div class="col-xl-1">
+
+                    <input type="checkbox" name="VendorId" formControlName="VendorId"
+                        (change)="isAvaliableshow1($event)">
+                    <span class="text-danger"
+                        *ngIf="(AddFormControl.VendorId.touched || submitted) && AddFormControl.VendorId.errors?.required">
+                        Select Any One Vendor to Processed PO
+                    </span>
+                </div>
+                <div class="col-xl-2">
+
+                    <div class="form-group">
+
+                        <label for="field-2" class="control-label">Part #
+
+                        </label>
+                        AHR_EB33LT
+                    </div>
+                </div>
+                <div class="col-xl-2">
+                    <div class="form-group">
+
+                        <label for="field-2" class="control-label">Vendor Name
+
+                        </label>
+                        Gear X
+
+                    </div>
+                </div>
+                <div class="col-xl-1">
+                    <div class="form-group">
+                        <label for="field-2" class="control-label">Quantity
+
+                        </label>
+                        2
+
+                    </div>
+                </div>
+                <div class="col-xl-2">
+                    <div class="form-group">
+                        <label for="field-2" class="control-label">Attachment
+
+                        </label>
+                        <span>
+                            <a href="" target="_blank">
+                                <img src="assets/images/attachment/PDF.jpg" class="img-fluid"
+                                    ngbTooltip="Vendor Attachment" width="50" alt="work-thumbnail">
+                            </a>
+                        </span>
+
+                    </div>
+                </div>
+                <div class="col-xl-2">
+                    <div class="form-group">
+                        <label for="field-2" class="control-label">Vendor Lead time
+
+                        </label>
+                        4 Days
+
+                    </div>
+                </div>
+                <div class="col-xl-1">
+                    <div class="form-group">
+                        <label for="field-2" class="control-label">Vendor Unit Price
+
+
+                        </label>
+                        $100
+                    </div>
+                </div>
+                <div class="col-xl-1">
+                    <div class="form-group">
+                        <label for="field-2" class="control-label">Customer Unit Price
+
+                        </label>
+                        $100
+
+                    </div>
+                </div>
+                <div class="col-xl-4" *ngIf="isshowQty2">
+                    <div class="form-group">
+                        <label for="field-2" class="control-label">Avaliable Quantity
+                            <input class="form-control" name="Qty" placeholder="Enter Avaliable Quantity"
+                                formControlName="Qty">
+                            <span class="text-danger"
+                                *ngIf="(AddFormControl.Qty.touched || submitted) && AddFormControl.Qty.errors?.required">
+                                Avaliable Quantity is required
+                            </span>
+                        </label>
+
+                    </div>
+                </div>
+
+            </div> -->
+        </div>
+        <div style="border-top:0" class="modal-footer">
+            <button class="btn btn-success waves-effect waves-light" [disabled]="btnDisabled"
+                [ngClass]="{'class': (btnDisabled)? 'btn btn-success waves-effect waves-light': 'btn btn-light waves-effect waves-light'}">Create
+                PO</button>
+            <button type="button" class="btn btn-light waves-effect" (click)="modalRef.hide()">Close</button>
+        </div>
+    </form>
+</div>

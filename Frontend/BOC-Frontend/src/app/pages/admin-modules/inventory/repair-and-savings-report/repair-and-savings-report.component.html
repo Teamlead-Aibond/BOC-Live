@@ -1,0 +1,413 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="container-fluid">
+    <app-page-title title="Repair Request Reports"></app-page-title>
+    <ng-sidebar-container style="height: 100vh;">
+
+        <ng-sidebar [(opened)]="_opened" mode="over" position="right" [showBackdrop]="_showBackdrop">
+            <div class="sidebar-heading btn-secondary">
+                <a href="javascript:void(0);" class="right-bar-toggle float-right" style="color: white;"
+                    (click)="_toggleSidebar();">
+                    <i class="fe-x noti-icon"></i>
+                </a>
+                <h4 class="m-0 text-white"><i class="fas fa-filter mr-1"></i>Custom Filter</h4>
+            </div>
+
+            <ng-container>
+                <div class="card-box">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <label>Customer</label>
+                            <ng-select [items]="customerList" [searchable]="true" [(ngModel)]="CustomerId"
+                                [virtualScroll]="true" placeholder="Select" bindLabel="title" bindValue="CustomerId">
+                            </ng-select>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-xl-6">
+                            <label class="control-label">Select Year</label>
+                            <div class="input-group">
+                                <select class="custom-select" name="selectedYear" [(ngModel)]="selectedYear">
+                                    <option *ngFor="let year of yearRange" value="{{year}}">{{year}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- <div class="col-xl-6">
+                            <label class="control-label"> To Date</label>
+                            <div class="input-group clockpicker">
+                                <input ngbDatepicker class="form-control" [(ngModel)]="ToDate" autoClose="false" placeholder="MM/DD/YYYY" #To_Date="ngbDatepicker" (ngModelChange)="ToDateFormat(ToDate)">
+                                <div class="input-group-append" (click)="To_Date.toggle()">
+                                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-12" style="float: right;">
+
+                            <input type="button" class="btn btn-primary btn-md mr-1 searchbt" value="Search"
+                                id="btnFilter" (click)="onFilter($event)" />
+                            <input type="button" class="btn btn-secondary btn-md searchbt" value="Clear" id="btnClear"
+                                (click)="onClear($event)" />
+                            <!-- <button style="margin-top: 24px;color: #06365e;" ngbTooltip="Excel" placement="top"
+                               class="btn btn-icon waves-effect" title="Excel"
+                                type="button" (click)="onTotalCostSavingsVsCostofNewReportExportToExcel()">
+                                <i style="font-size:35px;" class="far fa-file-excel"></i></button> -->
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </ng-container>
+
+        </ng-sidebar>
+        <div ng-sidebar-content>
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-xl-12 text-center">
+                        <img src="assets/images/ah_logo.png " alt=" " height="35">
+
+                        <h4 style="margin-top: 25px;" class="heading">
+                            Repair and Savings Report - {{selectedYear}} YTD
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-xl-12 text-right">
+                                <div class="button-list btn-group-sm fl-right">
+                                    <button class="btn btn-danger waves-effect" routerLink="/admin/reports" ngbTooltip="Back"
+                                        placement="top"><i class="fas fa-arrow-left"></i></button>
+                                </div>
+                                <!-- <div class="button-list btn-group-sm fl-right">
+                                    <button ngbTooltip="Excel" placement="top" class="btn btn-secondary waves-effect"
+                                        title="Excel" type="button">
+                                        <i class="far fa-file-excel"></i></button>
+                                </div> -->
+                                <div class="button-list btn-group-sm fl-right">
+                                    <button class="btn btn-primary waves-effect" (click)="_toggleSidebar()"
+                                        ngbTooltip="Custom Filter" placement="top"><i
+                                            class="fas fa-filter"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div style="padding-bottom:0rem;" class="card-body vendorswrap">
+                            <div class="card-title">
+                                <div class="row">
+                                    <div class="col-xl-12">
+                                        <div class="col-xl-4 float-left">
+
+                                            <div class="table-responsive mb-2">
+                                                <table class="table dt-responsive table-hover nowrap">
+                                                    <thead class="thead-light">
+                                                        <tr>
+                                                            <th width="75%">Failed Parts By Status</th>
+                                                            <th width="25%"></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Total No of Failed Parts</td>
+                                                            <td>{{FailedPartByStatus.NoOfFailedPart}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Total Approved Repairs</td>
+                                                            <td>{{FailedPartByStatus.ApprovedRepair}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Warranty Recoveries</td>
+                                                            <td>{{FailedPartByStatus.WarrantyRecovery}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Total Rush Repairs Processed</td>
+                                                            <td>{{FailedPartByStatus.RushRepair}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Total Rejected</td>
+                                                            <td>{{FailedPartByStatus.Rejected}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Total No Problems Found</td>
+                                                            <td>{{FailedPartByStatus.NoOfProblems}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Total Approved Repairs in Process</td>
+                                                            <td>{{FailedPartByStatus.ApprovedRepairInProgress}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Total Repairs Awaiting Approvals</td>
+                                                            <td>{{FailedPartByStatus.RepairAwaitingApproval}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <td><strong>Total Repair Charges</strong></td>
+                                                            <td><strong> $ {{FailedPartByStatus.RepairCharges | number:
+                                                                    '1.2-2' }}</strong></td>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+
+
+                                            <div class="table-responsive mb-2">
+                                                <table class="table dt-responsive table-hover nowrap">
+                                                    <thead class="thead-light">
+                                                        <tr>
+                                                            <th width="75%">Cost Savings By Category</th>
+                                                            <th width="25%"></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Warranty Recoveries</td>
+                                                            <td>$
+                                                                {{CostSavingsByCategory.WarrantyRecoveryCost | number: '1.2-2'}}
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Repair vs New Purchase</td>
+                                                            <td>$
+                                                                {{CostSavingsByCategory.RepairVSNewPurchase | number: '1.2-2'}}
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>No Problems Found/Other</td>
+                                                            <td>$
+                                                                {{CostSavingsByCategory.NoOfProblem | number: '1.2-2'}}
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <td><strong>Total Savings</strong></td>
+                                                            <td><strong> $ {{CostSavingsByCategory.TotalSaving | number:
+                                                                    '1.2-2'}}</strong></td>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+
+                                            <div class="table-responsive mb-2">
+                                                <table class="table dt-responsive table-hover nowrap">
+                                                    <thead class="thead-light">
+                                                        <tr>
+                                                            <th width="75%">Avg.Turn Around Time (Days)</th>
+                                                            <th width="25%"></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Ship to Quote</td>
+                                                            <td>{{AverageTurnAroundTime.ShipToQuote}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Quote to Approved</td>
+                                                            <td>{{AverageTurnAroundTime.QuoteApproved}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Time for Repair</td>
+                                                            <td>{{AverageTurnAroundTime.TimeForRepair}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <td><strong>Total Average TAT</strong></td>
+                                                            <td><strong>{{AverageTurnAroundTime.TotalAverageTAT}}</strong>
+                                                            </td>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-xl-8 float-left">
+
+                                            <div class="row">
+                                                <div class="col-xl-6">
+                                                    <app-portlet title="Cost Savings Comparison"
+                                                        color="white" headerClass="header-title h4 border-0 pb-0 my-1">
+                                                        <!-- basic column chart -->
+                                                        <div class="card-body pt-0 pb-0">
+                                                            <div id="chart" *ngIf="CostSavingsChart.length > 0">
+                                                                <apx-chart [series]="chartOptions.series"
+                                                                    [chart]="chartOptions.chart"
+                                                                    [dataLabels]="chartOptions.dataLabels"
+                                                                    [plotOptions]="chartOptions.plotOptions"
+                                                                    [yaxis]="chartOptions.yaxis"
+                                                                    [legend]="chartOptions.legend"
+                                                                    [fill]="chartOptions.fill"
+                                                                    [stroke]="chartOptions.stroke"
+                                                                    [tooltip]="chartOptions.tooltip"
+                                                                    [xaxis]="chartOptions.xaxis">
+                                                                </apx-chart>
+                                                            </div>
+                                                            <p class="tsy"><span class="bluedot">&nbsp;</span> Total
+                                                                Savings  </p>
+                                                        </div>
+                                                    </app-portlet>
+
+                                                </div>
+                                                <div class="col-xl-6">
+                                                    <app-portlet title="No.of Failed Parts Comparison"
+                                                        color="white" headerClass="header-title h4 border-0 my-1">
+                                                        <!-- basic column chart -->
+                                                        <div class="card-body pt-0 pb-0"
+                                                            *ngIf="FailedPartByStatusChart.length > 0">
+                                                            <apx-chart [series]="chartOptions2.series"
+                                                                [chart]="chartOptions2.chart"
+                                                                [xaxis]="chartOptions2.xaxis"
+                                                                [stroke]="chartOptions2.stroke"
+                                                                [colors]="chartOptions2.colors"
+                                                                [dataLabels]="chartOptions2.dataLabels"
+                                                                [legend]="chartOptions2.legend"
+                                                                [markers]="chartOptions2.markers"
+                                                                [grid]="chartOptions2.grid"
+                                                                [yaxis]="chartOptions2.yaxis"
+                                                                [title]="chartOptions2.title">
+                                                            </apx-chart>
+                                                        </div>
+                                                        <p class="tsy"><span class="bluedot">&nbsp;</span> No.Of Repairs
+                                                            Processed  </p>
+                                                    </app-portlet>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xl-6">
+                                                    <app-portlet title="Total Repair Spend Comparison"
+                                                        color="white" headerClass="header-title h4 border-0 my-1">
+                                                        <!-- basic column chart -->
+                                                        <div class="card-body pt-0 pb-0"
+                                                            *ngIf="TotalRepairSpendChart.length > 0">
+                                                            <apx-chart [series]="chartOptions3.series"
+                                                                [chart]="chartOptions3.chart"
+                                                                [dataLabels]="chartOptions3.dataLabels"
+                                                                [plotOptions]="chartOptions3.plotOptions"
+                                                                [xaxis]="chartOptions3.xaxis">
+                                                            </apx-chart>
+                                                        </div>
+                                                    </app-portlet>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xl-12">
+                                        <div class="tab-bottom">
+                                            <div class="table-responsive">
+                                                <table style="border-left:0;"
+                                                    class="table dt-responsive table-hover nowrap">
+                                                    <thead class="thead-light">
+                                                        <tr>
+                                                            <th colspan="14" width="100%"> Summary</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td><strong>Month</strong></td>
+                                                            <td *ngFor="let month of monthList">
+                                                                <strong>{{month}}</strong>
+                                                            </td>
+                                                            <td><strong>Grand Total</strong></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>No.of Repairs Processed</strong></td>
+                                                            <td *ngFor="let process of noOfRepairProcessedList">
+                                                                <strong>{{process}}</strong>
+                                                            </td>
+                                                            <td>{{totalRepairs}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Total Repairs Spend</strong></td>
+                                                            <td *ngFor="let spend of totalRepairSpendList">
+                                                                <strong>{{spend | number: '1.2-2'}}</strong>
+                                                            </td>
+                                                            <td>$ {{totalRepairsSpend | number: '1.2-2'}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Total Savings</strong></td>
+                                                            <td *ngFor="let saving of totalSavingsList">
+                                                                <strong>{{saving | number: '1.2-2'}}</strong>
+                                                            </td>
+                                                            <td>$ {{totalSavings | number: '1.2-2'}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                                <!-- <div class="col-xl-12 mt-2">
+                                                    <div class="row">
+                                                        <div class="col year-summary">2021 Summary</div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="year-cell">
+                                                            <div class="col-3"><strong>Month</strong></div>
+                                                            <div class="col"><strong>Feb</strong></div>
+                                                            <div class="col"><strong>Jan</strong></div>
+                                                            <div class="col"><strong>Mar</strong></div>
+                                                            <div class="col"><strong>Grand Total</strong></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="year-cell">
+                                                            <div class="col-3"><strong>No.of Repairs Processed</strong>
+                                                            </div>
+                                                            <div class="col"><strong>1</strong></div>
+                                                            <div class="col"><strong>9</strong></div>
+                                                            <div class="col"><strong>38</strong></div>
+                                                            <div class="col">48</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="year-cell">
+                                                            <div class="col-3"><strong>Total Repairs Spend</strong>
+                                                            </div>
+                                                            <div class="col"><strong>0.00</strong></div>
+                                                            <div class="col"><strong>1,040.50</strong></div>
+                                                            <div class="col"><strong>13,307.16</strong></div>
+                                                            <div class="col">$ 14,347.66</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="year-cell">
+                                                            <div class="col-3"><strong>Total Savings</strong></div>
+                                                            <div class="col"><strong>0.00</strong></div>
+                                                            <div class="col"><strong>-439.50</strong></div>
+                                                            <div class="col"><strong>23,308.06</strong></div>
+                                                            <div class="col">$ 22,868.56</div>
+                                                        </div>
+                                                    </div>
+                                                </div> -->
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ng-sidebar-container>
+</div>

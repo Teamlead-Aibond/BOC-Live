@@ -1,0 +1,31 @@
+<!-- Right Sidebar -->
+<div class="right-bar" (clickOutside)="hide()" [exclude]="'.right-bar-toggle'">
+  <div class="rightbar-title">
+    <a href="javascript:void(0);" class="right-bar-toggle float-right" (click)="hide();">
+      <i class="fe-x noti-icon"></i>
+    </a>
+    <h4 class="m-0 text-white"><i class="far fa-snowflake mr-1"></i> Quick Links</h4>
+  </div>
+
+  <div class="slimscroll-menu" appSlimScroll>
+    <div class="inbox-widget pl-3 pr-3">
+      <div class="inbox-item" *ngFor="let link of quicklinks">
+        <div class="inbox-item-img">
+          <img src="{{ link.image }}" alt="{{ link.name }}"> 
+        </div>
+          <p class="inbox-item-author">
+            <a routerLink="{{ link.link }}" class="text-dark" routerLinkActive="active">
+              {{ link.name }}
+            </a>
+          </p>
+          <p class="inbox-item-text">{{ link.message }}</p>
+        
+      </div>
+    </div>
+  </div> <!-- end slimscroll-menu-->
+  
+</div>
+<!-- /Right-bar -->
+
+<!-- Right bar overlay-->
+<div class="rightbar-overlay"></div>

@@ -1,0 +1,412 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="sideNavcontainer">
+    <app-page-title title="View Vendor Bill"></app-page-title>
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-xl-12 sales-right">
+                        <div class="row mb-10 d-print-none">
+                            <div class="col-xl-6 col-sm-6 col-12">
+                                <h2>Vendor Bill #{{number}}</h2>
+                            </div>
+                            <div class="col-xl-6 col-sm-6 col-12">
+                                <div class="btn-group btn-group-sm float-right" role="group">
+
+                                    <button ngbTooltip="Export to PDF" placement="top" value="Download"
+                                        class="btn btn-icon waves-effect" (click)="generatePDF()" title="Export to PDF">
+                                        <i class="mdi mdi-file-pdf-outline"></i></button>
+                                    <button ngbTooltip="Print" (click)="generatePrint()" placement="top"
+                                        class="btn btn-icon waves-effect" title="Print">
+                                        <i class="fe-printer "></i></button>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card-box nopad">
+                                    <div id="contentToConvert"
+                                        [ngClass]="(hideAddress==false)?'col-12 pdfwrap black':'col-12 pdfwrap'">
+
+                                        <div class="row">
+                                            <div class="col-sm-4 col-xl-4">
+                                                <div class="clearfix">
+                                                    <div class="float-left">
+                                                        <img src="assets/images/ah_logo.png" alt="" height="30">
+                                                    </div>
+
+                                                </div>
+                                                <div class="mt-3">
+                                                    <p><b>Vendor Bill of #{{number}}</b>
+                                                    </p>
+                                                    <div class="button-list">
+                                                        <button style="margin-top:10px;" type="button"
+                                                            class={{VendorInvoiceTypeStyle.cstyleview}}>{{VendorInvoiceTypeStyle
+                                                            ?
+                                                            VendorInvoiceTypeStyle.Invoice_TypeName : ''}}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- end col -->
+
+
+                                            <!-- end col -->
+                                            <div class="col-md-4 col-xl-4">
+                                                <div class="row">
+                                                    <div class="col-lg-12 nopad ccs">
+                                                        <div class="col-lg-5 col-sm-9 col-9 f-left text-left">
+                                                            <p><b>Vendor Bill Date :</b></p>
+                                                        </div>
+                                                        <div class="col-lg-7 col-sm-3 col-3 f-left">
+                                                            <p>{{VendorInvoiceInfo.InvoiceDate|dateTransform}}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 nopad ccs">
+                                                        <div class="col-lg-5 col-sm-9 col-9 f-left text-left">
+                                                            <p><b>Due Date :</b></p>
+                                                        </div>
+                                                        <div class="col-lg-7 col-sm-3 col-3 f-left">
+                                                            <p>{{VendorInvoiceInfo.DueDate|dateTransform}}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 nopad ccs">
+                                                        <div class="col-lg-5 col-sm-9 col-9 f-left text-left">
+                                                            <p><b>Terms :</b></p>
+                                                        </div>
+                                                        <div class="col-lg-7 col-sm-3 col-3 f-left">
+                                                            <p>{{VendorInvoiceInfo.TermsName || '-'}}</p>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <!-- <div class="row ccs">
+                                                <div class="fw100" *ngFor="let item of CustomerRef; let i=index">
+                                                    <div class="col-lg-12">
+                                                        <div class="col-lg-6 f-left text-right">
+                                                            <p><b>Customer Reference {{i+1}}:</b></p>
+                                                        </div>
+                                                        <div class="col-lg-6 f-left nopad">
+                                                            <div class="col-lg-6 f-left text-center">
+                                                                <p>{{item.ReferenceLabelName}}</p>
+                                                            </div>
+                                                            <div class="col-lg-6 f-left text-left">
+                                                                <p>{{item.ReferenceValue}}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>  -->
+
+                                            </div>
+
+                                            <div class="col-md-4 col-xl-4">
+                                                <div class="mt-6 row">
+                                                    <div class="col-xl-3 col-md-4 ccs nopad-rt">
+                                                        <p class="text-left mtp"><strong>Vendor : </strong></p>
+                                                    </div>
+                                                    <div class="col-xl-9 col-md-8">
+                                                        <p class="mtp1"><span
+                                                                class="customerbg">{{VendorInvoiceInfo.VendorName}}</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-6 row">
+                                                    <div class="col-xl-3 col-md-4 ccs nopad-rt">
+                                                        <p class="text-left mtp"><strong>Vendor ID: </strong></p>
+                                                    </div>
+                                                    <div class="col-xl-9 col-md-8">
+                                                        <p class="mtp1"><span
+                                                                class="customerbg1">{{VendorInvoiceInfo.VendorCode}}</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mt5 row">
+                                                    <div class="col-xl-3 col-md-4">
+                                                        <p class="text-left mtp"><strong>Status : </strong></p>
+                                                    </div>
+                                                    <div class="col-xl-9 col-md-8">
+                                                        <p class="mtp1"><span
+                                                                class="badge badge-success btn-xs poibtn">{{VendorInvoiceInfo.StatusName}}</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- end col -->
+                                        </div>
+
+                                        <!-- end row -->
+
+                                        <div class="row">
+                                            <div class="col-xl-6 col-lg-6">
+                                                <div class="table-responsive">
+                                                    <table class="table mt-2 table-bordered mb-0 print-table">
+                                                        <thead class="thead-light">
+                                                            <tr>
+                                                                <th colspan="2">Vendor Address</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <p>
+                                                                        {{VendorInvoiceInfo.VendorName}}<br>
+                                                                        {{VendorAddress.StreetAddress}}, {{VendorAddress.SuiteOrApt}},
+                                                                        {{VendorAddress.City}}<br>
+                                                                        {{VendorAddress.StateName}},
+                                                                        {{VendorAddress.CountryName}} -
+                                                                        {{VendorAddress.Zip}}
+                                                                        <span><br><i class="mdi mdi-phone mr-1"
+                                                                                ngbTooltip="Primary"
+                                                                                *ngIf="PhoneVendorAddress!=null && PhoneVendorAddress!=''"></i>
+                                                                            {{VendorAddress.PhoneNoPrimary}}</span>
+                                                                        <span><br><i class="mdi mdi-fax mr-1"
+                                                                                *ngIf="faxVendorAddress!=''"></i>
+                                                                            {{VendorAddress.Fax}}</span><br>
+                                                                    </p>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div style="margin-top: 1rem !important; padding-left: 10px;" class="row">
+                                            <!-- end col -->
+
+
+                                            <!-- end col -->
+                                            <div class="col-md-4">
+
+                                                <div class="row mt-2 nopad" *ngIf="RRId != '0'">
+                                                    <div align="right" scope="row">
+                                                        <p><strong>Repair Request No :</strong> <a
+                                                            [routerLink]="['/vendor/RR-edit']"
+                                                                [queryParams]="{RRId: this.VendorInvoiceInfo.RRId}"
+                                                                target="_blank">
+                                                                {{VendorInvoiceInfo.RRNo}}
+                                                            </a> <i *ngIf="hideAddress"
+                                                                class="fas fa-tools RepairTool"></i></p>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row mt-2 nopad" *ngIf="MROId != '0'">
+                                                    <div align="right" scope="row">
+                                                        <p><strong>MRO No :</strong> <a
+                                                                routerLink="#">
+                                                                {{VendorInvoiceInfo.MRONo}}
+                                                            </a> <i *ngIf="hideAddress"
+                                                                class="fas fa-tools RepairTool"></i></p>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-lg-12 nopad">
+                                                        <div class="col-lg-5 col-sm-7 col-md-7 f-left text-left lpol">
+                                                            <p><b>Vendor Invoice # :</b></p>
+                                                        </div>
+                                                        <div class="col-lg-7 col-sm-5 col-md-5 f-left lpor">
+                                                            <p>{{VendorInvoiceInfo.VendorInvNo||'-'}}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12 nopad">
+                                                        <div class="col-lg-5 col-sm-7 col-md-7 f-left text-left lpol">
+                                                            <p><b>Vendor Reference # :</b></p>
+                                                        </div>
+                                                        <div class="col-lg-7 col-sm-5 col-md-5 f-left lpor">
+                                                            <p>{{VendorInvoiceInfo.ReferenceNo||'-'}}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!-- end col -->
+                                        </div>
+                                        <!-- end row -->
+
+                                        <div class="row mt1r">
+                                            <div class="col-12 vbq">
+                                                <h5>Vendor Bill Quote</h5>
+                                                <div class="table-responsive">
+                                                    <table class="table mt-2 table-bordered mb-0 print-table">
+                                                        <thead class="thead-light">
+                                                            <tr>
+                                                                <!-- <th width="15%">PO #</th> -->
+                                                                <th width="15%">Part #</th>
+                                                                <th width="31%">Part Description</th>
+                                                                <th width="11%">Quantity</th>
+                                                                <th width="11%">Unit Price</th>
+                                                                <th>{{VAT_field_Name}}</th>
+                                                                <th width="11%">Price</th>
+                                                                <th *ngIf="IsDisplayBaseCurrencyValue==1">Price({{BaseCurrencySymbol}})<span class="red">*</span></th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody *ngFor="let item of VendorInvoiceItem; let i = index">
+                                                            <tr>
+                                                                <!-- <td>
+                                                                    {{item.PONo}}
+                                                                    <a [routerLink]="['/vendor/po-view']"
+                                                                        [queryParams]="{POId: this.VendorInvoiceInfo.POId}"
+                                                                        target="_blank">
+                                                                        
+                                                                            {{item.PONo}}
+                                                                    </a>
+                                                                </td> -->
+                                                                <td *ngIf="VendorInvoiceInfo.RepairPartId==item.PartId">
+                                                                    {{item.PartNo}}
+                                                                    <br> Serial # : {{item.SerialNo}}
+                                                                </td>
+                                                                <td *ngIf="VendorInvoiceInfo.RepairPartId!=item.PartId">
+                                                                    {{item.PartNo}}
+                                                                </td>
+                                                                <td>{{item.Description}}</td>
+                                                                <td>{{item.Quantity}}</td>
+                                                                <td>{{item.ItemLocalCurrencySymbol}} {{item.Rate}}</td>
+                                                                <td>
+                                   
+                                                                    {{item.ItemLocalCurrencySymbol}} {{item.Tax}} ({{item.ItemTaxPercent}}%)
+                                                                </td>
+                                                                <td>{{item.ItemLocalCurrencySymbol}} {{item.Price}}</td>
+                                                                <td *ngIf="IsDisplayBaseCurrencyValue==1">{{BaseCurrencySymbol}} {{item.BasePrice}}</td>
+
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <!-- end table-responsive -->
+                                            </div>
+                                            <!-- end col -->
+                                        </div>
+                                        <!-- end row -->
+
+                                        <div class="row ">
+                                            <!-- end col -->
+                                            <div class="col-sm-12">
+                                                <div class="float-right">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-borderless bill mb-0">
+                                                            <tbody>
+                                                                <!-- <tr>
+                                                                    <th align="right" scope="row">
+                                                                        <p><b>Sub Total :</b></p>
+                                                                    </th>
+                                                                    <td>
+                                                                        <p>$ {{VendorInvoiceInfo.SubTotal}}</p>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th align="right" scope="row">
+                                                                        <p><b>AH Processing Fee :</b></p>
+                                                                    </th>
+                                                                    <td>
+                                                                        <p>$ {{VendorInvoiceInfo.AHFees}}</p>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th align="right" scope="row">
+                                                                        <p><b>Total Tax
+                                                                                ({{VendorInvoiceInfo.TaxPercent}}.00
+                                                                                %):</b></p>
+                                                                    </th>
+                                                                    <td>
+                                                                        <p>$ {{VendorInvoiceInfo.TotalTax}}</p>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th align="right" scope="row">
+                                                                        <p><b>Discount :</b></p>
+                                                                    </th>
+                                                                    <td>
+                                                                        <p>$ {{VendorInvoiceInfo.Discount}}</p>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th align="right" scope="row">
+                                                                        <p><b>Shipping :</b></p>
+                                                                    </th>
+                                                                    <td>
+                                                                        <p>$ {{VendorInvoiceInfo.Shipping}}</p>
+                                                                    </td>
+                                                                </tr> -->
+                                                                <tr>
+                                                                    <th align="right" scope="row">
+                                                                        <p><b>Grand Total :</b></p>
+                                                                    </th>
+                                                                    <td>
+                                                                        <p>{{VendorInvoiceInfo.CurrencySymbol}} {{VendorInvoiceInfo.GrandTotal}}</p>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr class="grandouter" *ngIf="IsDisplayBaseCurrencyValue==1" >
+                                                                    <th  width="90%" scope="row">
+                                                                        <p><b>Grand Total ({{BaseCurrencySymbol}}) :</b></p>
+                                                                    </th>
+                                                                    <td>
+                                                                        <p>{{BaseCurrencySymbol}} {{VendorInvoiceInfo.BaseGrandTotal}} </p>
+                                                                        
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+
+
+
+
+
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <!-- end col -->
+                                        </div>
+
+                                        <!-- end row -->
+
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="clearfix pt-3">
+                                                    <h6>Notes:</h6>
+
+                                                    <br>
+                                                    <p *ngFor="let note of NotesList" class="linebreak">
+                                                        <br> {{note.Notes}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- end card-box -->
+                                </div>
+                            </div>
+                            <!-- end col -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<ngx-spinner #ngxSpinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-spin-clockwise"
+    [fullScreen]="true"></ngx-spinner>

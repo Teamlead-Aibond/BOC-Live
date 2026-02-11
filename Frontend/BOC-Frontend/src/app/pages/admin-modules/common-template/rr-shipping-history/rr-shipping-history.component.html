@@ -1,0 +1,359 @@
+<div class="modal-header">
+    <h4 class="modal-title">Shipping Status History</h4>
+    <button type="button" class="close" aria-hidden="true" (click)="modalRef.hide()">×</button>
+</div>
+
+<div class="modal-body pop-scroll">
+    <div class="container ship-history">
+        <div class="row" *ngFor="let shippingDetails of RRShippingHistory;let i=index">
+            <div class="col-xl-6 col-md-6" style="padding-right:5px;">
+
+                <h5 class="r-details">Shipping Details
+                    <!-- <span *ngIf="shippingDetails.IsShipViaUPS==1">
+                    <button (click)="trackShipUPS(shippingDetails.TrackingNo)" type="button"
+                            class="btn btn-pink btn-form waves-effect mr-1  float-right"  *ngIf="shippingDetails.TrackingNo != '' && shippingDetails.TrackingNo != 'undefined' && RRTrackUPS[VIEW_ACCESS] == 1">
+                            Track UPS
+                        </button>
+                    </span> -->
+                </h5>
+
+                <div class="row">
+                    <div style="padding:5px 20px;" class="col-xl-12">
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <div class="form-group">
+                                    <label for="Customer">Ship From:</label> {{shippingDetails.ShipFromName}}
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="form-group">
+                                    <label for="Customer">Ship To:</label> {{shippingDetails.ShipToName}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="form-group">
+                                    <label for="Customer">Address:</label>
+                                    {{shippingDetails.ShipStreetAddress}}, {{shippingDetails.ShipCity}},
+                                    {{shippingDetails.ShipCountry}}, {{shippingDetails.ShipState}}-
+                                    {{shippingDetails.ShipZip}}
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="row">
+
+                            <div class="col-xl-6">
+                                <div class="form-group">
+                                    <label for="Customer">Shipped By:</label> {{shippingDetails.ShippedBy}}
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="form-group">
+                                    <label for="Customer">Shipped Via:</label> {{shippingDetails.ShipViaName}}
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-xl-6">
+                                <div class="form-group">
+                                    <label for="Customer">Tracking #</label>
+                                    <input type="text" name="TrackingNo" [(ngModel)]="shippingDetails.TrackingNo"
+                                        class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <label style="padding:0;margin:0;" class="control-label col-xl-12">Shipped Date:</label>
+                                <div style="padding:2px 0 0px;margin:0;" class="input-group col-xl-12 clockpicker">
+                                    <input class="form-control" placeholder="MM/DD/YYYY" name="d2" #c2="ngModel"
+                                        ngbDatepicker #d2="ngbDatepicker" [(ngModel)]="shippingDetails.ShipDateFromat"
+                                        name="ShipDate">
+                                    <div class="input-group-append">
+                                        <button class="bluebg" (click)="d2.toggle()" type="button"><i
+                                                class="mdi bluebg white mdi-calendar"></i></button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <div class="form-group">
+                                    <label for="Customer">Package Weight</label>
+                                    <input type="text" name="PackWeight" [(ngModel)]="shippingDetails.PackWeight"
+                                        class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="col-xl-6">
+                                <div class="form-group">
+                                    <label for="Customer">Shipping Cost $</label>
+                                    <input type="text" name="ShippingCost" [(ngModel)]="shippingDetails.ShippingCost"
+                                        class="form-control input-group col-xl-12">
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="form-group">
+                                    <label for="Customer">Comments</label>
+                                    <textarea style="height:70px;" class="form-control" id="ShipComment"
+                                        placeholder="Ship Comment" rows="4" [(ngModel)]="shippingDetails.ShipComment"
+                                        name="ShipComment">
+                            </textarea>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-6 col-md-6" *ngIf="shippingDetails.ReceiveDate!=null">
+                <h5 class="r-details">Receiving Details</h5>
+                <div class="row">
+                    <div style="padding:5px 20px;" class="col-xl-12">
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="form-group">
+                                    <label for="Customer">Receive Address:</label>
+                                    {{shippingDetails.ShipToName}}<br>
+                                    {{shippingDetails.ReceiveStreetAddress}}, {{shippingDetails.ReceiveCity}},
+                                    {{shippingDetails.ReceiveCountry}}, {{shippingDetails.ReceiveState}}-
+                                    {{shippingDetails.ReceiveZip}}
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <div class="form-group">
+                                    <label for="Customer">Received By:</label> {{shippingDetails.ReceivedBy}}
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="form-group">
+                                    <label for="Customer">Receive Date:</label>
+                                    {{shippingDetails.ReceiveDate|dateTransform}}
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+
+
+                            <div class="col-xl-12">
+                                <div class="form-group">
+                                    <label for="Customer">Receive Comments:</label> {{shippingDetails.ReceiveComment}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12">
+
+                        <button class="btn-primary" style="float:right" (click)="PackingSlip(shippingDetails)"><i
+                                class="fe-printer"></i> Packing Slip</button>
+                    </div>
+
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <button style="padding: 3px 8px !important;" class="btn-group btn-group-sm float-right btnsave"
+                            *ngIf="RRShipParts[MODIFY_ACCESS] == 1" type="button" (click)="onSubmit(shippingDetails)"
+                            ngbTooltip="Save" placement="top">
+                            <i style="margin-right: 5px;" class="mdi mdi-content-save"></i> Save
+                        </button>
+                    </div>
+                </div>
+                <br>
+                <div class="row" *ngIf="shippingDetails.ShipViaName=='UPS' && shippingDetails.UPSStatus =='Success'">
+                    <div class="col-xl-12">
+
+                        <button class="btn-pink" style="float:right" (click)="onGenerateUPS(shippingDetails)">View UPS
+                            Label</button>
+                    </div>
+
+
+                </div>
+                <br>
+                <div class="row" *ngIf="shippingDetails.ShipViaName=='UPS' && shippingDetails.UPSStatus =='Success'">
+                    <div class="col-xl-12">
+
+                        <button class="btn-purple" style="float:right" (click)="onTracking(shippingDetails)">Track
+                            UPS</button>
+                    </div>
+
+
+                </div>
+                <div class="row" *ngIf="shippingDetails.ShipViaName=='UPS' && shippingDetails.UPSStatus !='Success'">
+                    <div style="padding:5px 20px;" class="col-xl-12">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="Customer">UPS Status:</label>
+                                <div class="col-xl-12"> This UPS Label is Cancelled
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-6 col-md-6" *ngIf="shippingDetails.ReceiveDate==null">
+                <h5 class="r-details">Receiving Details</h5>
+                <div class="row">
+                    <div style="padding:5px 20px;" class="col-xl-12">
+                        <div class="row">
+                            <div class="col-xl-12"> Not Received Yet
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12">
+
+                        <button class="btn-primary" style="float:right" (click)="PackingSlip(shippingDetails)"><i
+                                class="fe-printer"></i> Packing Slip</button>
+                    </div>
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <button style="padding: 3px 8px !important;" class="btn-group btn-group-sm float-right btnsave"
+                            *ngIf="RRShipParts[MODIFY_ACCESS] == 1" type="button" (click)="onSubmit(shippingDetails)"
+                            ngbTooltip="Save" placement="top">
+                            <i style="margin-right: 5px;" class="mdi mdi-content-save"></i> Save
+                        </button>
+                    </div>
+                </div>
+                <br>
+                <div class="row" *ngIf="shippingDetails.ShipViaName=='UPS' && shippingDetails.UPSStatus =='Success'">
+                    <div class="col-xl-12">
+
+                        <button class="btn-pink" style="float:right" (click)="onGenerateUPS(shippingDetails)">View UPS
+                            Label</button>
+                    </div>
+
+
+                </div>
+                <br>
+                <div class="row" *ngIf="shippingDetails.ShipViaName=='UPS' && shippingDetails.UPSStatus =='Success'">
+                    <div class="col-xl-12">
+
+                        <button class="btn-danger" style="float:right" (click)="onCancelUPS(shippingDetails)">Cancel UPS
+                            Label</button>
+                    </div>
+
+
+                </div>
+                <div class="row" *ngIf="shippingDetails.ShipViaName=='UPS' && shippingDetails.UPSStatus !='Success'">
+                    <div style="padding:5px 20px;" class="col-xl-12">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="Customer">UPS Status:</label>
+                                <div class="col-xl-12"> This UPS Label is Cancelled
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row" *ngIf="shippingDetails.ShipViaName=='UPS' && shippingDetails.UPSStatus =='Success'">
+                    <div class="col-xl-12">
+
+                        <button class="btn-purple" style="float:right" (click)="onTracking(shippingDetails)">Track
+                            UPS</button>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <div class="modal-footer">
+            <button style="background-color:#1abc9c; border-color:#1abc9c;" type="button"
+                class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #UPSLabel let-modal="close">
+    <div class="modal-header">
+        <h4 class="modal-title">UPS Label Details</h4>
+        <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+    </div>
+    <div class="modal-body p-4 modal-xl">
+
+        <div class="col-xl-12">
+            <div class="row" *ngIf="viewUPSData">
+                <div class="col-xl-12 form-lbox">
+                    <!-- <div class="row">
+                         <div class="col-xl-6 float-left">
+                             <h4 class="form-title-text bluetxt mb-20">Result</h4>
+                         </div>
+                     </div> -->
+                    <div class="w3-responsive">
+                        <table class="ws-table-all">
+                            <tbody>
+                                <tr>
+                                    <th style="width:25%">Tracking Number:</th>
+                                    <td>{{viewUPSData.UPSTrackingNo}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Transportation Charges:</th>
+                                    <td>{{viewUPSData.TransportationCharges}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Service Options Charges:</th>
+                                    <td>{{viewUPSData.ServiceOptionsCharges}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Overall Total Charges:</th>
+                                    <td>{{viewUPSData.OverallTotalCharges}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Billing Weight({{viewUPSData.BillingWeightCode}}):</th>
+                                    <td>{{viewUPSData.BillingWeight}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Label:</th>
+                                    <td><a target="_blank" href="{{viewUPSData.UPSShippingLabel}}"><img
+                                                [src]="viewUPSData.UPSShippingLabel"
+                                                *ngIf="viewUPSData.UPSShippingLabel" height="200">
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="float-right">
+                        <button type="button" class="btn btn-secondary waves-effect mr-2" (click)="modal('Cross click')">Close</button>
+                        <button type="button" class="btn btn-pink waves-effect waves-light"  (click)="onPrint(viewUPSData.UPSShippingLabel)">
+                            Print UPS Label
+                        </button>
+            
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

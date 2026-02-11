@@ -1,0 +1,79 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">Room</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg">
+    <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="Form">
+
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="Customer">Warehouse Name : <span class="red">*</span></label>
+                    <select class="custom-select" name="WarehouseId" formControlName="WarehouseId">
+                        <option value="" disabled>Select</option>
+                        <option *ngFor="let item of WarehouseList" value="{{item.WarehouseId}}">
+                            {{item.WarehouseName}}
+                        </option>
+                    </select>
+                    <span class="text-danger"
+                        *ngIf="(FormControl.WarehouseId.touched || submitted) && FormControl.WarehouseId.errors?.required">
+                        Warehouse Name is required
+                    </span>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="Customer">Building Name : <span class="red">*</span></label>
+                    <select class="custom-select" name="WarehouseSub1Id" formControlName="WarehouseSub1Id">
+                        <option value="" disabled>Select</option>
+                        <option *ngFor="let item of WarehouseSub1List" value="{{item.WarehouseSub1Id}}">
+                            {{item.WarehouseSub1Name}}
+                        </option>
+                    </select>
+                    <span class="text-danger"
+                        *ngIf="(FormControl.WarehouseSub1Id.touched || submitted) && FormControl.WarehouseSub1Id.errors?.required">
+                        Building Name is required
+                    </span>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="form-group">
+                    <label for="Customer">Room Name : <span class="red">*</span></label>
+                    <input type="text" class="form-control" placeholder="Enter Room Name" name="WarehouseSub2Name"
+                        formControlName="WarehouseSub2Name">
+                    <span class="text-danger"
+                        *ngIf="(FormControl.WarehouseSub2Name.touched || submitted) && FormControl.WarehouseSub2Name.errors?.required">
+                        Room Name is required
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="Customer">Latitude : </label>
+                    <input type="text" class="form-control" placeholder="Enter Latitude" name="Latitude"
+                        formControlName="Latitude">
+
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="Customer">Longitude : </label>
+                    <input type="text" class="form-control" placeholder="Enter Longitude" name="Longitude"
+                        formControlName="Longitude">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="text-right pt-2 mt-0">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light ml-1">Save</button>
+        </div>
+
+    </form>
+</div>

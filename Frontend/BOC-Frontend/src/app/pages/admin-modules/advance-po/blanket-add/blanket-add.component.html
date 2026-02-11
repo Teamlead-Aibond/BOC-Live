@@ -1,0 +1,265 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="container-fluid">
+    <app-page-title title="Add Blanklet PO"></app-page-title>
+    <form [formGroup]="AddForm">
+
+        <div class="row">
+            <div class="col-lg-12 col-xl-12 nopad">
+                <div class="card-box">
+                    <div class="form-horizontal ng-untouched ng-pristine ng-valid p-0" role="form">
+                        <div class="col-xl-12">
+
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <div class="form-group row mb-0">
+                                        <label class="col-sm-3 col-form-label" for="simpleinput">Customer: <span
+                                                class="red">*</span>
+                                        </label>
+                                        <div class="col-sm-9">
+                                            <ng-autocomplete class="ng-autocomplete" placeholder="Enter Customer Name"
+                                                [data]="CustomersList" [isLoading]="isLoadingCustomer"
+                                                [searchKeyword]="keywordForCustomer"
+                                                (selected)='selectCustomerEvent($event)'
+                                                (inputChanged)='onChangeCustomerSearch($event)'
+                                                (inputCleared)='clearEventCustomer($event)'
+                                                [itemTemplate]="CustomeritemTemplate"
+                                                [notFoundTemplate]="CustomernotFoundTemplate" debounceTime="1000">
+                                            </ng-autocomplete>
+                                            <ng-template #CustomeritemTemplate let-item>
+                                                <a [innerHTML]="item.CompanyName"></a>
+                                            </ng-template>
+
+                                            <ng-template #CustomernotFoundTemplate let-notFound>
+                                                <div [innerHTML]="notFound"></div>
+                                            </ng-template>
+
+                                            <span class="text-danger"
+                                                *ngIf="(AddFormControl.CustomerId.touched || submitted) && AddFormControl.CustomerId.errors?.required">
+                                                Customer is required
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="form-group row mb-0">
+                                        <label class="col-sm-3 col-form-label" for="simpleinput">Customer PO #:
+                                            <span class="red">*</span>
+                                        </label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" type="text" id="" placeholder="Customer PO No"
+                                                formControlName="CustomerPONo">
+                                            <span class="text-danger"
+                                                *ngIf="(AddFormControl.CustomerPONo.touched || submitted) && AddFormControl.CustomerPONo.errors?.required">
+                                                Customer PO # is required
+                                            </span>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row mb-0">
+                                        <label class="col-sm-3 col-form-label" for="simpleinput">Blanket PO Notes
+
+                                            :</label>
+                                        <div class="col-sm-9">
+                                            <textarea class="form-control ng-pristine ng-valid ng-touched"
+                                                formControlName="BlanketPONotes" name="BlanketPONotes"
+                                                placeholder="Blanket PO Notes" rows="4"></textarea>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="col-xl-6">
+
+
+
+
+                                    <div class="form-group row mb-0">
+                                        <label class="col-sm-3 col-form-label" for="simpleinput">Blanket PO Date
+                                            :<span class="red">*</span></label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group clockpicker">
+                                                <input class="form-control" id="example-date" name="date" ngbDatepicker
+                                                    formControlName="BlanketPODate" (click)="BlanketPODate.toggle()"
+                                                    placeholder="MM/DD/YYYY" #BlanketPODate="ngbDatepicker">
+                                                <div class="input-group-append" (click)="BlanketPODate.toggle()">
+                                                    <span class="input-group-text"><i
+                                                            class="mdi mdi-calendar"></i></span>
+                                                </div>
+
+                                            </div>
+                                            <span class="text-danger"
+                                                *ngIf="(AddFormControl.BlanketPODate.touched || submitted) && AddFormControl.BlanketPODate.errors?.required">
+                                                Blanket PO Date is required
+                                            </span>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row mb-0">
+                                        <label class="col-sm-3 col-form-label" for="simpleinput">Starting
+                                            Balance:
+                                            <span class="red">*</span></label>
+                                        <div class="col-sm-9">
+                                            <div class="row">
+
+                                            <div class="col-sm-5">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend"><span class="input-group-text"
+                                                        id="basic-addon1">{{Symbol}}</span></div>
+                                                <input aria-describedby="basic-addon1" aria-label="Price" (change)="onCalculatBaseStartingBalance()"
+                                                    formControlName="StartingBalance" class="form-control" 
+                                                    inputmode="numeric" pattern="^\d+(\.\d{1,2})?$"  digitOnly
+                                                    decimal="true"
+                                                    placeholder="Starting Balance" type="text">
+                                            </div>
+                                            <span class="text-danger"
+                                                *ngIf="(AddFormControl.StartingBalance.touched || submitted) && AddFormControl.StartingBalance.errors?.required">
+                                                Starting Balance is required
+                                            </span>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text"
+                                                            id="basic-addon1">{{BaseCurrencySymbol}}</span></div>
+                                                    <input aria-describedby="basic-addon1" aria-label="BaseStartingBalance" readonly
+                                                        formControlName="BaseStartingBalance" class="form-control"
+                                                        placeholder="Base Starting Balance ({{BaseCurrencySymbol}})" type="text">
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- <div class="form-group row mb-0">
+                                        <label class="col-sm-3 col-form-label" for="simpleinput">Current
+                                            Balance:
+                                            <span class="red">*</span></label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend"><span class="input-group-text"
+                                                        id="basic-addon1">$</span></div>
+                                                <input aria-describedby="basic-addon1" aria-label="Price"
+                                                    formControlName="CurrentBalance" class="form-control"
+                                                    placeholder="Current Balance" type="text">
+                                            </div>
+                                            <span class="text-danger"
+                                                *ngIf="(AddFormControl.CurrentBalance.touched || submitted) && AddFormControl.CurrentBalance.errors?.required">
+                                                Current Balance is required
+                                            </span>
+                                        </div>
+
+                                    </div> -->
+                                    <div class="form-group row mb-0">
+                                        <label class="col-sm-3 col-form-label" for="simpleinput">Blanket PO Atachment
+                                        </label>
+
+                                        <div class="col-sm-9">
+                                            <div class="row">
+                                                <div class="col-sm-3 img-container">
+
+                                                    <span *ngIf="mimetype == 'image/jpg'">
+                                                        <a href="{{url}}" target="_blank">
+                                                            <img src="{{url}}" class="img-fluid" width="200"
+                                                                alt="work-thumbnail">
+                                                        </a>
+                                                        <button class="btn" (click)="removeImage()"><span
+                                                                aria-hidden="true"> × </span></button>
+                                                    </span>
+                                                    <span *ngIf="mimetype =='image/png'">
+                                                        <a href="{{url}}" target="_blank">
+                                                            <img src="{{url}}" class="img-fluid" width="200"
+                                                                alt="work-thumbnail">
+                                                        </a>
+                                                        <button class="btn" (click)="removeImage()"><span
+                                                                aria-hidden="true"> × </span></button>
+                                                    </span>
+                                                    <span *ngIf="mimetype == 'image/jpeg'">
+                                                        <a href="{{url}}" target="_blank">
+                                                            <img src="{{url}}" class="img-fluid" width="200"
+                                                                alt="work-thumbnail">
+                                                        </a>
+                                                        <button class="btn" (click)="removeImage()"><span
+                                                                aria-hidden="true"> × </span></button>
+                                                    </span>
+
+                                                    <span *ngIf="mimetype == 'application/pdf'">
+                                                        <a href="{{url}}" target="_blank">
+                                                            <img src="assets/images/attachment/PDF.jpg"
+                                                                class="img-fluid" width="200" alt="work-thumbnail">
+                                                        </a>
+                                                        <button class="btn" (click)="removeImage()"><span
+                                                                aria-hidden="true"> × </span></button>
+                                                    </span>
+                                                    <br>
+                                                </div>
+                                            </div>
+                                            <div class="input-group">
+
+                                                <input type="file" class="form-control"
+                                                    formControlName="BlanketPOAtachment" (change)="fileProgress($event)"
+                                                    [writeFile]="true">
+                                                <i class="fa fa-spinner fa-spin" *ngIf="spinner"></i>
+                                                <span class="text-danger"
+                                                    *ngIf="(AddFormControl.BlanketPOAtachment.touched || submitted) && AddFormControl.BlanketPOAtachment.errors?.extension">
+                                                    image should be jpg,jpeg and png and pdf only
+
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row mb-0">
+                                        <label class="col-sm-3 col-form-label" for="simpleinput">
+                                            Status:
+                                            <span class="red">*</span></label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <select class="custom-select" name="Status" formControlName="IsActive" class="form-control">
+                                                    <option value="" disabled>Select</option>
+                                                    <option value="1">
+                                                        Active
+                                                    </option>
+                                                    <option value="0">
+                                                        InActive
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <span class="text-danger"
+                                                *ngIf="(AddFormControl.IsActive.touched || submitted) && AddFormControl.IsActive.errors?.required">
+                                                Status is required
+                                            </span>
+                                        </div>
+                                    
+                                    </div>
+
+                                    
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-12 text-right">
+                                    <input type="button"
+                                        class="btn btn-bordered-primary waves-effect width-md waves-light mr-1"
+                                        (click)="onFormSubmit()" value="Submit" />
+                                    <input type="button"
+                                        class="btn btn-bordered-secondary waves-effect width-md waves-light"
+                                        (click)="onback()" value="Cancel" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </form>
+</div>

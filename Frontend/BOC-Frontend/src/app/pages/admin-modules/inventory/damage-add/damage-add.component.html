@@ -1,0 +1,77 @@
+<div class="container-fluid">
+    <app-page-title title="Damage Add" class="edit-title"></app-page-title>
+    <div class="row">
+        <div style="margin-top:-52px;" class="col-xl-12 text-right">
+            <div class="button-list btn-group-sm fl-right mb-10">
+                <!-- <button class="btn btn-primary waves-effect" routerLink="/vendor-edit"><i class="mdi mdi-pencil"></i>Edit</button> -->
+                <button class="btn btn-primary waves-effect" routerLink="/admin/inventory/damage-list"><i
+                        class="fas fa-arrow-left"></i> Back</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-xl-12">
+            <div class="card-box">
+                <form [formGroup]="AddForm">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="row mb-15">
+                                <div class="col-xl-3">
+                                    <label class="control-label">Part Serial Number: <span class="red">*</span></label>
+                                    <input type="text" class="form-control" formControlName="SerialNo"
+                                        placeholder="Part Serial #">
+                                    <span class="text-danger"
+                                        *ngIf="(AddForm.controls?.SerialNo?.touched || submitted) && AddForm.controls.SerialNo?.errors?.required">
+                                        Part Serial Number is required
+                                    </span>
+                                </div>
+
+                                <div class="col-xl-3">
+                                    <label class="control-label">Damage Type: <span class="red">*</span></label>
+                                    <select formControlName="DamageType" class="form-control">
+                                        <option value="">Select</option>
+                                        <option value="1">Accidental Damage</option>
+                                        <option value="2">Transit Damage</option>
+                                    </select>
+                                    <!-- <input type="text" class="form-control" formControlName="DamageType"> -->
+                                    <span class="text-danger"
+                                        *ngIf="(AddForm.controls?.DamageType?.touched || submitted) && AddForm.controls.DamageType?.errors?.required">
+                                        Damage Type is required
+                                    </span>
+                                </div>
+
+                                <div class="col-xl-3">
+                                    <label class="control-label">Date: <span class="red">*</span></label>
+                                    <input type="date" class="form-control" formControlName="DamageDate"
+                                        placeholder="Date">
+                                    <span class="text-danger"
+                                        *ngIf="(AddForm.controls?.DamageDate?.touched || submitted) && AddForm.controls.DamageDate?.errors?.required">
+                                        Damage Date is required
+                                    </span>
+                                </div>
+
+                                <div class="col-xl-3"><label class="control-label">Damage Comments: <span
+                                            class="red">*</span></label>
+                                    <textarea class="form-control ng-pristine ng-valid ng-touched"
+                                        formControlName="Comments" placeholder="Notes" rows="2"></textarea>
+                                    <span class="text-danger"
+                                        *ngIf="(AddForm.controls?.Comments?.touched || submitted) && AddForm.controls.Comments?.errors?.required">
+                                        Comments is required
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 text-right">
+            <input type="button" (click)="onFormSubmit()" class="btn btn-primary btn-md mr-1" value="Submit" />
+        </div>
+    </div>
+
+</div>

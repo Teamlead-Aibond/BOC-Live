@@ -1,0 +1,653 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="row mb-10 d-print-none">
+  <div class="col-xl-6 col-sm-6 col-12">
+    <h2>Invoice #{{ number }}</h2>
+  </div>
+  <div class="col-xl-6 col-sm-6 col-12 mt-2">
+    <div class="btn-group btn-group-sm float-right" role="group">
+      <button
+        ngbTooltip="Export to PDF"
+        placement="bottom"
+        value="Download"
+        class="btn btn-icon waves-effect"
+        (click)="generatePDF()"
+        title="Export to PDF"
+      >
+        <i class="mdi mdi-file-pdf-outline"></i>
+      </button>
+
+      <button
+        ngbTooltip="Back"
+        placement="bottom"
+        value="Back"
+        class="btn btn-icon waves-effect"
+        routerLink="/customer/Invoice-List"
+        title="Back"
+      >
+        <i class="fas fa-arrow-left"></i>
+      </button>
+    </div>
+  </div>
+  <!-- <div class="col-xl-6 col-sm-6 col-12">
+        <div class="btn-group btn-group-sm float-right" role="group">
+            <div class="button-list btn-group-sm fl-right mb-10 mt-2">
+                <button class="btn btn-primary waves-effect" routerLink="/customer/Invoice-List"><i
+                        class="fas fa-arrow-left"></i>
+                    Back</button>
+                    <button  ngbTooltip="Export to PDF" placement="top" value="Download" class="btn btn-primary waves-effect" (click)="generatePDF()" title="Export to PDF">
+                        <i class="mdi mdi-file-pdf-outline"></i></button>
+            </div>
+            
+        </div>
+    </div> -->
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card-box nopad">
+      <div
+        id="contentToConvert"
+        [ngClass]="
+          hideAddress == false ? 'col-12 pdfwrap black' : 'col-12 pdfwrap'
+        "
+      >
+        <div style="margin-top: 0" class="row mb20">
+          <div class="col-sm-12 col-xl-4">
+            <div class="clearfix">
+              <div class="float-left">
+                <img
+                  class="img-responsive"
+                  src="assets/images/ah_logo.png"
+                  alt=""
+                  height="35"
+                />
+              </div>
+            </div>
+            <div class="mt-3">
+              <!-- <p class="nomb"><b>Invoice #{{number}}</b>
+                    </p> -->
+              <div class="button-list">
+                <button
+                  style="
+                    margin-top: 10px;
+                    border: 0;
+                    padding: 9px 15px;
+                    font-size: 13px;
+                  "
+                  type="button"
+                  class="{{ InvoiceTypeStyle.cstyleview }}"
+                >
+                  {{
+                    InvoiceTypeStyle ? InvoiceTypeStyle.Invoice_TypeName : ""
+                  }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-sm-6 col-xl-4 invoicepara">
+            <table class="table mt-2 table-bordered mb-0 inv-table print-table">
+              <thead class="thead-light">
+                <tr>
+                  <th colspan="2">Invoice Info</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <p>
+                      <b>Invoice Requested Date :</b>
+                      {{ InvoiceInfo.InvoiceDate | dateTransform }}
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p>
+                      <b>Invoice Due Date :</b>
+                      {{ InvoiceInfo.DueDate | dateTransform }}
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td *ngIf="InvoiceInfo.Status == 2">
+                    <p>
+                      <b>Approved Date :</b>
+                      {{ InvoiceInfo.ApprovedDate | dateTransform }}
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p><b>Terms :</b> {{ InvoiceInfo.TermsName || "-" }}</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p><b>Invoice # :</b> {{ InvoiceInfo.InvoiceNo || "-" }}</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="col-sm-6 col-md-6 col-xl-4">
+            <div class="mt-6 row">
+              <div class="col-xl-5 col-md-5 ccs">
+                <p class="m-b-10 text-left"><strong>Customer : </strong></p>
+              </div>
+              <div class="col-xl-7 col-md-7">
+                <p class="m-b-10">
+                  <span class="customerbg">{{ InvoiceInfo.CompanyName }}</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="mt-6 row">
+              <div class="col-xl-5 col-md-5 ccs">
+                <p class="m-b-10 text-left"><strong>Customer ID: </strong></p>
+              </div>
+              <div class="col-xl-7 col-md-7">
+                <p class="m-b-10">
+                  <span class="customerbg1">{{
+                    InvoiceInfo.CustomerCode
+                  }}</span>
+                </p>
+              </div>
+            </div>
+
+            <div *ngIf="hideAddress" class="mt-6 row">
+              <div class="col-xl-5 col-md-5 ccs">
+                <p class="m-b-10 text-left"><strong>Status : </strong></p>
+              </div>
+              <div class="col-xl-7 col-md-7">
+                <p class="m-b-10">
+                  <span class="badge badge-success btn-xs poibtn">{{
+                    InvoiceInfo.StatusName
+                  }}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- end col -->
+        </div>
+
+        <!-- end row -->
+
+        <div class="row mt25">
+          <div class="col-lg-12 nopad ccs" *ngIf="RRId != 0">
+            <div class="col-lg-4 text-left licl">
+              <p>
+                <strong> Repair Request # :</strong>
+                <a
+                  routerLink="#"
+                  [routerLink]="['/customer/RR-edit']"
+                  [queryParams]="{ RRId: InvoiceInfo.RRId }"
+                  target="_blank"
+                >
+                  {{ InvoiceInfo.RRNo }}
+                </a>
+                <i *ngIf="hideAddress" class="fas fa-tools RepairTool"></i>
+              </p>
+            </div>
+          </div>
+          <div class="col-lg-12 nopad ccs" *ngIf="MROId != 0">
+            <div class="col-lg-4 text-left licl">
+              <p>
+                <strong> MRO # :</strong> {{ InvoiceInfo.MRONo }}
+                <!-- <a  routerLink="#"></a> <i *ngIf="hideAddress" class="fas fa-tools RepairTool"></i></p> -->
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt10">
+          <div class="col-xl-4 col-sm-4">
+            <div class="table-responsive">
+              <table class="table mt-2 table-bordered mb-0 print-table">
+                <thead class="thead-light">
+                  <tr>
+                    <th colspan="2">
+                      <b style="font-weight: bold">Billing Address</b>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      {{ InvoiceInfo.CompanyName }}<br />
+                      {{ BillingAddress.StreetAddress }}
+                      {{ BillingAddress.SuiteOrApt }},
+                      {{ BillingAddress.City }} <br />
+                      {{ BillingAddress.StateName }},
+                      {{ BillingAddress.CountryName }} -
+                      {{ BillingAddress.Zip }}
+                      <div class="clear1">&nbsp;</div>
+                      <span
+                        ><i
+                          class="mdi mdi-phone mr-1"
+                          ngbTooltip="Primary"
+                          *ngIf="PhoneBillingAddress != null"
+                        ></i>
+                        {{ BillingAddress.Phone }}</span
+                      >
+                      <div class="clear1">&nbsp;</div>
+                      <span
+                        ><i
+                          class="mdi mdi-fax mr-1"
+                          *ngIf="faxBillingAddress != ''"
+                        ></i>
+                        {{ BillingAddress.Fax }}</span
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="col-sm-4 col-xl-4">
+            <div
+              class="table-responsive"
+              *ngIf="ShippingHistory.ShipToIdentityName == 'Customer'"
+            >
+              <table class="table mt-2 table-bordered mb-0 print-table">
+                <thead class="thead-light">
+                  <tr>
+                    <th colspan="2">
+                      <b style="font-weight: bold">Shipping Information</b>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <p
+                        *ngIf="
+                          ShippingHistory.ShipToIdentityName == 'Customer' &&
+                          ShippingHistory.ShipFromId != CONST_AH_Group_ID
+                        "
+                      >
+                        <b> Shipping Status :</b> Shipped by Vendor
+                      </p>
+                      <p
+                        *ngIf="
+                          ShippingHistory.ShipToIdentityName == 'Customer' &&
+                          ShippingHistory.ShipFromId == CONST_AH_Group_ID
+                        "
+                      >
+                        <b>Shipping Status :</b> Shipped by Aibond
+                      </p>
+                      <p
+                        *ngIf="ShippingHistory.ShipToIdentityName == 'Customer'"
+                      >
+                        <b>Shipping Tracking # :</b>
+                        {{ ShippingHistory.TrackingNo || "-" }}
+                      </p>
+                      <p
+                        *ngIf="ShippingHistory.ShipToIdentityName == 'Customer'"
+                      >
+                        <b>Shipping Via :</b>
+                        {{ ShippingHistory.ShipViaName || "-" }}
+                      </p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="col-sm-4 col-xl-4">
+            <div class="table-responsive">
+              <table class="table mt-2 table-bordered mb-0 print-table">
+                <thead class="thead-light">
+                  <tr>
+                    <th colspan="2">
+                      <b style="font-weight: bold">Other Info</b>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <p>
+                        <b>Sales Order # :</b> {{ InvoiceInfo.SONo || "-" }}
+                      </p>
+                      <p>
+                        <b>Reference # :</b>
+                        {{ InvoiceInfo.ReferenceNo || "-" }}
+                      </p>
+                      <p>
+                        <b>Customer PO # :</b>
+                        {{ InvoiceInfo.CustomerPONo || "-" }}
+                      </p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="CustomerRef.length > 0">
+          <div class="col-12 mb20">
+            <h5>Customer Reference:</h5>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 f-left nopad">
+              <div
+                class="fw100"
+                *ngFor="let item of CustomerRef; let i = index"
+              >
+                <p style="font-size: 1rem; text-transform: capitalize">
+                  <b
+                    >{{ item.ReferenceLabelName }} :
+                    {{ item.ReferenceValue }}</b
+                  >
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 mb20 text-left">
+            <h5>Notes</h5>
+            {{ InvoiceInfo.LaborDescription || "-" }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <h5 style="margin-top: 0">Customer Quote</h5>
+            <div class="table-responsive">
+              <table class="table table-bordered mb-0 print-table">
+                <thead class="thead-light">
+                  <tr>
+                    <th width="15%">Part #</th>
+                    <th width="31%">Part Description</th>
+                    <th width="11%">Quantity</th>
+                    <th width="11%">Unit Price</th>
+                    <th>{{ VAT_field_Name }}</th>
+                    <th width="11%">Price</th>
+                    <th width="11%">Warranty Period</th>
+                    <th *ngIf="IsDisplayBaseCurrencyValue == 1">
+                      Price({{ BaseCurrencySymbol }})<span class="red">*</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let item of InvoiceItem; let i = index">
+                  <tr>
+                    <td *ngIf="InvoiceInfo.RepairPartId == item.PartId">
+                      {{ item.PartNo }} <br />
+                      Serial # : {{ item.SerialNo }}
+                    </td>
+                    <td *ngIf="InvoiceInfo.RepairPartId != item.PartId">
+                      {{ item.PartNo }}
+                    </td>
+                    <td>{{ item.Description }}</td>
+                    <td>{{ item.Quantity }}</td>
+                    <td>{{ item.ItemLocalCurrencySymbol }} {{ item.Rate }}</td>
+                    <td>
+                      {{ item.ItemLocalCurrencySymbol }} {{ item.Tax }} ({{
+                        item.ItemTaxPercent
+                      }}%)
+                    </td>
+                    <td>{{ item.ItemLocalCurrencySymbol }} {{ item.Price }}</td>
+                    <td>{{ item.WarrantyPeriod | monthTransform }}</td>
+                    <td *ngIf="IsDisplayBaseCurrencyValue == 1">
+                      {{ BaseCurrencySymbol }} {{ item.BasePrice }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- end table-responsive -->
+          </div>
+          <!-- end col -->
+        </div>
+        <!-- end row -->
+
+        <div class="row">
+          <!-- end col -->
+          <div class="col-sm-12">
+            <div class="text-right">
+              <div class="table-responsive">
+                <table class="table table-borderless bill mb-0">
+                  <tbody>
+                    <!-- <tr>
+                                            <th width="90%" align="right" scope="row">
+                                                <p><b>Sub Total :</b></p>
+                                            </th>
+                                            <td>
+                                                <p>$ {{InvoiceInfo.SubTotal}}</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th align="right" scope="row">
+                                                <p><b>AH Processing Fee :</b></p>
+                                            </th>
+                                            <td>
+                                                <p>$ {{InvoiceInfo.AHFees}}</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th align="right" scope="row">
+                                                <p><b>Total Tax ({{InvoiceInfo.TaxPercent}}.00 %):</b></p>
+                                            </th>
+                                            <td>
+                                                <p>$ {{InvoiceInfo.TotalTax}}</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th align="right" scope="row">
+                                                <p><b>Discount :</b></p>
+                                            </th>
+                                            <td>
+                                                <p>$ {{InvoiceInfo.Discount}}</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th align="right" scope="row">
+                                                <p><b>Shipping :</b></p>
+                                            </th>
+                                            <td>
+                                                <p>$ {{InvoiceInfo.Shipping}}</p>
+                                            </td>
+                                        </tr> -->
+
+                    <tr
+                      class="grandouter"
+                      *ngIf="InvoiceInfo.GrandTotal >= InvoiceInfo.POGrandTotal"
+                    >
+                      <th width="90%" align="right" scope="row">
+                        <p class="grandtotal"><b>Grand Total :</b></p>
+                      </th>
+                      <td>
+                        <p>
+                          <b
+                            >{{ InvoiceInfo.CurrencySymbol }}
+                            {{ InvoiceInfo.GrandTotal }}</b
+                          >
+                        </p>
+                      </td>
+                    </tr>
+
+                    <tr
+                      class="grandouterdanger"
+                      *ngIf="InvoiceInfo.GrandTotal < InvoiceInfo.POGrandTotal"
+                    >
+                      <th width="90%" align="right" scope="row">
+                        <p><b>Grand Total :</b></p>
+                      </th>
+                      <td>
+                        <p class="grandtotal">
+                          <b
+                            >{{ InvoiceInfo.CurrencySymbol }}
+                            {{ InvoiceInfo.GrandTotal }}</b
+                          >
+                        </p>
+                      </td>
+                    </tr>
+                    <br />
+                    <tr *ngIf="IsDisplayBaseCurrencyValue == 1">
+                      <th width="90%" scope="row">
+                        <p>
+                          <b>Grand Total ({{ BaseCurrencySymbol }}) :</b>
+                        </p>
+                      </th>
+                      <td>
+                        <p>
+                          {{ BaseCurrencySymbol }}
+                          {{ InvoiceInfo.BaseGrandTotal }}
+                        </p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+          <!-- end col -->
+        </div>
+
+        <!-- end row -->
+
+        <div class="row">
+          <div class="col-sm-12 ccs">
+            <div class="clearfix pt-3">
+              <h6>Notes:</h6>
+              <p style="margin: 0; padding-bottom: 0" class="linebreak">
+                {{ settingsView.DefaultInvoiceNote }}
+              </p>
+              <p *ngFor="let note of NotesList" class="linebreak">
+                <br />
+                {{ note.Notes }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="hideAddress">
+          <div class="col-sm-12">
+            <div class="clearfix pt-3">
+              <h6>Attachment:</h6>
+              <div style="padding-bottom: 15px" class="row">
+                <div
+                  style="margin-bottom: 40px"
+                  class="col-sm-3"
+                  *ngFor="let vattachment of AttachmentList; let i = index"
+                >
+                  <div
+                    class="box h-100 d-flex justify-content-center flex-column brdimg"
+                  >
+                    <span
+                      *ngIf="
+                        vattachment.AttachmentMimeType == 'application/pdf'
+                      "
+                    >
+                      <a href="{{ vattachment.Attachment }}" target="_blank">
+                        <img
+                          src="assets/images/attachment/{{
+                            attachmentThumb['application/pdf'].thumb
+                          }}"
+                          class="img-fluid"
+                          ngbTooltip="{{ vattachment.AttachmentOriginalFile }}"
+                          width="200"
+                          alt="work-thumbnail"
+                        />
+                      </a>
+                    </span>
+                    <span
+                      *ngIf="vattachment.AttachmentMimeType == 'image/jpeg'"
+                    >
+                      <a href="{{ vattachment.Attachment }}" target="_blank">
+                        <img
+                          src="{{ vattachment.Attachment }}"
+                          class="img-fluid"
+                          ngbTooltip="{{ vattachment.AttachmentOriginalFile }}"
+                          width="200"
+                          alt="work-thumbnail"
+                        />
+                      </a>
+                    </span>
+                    <span *ngIf="vattachment.AttachmentMimeType == 'image/png'">
+                      <a href="{{ vattachment.Attachment }}" target="_blank">
+                        <img
+                          src="{{ vattachment.Attachment }}"
+                          class="img-fluid"
+                          ngbTooltip="{{ vattachment.AttachmentOriginalFile }}"
+                          width="200"
+                          alt="work-thumbnail"
+                        />
+                      </a>
+                    </span>
+                    <span
+                      *ngIf="
+                        vattachment.AttachmentMimeType == 'application/msword'
+                      "
+                    >
+                      <a href="{{ vattachment.Attachment }}" target="_blank">
+                        <img
+                          src="assets/images/attachment/{{
+                            attachmentThumb['application/msword'].thumb
+                          }}"
+                          class="img-fluid"
+                          ngbTooltip="{{ vattachment.AttachmentOriginalFile }}"
+                          width="200"
+                          alt="work-thumbnail"
+                        />
+                      </a>
+                    </span>
+                    <span
+                      *ngIf="
+                        vattachment.AttachmentMimeType ==
+                        'application/vnd.ms-excel'
+                      "
+                    >
+                      <a href="{{ vattachment.Attachment }}" target="_blank">
+                        <img
+                          src="assets/images/attachment/{{
+                            attachmentThumb['application/vnd.ms-excel'].thumb
+                          }}"
+                          class="img-fluid"
+                          ngbTooltip="{{ vattachment.AttachmentOriginalFile }}"
+                          width="200"
+                          alt="work-thumbnail"
+                        />
+                      </a>
+                    </span>
+                    <span *ngIf="vattachment.AttachmentMimeType == 'text/csv'">
+                      <a href="{{ vattachment.Attachment }}" target="_blank">
+                        <img
+                          src="assets/images/attachment/{{
+                            attachmentThumb['text/csv'].thumb
+                          }}"
+                          class="img-fluid"
+                          ngbTooltip="{{ vattachment.AttachmentOriginalFile }}"
+                          width="200"
+                          alt="work-thumbnail"
+                        />
+                      </a>
+                    </span>
+                  </div>
+                  <p class="mb-0">
+                    <code class="text-primary">{{
+                      vattachment.AttachmentDesc
+                    }}</code>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

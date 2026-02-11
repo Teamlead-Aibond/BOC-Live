@@ -1,0 +1,158 @@
+<div class="modal-header">
+    <h4 style="color:#1abc9c;" class="modal-title">Packing Slip for Inventory </h4>
+    <button ngbTooltip="Export to PDF" placement="top" value="Download" class="btn-group btn-group-sm float-right pdfbtn-rt"
+        (click)="generatePDF()" title="Export to PDF">
+        <i class="mdi mdi-file-pdf-outline"></i></button>
+    <button type="button" class="close" aria-hidden="true" (click)="modalRef.hide()">×</button>
+
+</div>
+
+
+
+
+
+<div class="row mt-20">
+    <div class="col-12">
+        <div class="card-box" style="border:0;">
+            <div id="contentToConvert" [ngClass]="(hideAddress==false)?'col-12 pdfwrap black':'col-12 pdfwrap'">
+                <!-- Logo & title -->
+
+                <div class="row pdfex">
+                    <div class="col-md-3 col-xl-3">
+                        <div class="clearfix ">
+                            <div class="float-left ">
+                                <img src="assets/images/ah_logo.png " alt=" " height="35">
+                            </div>
+                        </div>
+                        <!-- <div class="mt-3 ccs">
+                            <p><b>Part001</b>
+                            </p>
+                            
+                        </div> -->
+                    </div>
+                    <!-- end col -->
+                    <div class="col-md-5 col-xl-5">
+                        <div class="mt-6 row ">
+
+                            <div class="col-xl-5 col-md-5 ccs">
+                                <p class="m-b-10 text-right "><strong>Part Number : </strong></p>
+                            </div>
+                            <div class="col-xl-7 col-md-7">
+                                <p class="m-b-10 "><span class="customerbg">PRF001</span></p>
+                            </div>
+                            <div class="col-xl-5 col-md-5 ccs">
+                                <p class="m-b-10 text-right "><strong>Part Serial Number: </strong></p>
+                            </div>
+                            <div class="col-xl-7 col-md-7">
+                                <p class="m-b-10 "><span class="approvebg">SLPRF003</span></p>
+                            </div>
+                            <!-- <div class="col-xl-5 col-md-5 ccs">
+                                <p class="m-b-10 text-right "><strong>RFID Tag Number : </strong></p>
+                            </div>
+                            <div class="col-xl-7 col-md-7">
+                                <p class="m-b-10"><span class="approvebg">15 3B 19 89</span></p>
+
+                            </div> -->
+                        </div>
+                    </div>
+
+                    <!-- end col -->
+                    <div class="col-md-4 col-xl-4">
+                        <div class="mt-3 float-right sales-table">
+                            <div class="table-responsive">
+                                <table class="table table-borderless bill1 mb-0">
+                                    <tbody>
+                                        <tr>
+                                            <th align="right" scope="row">
+                                                <p><b>Date :</b></p>
+                                            </th>
+                                            <td>
+                                                <p>10/02/2021</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th align="right" scope="row">
+                                                <p><b>RFID Tag Number :</b></p>
+                                            </th>
+                                            <td>
+                                                <p class="approvebg">15 3B 19 89</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                </div>
+
+
+                <!-- end row -->
+                <div class="row">
+                    <div class="col-xl-3"><img class="img-fluid" src="./../../../../../assets/images/barcode2.png">
+                    </div>
+                    <div class="col-xl-5 text-center">
+                        <h4>Packing Slip</h4>
+                    </div>
+                    <div class="col-xl-4 text-right"><img class="img-fluid"
+                            src="./../../../../../assets/images/scancode.png"></div>
+                </div>
+
+                <div class="row">
+                    <div class="greyhead">Packing Slip for Inventory </div>
+                </div>
+
+               
+
+                <div class="row">
+                    <div class="col-12">
+                        <h5>Inventory Location</h5>
+                        <div class="table-responsive">
+                            <table class="table mt-2 table-borderless mb-0 print-table">
+                           
+                                <tbody>
+                                    <tr>
+                                       
+                                        <td width="100%">
+                                            <div class="row mtm-5">
+                                                <div class="col-12">
+                                                    <div class="col-20">
+                                                        <i class="fas fa-warehouse f-15"></i>
+                                                        <p>Warehouse</p>
+                                                    </div>
+                                                    <div class="col-15">-></div>
+                                                    <div class="col-20">
+                                                        <i class="fas fa-building f-16"></i>
+                                                        <p>Building</p>
+                                                    </div>
+                                                    <div class="col-15">-></div>
+                                                    <div class="col-20">
+                                                        <i class="remixicon-building-2-fill f-17"></i>
+                                                        <p>Room</p>
+                                                    </div>
+                                                    <div class="col-15">-></div>
+                                                    <div class="col-20">
+                                                        <i class="mdi mdi-table-row f-18"></i>
+                                                        <p>Row</p>
+                                                    </div>
+                                                    <div class="col-15">-></div>
+                                                    <div class="col-20">
+                                                        <i class="mdi mdi-file-cabinet f-19"></i>
+                                                        <p>Shelf</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div> 
+
+            
+             
+            </div>
+        </div>
+    </div>
+</div>

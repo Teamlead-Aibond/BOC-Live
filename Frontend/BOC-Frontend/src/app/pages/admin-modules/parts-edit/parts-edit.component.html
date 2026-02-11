@@ -1,0 +1,603 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="container-fluid">
+    <app-page-title title="Parts"></app-page-title>
+    <form [formGroup]="AddForm">
+        <div class="col-lg-12 col-xl-12 mt-4">
+            <div class="row">
+                <div class="col-lg-12 col-xl-12 nopad">
+                    <div class="card-box">
+                        <div class="form-horizontal ng-untouched ng-pristine ng-valid p-0" role="form">
+                            <div class="col-xl-12">
+                                <div class="row ml-1">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <h4><i class="fe-shopping-cart mr-1"></i>Product's Part Details</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Part #: <span
+                                                    class="red">*</span></label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" id="" type="text" placeholder="Enter Part #"
+                                                    formControlName="PartNo" required>
+                                                <span class="text-danger"
+                                                    *ngIf="(AddFormControl.PartNo.touched || submitted) && AddFormControl.PartNo.errors?.required">
+                                                    Part # is required
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Part
+                                                Description:</label>
+                                            <div class="col-sm-9">
+                                                <textarea class="form-control ng-pristine ng-valid ng-touched"
+                                                    formControlName="Description" name="Part Description"
+                                                    placeholder="Notes" rows="4"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label"
+                                                for="simpleinput">Manufacturer:</label>
+                                            <div class="col-sm-9">
+                                                <select class="custom-select" formControlName="ManufacturerId"
+                                                    name="ManufacturerId">
+                                                    <option value="">Select</option>
+                                                    <option *ngFor="let v of manufacturerList" value={{v.VendorId}}>
+                                                        {{v.title}}
+                                                    </option>
+                                                    <!-- <option *ngFor="let v of manufacturerList" [value]="v.VendorId"
+                                                        > {{v.title}} </option> -->
+                                                </select>
+                                                <!-- <span class="text-danger"
+                                                    *ngIf="(AddFormControl.ManufacturerId.touched || submitted) && AddFormControl.ManufacturerId.errors?.required">
+                                                    Manufacturer is required
+                                                </span> -->
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Manufacturer Part
+                                                No:</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" type="text" id=""
+                                                    placeholder="Manufacturer Part No"
+                                                    formControlName="ManufacturerPartNo">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Repair Parts
+                                                :</label>
+                                            <div class="col-sm-9" style="margin-top: 9px;">
+
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <label><input type="radio" name="IsNewOrRefurbished"
+                                                                formControlName="IsNewOrRefurbished" value="2" />
+                                                            Yes
+                                                        </label>
+
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <label><input type="radio" name="IsNewOrRefurbished"
+                                                                formControlName="IsNewOrRefurbished" value="0" />
+                                                            No
+
+                                                        </label>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <!-- <div class="form-group row mb-0 mt-1">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Currency:<span
+                                                class="red">*</span></label>
+                                                <div class="col-sm-9">
+                                            <select class="custom-select" name="LocalCurrencyCode" formControlName="LocalCurrencyCode" (change)="onCurrencyChange($event)">
+                                                <option value="" disabled>Select</option>
+                                                <option *ngFor="let item of CurrencyList"
+                                                    value={{item.CurrencyCode}}>
+                                                    {{item.CurrencyCode}}&nbsp;-{{item.CurrencySymbol}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                            <span class="text-danger"
+                                            *ngIf="(AddFormControl.LocalCurrencyCode.touched || submitted) && AddFormControl.LocalCurrencyCode.errors?.required">
+                                            Currency is required
+                                         </span>
+                                        </div> -->
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h5 class="header-title m-t-0 mb-2">Upload Images</h5>
+                                                <!-- file upload 
+                                                <file-upload class="dropzone"></file-upload>-->
+
+                                                <div class="row">
+                                                    <div class="col-sm-3 img-container"
+                                                        *ngFor="let vattachment of ImagesList; let i = index;">
+
+
+                                                        <span *ngIf="!vattachment.IsDeleted">
+                                                            <span *ngIf="vattachment.mimetype == 'image/jpeg'">
+                                                                <a href="{{vattachment.path}}" target="_blank">
+                                                                    <img src="{{vattachment.path}}" class="img-fluid"
+                                                                        ngbTooltip="{{vattachment.originalname}}"
+                                                                        width="200" alt="work-thumbnail">
+                                                                </a>
+                                                                <button class="btn" (click)="removeImage(i)"><span
+                                                                        aria-hidden="true"> × </span></button>
+                                                            </span>
+                                                            <span *ngIf="vattachment.mimetype == 'image/png'">
+                                                                <a href="{{vattachment.path}}" target="_blank">
+                                                                    <img src="{{vattachment.path}}" class="img-fluid"
+                                                                        ngbTooltip="{{vattachment.originalname}}"
+                                                                        width="200" alt="work-thumbnail">
+                                                                </a>
+                                                                <button class="btn" (click)="removeImage(i)"><span
+                                                                        aria-hidden="true"> × </span></button>
+                                                            </span>
+                                                        </span>
+                                                        <br>
+                                                    </div>
+                                                </div>
+                                                <input type="file" multiple="multiple" class="form-control"
+                                                    accept="image/png,image/jpeg" [(ngModel)]="Attachment"
+                                                    formControlName="Attachment" (change)="fileProgressMultiple($event)"
+                                                    [writeFile]="true">
+                                                <i class="fa fa-spinner fa-spin" *ngIf="spinner"></i>
+                                                <span class="text-danger"
+                                                    *ngIf="(AddFormControl.Attachment.touched || submitted) && AddFormControl.Attachment.errors?.extension">
+                                                    image should be jpeg and png only
+                                                </span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12 col-xl-12 nopad">
+            <div class="row">
+                <div class="col-lg-12 col-xl-12">
+                    <div class="card-box">
+                        <div class="form-horizontal ng-untouched ng-pristine ng-valid p-0" novalidate="" role="form">
+                            <div class="col-xl-12">
+                                <div class="row ml-1">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <h4><i class="fe-shopping-cart mr-1"></i>Other Info</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Issue Unit Of
+                                                Measure:
+                                                <span class="red">*</span></label>
+                                            <div class="col-sm-9">
+                                                <select class="custom-select" formControlName="UnitType">
+                                                    <option value="">Select</option>
+                                                    <option value="1">Pcs</option>
+                                                </select>
+                                                <span class="text-danger"
+                                                    *ngIf="(AddFormControl.UnitType.touched || submitted) && AddFormControl.UnitType.errors?.required">
+                                                    Unit Type is required
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Date
+                                                Added:<span class="red">*</span></label>
+                                            <div class="col-sm-9">
+                                                <div class="input-group clockpicker">
+                                                    <input class="form-control" id="example-date" name="date"
+                                                        ngbDatepicker formControlName="StoreSince" autoClose="true"
+                                                        (click)="DateAdded.toggle()" placeholder="MM/DD/YYYY"
+                                                        #DateAdded="ngbDatepicker">
+                                                    <div class="input-group-append" (click)="DateAdded.toggle()">
+                                                        <span class="input-group-text"><i
+                                                                class="mdi mdi-calendar"></i></span>
+                                                    </div>
+                                                    <span class="text-danger"
+                                                        *ngIf="(AddFormControl.StoreSince.touched || submitted) && AddFormControl.StoreSince.errors?.required">
+                                                        Date Added is required
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Preferred
+                                                Vendor:</label>
+                                            <div class="col-sm-9">
+                                                <!-- <ng-select [items]="vendorList" formControlName="PrimaryVendorId"
+                                                    name="PrimaryVendorId" placeholder="Select" bindLabel="title"
+                                                    bindValue="VendorId" [multiple]="true">
+                                                </ng-select> -->
+                                                <ng-select [items]="vendors$ | async" [typeahead]="vendorsInput$"
+                                                    [loading]="loadingVendors" [multiple]="true" [closeOnSelect]="false"
+                                                    [searchable]="true" [virtualScroll]="true" placeholder="Select"
+                                                    bindLabel="VendorName" formControlName="PrimaryVendorId"
+                                                    name="PrimaryVendorId">
+                                                    <ng-template ng-header-tmp *ngIf="VendorsList.length > 0">
+                                                        <button type="button" (click)="selectAll()"
+                                                            class="btn btn-sm btn-link">Select all</button>
+                                                    </ng-template>
+                                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                                        <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                                                            <span class="ng-value-label">{{item.VendorName}}</span>
+                                                            <span class="ng-value-icon right" (click)="clear(item)"
+                                                                aria-hidden="true">×</span>
+                                                        </div>
+                                                        <div class="ng-value" *ngIf="items.length > 1">
+                                                            <span class="ng-value-label">+ {{items.length - 1}}
+                                                                more...</span>
+                                                        </div>
+                                                    </ng-template>
+                                                    <ng-template ng-option-tmp let-item="item" let-item$="item$"
+                                                        let-index="index">
+                                                        <input id="item-{{index}}" type="checkbox"
+                                                            [checked]="item$.selected" [ngModel]="item$.selected"
+                                                            [ngModelOptions]="{standalone: true}" />
+                                                        {{item.VendorName}}
+                                                    </ng-template>
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-6">
+                                        <div class="form-group row mb-2">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Active:</label>
+                                            <div class="col-sm-9 mt-1">
+                                                <div class="custom-control custom-switch">
+                                                    <input class="custom-control-input" id="customSwitch1"
+                                                        type="checkbox" checked>
+                                                    <label class="custom-control-label" for="customSwitch1">Toggle
+                                                        this
+                                                        switch element</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Tax Type:<span
+                                                    class="red">*</span></label>
+                                            <div class="col-sm-9">
+                                                <select class="custom-select" name="TaxType" formControlName="TaxType">
+                                                    <option value="">Select</option>
+                                                    <option value="1">Taxable</option>
+                                                    <option value="2">Rolling Stack</option>
+                                                    <option value="3">Reseller/Non Taxable</option>
+                                                </select>
+                                                <span class="text-danger"
+                                                    *ngIf="(AddFormControl.TaxType.touched || submitted) && AddFormControl.TaxType.errors?.required">
+                                                    Tax Type is required
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- <div class="row">
+                <div class="col-lg-12 col-xl-12">
+                    <div class="card-box">
+                        <div class="form-horizontal ng-untouched ng-pristine ng-valid p-0" novalidate="" role="form">
+                            <div class="col-xl-12">
+                                <div class="row ml-1">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <h4><i class="fe-shopping-cart mr-1"></i>Online Store Info</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">APN No:
+                                            
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" id="" type="text" placeholder="Enter APN No"
+                                                    formControlName="APNNo" >
+                                            <span class="text-danger"
+                                                    *ngIf="(AddFormControl.APNNo.touched || submitted) && AddFormControl.APNNo.errors?.required">
+                                                    APNNo is required
+                                            </span>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Vendor:
+                                                </label>
+                                            <div class="col-sm-9">
+                                                <select (change)="vendorChange($event)" class="custom-select" name="VendorId" formControlName="VendorId">
+                                                    <option value="">Select</option>
+                                                    <option *ngFor="let item of VendorsList" value="{{item.VendorId}}">
+                                                        {{item.VendorName}}</option>
+                                                </select>
+                                                <span class="text-danger"
+                                                    *ngIf="(AddFormControl.VendorId.touched || submitted) && AddFormControl.VendorId.errors?.required">
+                                                    Vendor is required
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Display in Online Store?:<span class="red">*</span></label>
+                                            <div class="col-sm-9" style="margin-top: 9px;">
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <label><input (change)="manageOnline($event)" id="IsEcommerceProduct" type="radio" name="IsEcommerceProduct"
+                                                                formControlName="IsEcommerceProduct" value="1"/>
+                                                            Yes
+                                                        </label>
+
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <label><input (change)="manageOnline($event)" id="IsEcommerceProduct" type="radio" name="IsEcommerceProduct"
+                                                                formControlName="IsEcommerceProduct" value="0"/>
+                                                            No
+
+                                                        </label>
+                                                    </div>
+                                                    <span class="text-danger"
+                                                    *ngIf="(AddFormControl.IsEcommerceProduct.touched || submitted) && AddFormControl.IsEcommerceProduct.errors?.required">
+                                                    Display in Online Store? is required
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-6">
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Category:</label>
+                                            <div class="col-sm-9 ">
+                                                <select class="custom-select" name="PartCategoryId" formControlName="PartCategoryId">
+                                                    <option value="">Select</option>
+                                                    <option *ngFor="let item of categoryList" value="{{item.PartCategoryId}}">{{item.title}}</option>
+                                                </select>
+                                                <span class="text-danger"
+                                                    *ngIf="(AddFormControl.PartCategoryId.touched || submitted) && AddFormControl.PartCategoryId.errors?.required">
+                                                    Category is required
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Vendor Cost:</label>
+                                            <div class="col-sm-9">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span
+                                                            class="input-group-text"
+                                                            id="basic-addon1">{{vendorSymbol}}</span>
+                                                    </div>
+                                                    <input class="form-control" id="" type="number" min="0" placeholder="Enter Vendor Cost"
+                                                    formControlName="BuyingPrice" (change)="onBuyingPriceChange($event)">
+                                                </div>
+                                                <span class="text-danger"
+                                                    *ngIf="(AddFormControl.BuyingPrice.touched || submitted) && AddFormControl.BuyingPrice.errors?.required">
+                                                    Vendor Cost is required
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Selling Price:</label>
+                                            <div class="col-sm-9">
+                                                <div class="row">
+                                                    <div class="col-xl-3 pr-0">
+                                                        <select (change)="sellingCurrencyChange($event)" class="custom-select" name="SellingCurrencyCode" formControlName="SellingCurrencyCode">
+                                                            <option value="" disabled>Select Currency</option>
+                                                            <option *ngFor="let item of CurrencyList" value={{item.CurrencyCode}}>
+                                                                {{item.CurrencyCode}}&nbsp;-{{item.CurrencySymbol}}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-xl-9 pl-0">
+                                                        <input class="form-control" id="" type="number" min="0" placeholder="Enter Selling Price"
+                                                            (change)="onSellingPriceChange($event)" formControlName="SellingPrice">
+                                                    </div>
+                                                    <span class="text-danger"
+                                                    *ngIf="(AddFormControl.SellingCurrencyCode.touched || submitted) && AddFormControl.SellingCurrencyCode.errors?.required">
+                                                    Selling CurrencyCode is required</span> &nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <span class="text-danger"
+                                                    *ngIf="(AddFormControl.SellingPrice.touched || submitted) && AddFormControl.SellingPrice.errors?.required">
+                                                    Selling Price is required</span>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Available Quantity : {{AddForm.value.ShopCurrentQuantity}} </label>
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Total Quantity : {{AddForm.value.ShopTotalQuantity}} </label>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div> -->
+
+            <div class="row">
+                <div class="col-lg-12 col-xl-12">
+                    <div class="card-box">
+                        <div class="form-horizontal ng-untouched ng-pristine ng-valid p-0" novalidate="" role="form">
+                            <div class="col-xl-12">
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="form-group row">
+                                            <div class="col-sm-12">
+                                                <h4><i class="mdi mdi-information mr-1"></i>Sales Information</h4>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Master DB PON ($):
+                                                <span class="red">*</span></label>
+
+                                            <div class="col-sm-9">
+                                                <div class="row">
+                                                    <div class="col-sm-5">
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend"><span
+                                                                    class="input-group-text"
+                                                                    id="basic-addon1">{{BaseCurrencySymbol}}</span>
+                                                            </div>
+                                                            <input aria-describedby="basic-addon1" aria-label="Price"
+                                                                (change)="onPriceChange($event)" formControlName="Price"
+                                                                class="form-control" placeholder="Price" type="text">
+                                                        </div>
+                                                        <span class="text-danger"
+                                                            *ngIf="(AddFormControl.Price.touched || submitted) && AddFormControl.Price.errors?.required">
+                                                            Price is required
+                                                        </span>
+                                                    </div>
+                                                    <!-- <div class="col-sm-4">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend"><span class="input-group-text"
+                                                                id="basic-addon1">{{BaseCurrencySymbol}}</span></div>
+                                                        <input aria-describedby="basic-addon1" aria-label="BasePrice" readonly
+                                                            formControlName="BasePrice" class="form-control"
+                                                            placeholder="Price ({{BaseCurrencySymbol}})" type="text">
+                                                    </div>
+                                                </div> -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Selling Price:
+                                                <span class="red">*</span></label>
+                                               
+                                            <div class="col-sm-9">
+                                                <div class="row">
+                                                <div class="col-sm-5">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text"
+                                                            id="basic-addon1">{{CurrencySymbol}}</span></div>
+                                                    <input aria-describedby="basic-addon1" aria-label="Selling Price" (change)="onSellingPriceChange($event)"
+                                                        formControlName="SellingPrice" class="form-control"
+                                                        placeholder="Selling Price" type="text">
+                                                </div>
+                                                <span class="text-danger"
+                                                    *ngIf="(AddFormControl.SellingPrice.touched || submitted) && AddFormControl.SellingPrice.errors?.required">
+                                                    Selling Price is required
+                                                </span>
+                                              </div>
+                                              <div class="col-sm-4">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text"
+                                                            id="basic-addon1">{{BaseCurrencySymbol}}</span></div>
+                                                    <input aria-describedby="basic-addon1" aria-label="BaseSellingPrice" readonly
+                                                        formControlName="BaseSellingPrice" class="form-control"
+                                                        placeholder="Selling Price ({{BaseCurrencySymbol}})" type="text">
+                                                </div>
+                                              </div>
+                                            </div>
+                                            </div>
+                                        </div> 
+                                         -->
+                                        <!-- <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label"
+                                                for="simpleinput">Description:</label>
+                                            <div class="col-sm-9">
+                                                <textarea class="form-control ng-pristine ng-valid ng-touched"
+                                                    formControlName="SellingPriceDescription"
+                                                    name="Selling Price Description" placeholder="Notes"
+                                                    rows="4"></textarea>
+                                            </div>
+                                        </div> -->
+
+                                    </div>
+
+                                    <div class="col-xl-6">
+                                        <!-- <div class="form-group row">
+                                            <div class="col-sm-12">
+                                                <h4><i class="mdi mdi-information mr-1"></i>Purchase Information
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label" for="simpleinput">Buying
+                                                Price:</label>
+                                            <div class="col-sm-9">
+                                                <div class="row">
+                                                <div class="col-sm-5">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text" 
+                                                            id="basic-addon1">{{CurrencySymbol}}</span></div>
+                                                    <input aria-describedby="basic-addon1" aria-label="Buying Price" (change)="onBuyingPriceChange($event)"
+                                                        formControlName="BuyingPrice" class="form-control"
+                                                        placeholder="Buying Price" type="text">
+                                                </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend"><span class="input-group-text"
+                                                                id="basic-addon1">{{BaseCurrencySymbol}}</span></div>
+                                                        <input aria-describedby="basic-addon1" aria-label="BaseBuyingPrice" readonly
+                                                            formControlName="BaseBuyingPrice" class="form-control"
+                                                            placeholder="Buying Price ({{BaseCurrencySymbol}})" type="text">
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        </div>
+                                        
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-form-label"
+                                                for="simpleinput">Description:</label>
+                                            <div class="col-sm-9">
+                                                <textarea class="form-control ng-pristine ng-valid ng-touched"
+                                                    name="BuyingPriceDescription"
+                                                    formControlName="BuyingPriceDescription"
+                                                    placeholder="Buying Price Description" rows="4"></textarea>
+                                            </div>
+                                        </div> -->
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-12 text-center">
+                    <input type="button" class="btn btn-bordered-primary waves-effect width-md waves-light mr-1"
+                        (click)="onFormSubmit()" value="Submit" />
+                    <input type="button" class="btn btn-bordered-secondary waves-effect width-md waves-light"
+                        (click)="onback()" value="Cancel" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

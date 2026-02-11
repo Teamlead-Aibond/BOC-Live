@@ -1,0 +1,928 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="sideNavcontainer">
+    <app-page-title title="View Repair Request" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-12">
+            <div style="padding-top:0.5rem;" class="card-box">
+
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="col-xl-6 float-left nopad-lt">
+                            <h4 class="page-title bluetxt mb-10">Repair Request # :
+                                <span class="badge badge-success m-2 p-1"> {{RRNo}} </span>
+                                <span class="Repair">{{repairMessage}}</span>
+                                <span
+                                    style="font-size: 1rem;padding:3px 10px;margin-top: 5px !important;border-radius:3px;"
+                                    class="ml-1 mt-4 m-2 p-1 cpd" class={{RRStatusNameStyle.cstyle}}>{{RRStatusNameStyle
+                                    ?
+                                    RRStatusNameStyle.title : ''}}</span>
+                            </h4>
+
+                        </div>
+                        <div class="col-xl-6 col-md-6 col-12 mt-2 text-right float-right nopad-rt">
+                            <button (click)="addWarranty()"
+                                *ngIf="WarrantyInfo.length == 0 && (ApprovedQuoteId && ApprovedQuoteStatus == 2 && ApprovedQuoteWarranty > 0) && Status == RRS_COMPLETED"
+                                class="btn btn-icon btn-sm btn-purple waves-effect waves-light mr-1" type="button">
+                                <i style="margin-right: 10px;" class="fas fa-certificate"></i>
+                                Activate Warranty</button>
+                            &nbsp;
+                            <button *ngIf="Status ==7" type="button" class="btn btn-pink btn-sm waves-effect"
+                                (click)="shippingHistory()">Shipping History
+                            </button>
+                            &nbsp;
+                            &nbsp;
+                            <button style="padding:0.1rem 0.8rem !important;"
+                                class="btn btn-secondary btn-sm waves-effect mr-1" (click)="viewQrCode()">
+                                <i class="mdi mdi-qrcode">QR Code</i>
+                            </button>
+                            <!-- <span style="font-size: 1rem;padding: 5px 10px;margin-top: 5px !important;" class="ml-1 mt-4 m-2 p-1 cpd" class={{RRStatusNameStyle.cstyle}}>{{RRStatusNameStyle ?
+                                RRStatusNameStyle.title : ''}}</span> -->
+                            <!-- <span style="font-size: 1rem;" class="badge badge-light-success ml-1 mt-4 m-2 p-1 cpd">
+                                {{StatusName}} </span> -->
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-9">
+                        <div class="repair-left cre">
+
+                            <div class="row">
+                                
+                                <div class="col-xl-3 col-sm-6">
+                                    <!-- <div class="form-group">
+                                        <label for="Customer">Vendor</label> {{VendorName}}
+                                    </div> -->
+
+                                    <div class="form-group">
+                                        <label for="Customer" class="rr-badge-light">Department</label>
+                                        {{CustomerDepartmentName || '-'}}
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="Customer" class="rr-badge-light">Machine/Asset</label>
+                                        {{CustomerAssetName || '-'}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Customer" class="rr-badge-light">Customer Stated Issue</label>
+                                        {{StatedIssue || '-'}}
+                                    </div>
+
+                                </div>
+
+                                <div class="col-xl-4 col-sm-6">
+                                    <div class="form-group">
+                                        <label for="Customer" class="rr-badge-light">Description</label>
+                                        {{RRDescription}}
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="Customer" class="rr-badge-light">Bill To :</label>
+                                        {{CustomerBillTo}} &nbsp;
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="Customer" class="rr-badge-light">Ship To :</label>
+                                        {{CustomerShipTo}} &nbsp;
+
+                                    </div>
+
+
+                                </div>
+
+                                <div class="col-xl-5 col-sm-6">
+
+
+                                    <div class="form-group">
+                                        <label for="Customer" class="rr-badge-light">
+                                            Customer References
+                                        </label>
+                                        <table class="table-bordered table nowrap">
+                                            <tbody>
+                                                <tr>
+                                                    <th>CR #</th>
+                                                    <th>Reference Name</th>
+                                                    <th>Value</th>
+                                                    <th>Action</th>
+
+                                                </tr>
+                                                <tr *ngFor="let item of CustomerRefInfo; let i = index;let last=last;">
+                                                    <td>{{i+1}}</td>
+                                                    <td>{{item.ReferenceLabelName}}</td>
+                                                    <td>{{item.ReferenceValue}}</td>
+                                                    <td>
+                                                        <a *ngIf="item.IsEditableByCustomer==1" (click)="editReference(item,i)" class="fa fa-edit" style="cursor: pointer;" ngbTooltip="Edit" placement="top"></a>&nbsp;
+
+                                                        <!-- <a (click)="deleteReference(item.RRReferenceId, i)"  class="fa fa-trash text-danger" style="cursor: pointer;" ngbTooltip="Delete" placement="top"></a> -->
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                           
+                        </div>
+
+
+
+                            <div class="clear">&nbsp;</div>
+                            <div *ngIf="SubmittedQuote.length > 0">
+
+                                <div *ngFor="let quote of SubmittedQuote; let i = index;">
+                                    <div class="table-responsive">
+                                        <div class="clear">&nbsp;</div>
+                                        <div class="row">
+                                            <div class="col-xl-12">
+                                            <h4 class="page-title bluetxt mb-10">Quote #:
+
+
+                                                <i class="fas fa-window-close text-danger" aria-hidden="true"
+                                                    *ngIf="quote.QuoteCustomerStatus == 3"
+                                                    ngbTooltip="Rejected Quote"></i>
+                                                &nbsp;
+
+                                                <span class="float-right mt-1" *ngIf="quote.QuoteCustomerStatus == 3">
+                                                    <img src="assets/images/icons/Rejected.png"
+                                                        ngbTooltip="Customer Quote Rejected">
+                                                </span>
+                                                <span>
+                                                    <a routerLink="#" (click)="onviewQuote(viewQuote)" class="qtlink">
+                                                        {{quote.QuoteNo}}
+                                                    </a>
+                                                    
+                                                </span> &nbsp;&nbsp;
+                                                <span class="pl3" *ngIf="Status <= 4">
+    
+                                                   
+    
+                                                    
+    
+    
+                                                    <button type="button"
+                                                        *ngIf="(quote.QuoteId && quote.QuoteCustomerStatus == 1 && ApprovedQuoteStatus != 2)"
+                                                        (click)="ApproveQuote(quote.QuoteId,quote.GrandTotal)"
+                                                        class="btn btn-success btn-sm waves-effect waves-light mr-1 mb-1">
+                                                        Approve
+                                                    </button>
+                                                    <button type="button"
+                                                        *ngIf="(quote.QuoteId && quote.QuoteCustomerStatus == 1 && ApprovedQuoteStatus != 2)"
+                                                        (click)="RejectCustomerQuote(quote.QuoteId, quote.RRVendorId)"
+                                                        class="btn btn-warning btn-sm waves-effect waves-light mr-1 mb-1">
+                                                        Reject
+                                                    </button>
+                                                    <div style="display: inline-block" *ngIf="quote.SubmittedDate!=''">Quote Submitted Date: {{quote.SubmittedDate | date:'shortDate'}}
+                                                    </div>
+                                                    <div class="mb-1"
+                                                        *ngIf="(quote.QuoteId && (quote.QuoteCustomerStatus == 1 || quote.QuoteCustomerStatus == 2))">
+                                                        <!-- <div class="col-12 mt-1">
+                                            <h5><span class="col-xl-4 nopad float-left pt-2"> Customer PO #</span>
+                                                <span class="col-xl-8 nopad float-left"><input type="text"
+                                                        class="form-control" name="CustomerPONo"
+                                                        [(ngModel)]="CustomerPONo"></span>
+                                            </h5>
+                                        </div> -->
+    
+                                                        <!-- <div class="col-8">
+                                            <div class="row">
+                                                <div class="col-xl-4 nopad-rt">
+                                                    &nbsp;</div>
+                                                <div class="col-xl-8 nopad-lt">
+                                                    <input type="text" class="form-control" name="CustomerPONo"
+                                                        [(ngModel)]="CustomerPONo">
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                                    </div>
+                                                    <div class="clear"
+                                                        *ngIf="(quote.QuoteId && quote.QuoteCustomerStatus == 2 && !CustomerSONo)">
+                                                        &nbsp;</div>
+                                                       
+    
+                                                </span>
+                                              
+                                            </h4>
+                                           
+                                        
+                                        </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="Customer" class="rr-badge-light">Root Cause :</label>
+                                            {{quote.RouteCause || '-'}} &nbsp;
+                                        </div>
+
+                                        <table class="table table-bordered table-striped mb-0">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>Warranty</th>
+                                                    <th>Amount</th>
+                                                    <th>Lead Time</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <p class="mb-0 text-secondary">
+                                                            <span *ngIf="!quote.WarrantyPeriod">
+                                                                No Warranty
+                                                            </span>
+                                                            <span *ngIf="quote.WarrantyPeriod > 0">
+                                                                {{quote.WarrantyPeriod}}
+                                                                Months
+                                                            </span>
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-primary font-weight-bold"
+                                                            *ngIf="quote.GrandTotal > 0">
+                                                            {{quote.CurrencySymbol}} {{quote.GrandTotal}}
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 text-secondary pl3">
+                                                            {{quote.LeadTimes}}
+                                                        </p>
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+
+                                </div>
+                                <div class="clear">&nbsp;</div>
+                                <div *ngIf="CustomerSONo">
+                                    <div class="clear" style="border-bottom: 1px dashed;">
+                                        &nbsp;</div>
+                                    <div class="clear">&nbsp;</div>
+                                    <div class="row mt-2 mb-0">
+
+                                        <div class="col-12 mt-1">
+                                            <h5 style="font-size: 20px ! important;">
+                                                <span class="col-xl-6 nopad float-left text-success">
+                                                    Customer PO # :</span>
+                                                <span class="col-xl-6 nopad float-left">
+                                                    <p style="width: 80%;float: left;">
+                                                        {{CustomerPONo}}</p>
+                                                </span>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <h5 class="pl2 text-success">
+                                        Customer Sales Order #
+                                    </h5>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <p class="pt-10 pl3">
+                                                <!-- <a (click)="goToCustomerSOView()"
+                                                    routerLink="#"
+                                                    style="cursor: pointer;">
+                                                    {{CustomerSONo}}
+                                                </a> -->
+                                                <a [routerLink]="['/admin/orders/sales-list']"
+                                                    [queryParams]="{SOId: this.CustomerSOId}" target="_blank"
+                                                    style="cursor: pointer;">
+                                                    {{CustomerSONo}}
+                                                </a>
+                                            </p>
+                                        </div>
+
+                                        <div class="col-8">
+                                            <div class="row">
+                                                <div class="col-4 pt-10 nopad-rt">
+                                                    Cancelled
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="clear">&nbsp;</div>
+
+                            <div *ngIf="CustomerInvoiceNo">
+                                <div class="clear">&nbsp;</div>
+                                <h5 class="pl2 text-success">
+                                    Customer Invoice #
+                                    <!-- <button
+                                        ngbTooltip="Preview Customer Invoice"
+                                        placement="top"
+                                        *ngIf="vendor.Status <= VENDOR_STATUS_APPROVED"
+                                        class="btn btn-outline-success btn-xs sendmail"
+                                        type="button"
+                                        (click)="previewInvoice(CustomerInvoiceId)">
+                                        Preview &amp; Send<i
+                                            class="mdi mdi-window-restore"></i>
+                                    </button> -->
+                                    <!-- <button ngbTooltip="Send Invoice Email"
+                                        placement="top"
+                                        *ngIf="vendor.Status <= VENDOR_STATUS_APPROVED"
+                                        class="btn btn-outline-success btn-xs sendmail"
+                                        type="button"
+                                        (click)="sendEmailInvoice(CustomerInvoiceId)">
+                                        Send <i
+                                            class="mdi mdi-email-outline"></i>
+                                    </button> -->
+
+                                </h5>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <p class="pt-10 pl3">
+                                            <a (click)="onInvoiceView()" routerLink="#" style="cursor: pointer;">
+                                                {{CustomerInvoiceNo}}
+                                            </a>
+                                            <!-- <a (click)="goToCustomerInvoiceView()"
+                                                routerLink="#"
+                                                style="cursor: pointer;">
+                                                {{CustomerInvoiceNo}}
+                                            </a> -->
+                                            <i class="fas fa-check-circle greentick" aria-hidden="true"
+                                                *ngIf="IsInvoiceApproved==1" ngbTooltip="Approved Invoice"></i>
+                                        </p>
+                                    </div>
+
+                                    <div class="col-8">
+                                        <div class="row">
+                                            <div class="col-2 pt-10 nopad-rt">
+                                                Due Date:
+                                            </div>
+                                            <div class="col-8 nopad-lt">
+                                                <p style="margin-top:12px;">{{CustomerInvoiceDueDate}}</p>
+                                                <input type="hidden" name="CustomerInvoiceNo"
+                                                    [(ngModel)]="CustomerInvoiceNo" formControlName="CustomerInvoiceNo">
+                                                <input type="hidden" class="form-control" name="CustomerInvoiceDueDate"
+                                                    placeholder="mm/dd/yyyy" [(ngModel)]="CustomerInvoiceDueDate">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="(ApprovedQuoteId && ApprovedQuoteStatus == 2)">
+                                <div style="height: 1px;" class="clear">&nbsp;</div>
+                                <div class="row">
+                                    <h4 class="page-title bluetxt mb-10">Approved Quote Details:&nbsp;
+
+                                    </h4>
+                                    <span>
+                                        <a routerLink="#" (click)="onviewQuote(ApprovedQuoteitem)" class="qtlink">
+                                            {{SalesQuoteInfo.QuoteNo}}
+                                        </a>
+                                    </span> &nbsp;&nbsp;
+                                    <span class="page-title bluetxt mb-10 mt-2" *ngIf="ApprovedQuoteInfo[0].SubmittedDate!=''">Quote Submitted Date: {{ApprovedQuoteInfo[0].SubmittedDate | date:'shortDate'}}
+                                    </span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Customer" class="rr-badge-light">Root Cause :</label>
+                                    {{QuoteRouteCause || '-'}} &nbsp;
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped mb-0">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th width="15%">Part #</th>
+                                                <th width="35%">Part Description</th>
+                                                <th width="10%">Serial #</th>
+                                                <th width="10%">Lead Time</th>
+                                                <th width="10%">Quantity</th>
+                                                <th width="10%">Rate</th>
+                                                <th>{{VAT_field_Name}}</th>
+                                                <th width="10%">Price</th>
+                                                <th *ngIf="IsDisplayBaseCurrencyValue==1">Price({{BaseCurrencySymbol}})<span class="red">*</span></th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let quote of ApprovedQuoteItems;let i=index">
+                                                <td>{{quote.PartNo}}</td>
+                                                <td>{{quote.Description}}</td>
+                                                <td>{{quote.SerialNo}}</td>
+                                                <td>{{quote.LeadTime}}</td>
+                                                <td>{{quote.Quantity}}</td>
+                                                <td>{{quote.ItemLocalCurrencySymbol}} {{quote.Rate}}</td>
+                                                <td>
+                                   
+                                                    {{quote.ItemLocalCurrencySymbol}} {{quote.Tax}} ({{quote.ItemTaxPercent}}%)
+                                                </td>
+                                                <td>{{quote.ItemLocalCurrencySymbol}} {{quote.Price}}</td>
+                                                <td *ngIf="IsDisplayBaseCurrencyValue==1">{{BaseCurrencySymbol}} {{quote.BasePrice}}</td>
+
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">&nbsp;</td>
+                                                <td colspan="3">
+                                                    <table class="table table-borderless">
+                                                        <!-- <tr>
+                                                            <th>Sub Total :</th>
+                                                            <td>$ {{SubTotal}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>AH Processing Fee :</th>
+                                                            <td>$ {{AdditionalCharge}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Total Tax :</th>
+                                                            <td>$ {{TotalTax}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Discount :</th>
+                                                            <td>$ {{Discount}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Shipping :</th>
+                                                            <td>$ {{Shipping}}</td>
+                                                        </tr> -->
+                                                        <tr>
+                                                            <th>Grand Total :</th>
+                                                            <td>{{ApprovedQuoteInfo[0].CurrencySymbol}} {{QuoteGrandTotal}}</td>
+                                                        </tr>
+                                                        <tr *ngIf="IsDisplayBaseCurrencyValue==1">
+                                                            <th>Grand Total ({{BaseCurrencySymbol}}) :</th>
+                                                            <td>{{BaseCurrencySymbol}} {{ApprovedQuoteInfo[0].BaseGrandTotal}}</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div *ngIf="(Status == 6)">
+                                <div style="height: 1px;" class="clear">&nbsp;</div>
+                                <h4 class="page-title bluetxt mb-10">Rejected Quote Details</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped mb-0">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th width="15%">Part #</th>
+                                                <th width="35%">Part Description</th>
+                                                <th width="10%">Serial #</th>
+                                                <th width="10%">Lead Time</th>
+                                                <th width="10%">Quantity</th>
+                                                <th width="10%">Rate</th>
+                                                <th>{{VAT_field_Name}}</th>
+                                                <th width="10%">Price</th>
+                                                <th *ngIf="IsDisplayBaseCurrencyValue==1">Price({{BaseCurrencySymbol}})<span class="red">*</span></th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let quote of RejectedQuoteItem;let i=index">
+                                                <td>{{quote.PartNo}}</td>
+                                                <td>{{quote.Description}}</td>
+                                                <td>{{quote.SerialNo}}</td>
+                                                <td>{{quote.LeadTime}}</td>
+                                                <td>{{quote.Quantity}}</td>
+                                                <td>{{quote.ItemLocalCurrencySymbol}} {{quote.Rate}}</td>
+                                                <td>
+                                   
+                                                    {{quote.ItemLocalCurrencySymbol}} {{quote.Tax}} ({{quote.ItemTaxPercent}}%)
+                                                </td>
+                                                <td>{{quote.ItemLocalCurrencySymbol}} {{quote.Price}}</td>
+                                                <td *ngIf="IsDisplayBaseCurrencyValue==1">{{BaseCurrencySymbol}} {{quote.BasePrice}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">&nbsp;</td>
+                                                <td colspan="3">
+                                                    <table class="table table-borderless">
+                                                        <!-- <tr>
+                                                            <th>Sub Total :</th>
+                                                            <td>$ {{RejectedQuoteItemSubTotal}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>AH Processing Fee :</th>
+                                                            <td>$ {{RejectedQuoteItemAdditionalCharge}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Total Tax :</th>
+                                                            <td>$ {{RejectedQuoteItemTotalTax}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Discount :</th>
+                                                            <td>$ {{RejectedQuoteItemDiscount}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Shipping :</th>
+                                                            <td>$ {{RejectedQuoteItemShipping}}</td>
+                                                        </tr> -->
+                                                        <tr>
+                                                            <th>Grand Total :</th>
+                                                            <td>{{viewResult.RejectedQuote[0].CurrencySymbol}} {{RejectedQuoteItemGrandTotal}}</td>
+                                                        </tr>
+                                                        <tr *ngIf="IsDisplayBaseCurrencyValue==1">
+                                                            <th>Grand Total ({{BaseCurrencySymbol}}) :</th>
+                                                            <td>{{BaseCurrencySymbol}} {{viewResult.RejectedQuote[0].BaseGrandTotal}}</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+
+
+
+                            <h4 class="page-title bluetxt mb-10">Repair Parts
+                            </h4>
+                            <div class="table-responsive mt-15">
+                                <table class="table table-bordered table-striped mb-0">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Part #</th>
+                                            <th>Part Description</th>
+                                            <th>Manufacturer</th>
+                                            <th>Manufacturer Part #</th>
+                                            <th>Serial #</th>
+                                            <th>Lead Time</th>
+                                            <th>Qty</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 14%;">
+                                                {{PartNo}}
+                                            </td>
+                                            <td style="width: 15%;">
+                                                {{Description}}
+                                            </td>
+                                            <td style="width: 10%;">
+                                                <span *ngIf="Manufacturer">{{Manufacturer}}</span>
+                                            </td>
+                                            <td style="width: 13%;">
+                                                {{ManufacturerPartNo}}
+                                            </td>
+                                            <td style="width: 12%;">
+                                                {{SerialNo}}
+                                            </td>
+                                            <td style="width: 10%;">
+                                                {{LeadTime}} Day(s)
+                                            </td>
+                                            <td style="width: 6%;">
+                                                {{Quantity}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                            <div class="row" *ngIf="CustomerPartNo1 != '' || CustomerPartNo2 != ''">
+                                <div class="col-xl-12 mm15">
+                                    <div style="margin-top: 0;" class="col-xl-6 cust-part2">
+                                        {{CustomerPartNo1}}
+                                    </div>
+                                    <div style="margin-top: 0;" class="col-xl-6 cust-part2">
+                                        {{CustomerPartNo2}}
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="clear">&nbsp;</div>
+
+                            <h4 class="page-title bluetxt mb-10 mt-2">Contact Information</h4>
+                            <div class="table-responsive mt-15">
+                                <table class="table table-bordered table-striped mb-0">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Phone</th>
+                                            <th>Email</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                {{UserName}}
+                                            </td>
+                                            <td>
+                                                {{ContactPhone}}
+                                            </td>
+                                            <td>
+                                                {{ContactEmail}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="table-responsive" *ngIf="WarrantyInfo?.length != 0">
+                                <div class="clear">&nbsp;</div>
+                                <h4 class="page-title bluetxt mb-10">Warranty Info</h4>
+                                <table class="table table-bordered table-striped mb-0">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Warranty Start Date</th>
+                                            <th>Warranty End Date</th>
+                                            <th>Warranty Period</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngFor="let warranty of WarrantyInfo;let i=index">
+                                        <tr>
+                                            <td>{{warranty.WarrantyStartDate}}</td>
+                                            <td>{{warranty.WarrantyEndDate}}</td>
+                                            <td>{{warranty.WarrantyPeriod | monthTransform }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="clear">&nbsp;</div>
+                            <div>
+                                <h4 class="page-title bluetxt mb-10">Attachments
+                                    <button type="button" (click)="addAttachment()" class="btn btn-add waves-effect">
+                                        <i class="remixicon-add-fill mt-3"></i>Add</button>
+                                </h4>
+                                <div class="table-responsive mt-15">
+                                    <table class="table table-bordered table-striped mb-0">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Attachment</th>
+                                                <th class="linebreak">Description</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngFor="let attachment of RRCustomerAttachment;let i=index">
+                                            <tr>
+                                                <td><a href="{{attachment.Attachment}}"
+                                                        target="_blank">{{attachment.AttachmentOriginalFile}}</a>
+                                                </td>
+                                                <td>{{attachment.AttachmentDesc}}</td>
+                                                <td>
+                                                    <a (click)="editAttachment(attachment,i)" class="fa fa-edit"
+                                                        ngbTooltip="Edit" placement="top"></a>&nbsp;
+                                                    <a (click)="deleteAttachment(attachment.RRCustomerAttachmentId,i)"
+                                                        class="fa fa-trash text-danger" ngbTooltip="Delete"
+                                                        placement="top"></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody *ngIf="RRCustomerAttachment?.length == 0">
+                                            <tr>
+                                                <td colspan="5" class="no-data-available">No data!</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3">
+                        <div class="repair-right">
+
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="example__body">
+                                        <div class="example__image" *ngIf="RRImages.length > 0">
+                                            <div class="zoom-left">
+                                                <img [src]="currentImage.value.img" alt="" width="100%"
+                                                    [redZoom]="currentImage.value.img"
+                                                    redZoomClass="red-zoom--style--window" [redZoomLazy]="true"
+                                                    class="zoom">
+                                            </div>
+                                        </div>
+
+                                        <div class="radio-image" *ngIf="RRImages.length > 0">
+                                            <div style="padding:0;" class="col-12">
+                                                <label *ngFor="let image of RRImages; let i = index;">
+                                                    <input type="radio" [formControl]="currentImage" name="gallery"
+                                                        [value]="image">
+                                                    <span>
+                                                        <img src="{{image.img}}" alt="Thumbnail">
+                                                    </span>
+
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<ng-template #viewQuote let-modal="close">
+    <div class="modal-header">
+        <h4 class="modal-title">View Quote Item</h4>
+
+        <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>&nbsp;
+        <button ngbTooltip="Export to PDF" placement="top" value="Download" class="btn-secondary"
+            (click)="generatePDF()" title="Export to PDF">
+            <i class="mdi mdi-file-pdf-outline"></i></button>
+    </div>
+    <div class="modal-body p-3">
+        <div class="col-12 col-xl-12">
+            <div class="form-group">
+                <label for="Customer" class="rr-badge-light">Root Cause</label>
+                <p style="font-size: 20px;">{{ ViewQuoteRouteCause || '-'}}</p>
+            </div>
+        </div>
+
+        <div class="col-12 col-xl-12">
+            <div class="form-group">
+                <label for="Customer" class="rr-badge-light">Quote Item</label>
+            </div>
+        </div>
+        <div class="col-12">
+
+            <table class="table table-bordered table-striped mb-0">
+                <thead class="thead-light">
+                    <tr>
+                        <th width="15%">Part #</th>
+                        <th width="35%">Part Description</th>
+                        <th width="10%">Lead Time</th>
+                        <th width="10%">Warranty</th>
+                        <th width="10%">Quantity</th>
+                        <th width="10%">Rate</th>
+                        <th>{{VAT_field_Name}}</th>
+                        <th width="10%">Price</th>
+                        <th *ngIf="IsDisplayBaseCurrencyValue==1">Price({{BaseCurrencySymbol}})<span class="red">*</span></th>                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let quote of SubmittedQuoteItem;let i=index">
+                        <td>{{quote.PartNo}}</td>
+                        <td>{{quote.Description}}</td>
+                        <td>
+                            <p *ngIf="quote.LeadTime !=''">{{quote.LeadTime}} Days</p>
+                            <p *ngIf="quote.LeadTime ==''">-</p>
+                        </td>
+                        <td>{{quote.WarrantyPeriod | monthTransform}}</td>
+                        <td>{{quote.Quantity}}</td>
+                        <td>{{quote.ItemLocalCurrencySymbol}} {{quote.Rate}}</td>
+                        <td>
+           
+                            {{quote.ItemLocalCurrencySymbol}} {{quote.Tax}} ({{quote.ItemTaxPercent}}%)
+                        </td>
+                        <td>{{quote.ItemLocalCurrencySymbol}} {{quote.Price}}</td>
+                        <td *ngIf="IsDisplayBaseCurrencyValue==1">{{BaseCurrencySymbol}} {{quote.BasePrice}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">&nbsp;</td>
+                        <td colspan="3">
+                            <table class="table table-borderless">
+                                <!-- <tr>
+                                    <th>Sub Total :</th>
+                                    <td>$ {{ViewSubTotal}}</td>
+                                </tr>
+                                <tr>
+                                    <th>AH Processing Fee :</th>
+                                    <td>$ {{ViewAdditionalCharge}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Total Tax :</th>
+                                    <td>$ {{ViewTotalTax}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Discount :</th>
+                                    <td>$ {{ViewDiscount}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Shipping :</th>
+                                    <td>$ {{ViewShipping}}</td>
+                                </tr> -->
+                               
+                                <tr>
+                                    <th>Grand Total :</th>
+                                    <td>{{SubmittedQuote[0].CurrencySymbol}} {{ViewQuoteGrandTotal}}</td>
+                                </tr>
+                                <tr *ngIf="IsDisplayBaseCurrencyValue==1">
+                                    <th>Grand Total ({{BaseCurrencySymbol}}) :</th>
+                                    <td>{{BaseCurrencySymbol}} {{SubmittedQuote[0].BaseGrandTotal}}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</ng-template>
+
+
+<ng-template #ApprovedQuoteitem let-modal="close">
+    <div class="modal-header">
+        <h4 class="modal-title">View Quote Item</h4>
+
+        <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>&nbsp;
+        <button ngbTooltip="Export to PDF" placement="top" value="Download" class="btn-secondary"
+            (click)="generatePDF()" title="Export to PDF">
+            <i class="mdi mdi-file-pdf-outline"></i></button>
+    </div>
+    <div class="modal-body p-3">
+        <div class="col-12 col-xl-12">
+            <div class="form-group">
+                <label for="Customer" class="rr-badge-light">Root Cause</label>
+                <p style="font-size: 20px;">{{ QuoteRouteCause || '-'}}</p>
+            </div>
+        </div>
+
+        <div class="col-12 col-xl-12">
+            <div class="form-group">
+                <label for="Customer" class="rr-badge-light">Quote Item</label>
+            </div>
+        </div>
+        <div class="col-12">
+
+            <table class="table table-bordered table-striped mb-0">
+                <thead class="thead-light">
+                    <tr>
+                        <th width="15%">Part #</th>
+                        <th width="35%">Part Description</th>
+                        <th width="10%">Lead Time</th>
+                        <th width="10%">Warranty</th>
+                        <th width="10%">Quantity</th>
+                        <th width="10%">Rate</th>
+                        <th>{{VAT_field_Name}}</th>
+                        <th width="10%">Price</th>
+                        <th *ngIf="IsDisplayBaseCurrencyValue==1">Price({{BaseCurrencySymbol}})<span class="red">*</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let quote of ApprovedQuoteItems;let i=index">
+                        <td>{{quote.PartNo}}</td>
+                        <td>{{quote.Description}}</td>
+                        <td>
+                            <p *ngIf="quote.LeadTime !=''">{{quote.LeadTime}} Days</p>
+                            <p *ngIf="quote.LeadTime ==''">-</p>
+                        </td>
+                        <td>{{quote.WarrantyPeriod | monthTransform}}</td>
+                        <td>{{quote.Quantity}}</td>
+                        <td>{{quote.ItemLocalCurrencySymbol}} {{quote.Rate}}</td>
+                        <td>
+           
+                            {{quote.ItemLocalCurrencySymbol}} {{quote.Tax}} ({{quote.ItemTaxPercent}}%)
+                        </td>
+                        <td>{{quote.ItemLocalCurrencySymbol}} {{quote.Price}}</td>
+                        <td *ngIf="IsDisplayBaseCurrencyValue==1">{{BaseCurrencySymbol}} {{quote.BasePrice}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">&nbsp;</td>
+                        <td colspan="3">
+                            <table class="table table-borderless">
+                                <!-- <tr>
+                                    <th>Sub Total :</th>
+                                    <td>$ {{SubTotal}}</td>
+                                </tr>
+                                <tr>
+                                    <th>AH Processing Fee :</th>
+                                    <td>$ {{AdditionalCharge}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Total Tax :</th>
+                                    <td>$ {{TotalTax}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Discount :</th>
+                                    <td>$ {{Discount}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Shipping :</th>
+                                    <td>$ {{Shipping}}</td>
+                                </tr> -->
+                                <tr>
+                                    <th>Grand Total :</th>
+                                    <td>{{ApprovedQuoteInfo[0].CurrencySymbol}} {{QuoteGrandTotal}}</td>
+                                </tr>
+                                <tr *ngIf="IsDisplayBaseCurrencyValue==1">
+                                    <th>Grand Total ({{BaseCurrencySymbol}}) :</th>
+                                    <td>{{BaseCurrencySymbol}} {{ApprovedQuoteInfo[0].BaseGrandTotal}}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</ng-template>

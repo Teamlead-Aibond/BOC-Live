@@ -1,0 +1,102 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">Customer Group</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg">
+    <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="Form">
+
+        <div class="row">
+
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="Customer">Customer Group Name : <span class="red">*</span></label>
+                    <input type="text" class="form-control" placeholder="Enter Customer Group Name" name="CustomerGroupName"
+                        formControlName="CustomerGroupName" [readonly]="editMode">
+                    <span class="text-danger"
+                        *ngIf="(FormControl.CustomerGroupName.touched || submitted) && FormControl.CustomerGroupName.errors?.required">
+                        Customer Group Name is required
+                    </span>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="Customer"> Description : <span class="red">*</span></label>
+                    <textarea name="" id="" class="form-control" placeholder="Enter Description" name="CustomerGroupDesc"
+                    formControlName="CustomerGroupDesc"></textarea>                  
+                    <span class="text-danger"
+                        *ngIf="(FormControl.CustomerGroupDesc.touched || submitted) && FormControl.CustomerGroupDesc.errors?.required">
+                        Description is required
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="form-group">
+                    <label for="Customer">Customer:</label>
+                    <ng-select [items]="customers$ | async" [typeahead]="customersInput$"
+                        [loading]="loadingCustomers" [multiple]="true" [closeOnSelect]="false"
+                        [searchable]="true" [virtualScroll]="true" placeholder="Select"
+                        bindLabel="CustomerCode" bindValue="CustomerId"
+                        formControlName="MultipleCustomerIds" name="MultipleCustomerIds">
+                        <ng-template ng-header-tmp *ngIf="CustomersList.length > 0">
+                            <button type="button" (click)="selectAllMultipleCustomerIds()"
+                                class="btn btn-sm btn-link">Select all</button>
+                        </ng-template>
+                        <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                            <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                                <span class="ng-value-label">{{item.CompanyName}}</span>
+                                <span class="ng-value-icon right" (click)="clear(item)"
+                                    aria-hidden="true">×</span>
+                            </div>
+                            <div class="ng-value" *ngIf="items.length > 1">
+                                <span class="ng-value-label">+ {{items.length - 1}} more...</span>
+                            </div>
+                        </ng-template>
+                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                            <input id="item-{{index}}" type="checkbox" [ngModelOptions]="{standalone: true}" [checked]="item$.selected"
+                                [ngModel]="item$.selected" />
+                            {{item.CompanyName}}
+                        </ng-template>
+                    </ng-select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <label for="Customer">Status:<span class="red">*</span></label>
+                    <select class="custom-select" name="Status" formControlName="IsActive" class="form-control" disabled *ngIf="editMode">
+                        <option value="" disabled>Select</option>
+                        <option value="1">
+                            Active
+                        </option>
+                        <option value="0">
+                            InActive
+                        </option>
+                    </select>
+                    <select class="custom-select" name="Status" formControlName="IsActive" class="form-control" *ngIf="!editMode">
+                        <option value="" disabled>Select</option>
+                        <option value="1">
+                            Active
+                        </option>
+                        <option value="0">
+                            InActive
+                        </option>
+                    </select>
+                    <span class="text-danger"
+                        *ngIf="(FormControl.IsActive.touched || submitted) && FormControl.IsActive.errors?.required">
+                        Status is required
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-right pt-2 mt-0">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light ml-1">Save</button>
+        </div>
+
+    </form>
+</div>

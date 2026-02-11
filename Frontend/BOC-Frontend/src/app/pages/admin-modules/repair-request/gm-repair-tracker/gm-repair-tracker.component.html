@@ -1,0 +1,211 @@
+<div class="modal-header modal-xl">
+    <h4 class="modal-title">{{title}}
+
+    </h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-xl">
+    <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="Form">
+
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Broken? : </label>
+                    <select class="custom-select" name="IsBroken" formControlName="IsBroken">
+                        <option value="" >Select</option>
+                        <option *ngFor="let item of booleanValues" value={{item.id}}>
+                            {{item.Name}}
+                        </option>
+                    </select>
+                    <!-- <span class="text-danger"
+                        *ngIf="(FormControl.IsBroken.touched || submitted) && FormControl.IsBroken.errors?.required">
+                        Broken? is required
+                    </span> -->
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Approved for : </label>
+                    <input type="text" class="form-control" placeholder="Enter Approved for" name="ApprovedFor"
+                        formControlName="ApprovedFor">
+                    <!-- <span class="text-danger"
+                        *ngIf="(FormControl.ApprovedFor.touched || submitted) && FormControl.ApprovedFor.errors?.required">
+                        Approved for is required
+                    </span> -->
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Reason for Failure : </label>
+                    <input type="text" class="form-control" placeholder="Enter Reason for Failure"
+                        name="ReasonForFailure" formControlName="ReasonForFailure">
+                    <!-- <span class="text-danger"
+                        *ngIf="(FormControl.ReasonForFailure.touched || submitted) && FormControl.ReasonForFailure.errors?.required">
+                        Reason for Failure for is required
+                    </span> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Failed on Install? : </label>
+                    <select class="custom-select" name="FailedOnInstall" formControlName="FailedOnInstall">
+                        <option value="" >Select</option>
+                        <option *ngFor="let item of booleanValues" value={{item.id}}>
+                            {{item.Name}}
+                        </option>
+                    </select>
+                    <!-- <span class="text-danger"
+                        *ngIf="(FormControl.FailedOnInstall.touched || submitted) && FormControl.FailedOnInstall.errors?.required">
+                        Failed on Install? is required
+                    </span> -->
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Failed on Install Notes : </label>
+                    <input type="text" class="form-control" placeholder="Enter Failed on Install Notes"
+                        name="FailedOnInstallNotes" formControlName="FailedOnInstallNotes">
+
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Requestor : </label>
+                    <input type="text" class="form-control" placeholder="Enter Requestor" name="Requestor"
+                        formControlName="Requestor">
+                    <!-- <span class="text-danger"
+                        *ngIf="(FormControl.Requestor.touched || submitted) && FormControl.Requestor.errors?.required">
+                        Requestor for is required
+                    </span> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">GCCL Item :</label>
+                    <input type="text" class="form-control" placeholder="Enter GCCL Item"
+                    name="GCCLItem" formControlName="GCCLItem">
+                    <!-- <span class="text-danger"
+                        *ngIf="(FormControl.GCCLItem.touched || submitted) && FormControl.GCCLItem.errors?.required">
+                        GCCL Item? is required
+                    </span> -->
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Repair Warranty Expiration : </label>
+                    <input type="text" class="form-control" placeholder="Enter Repair Warranty Expiration"
+                        name="RepairWarrantyExpiration" formControlName="RepairWarrantyExpiration">
+
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Open Order Status : </label>
+                    <select class="custom-select" name="OpenOrderStatus" formControlName="OpenOrderStatus">
+                        <option value="" >Select</option>
+                        <option value="1">
+                            Status1
+                        </option>
+                        <option value="2">
+                            Status2
+                        </option>
+                    </select>
+                    <!-- <span class="text-danger"
+                        *ngIf="(FormControl.OpenOrderStatus.touched || submitted) && FormControl.OpenOrderStatus.errors?.required">
+                        Open Order Status for is required
+                    </span> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Account Valuation Class : </label>
+                    <input type="text" class="form-control" placeholder="Enter Account Valuation Class"
+                        name="AccountValuationClass" formControlName="AccountValuationClass">
+
+                    <!-- <span class="text-danger"
+                        *ngIf="(FormControl.AccountValuationClass.touched || submitted) && FormControl.AccountValuationClass.errors?.required">
+                        Account Valuation Class is required
+                    </span> -->
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Receipt Month : </label>
+                    <select class="custom-select" name="ReceiptMonth" formControlName="ReceiptMonth">
+                        <option value="" >Select</option>
+                        <option value="{{item.value}}" *ngFor="let item of months">
+                            {{item.text}}
+                        </option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Receipt Year : </label>
+                    <select class="custom-select" name="ReceiptYear" formControlName="ReceiptYear">
+                        <option value="" >Select</option>
+                        <option value="{{currentYear - i}}" *ngFor="let item of [].constructor(13); let i = index">
+                            {{currentYear - i}}
+                        </option>
+                    </select>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Core Return Month : </label>
+                    <select class="custom-select" name="CoreReturnMonth" formControlName="CoreReturnMonth">
+                        <option value="" >Select</option>
+                        <option value="{{item.value}}" *ngFor="let item of months">
+                            {{item.text}}
+                        </option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Core Return Year : </label>
+                    <select class="custom-select" name="CoreReturnYear" formControlName="CoreReturnYear">
+                        <option value="" >Select</option>
+                        <option value="{{currentYear - i}}" *ngFor="let item of [].constructor(13); let i = index">
+                            {{currentYear - i}}
+                        </option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group">
+                    <label for="Customer">Scrap? : </label>
+                    <select class="custom-select" name="IsScrap" formControlName="IsScrap">
+                        <option value="" >Select</option>
+                        <option *ngFor="let item of boolean" value={{item.id}}>
+                            {{item.Name}}
+                        </option>
+                    </select>                 
+                </div>
+            </div>
+        </div>
+
+        <div class="text-right pt-2 mt-0">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light ml-1">Save</button>
+        </div>
+
+    </form>
+</div>

@@ -1,0 +1,717 @@
+<div class="container-fluid">
+    <app-page-title title="Repair Requests" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">
+                        <div style="font-size: 15px;position: relative;font-weight: bold;">
+
+                            <ngb-tabset class="nav-bordered" type="tabs">
+                                <ngb-tab title="Search" class="nav-item d-none d-sm-inline-block">
+                                    <ng-template ngbTabContent>
+                                        <ng-template [ngTemplateOutlet]="Search"></ng-template>
+                                    </ng-template>
+                                </ngb-tab>
+
+                                <ngb-tab title="Advanced Search" class="nav-item">
+                                    <ng-template ngbTabContent>
+                                        <ng-template [ngTemplateOutlet]="AdvancedSearch"></ng-template>
+                                    </ng-template>
+                                </ngb-tab>
+
+                                <ngb-tab title="Statistics" class="nav-item">
+                                    <ng-template ngbTabContent>
+                                        <ng-template [ngTemplateOutlet]="Statistics"></ng-template>
+                                    </ng-template>
+                                </ngb-tab>
+
+                                <ngb-tab title="Custom Report" class="nav-item">
+                                    <ng-template ngbTabContent>
+                                        <ng-template [ngTemplateOutlet]="CustomReport"></ng-template>
+                                    </ng-template>
+                                </ngb-tab>
+
+
+                            </ngb-tabset>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card-box">
+                <!-- {{ "test" | monthTransform }} -->
+                <div class="row">
+                    <div style="padding-bottom:15px;" class="col-xl-12">
+                        <button class="btn btn-primary waves-effect addrrbtn" routerLink="/admin/repair-request/add"
+                            *ngIf="RR[CREATE_ACCESS] == 1">
+                            <i class="remixicon-add-fill mrg-5"></i> Add Repair Request
+                        </button>
+                        <button class="btn btn-pink waves-effect bulkbtn"
+                            routerLink="/admin/repair-request/bulk-shipping">
+                            Bulk Shipping
+                        </button>
+                        <div style="margin-top:3px;" class="dropdown float-right" ngbDropdown>
+                            <a href="javascript:void(0);" class="dropdown-toggle arrow-none" data-toggle="dropdown"
+                                aria-expanded="false" ngbDropdownToggle>
+                                <i style="font-size:20px;color:#09518e;" class="far fa-calendar-alt"></i>
+                                <span class="idp">{{elementClicked1}}</span>
+                            </a>
+                            <div style="width:180px; padding:5px; box-shadow:0;"
+                                class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
+                                <ul class="date-list" (click)="onClick1($event)" style="cursor: pointer;">
+                                    <li>SO Due date in 2 days</li>
+                                    <li>PO Due date in 2 days</li>
+                                    <li>Invoice Due in 2 days</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div style="margin-top:3px;" class="dropdown float-right" ngbDropdown>
+                            <a href="javascript:void(0);" class="dropdown-toggle arrow-none" data-toggle="dropdown"
+                                aria-expanded="false" ngbDropdownToggle>
+                                <i style="font-size:20px;color:#09518e;" class="far fa-calendar-times"></i><span
+                                    class="idp">
+                                    <!--{{selectedCityId}}--> {{elementClicked}}
+                                </span>
+                            </a>
+                            <div style="width:185px; padding:5px; box-shadow:0;"
+                                class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
+                                <ul class="date-list" (click)="onClick($event)" style="cursor: pointer;">
+                                    <li>SO Due Date Passed</li>
+                                    <li>PO Due Date Passed</li>
+                                    <li>Invoice Due date passed</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <span style="width:195px;float:right;">
+                            <ui-switch defaultBoColor="#dfdfdf" (valueChange)="onClickVerification($event)" size="small"
+                                color="#09518e"></ui-switch> <span class="nv">Awaiting Verification</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-12">
+                        <!-- Table -->
+                        <div style="padding-right: 15px;" class="table-responsive">
+                            <table id="datatable-angular-rr" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                                class="table datatables dt-responsive hover nowrap">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Repair Request #</th>
+                                        <th>RR Image</th>
+                                        <th>Part #</th>
+                                        <th>Serial #</th>
+                                        <th>Customer Name</th>
+                                        <th>Vendor Name</th>
+                                        <th>Status</th>
+                                        <th>Sub Status & Assign To</th> 
+                                        <th>Part Location</th>
+                                        <th>Action</th>
+                                        <th>Created Date</th>
+                                        <th>Invoice #</th>
+                                        <th>VendorPONo</th>
+                                        <th>RRDescription</th>
+                                        <th>CustomerSONo</th>
+                                        <th>CustomerPartNo1</th>
+                                        <th>CustomerPONo</th>
+                                        <th>ReferenceValue</th>
+                                        <th>IsWarrantyRecovery</th>
+                                        <th>IsRushRepair</th>
+                                        <th>IsRepairTag</th>
+                                        <th>SODueDatePassed</th>
+                                        <th>PODueDatePassed</th>
+                                        <th>InvDueDatePassed</th>
+                                        <th>SODueDateNears</th>
+                                        <th>PODueDateNears</th>
+                                        <th>InvDueDateNears</th>
+                                        <th>MobileVerify</th>
+                                        <th>IsPartsDeliveredToCustomer</th>
+                                        <th>VendorInvoiceId</th>
+                                        <th>CustomerInvoiceId</th>
+                                        <th>CustomerId</th>
+                                        <th>VendorId</th>
+                                        <th>PartId</th>
+                                        <th>RRIdVendorPO</th>
+                                        <th>RRIdCustomerPO</th>
+                                        <th>RRIdCustomerSO</th>
+                                        <th>StatusChangeFrom</th>
+                                        <th>StatusChangeTo</th>
+                                        <th>StatusChangeId</th>
+                                        <th>Price</th>
+                                        <th>SO #</th>
+                                        <th>PO #</th>
+                                        <th>Invoice #</th>
+                                        <th>Customer PO #</th>
+
+                                        <th>ShippingStatus</th>
+                                        <th>ShippingStatusCategory</th>
+                                        <th>QuoteApprovedBy</th>
+                                        <th>IsSOCreated</th>
+                                        <th>StatusName</th>
+                                        <th>Customer Reference 1</th>
+                                        <th>Customer Reference 2</th>
+                                        <th>Customer Reference 3</th>
+                                        <th>Customer Reference 4</th>
+                                        <th>Customer Reference 5</th>
+                                        <th>Customer Reference 6</th>
+                                        <th>Customer Asset</th>
+                                        <th>Repair Price</th>
+                                        <th>Sub Status</th>
+                                        <th>Assignee User</th>
+                                        <th>RR Part Location</th>
+
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tab Content -->
+<ng-template #Search>
+    <div class="row collapse pt-1 show">
+        <div class="col-12 col-sm-3 col-md-3 col-xl-2">
+            <select class="custom-select" [(ngModel)]="RRtype">
+                <option value="undefined">Select</option>
+                <option value="0">Repair Request #</option>
+                <option value="2">Part #</option>
+                <option value="3">Serial #</option>
+                <option value="42">Sales Order #</option>
+                <option value="45">Customer PO #</option>
+                <option value="14">Repair Request Description</option>
+                <option value="4">Customer Name</option>
+                <option value="5">Vendor Name</option>
+                <!-- <option value="6">Status</option> -->
+            </select>
+        </div>
+        <div class="col-12 col-sm-3 col-md-3 col-xl-2">
+            <input type="text" class="form-control" name="RRvalue" [(ngModel)]="RRvalue" placeholder="Enter Value">
+        </div>
+
+        <div class="col-12 col-sm-3 col-md-3 col-xl-2">
+            <input type="button" class="btn btn-primary btn-md mr-1" value="Search" id="btnFilter"
+                (click)="onSearch()" />
+            <input type="button" class="btn btn-secondary btn-md" value="Clear" id="btnClear"
+                (click)="onClearSearch($event)" />
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #CustomReport>
+
+
+
+
+
+    <div class="row mt-2 collapse pt-1 show">
+        <div class="col-xl-12">
+            <div class="col-xl-12 float-left">
+                <div class="col-xl-11 float-left" style="padding-bottom:15px;">
+                    <div class="col-xl-2 pt-1 form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="customreport"
+                            (change)="onCustomReportSelectAll($event)">
+                        <label class="form-check-label" for="customreport">Select All</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-12 float-left">
+                <div class="col-xl-11 float-left">
+                    <div class="col-xl-2 pt-1 form-check form-check-inline" *ngFor="let item of FieldList">
+                        <input class="form-check-input" type="checkbox" id="{{item.FieldValue}}"
+                            [checked]="item.checked" (change)="onCheckChange($event, item.FieldValue)">
+                        <label class="form-check-label" for="inlineCheckbox1">{{item.FieldName}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="float: right;" *ngIf="DownloadOptionRRList">
+                <div class="col-xl-12  pt-2" align="center">
+                    <button class="btn btn-primary waves-effect" (click)="onExcel()">
+                        <i class="remixicon-file-excel-line  mrg-5"></i> Download Report
+                    </button>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+</ng-template>
+
+<!-- Tab Content -->
+<ng-template #Statistics>
+    <div class="text-center mb-2">
+
+        <div class="row">
+            <div class="col-md-12 col-xl-7 mb-20">
+                <div class="row">
+                    <label class="control-label mt-1 ml-2">Select Date Range</label>
+                    <input class="selectpicker" type="text" ngxDaterangepickerMd [(ngModel)]="dateFilter"
+                        [showCustomRangeLabel]="true" [keepCalendarOpeningWithRange]="true" [timePicker]="false"
+                        [alwaysShowCalendars]="true" [ranges]="ranges" [linkedCalendars]="true" startKey="startDate"
+                        endKey="endDate" [isInvalidDate]="isInvalidDate" (ngModelChange)="onStat()"
+                        [showClearButton]="true" readonly>
+                    <div class="clear">&nbsp;</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Card -->
+
+            <div class="col-md-6 col-xl-2">
+                <div class="card-box">
+                    <i class="fas fa-haykal font-24"></i>
+                    <h3 class="text-pink">{{Status0}}</h3>
+                    <p class="text-uppercase mb-1 font-13 font-weight-medium">RR Generated</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-2">
+                <div class="card-box">
+                    <i class="fas fa-toolbox font-24"></i>
+                    <h3 class="text-danger">{{ Status1}}</h3>
+                    <p class="text-uppercase mb-1 font-13 font-weight-medium">Awaiting Vendor Selection</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-2">
+                <div class="card-box">
+                    <i class="fas fa-file-alt font-24"></i>
+                    <h3 class="text-warning">{{Status2}}</h3>
+                    <p class="text-uppercase mb-1 font-13 font-weight-medium">Awaiting Vendor Quote</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-2">
+                <div class="card-box">
+                    <i class="fas fa-redo font-24"></i>
+                    <h3 class="text-purple">{{ Status3}}</h3>
+                    <p class="text-uppercase mb-1 font-13 font-weight-medium">Resource - Vendor Change</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-2">
+                <div class="card-box">
+                    <i class="fas fa-file-invoice-dollar font-24"></i>
+                    <h3 class="text-info">{{Status4}}</h3>
+                    <p class="text-uppercase mb-1 font-13 font-weight-medium">Quoted - Awaiting Customer PO</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-2">
+                <div class="card-box">
+                    <i class="fas fa-ellipsis-h font-24"></i>
+                    <h3 class="text-secondary">{{Status5}}</h3>
+                    <p class="text-uppercase mb-1 font-13 font-weight-medium">Repair In Progress</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-2">
+                <div class="card-box">
+                    <i class="fas fa-file-excel font-24"></i>
+                    <h3 class="text-danger">{{Status6}}</h3>
+                    <p class="text-uppercase mb-1 font-13 font-weight-medium">Quote Rejected</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-2">
+                <div class="card-box">
+                    <i class="far fa-thumbs-up font-24"></i>
+                    <h3 class="text-success">{{Status7}}</h3>
+                    <p class="text-uppercase mb-1 font-13 font-weight-medium">Completed</p>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</ng-template>
+
+<!-- Tab Content -->
+<ng-template #AdvancedSearch>
+    <div class="row collapse pt-1 show">
+        <!-- Row 1-->
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Repair Request #</label>
+            <ng-autocomplete class="ng-autocomplete" placeholder="Enter Repair Request #" [data]="RRList"
+                [isLoading]="isLoadingRR" [searchKeyword]="keywordForRR" (selected)='selectRREvent($event)'
+                (inputCleared)='clearRREvent($event)' [(ngModel)]="RRNo" (inputChanged)='onChangeRRSearch($event)'
+                (inputFocused)='onFocused($event)' [itemTemplate]="RRitemTemplate"
+                [notFoundTemplate]="notFoundRRTemplate" debounceTime="1000">
+            </ng-autocomplete>
+            <ng-template #RRitemTemplate let-item>
+                <a [innerHTML]="item.RRNo"></a>
+            </ng-template>
+
+            <ng-template #notFoundRRTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+            </ng-template>
+            <!-- <input type="text" class="form-control" id="RRNo" [(ngModel)]="RRNo" placeholder="Enter Repair Request #"> -->
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Repair Request Description</label>
+            <input type="text" class="form-control" id="RRDescription" [(ngModel)]="RRDescription"
+                placeholder="Enter Repair Request Description">
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Part #</label>
+            <ng-autocomplete class="ng-autocomplete" placeholder="Enter Part #" [data]="partList"
+                [isLoading]="isLoading" [searchKeyword]="keywordForPartNo" (selected)='selectPartEvent($event)'
+                (inputCleared)='clearPartEvent($event)' [(ngModel)]="PartNo" (inputChanged)='onChangePartSearch($event)'
+                (inputFocused)='onFocused($event)' [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate"
+                debounceTime="1000">
+            </ng-autocomplete>
+            <ng-template #itemTemplate let-item>
+                <a [innerHTML]="item.PartNo"></a>
+            </ng-template>
+
+            <ng-template #notFoundTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+            </ng-template>
+            <!-- <input type="text" class="form-control" id="PartNo" [(ngModel)]="PartNo" placeholder="Enter Part #"> -->
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Serial #</label>
+            <input type="text" class="form-control" id="SerialNo" [(ngModel)]="SerialNo" placeholder="Enter Serial #">
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Sales Order #</label>
+            <ng-autocomplete class="ng-autocomplete" placeholder="Enter Sales Order #" [data]="CustomerSONoList"
+                [isLoading]="isLoadingCustomerSONo" [searchKeyword]="keywordForCustomerSONo"
+                (inputCleared)='clearSOEvent($event)' (selected)='selectCustomerSONoEvent($event)'
+                [(ngModel)]="CustomerSONo" (inputChanged)='onChangeCustomerSONoSearch($event)'
+                (inputFocused)='onFocused($event)' [itemTemplate]="CustomerSONoitemTemplate"
+                [notFoundTemplate]="notFoundCustomerSONoTemplate" debounceTime="1000">
+            </ng-autocomplete>
+            <ng-template #CustomerSONoitemTemplate let-item>
+                <a [innerHTML]="item.CustomerSONo"></a>
+            </ng-template>
+
+            <ng-template #notFoundCustomerSONoTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+            </ng-template>
+            <!-- <input type="text" class="form-control" id="CustomerSONo" [(ngModel)]="CustomerSONo"
+                placeholder="Enter Sales Order #"> -->
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Current Status</label>
+            <select class="custom-select" [(ngModel)]="Status">
+                <option value="">Select</option>
+                <option [value]="status.id" *ngFor="let status of RRStatus">{{status.title}}</option>
+
+            </select>
+        </div>
+
+    </div>
+
+    <!-- Row 2-->
+    <div class="row collapse pt-2 show">
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Customer Group</label>
+            <ng-select (change)="changeCustomerGroup($event)" [items]="customerGroupList" [multiple]="false" [closeOnSelect]="true"
+                [searchable]="true" [virtualScroll]="true" placeholder="Select" bindLabel="CustomerGroupName" bindValue="CustomerGroupId" [(ngModel)]="CustomerGroupId">
+            </ng-select>
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-4">
+            <label class="control-label">Customers</label>
+            <ng-select [items]="customers$ | async" [typeahead]="customersInput$" [loading]="loadingCustomers"
+                [multiple]="true" [closeOnSelect]="false" [searchable]="true" [virtualScroll]="true"
+                placeholder="Select" bindLabel="CustomerCode" bindValue="CustomerId" [(ngModel)]="CompanyName">
+                <ng-template ng-header-tmp *ngIf="CustomersList.length > 0">
+                    <button (click)="selectAll()" class="btn btn-sm btn-link">Select all</button>
+                </ng-template>
+                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                    <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                        <span class="ng-value-label">{{item.CompanyName}}</span>
+                        <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                    </div>
+                    <div class="ng-value" *ngIf="items.length > 1">
+                        <span class="ng-value-label">+ {{items.length - 1}} more...</span>
+                    </div>
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                    <input id="item-{{index}}" type="checkbox" [checked]="item$.selected" [ngModel]="item$.selected" />
+                    {{item.CompanyName}}
+                </ng-template>
+            </ng-select>
+            <!-- <ng-autocomplete class="ng-autocomplete" placeholder="Enter Customer Name" [data]="CustomersList"
+                [isLoading]="isLoadingCustomer" [searchKeyword]="keywordForCustomer" [(ngModel)]="CompanyName"
+                (selected)='selectCustomerEvent($event)' (inputChanged)='onChangeCustomerSearch($event)'
+                (inputFocused)='onFocused($event)' [itemTemplate]="itemCustomerTemplate"
+                [notFoundTemplate]="notFoundCustomerTemplate" debounceTime="1000">
+            </ng-autocomplete>
+            <ng-template #itemCustomerTemplate let-item>
+                <a [innerHTML]="item.CompanyName"></a>
+            </ng-template>
+
+            <ng-template #notFoundCustomerTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+            </ng-template> -->
+            <!-- <input type="text" class="form-control" id="CompanyName" [(ngModel)]="CompanyName"
+                placeholder="Enter Customr Name"> -->
+        </div>
+        
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Customer Part #</label>
+            <input type="text" class="form-control" id="CustomerPartNo1" [(ngModel)]="CustomerPartNo1"
+                placeholder="Enter Customer Part #">
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Customer PO #</label>
+            <!-- <ng-autocomplete class="ng-autocomplete" placeholder="Enter Customer PO #" [data]="CustomerPONoList"
+                [isLoading]="isLoadingCustomerPONo" [searchKeyword]="keywordForCustomerPONo"
+                (inputCleared)='clearPOEvent($event)' (selected)='selectCustomerPONoEvent($event)'
+                [(ngModel)]="CustomerPONo" (inputChanged)='onChangeCustomerPONoSearch($event)'
+                (inputFocused)='onFocused($event)' [itemTemplate]="CustomerPONoitemTemplate"
+                [notFoundTemplate]="notFoundCustomerPONoTemplate" debounceTime="1000">
+            </ng-autocomplete>
+            <ng-template #CustomerPONoitemTemplate let-item>
+                <a [innerHTML]="item.CustomerPONo"></a>
+            </ng-template>
+
+            <ng-template #notFoundCustomerPONoTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+            </ng-template> -->
+            <input type="text" class="form-control" id="CustomerPONo" [(ngModel)]="CustomerPONo"
+                placeholder="Enter Customer PO #">
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Customer Reference #</label>
+            <input type="text" class="form-control" id="ReferenceValue" [(ngModel)]="ReferenceValue"
+                placeholder="Enter Customer Reference #">
+        </div>
+
+    </div>
+
+    <!-- Row 3-->
+    <div class="row collapse pt-2 show">
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Vendor Name</label>
+            <ng-autocomplete class="ng-autocomplete" placeholder="Enter Vendor Name" [data]="VendorsList"
+                [isLoading]="isLoadingVendor" [searchKeyword]="keywordForVendor" [(ngModel)]="VendorName"
+                (inputCleared)='clearVendorEvent($event)' (selected)='selectVendorEvent($event)'
+                (inputChanged)='onChangeVendorSearch($event)' (inputFocused)='onFocused($event)'
+                [itemTemplate]="itemVendorTemplate" [notFoundTemplate]="notFoundVendorTemplate" debounceTime="1000">
+            </ng-autocomplete>
+            <ng-template #itemVendorTemplate let-item>
+                <a [innerHTML]="item.VendorName"></a>
+            </ng-template>
+
+            <ng-template #notFoundVendorTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+            </ng-template>
+            <!-- <input type="text" class="form-control" id="VendorName" [(ngModel)]="VendorName"
+                placeholder="Enter Vendor Name"> -->
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Vendor PO #</label>
+            <ng-autocomplete class="ng-autocomplete" placeholder="Enter Vendor PO #" [data]="VendorPOList"
+                [isLoading]="isLoadingVendorPO" [searchKeyword]="keywordForVendorPO"
+                (inputCleared)='clearVendorPOEvent($event)' (selected)='selectVendorPOEvent($event)'
+                [(ngModel)]="VendorPONo" (inputChanged)='onChangeVendorPOSearch($event)'
+                (inputFocused)='onFocused($event)' [itemTemplate]="VendorPOitemTemplate"
+                [notFoundTemplate]="notFoundVendorPOTemplate" debounceTime="1000">
+            </ng-autocomplete>
+            <ng-template #VendorPOitemTemplate let-item>
+                <a [innerHTML]="item.VendorPONo"></a>
+            </ng-template>
+
+            <ng-template #notFoundVendorPOTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+            </ng-template>
+            <!-- <input type="text" class="form-control" id="VendorPONo" [(ngModel)]="VendorPONo"
+                placeholder="Enter Vendor PO #"> -->
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Vendor Invoice Created</label>
+            <select class="custom-select" [(ngModel)]="VendorInvoiceId">
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
+
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Customer Invoice Created</label>
+            <select class="custom-select" [(ngModel)]="CustomerInvoiceId">
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
+
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Parts Delivered To Customer</label>
+            <select class="custom-select" [(ngModel)]="IsPartsDeliveredToCustomer">
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Quote Approved By</label>
+            <select class="custom-select" [(ngModel)]="QuoteApprovedBy">
+                <option value="">Select</option>
+                <option value="0">AH</option>
+                <option value="1">Customer</option>
+            </select>
+        </div>
+    </div>
+    <!-- Row 4-->
+    <div class="row collapse pt-2 show">
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Status Change From Date</label>
+            <div class="input-group clockpicker">
+                <input class="form-control" placeholder="MM/DD/YYYY" name="d2" #c2="ngModel"
+                    [(ngModel)]="StatusChangeFrom" ngbDatepicker #d2="ngbDatepicker"
+                    (ngModelChange)="StatusChangeFromDataFormat(StatusChangeFrom)">
+                <div class="input-group-append">
+                    <button class="blackbg" (click)="d2.toggle()" type="button"><i
+                            class="mdi mdi-calendar white"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Status Change To Date</label>
+            <div class="input-group clockpicker">
+                <input class="form-control" placeholder="MM/DD/YYYY" name="d3" #c2="ngModel"
+                    [(ngModel)]="StatusChangeTo" ngbDatepicker #d3="ngbDatepicker"
+                    (ngModelChange)="StatusChangeToDataFormat(StatusChangeTo)">
+
+                <div class="input-group-append">
+                    <button class="blackbg" (click)="d3.toggle()" type="button"><i
+                            class="mdi mdi-calendar white"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Status Change</label>
+            <select class="custom-select" [(ngModel)]="StatusChangeId">
+                <option value="">Select</option>
+                <option [value]="status.id" *ngFor="let status of RRStatus">{{status.title}}</option>
+
+            </select>
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Shipping Status</label>
+            <select class="custom-select" [(ngModel)]="ShippingStatus">
+                <option value="">Select</option>
+                <option [value]="status.shipping_statusId" *ngFor="let status of ShippingStatusList">
+                    {{status.shipping_statusName}}</option>
+
+            </select>
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Current Location</label>
+            <select class="custom-select" [(ngModel)]="ShippingStatusCategory">
+                <option value="">Select</option>
+                <option [value]="item.shipping_categoryId" *ngFor="let item of ShippingStatusCategoryList">
+                    {{item.shipping_categoryName}}</option>
+
+            </select>
+        </div>
+
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">SO Created</label>
+            <select class="custom-select" [(ngModel)]="IsSOCreated">
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
+    </div>
+    <!-- Row 5-->
+    <div class="row collapse pt-2 show">
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2 pt-10">
+            <!-- <div class="form-group"> -->
+            <label for="control-label">Warranty Recovery</label>
+            <select class="custom-select" [(ngModel)]="IsWarrantyRecovery">
+                <option value="undefined">Select</option>
+                <option value="{{item.warranty_type_id}}" *ngFor="let item of WarrantyList">{{item.warranty_type_Name}}
+                </option>
+            </select>
+
+            <!-- </div> -->
+            <!-- <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" id="IsWarrantyRecovery" type="checkbox"
+                        [(ngModel)]="IsWarrantyRecovery">
+                    <label class="custom-control-label" for="IsWarrantyRecovery">Warranty Recovery</label>
+                </div>
+            </div> -->
+        </div>
+        <!-- manual static -->
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2 pt-10">
+            <!-- <div class="form-group"> -->
+            <label for="control-label">Sub Status</label>
+            <ng-select class="" name="SubStatusId" [ngModelOptions]="{standalone: true}"
+                [(ngModel)]="SubStatusId" bindLabel="SubStatusName" bindValue="SubStatusId" [items]="subStatusList" [searchable]="true" placeholder="Select RR Sub Status">
+            </ng-select>
+            <!-- </div> -->
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2 pt-10">
+            <!-- <div class="form-group"> -->
+            <label for="control-label">Assign To</label>
+            <ng-select class="" name="AssigneeUserId" [(ngModel)]="AssigneeUserId" [ngModelOptions]="{standalone: true}" bindLabel="title" bindValue="UserId" [items]="adminListddl" [searchable]="true" placeholder="Select Assign To">
+            </ng-select>
+            <!-- </div> -->
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2 pt-10">
+            <!-- <div class="form-group"> -->
+            <label for="control-label">RR Part Location</label>
+            <ng-select class="" name="Assignee" [(ngModel)]="RRPartLocationId" [ngModelOptions]="{standalone: true}"  bindLabel="RRPartLocation" bindValue="RRPartLocationId" [items]="RRPartLocationList" [searchable]="true" placeholder="Select RR Part Location">
+            </ng-select>
+            <!-- </div> -->
+        </div>
+        <!-- manual static end -->
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2 pt-10">
+            <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" id="IsRushRepair" type="checkbox" [(ngModel)]="IsRushRepair">
+                    <label class="custom-control-label" for="IsRushRepair">Rushed Repair Orders</label>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2 pt-10">
+            <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" id="IsRepairTag" type="checkbox" [(ngModel)]="IsRepairTag">
+                    <label class="custom-control-label" for="IsRepairTag">Repair Tag</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2 pt-10 ">
+            <input type="button" class="btn btn-primary btn-md mr-1" value="Search" id="btnFilter"
+                (click)="onFilter($event)" />
+            <input type="button" class="btn btn-secondary btn-md" value="Clear" id="btnClear"
+                (click)="onClear($event)" />
+        </div>
+    </div>
+
+
+
+    <!-- Row 3-->
+    <div class="row collapse pt-3 show">
+
+
+    </div>
+</ng-template>

@@ -1,0 +1,406 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">Add Parts</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg">
+    <form name="form" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+
+        <div class="container">
+            <div class="row" *ngIf="showCheckAvailability">
+                <div class="form-group">
+                    <label for="Customer">Enter Part # <span class="red">*</span></label>
+                    <div class="row col-xl-12 mt-1">
+                        <div style="padding: 0;" class="col-xl-6 ng-autocomplete autoselect">
+
+
+                            <ng-autocomplete [data]="filteredData"  [isLoading]="isLoading" [searchKeyword]="keyword"
+                                (selected)='selectEvent($event)' [(ngModel)]="model.PartNo" name="PartNo"
+                                (inputChanged)='onChangeSearch($event)' (inputFocused)='onFocused($event)'
+                                [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate" debounceTime="1000"
+                                #PartNo="ngModel" [ngClass]="{ 'is-invalid': f.submitted && PartNo.invalid }" required>
+                            </ng-autocomplete>
+
+                            <ng-template #itemTemplate let-item>
+                                <a [innerHTML]="item.PartNo"></a>
+                            </ng-template>
+
+                            <ng-template #notFoundTemplate let-notFound>
+                                <div [innerHTML]="notFound"></div>
+                            </ng-template>
+                            <!-- <input id="PartNo" [(ngModel)]="model.PartNo" name="PartNo" type="text" class="form-control"
+                                #PartNo="ngModel" [ngClass]="{ 'is-invalid': f.submitted && PartNo.invalid }" required> -->
+                            <div *ngIf="f.submitted &&PartNo.invalid" class="invalid-feedback">
+                                <div *ngIf="PartNo.errors.required">Part No is required</div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+
+                            <button type="button" class="btn btn-success waves-effect waves-light"
+                                (click)="checkAvailability()">Check Availability</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="Partsavailability != ''">
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="form-group row">
+                            <label>Part # :</label>
+                            <div class="col-sm-12 nopad-lt mt-1">
+                                {{item.PartNo}}
+                                <input type="hidden" name="PartNo" [(ngModel)]="item.PartNo">
+                                <input type="hidden" name="Description" [(ngModel)]="item.Description">
+                                <input type="hidden" name="ManufacturerId" [(ngModel)]="item.ManufacturerId">
+                                <input type="hidden" name="ManufacturerPartNo" [(ngModel)]="item.ManufacturerPartNo">
+                                <input type="hidden" name="Quantity" [(ngModel)]="item.Quantity">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6">
+                        <div class="form-group row">
+                            <!-- <label>AH Price :</label> -->
+                            <label>Master DB PON ($) :</label>
+                            <div class="col-sm-12 nopad-lt mt-1">
+                                {{item.PartsPriceSymbol}} {{item.Price}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="form-group row">
+                            <label for="">Customer Part No 1 :</label>
+                            <div class="col-xl-12 nopad-lt mt-1">
+                                <input class="form-control" [(ngModel)]="model.CustomerPartNo1"
+                                    name="CustomerPartNo1" placeholder="Customer Part #1">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="form-group row">
+                            <label for="">Customer Part No 2 :</label>
+                            <div class="col-xl-12 nopad-lt mt-1">
+                                <input class="form-control"  [(ngModel)]="model.CustomerPartNo2"
+                                    name="CustomerPartNo2" placeholder="Customer Part #2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="form-group row">
+                            <label for="">New Price (Customer): </label>
+                            <div class="col-sm-12 nopad-lt mt-1">
+                                <div class="input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text"
+                                            id="basic-addon1">{{PriceSymbol}}</span>
+                                <input id="NewPrice" [(ngModel)]="model.NewPrice" name="NewPrice" decimal="true"  (change)="onCalculateBaseNewPrice()"
+                                    #NewPrice="ngModel" type="text" class="form-control" inputmode="numeric"
+                                    pattern="^\d+(\.\d{1,2})?$" placeholder="0.00" digitOnly>
+                                </div>
+                            </div>
+                                <!-- <div *ngIf="f.submitted &&NewPrice.invalid" class="invalid-feedback">
+                                    <div *ngIf="NewPrice.errors.required">New Price (Customer) is required</div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="form-group row">
+                            <label for="">New Price (Customer) ({{BaseCurrencySymbol}}): </label>
+                            <div class="col-sm-12 nopad-lt mt-1">
+                                {{BaseCurrencySymbol}} {{model.BaseNewPrice}}
+                                
+                                <!-- <div *ngIf="f.submitted &&NewPrice.invalid" class="invalid-feedback">
+                                    <div *ngIf="NewPrice.errors.required">New Price (Customer) is required</div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-xl-3">
+                        <div class="form-group row">
+                            <label for="">Selling Price :</label>
+                            <div class="col-xl-12 nopad-lt">
+                                <input id="Price" [(ngModel)]="model.Price" name="Price" decimal="true" #Price="ngModel"
+                                    type="text" class="form-control" inputmode="numeric" pattern="^\d+(\.\d{1,2})?$"
+                                    placeholder="0.00" digitOnly>
+                                <div *ngIf="f.submitted &&Price.invalid" class="invalid-feedback">
+                                    <div *ngIf="Price.errors.required">Selling Price is required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <!-- <div class="col-xl-6">
+                        <div class="form-group row">
+                            <label for="">LPP :<span class="red">*</span></label>
+                            <div class="col-sm-12 nopad-lt">
+                                <input id="LastPricePaid" [(ngModel)]="model.LastPricePaid" name="LastPricePaid"
+                                    decimal="true" #LastPricePaid="ngModel" type="text" class="form-control"
+                                    inputmode="numeric" pattern="^\d+(\.\d{1,2})?$" placeholder="0.00" digitOnly
+                                    [ngClass]="{ 'is-invalid': f.submitted && LastPricePaid.invalid }" required>
+
+                                <div *ngIf="f.submitted &&LastPricePaid.invalid" class="invalid-feedback">
+                                    <div *ngIf="LastPricePaid.errors.required">LastPricePaid is required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+                </div>
+            </div>
+            <div *ngIf="Partsavailability == '' && newParts">
+                <div class="row">
+                    <div class="col-xl-4">
+                        <div class="form-group row">
+                            <label for="">Part #: <span class="red">*</span></label>
+                            <div class="col-xl-12 nopad-lt mt-1">
+                                <input id="PartNo" [value]="model.PartNo.PartNo || model.PartNo" name="PartNo"
+                                    type="text" class="form-control" readonly
+                                    [ngClass]="{ 'is-invalid': f.submitted && PartNo.invalid }" required>
+
+                                <div *ngIf="f.submitted &&PartNo.invalid" class="invalid-feedback">
+                                    <div *ngIf="PartNo.errors.required">Part No is required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-4">
+                        <div class="form-group row">
+                            <label for="">Manufacturer: <span class="red">*</span></label>
+                            <div class="col-xl-12 nopad-lt mt-1">
+                                <ng-select [items]="manufacturers" [searchable]="true" [virtualScroll]="true"
+                                    name="ManufacturerId" placeholder="Select" required
+                                    [(ngModel)]="model.ManufacturerId" bindLabel="VendorName" bindValue="VendorId">
+                                </ng-select>
+
+                                <!-- <select class="custom-select" name="ManufacturerId" [(ngModel)]="model.ManufacturerId"
+                                    #ManufacturerId="ngModel" class="form-control"
+                                    [ngClass]="{ 'is-invalid': f.submitted && ManufacturerId.invalid }" required>
+                                    <option value="" disabled>Select</option>
+                                    <option *ngFor="let m of manufacturers" value="{{m.VendorId}}">{{m.VendorName}}
+                                    </option>
+                                </select> -->
+                                <!-- <div *ngIf="f.submitted &&ManufacturerId.invalid" class="invalid-feedback">
+                                    <div *ngIf="ManufacturerId.errors.required">Manufacturer is required</div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-4">
+                        <div class="form-group row">
+                            <label for="">Manufacturer Part # :</label>
+                            <div class="col-xl-12 nopad-lt mt-1">
+                                <input type="text" class="form-control" name="ManufacturerPartNo"
+                                    [(ngModel)]="model.ManufacturerPartNo" placeholder="Manufacturer Part #">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- <div class="col-xl-3">
+                        <div class="form-group row">
+                            <label for="">Quantity: <span class="red">*</span></label>
+                            <div class="col-xl-12 nopad-lt">
+                                <input type="text" digitOnly class="form-control" name="Quantity" digitOnly
+                                    [(ngModel)]="model.Quantity" #Quantity="ngModel" type="text" class="form-control"
+                                    [ngClass]="{ 'is-invalid': f.submitted && Quantity.invalid }" required>
+                                <div *ngIf="f.submitted &&Quantity.invalid" class="invalid-feedback">
+                                    <div *ngIf="Quantity.errors.required">Quantity is required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="col-xl-4">
+                        <div class="form-group row">
+                            <label for="">New Price (Customer):</label>
+                            <div class="col-xl-12 nopad-lt mt-1">
+                                <div class="input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text"
+                                            id="basic-addon1">{{Symbol}}</span>
+                                <input id="NewPrice" [(ngModel)]="model.NewPrice" name="NewPrice" decimal="true"
+                                    #NewPrice="ngModel" type="text" class="form-control" inputmode="numeric" (change)="onCalculateBaseNewPrice()"
+                                    pattern="^\d+(\.\d{1,2})?$" placeholder="0.00" digitOnly>
+                                <!-- <div *ngIf="f.submitted &&NewPrice.invalid" class="invalid-feedback">
+                                    <div *ngIf="NewPrice.errors.required">New Price is required</div>
+                                </div> -->
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4">
+                        <div class="form-group row">
+                            <label for="">New Price (Customer) ({{BaseCurrencySymbol}}):</label>
+                            <div class="col-xl-12 nopad-lt mt-1">
+                                {{BaseCurrencySymbol}} {{model.BaseNewPrice}}
+                               
+                        </div>
+                    </div>
+                    </div>
+                 
+                    <div class="col-xl-4">
+                        <div class="form-group row">
+                            <label for="">Tax Type :<span class="red">*</span></label>
+                            <div class="col-xl-12 nopad-lt mt-1">
+                                <select class="custom-select" name="TaxType" [(ngModel)]="model.TaxType"
+                                    #TaxType="ngModel" class="form-control"
+                                    [ngClass]="{ 'is-invalid': f.submitted && TaxType.invalid }" required>
+                                    <option value="" disabled>Select</option>
+                                    <option value="1">Taxable</option>
+                                    <option value="2">Rolling Stack</option>
+                                    <option value="3">Reseller/Non Taxable</option>
+                                </select>
+                                <div *ngIf="f.submitted && TaxType.invalid" class="invalid-feedback">
+                                    <div *ngIf="TaxType.errors.required">Manufacturer is required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+              
+
+                    <!-- <div class="col-xl-3">
+                        <div class="form-group row">
+                            <label for="">LPP : <span class="red">*</span></label>
+                            <div class="col-xl-12 nopad-lt">
+                                <input id="LastPricePaid" [(ngModel)]="model.LastPricePaid" name="LastPricePaid"
+                                    decimal="true" #LastPricePaid="ngModel" type="text" class="form-control"
+                                    inputmode="numeric" pattern="^\d+(\.\d{1,2})?$" placeholder="0.00" digitOnly
+                                    [ngClass]="{ 'is-invalid': f.submitted && LastPricePaid.invalid }" required>
+
+                                <div *ngIf="f.submitted &&LastPricePaid.invalid" class="invalid-feedback">
+                                    <div *ngIf="LastPricePaid.errors.required">LastPricePaid is required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-9">
+                        <div class="form-group row">
+                            <label for="">Description :</label>
+                            <div class="col-xl-12 nopad-lt mt-1">
+                                <textarea class="form-control" row="2" [(ngModel)]="model.Description"
+                                    name="Description" placeholder="Enter Part Description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3" *ngIf="!MROhidden">
+                        <div class="form-group row">
+                            <label for="">Type : <span class="red">*</span></label>
+                            <div class="col-xl-12 nopad-lt mt-1">
+                                <!-- <label><input style="margin-left:10px;" type="radio" name="IsNewOrRefurbished" value="1"
+                                        #IsNewOrRefurbished="ngModel"
+                                        [ngClass]="{ 'is-invalid': f.submitted && IsNewOrRefurbished.invalid }" required
+                                        [(ngModel)]="model.IsNewOrRefurbished" />
+                                    New
+                                    <div *ngIf="f.submitted && IsNewOrRefurbished.invalid" class="invalid-feedback">
+                                        <div *ngIf="IsNewOrRefurbished.errors.required">Type is required</div>
+                                    </div>
+                                </label>
+                                <label><input style="margin-left:10px;" type="radio" name="IsNewOrRefurbished" value="0"
+                                        #IsNewOrRefurbished="ngModel"
+                                        [ngClass]="{ 'is-invalid': f.submitted && IsNewOrRefurbished.invalid }" required
+                                        [(ngModel)]="model.IsNewOrRefurbished" />
+                                    Refurbished
+                                </label> -->
+
+                                <label><input style="margin-left:10px;" type="radio" name="IsNewOrRefurbished" value="2"
+                                        #IsNewOrRefurbished="ngModel"
+                                        [ngClass]="{ 'is-invalid': f.submitted && IsNewOrRefurbished.invalid }" required
+                                        [(ngModel)]="model.IsNewOrRefurbished" checked />
+                                    Repair
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="form-group row">
+                            <label for="">Customer Part No 1 :</label>
+                            <div class="col-xl-12 nopad-lt mt-1">
+                                <input class="form-control"  [(ngModel)]="model.CustomerPartNo1"
+                                    name="CustomerPartNo1" placeholder="Customer Part #1">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="form-group row">
+                            <label for="">Customer Part No 2 :</label>
+                            <div class="col-xl-12 nopad-lt mt-1">
+                                <input class="form-control"  [(ngModel)]="model.CustomerPartNo2"
+                                    name="CustomerPartNo2" placeholder="Customer Part #2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="form-group row">
+                            <label for="">Master DB PON ($) :</label>
+                           
+                                <div class="input-group mt-1">
+                                    <div class="input-group-prepend"><span class="input-group-text"
+                                            id="basic-addon1">{{BaseCurrencySymbol}}</span>
+                                <input id="Price" [(ngModel)]="model.Price" name="Price" decimal="true" #Price="ngModel"
+                                    type="text" class="form-control" inputmode="numeric" pattern="^\d+(\.\d{1,2})?$"  (change)="onCalculatBasePrice()"
+                                    placeholder="0.00" digitOnly>
+                                <!-- <div *ngIf="f.submitted &&Price.invalid" class="invalid-feedback">
+                                    <div *ngIf="Price.errors.required">Selling Price is required</div>
+                                </div> -->
+                          
+                        </div>
+                        </div>
+                           
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="form-group row">
+                            <label for="">Preferred Vendor</label>
+                            <div style="padding: 0;" class="col-xl-12 ng-autocomplete mt-1">
+                                <ng-autocomplete [data]="filteredPVData" [isLoading]="isPVLoading" [searchKeyword]="'VendorName'" placeholder="Enter Vendor Name"
+                                    (selected)='selectPVEvent($event, model)' [(ngModel)]="model.PreferredVendor" name="PreferredVendor"
+                                    [itemTemplate]="itemTemplatePF" [notFoundTemplate]="notFoundTemplatePF" debounceTime="500"
+                                    #PreferredVendor="ngModel" (inputChanged)='onPVChangeSearch($event)' [ngClass]="{ 'is-invalid': f.submitted && PreferredVendor.invalid }">
+                                </ng-autocomplete>
+    
+                                <ng-template #itemTemplatePF let-item>
+                                    <a [innerHTML]="item.VendorName"></a>
+                                </ng-template>
+    
+                                <ng-template #notFoundTemplatePF let-notFound>
+                                    <div [innerHTML]="notFound"></div>
+                                </ng-template>
+                                <!-- <input id="PartNo" [(ngModel)]="model.PartNo" name="PartNo" type="text" class="form-control"
+                                    #PartNo="ngModel" [ngClass]="{ 'is-invalid': f.submitted && PartNo.invalid }" required> -->
+                                
+                            </div>
+                        </div>
+                    </div>
+                  
+                </div>
+            </div>
+
+        </div>
+
+        <p class="text-danger">{{responseMessage}}</p>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light">Submit</button>
+        </div>
+    </form>
+</div>

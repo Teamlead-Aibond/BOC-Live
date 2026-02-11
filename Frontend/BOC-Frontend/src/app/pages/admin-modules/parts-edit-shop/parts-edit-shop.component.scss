@@ -1,0 +1,299 @@
+/* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+@import "ngx-lightbox/lightbox.css";
+.edit-data {
+    padding: 30px 48px;
+}
+
+.zoom-left {
+    border: 1px solid #ebebeb;
+    position: relative !important;
+}
+
+.edit-title {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.sbtn {
+    padding: 2px 7px;
+}
+
+.edit-data p {
+    margin: 0;
+}
+
+.customer-detail p {
+    margin-bottom: 0.5rem;
+}
+
+.delhover {
+    visibility: hidden;
+    border: 0 !important;
+}
+
+.radio-image label+label:hover .delhover {
+    visibility: visible;
+}
+
+.delhover i {
+    color: #fff;
+    //font-size: 17px;
+    padding: 3px 3px 2px;
+    position: absolute;
+    z-index: 1;
+    background: #f1556c;
+    right: 6px;
+    top: 3px;
+}
+
+.radio-image {
+    margin-top: 15px;
+}
+
+.radio-image span {
+    padding: 1px !important;
+}
+
+.paddingaddress th,
+.ship .table td {
+    padding: 0.1rem !important;
+}
+
+.radio-image label:hover .delhover {
+    visibility: visible;
+}
+
+.radio-image {
+    display: flex;
+    label {
+        display: block;
+        position: relative;
+    }
+    label+label {
+        margin-left: 10px;
+        position: relative;
+    }
+    input {
+        position: absolute;
+        pointer-events: none;
+        opacity: 0;
+    }
+    span,
+    img {
+        display: block;
+    }
+    span {
+        border: 2px solid #ebebeb;
+        border-radius: 2px;
+        padding: 6px;
+        cursor: pointer;
+    }
+    img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 1.5px;
+    }
+    input:checked+span {
+        border-color: #09518e;
+    }
+}
+/*** New styels ***/
+
+.zoom-left {
+    border: 1px solid #ebebeb;
+}
+
+a .root {
+    color: #09518e;
+    text-decoration: none;
+    background-color: transparent;
+    cursor: pointer !important;
+}
+
+.radio-image {
+    margin-top: 15px;
+}
+
+.radio-image span {
+    padding: 1px !important;
+}
+
+.paddingaddress th,
+.ship .table td {
+    padding: 0.1rem !important;
+}
+
+.radio-image {
+    display: flex;
+    label {
+        display: block;
+        float: left;
+        width: 70px;
+        margin: 0 5px 10px 0;
+    }
+    label+label {
+        margin: 0 5px 10px 0;
+        float: left;
+    }
+    input {
+        position: absolute;
+        pointer-events: none;
+        opacity: 0;
+    }
+    span,
+    img {
+        display: block;
+    }
+    span {
+        border: 2px solid #ebebeb;
+        border-radius: 2px;
+        padding: 6px;
+        cursor: pointer;
+        float: left;
+        width: 65px;
+    }
+    img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 1.5px;
+    }
+    input:checked+span {
+        border-color: #09518e;
+    }
+}
+
+.zoom-left {
+    border: 0;
+}
+
+.redclose,
+.red {
+    line-height: 5px;
+}
+
+.form-control {
+    margin-bottom: 15px;
+}
+
+.custom-select {
+    margin-bottom: 15px;
+}
+
+.mb10 {
+    margin-bottom: 10px;
+}
+
+.w-100 {
+    width: 101% !important;
+}
+
+// .wwl-100 {
+//     float: left;
+//     width: 100%;
+//     padding: 0;
+// }
+// .wwr-100 {
+//     float: right;
+//     width: 100%;
+//     text-align: right;
+//     margin-left: 0;
+//     margin-right: -20px;
+//     padding: 0;
+// }
+.input-group-text {
+    height: 38px !important;
+}
+
+.bggrey {
+    background-color: #fbfafa !important;
+}
+
+.dropzone {
+    min-height: 207px !important;
+}
+
+.img-container {
+    position: relative;
+}
+
+.img-container img {
+    width: 100%;
+    height: auto;
+}
+
+.img-container .btn {
+    height: auto;
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    padding: 0px;
+    background-color: rgb(170, 170, 170);
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.img-container .btn:hover {
+    background-color: rgb(131, 131, 131);
+}
+
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched {
+    border: 1px solid red;
+}
+
+@media screen and (max-width:1024px) {
+    table#datatable-angular-partslist {
+        width: 1500px;
+    }
+}
+
+@media screen and (max-width:640px) {
+    table#datatable-angular-partslist {
+        width: 1500px;
+    }
+    .width-md {
+        min-width: auto;
+        margin-bottom: 10px;
+    }
+}
+
+.row-box{
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0px 10px 0px;
+    border-radius: 10px;
+}
+
+.nopad-lt {
+    padding-left: 0;
+}
+
+/* Border Color */
+.ng-select.ng-invalid.ng-touched .ng-select-container {
+    border-color: red;
+}
+/* Arrow Color */
+.ng-select.ng-invalid.ng-touched .ng-arrow-wrapper .ng-arrow {
+    border-color: red transparent transparent;
+}
+/* Placeholder Color */
+.ng-select.ng-invalid.ng-touched .ng-select-container .ng-placeholder {
+    color: red;
+}
+.autocomplete-container .input-container .x {
+    position: absolute;
+    right: 7px;
+    margin: auto;
+    cursor: pointer;
+  
+    transform: translateY(-50%);
+    margin-top: -29px!important;
+}

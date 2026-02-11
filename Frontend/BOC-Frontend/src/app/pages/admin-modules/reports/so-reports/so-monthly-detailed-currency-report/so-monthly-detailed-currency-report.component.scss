@@ -1,0 +1,125 @@
+.sidebar-heading {
+    padding: 25px;
+    color: #fff;
+    text-align: center;
+}
+hr {
+    border: 0;
+    margin-bottom: 1.5rem !important;
+    border-top: 2px dashed #e2e2e2 !important;
+}
+.topspc {
+    position: relative;
+    top: 0px;
+    font-size: 26px;
+}
+.spin-loader {
+    top: -16px !important;
+    position: absolute;
+    left: 6px;
+}
+table.datatables {
+    margin-top: 15px !important;
+}
+
+.lgreen {
+    background: #f0fffb;
+    margin-bottom: 0;
+    padding-top: 35px;
+    padding-bottom: 25px;
+}
+
+.lblue {
+    background: #f6fbff;
+    margin-bottom: 0;
+    padding-top: 35px;
+    padding-bottom: 25px;
+}
+
+.lpink {
+    background: #fff6f7;
+    margin-bottom: 0;
+    padding-top: 35px;
+    padding-bottom: 25px;
+}
+
+.lyellow {
+    background: #fff4ec;
+    margin-bottom: 0;
+    padding-top: 35px;
+    padding-bottom: 25px;
+}
+
+h3.text-dark.my-1 {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+table.dataTable thead th,
+table.dataTable tfoot th {
+    font-size: 18px !important;
+}
+
+.hightlight {
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.button-list {
+    position: relative;
+    top: 43px;
+    z-index: 1;
+}
+
+.searchbt {
+    margin-top: 29px;
+}
+
+#datatable-angular-SoByMonthly {
+    font-size: 1.2rem;
+}
+
+.customerbg {
+    font-weight: bold;
+    padding: 5px 10px;
+    background-color: #fbcfd6;
+    border: 1px solid #efa0ac;
+    color: #333333;
+    float: center;
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact !important;
+}
+
+.topic {
+    // background-color: #000;
+    font-weight: bold;
+    padding: 5px 10px;
+    background-color: #fbcfd6;
+    border: 1px solid #efa0ac;
+    color: #333333;
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact !important;
+    float: center !important;
+}
+
+.heading {
+    color: #09518e !important;
+    background-color: #fff;
+    border-top: 0px solid #333 !important;
+    border-bottom: 0px solid #333 !important;
+    -webkit-print-color-adjust: exact !important;
+    text-align: center;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.heading-text {
+    color: #333 !important;
+    background-color: #fff;
+    border-top: 0px solid #333 !important;
+    border-bottom: 0px solid #333 !important;
+    -webkit-print-color-adjust: exact !important;
+    text-align: center;
+    font-weight: bold;
+    font-size: 25px;
+}

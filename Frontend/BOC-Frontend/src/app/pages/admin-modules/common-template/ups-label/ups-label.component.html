@@ -1,0 +1,69 @@
+
+<div class="modal-header modal-xl ht">
+    <h4 class="modal-title">UPS Shipping Label</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-xl">
+   <div class="col-xl-12">
+    <div class="row" *ngIf="ups_gif_image">
+        <div class="col-xl-12 form-lbox">
+            <!-- <div class="row">
+                <div class="col-xl-6 float-left">
+                    <h4 class="form-title-text bluetxt mb-20">Result</h4>
+                </div>
+            </div> -->
+            <div class="w3-responsive">
+                <table class="ws-table-all">
+                    <tbody>
+                        <tr>
+                            <th style="width:25%">Tracking Number:</th>
+                            <td>{{ups_tracking_number}}</td>
+                        </tr>
+                        <tr>
+                            <th>Transportation Charges({{ups_trans_code}}):</th>
+                            <td>{{ups_trans_value}}</td>
+                        </tr>
+                        <tr>
+                            <th>Service Options Charges({{ups_service_code}}):</th>
+                            <td>{{ups_service_value}}</td>
+                        </tr>
+                        <tr>
+                            <th>Overall Total Charges({{ups_total_code}}):</th>
+                            <td>{{ups_total_value}}</td>
+                        </tr>
+                        <tr>
+                            <th>Billing Weight({{ups_unit_code}} - {{ups_unit_des}}):</th>
+                            <td>{{ups_unit_weight}}</td>
+                        </tr>
+                        <tr>
+                            <th>Label:</th>
+                            <td><a  (click)="openImage(ups_gif_image)"><img [src]="'data:image/gif;base64,' + ups_gif_image"
+                                    *ngIf="ups_gif_image" height="200">
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+                <button type="button" class="btn btn-pink waves-effect waves-light"  (click)="onPrint(ups_gif_image)">
+                    Print UPS Label
+                </button>
+    
+            </div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="error">
+        <div class="col-xl-12 form-lbox">
+            <!-- <div class="row">
+                <div class="col-xl-6 float-left">
+                    <h4 class="form-title-text bluetxt mb-20">Result</h4>
+                </div>
+            </div> -->
+            <p class='alert alert-danger'>{{ error }}</p>
+        </div>
+    </div>
+</div>
+</div>

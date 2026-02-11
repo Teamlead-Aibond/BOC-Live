@@ -1,0 +1,91 @@
+<div class="modal-header">
+    <h4 class="modal-title">Add Attachment</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4">
+    <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="AttachementForm">
+
+        <div class="col-xl-12">
+            <div class="row">
+                <div class="col-12">
+
+                    <h5 style="margin:0;" class="m-t-0">Attachment
+                        <span class="red">*</span>
+                    </h5>
+
+                    <div class="row">
+                        <div class="col-sm-3" *ngFor="let vattachment of AttachmentList; let i = index;">
+                            <span *ngIf="vattachment.AttachmentMimeType == 'application/pdf'">
+                                <a href="{{vattachment.Attachment}}" target="_blank">
+                                    <img src="assets/images/attachment/{{attachmentThumb['application/pdf'].thumb}}"
+                                        class="img-fluid" ngbTooltip="{{vattachment.AttachmentOriginalFile}}"
+                                        width="200" alt="work-thumbnail">
+                                </a>
+                            </span>
+                            <span *ngIf="vattachment.AttachmentMimeType == 'image/jpeg'">
+                                <a href="{{vattachment.Attachment1}}" target="_blank">
+                                    <img src="{{vattachment.Attachment1}}" class="img-fluid"
+                                        ngbTooltip="{{vattachment.AttachmentOriginalFile}}" width="200"
+                                        alt="work-thumbnail">
+                                </a>
+                            </span>
+                            <span *ngIf="vattachment.AttachmentMimeType == 'image/png'">
+                                <a href="{{vattachment.Attachment1}}" target="_blank">
+                                    <img src="{{vattachment.Attachment1}}" class="img-fluid"
+                                        ngbTooltip="{{vattachment.AttachmentOriginalFile}}" width="200"
+                                        alt="work-thumbnail">
+                                </a>
+                            </span>
+                            <span *ngIf="vattachment.AttachmentMimeType == 'application/msword'">
+                                <a href="{{vattachment.Attachment}}" target="_blank">
+                                    <img src="assets/images/attachment/{{attachmentThumb['application/msword'].thumb}}"
+                                        class="img-fluid" ngbTooltip="{{vattachment.AttachmentOriginalFile}}"
+                                        width="200" alt="work-thumbnail">
+                                </a>
+                            </span>
+                            <span *ngIf="vattachment.AttachmentMimeType == 'application/vnd.ms-excel'">
+                                <a href="{{vattachment.Attachment}}" target="_blank">
+                                    <img src="assets/images/attachment/{{attachmentThumb['application/vnd.ms-excel'].thumb}}"
+                                        class="img-fluid" ngbTooltip="{{vattachment.AttachmentOriginalFile}}"
+                                        width="200" alt="work-thumbnail">
+                                </a>
+                            </span>
+                            <span *ngIf="vattachment.AttachmentMimeType == 'text/csv'">
+                                <a href="{{vattachment.Attachment}}" target="_blank">
+                                    <img src="assets/images/attachment/{{attachmentThumb['text/csv'].thumb}}"
+                                        class="img-fluid" ngbTooltip="{{vattachment.AttachmentOriginalFile}}"
+                                        width="200" alt="work-thumbnail">
+                                </a>
+                            </span>
+
+                            <br>
+                        </div>
+                    </div>
+                    <br>
+                    <input type="file" class="form-control" name="Attachment" (change)="fileProgressMultiple($event)" formControlName="Attachment">
+
+                    <span class="text-danger" *ngIf="(AttachmentFormControl.Attachment.touched || submitted) && AttachmentFormControl.Attachment.errors?.required">
+                        Attachment is required
+                    </span>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-12">
+
+                    <h5 class="m-t-0">Description</h5>
+
+                    <textarea class="form-control" row="10" [(ngModel)]="AttachmentDesc" [ngModelOptions]="{standalone: true}" name="AttachmentDesc"></textarea>
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer modal-lg">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light">Save</button>
+        </div>
+    </form>
+</div>

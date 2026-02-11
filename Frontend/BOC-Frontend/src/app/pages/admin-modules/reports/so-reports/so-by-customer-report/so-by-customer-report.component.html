@@ -1,0 +1,235 @@
+<div class="container-fluid">
+    <app-page-title title="Sales Order Reports"></app-page-title>
+
+    <ng-sidebar-container style="height: 100vh;">
+
+        <ng-sidebar [(opened)]="_opened" mode="over" position="right" [showBackdrop]="_showBackdrop">
+            <div class="sidebar-heading btn-secondary">
+                <a href="javascript:void(0);" class="right-bar-toggle float-right" style="color: white;"
+                    (click)="_toggleSidebar();">
+                    <i class="fe-x noti-icon"></i>
+                </a>
+                <h4 class="m-0 text-white"><i class="fas fa-filter mr-1"></i>Custom Filter</h4>
+            </div>
+
+            <ng-container>
+                <div class="card-box">
+                    <div class="row">
+
+                        <div class="col-xl-12">
+                            <label>Customer</label>
+                            <ng-select [items]="customerList" [searchable]="true" [(ngModel)]="CustomerId"
+                                [virtualScroll]="true" placeholder="Select" bindLabel="title" bindValue="CustomerId"
+                                (change)="onChangeCustomer(CustomerId)">
+                            </ng-select>
+                        </div>
+
+
+
+
+                    </div>
+                    <div class="row mt-2">
+
+                        <div class="col-xl-6">
+                            <label>SO Type</label>
+                            <select class="custom-select" [(ngModel)]="SOType">
+                                <option value="">Select</option>
+                                <option *ngFor="let SO_Type of SalesOrderType" value="{{SO_Type.SalesOrder_TypeId}}">
+                                    {{SO_Type.SalesOrder_TypeName}}</option>
+
+                            </select>
+                        </div>
+
+                        <div class="col-xl-6">
+                            <label>SO Status</label>
+                            <select class="custom-select" [(ngModel)]="Status">
+                                <option value="">Select</option>
+                                <option *ngFor="let SO_status of SalesOrderStatus"
+                                    value="{{SO_status.Saleorder_StateId}}">
+                                    {{SO_status.Saleorder_StateName}}</option>
+
+                            </select>
+                        </div>
+
+
+
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-xl-6">
+                            <label class="control-label">Requested Date From</label>
+                            <div class="input-group clockpicker">
+                                <input ngbDatepicker class="form-control" [(ngModel)]="DateRequested"
+                                    (ngModelChange)="RequestedDateFormat(DateRequested)" autoClose="false"
+                                    placeholder="MM/DD/YYYY" #Requested_Date="ngbDatepicker">
+                                <div class="input-group-append" (click)="Requested_Date.toggle()">
+                                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6">
+                            <label class="control-label">Requested Date To </label>
+                            <div class="input-group clockpicker">
+                                <input ngbDatepicker class="form-control" [(ngModel)]="DateRequestedTo"
+                                    autoClose="false" placeholder="MM/DD/YYYY" #Requested_To_Date="ngbDatepicker"
+                                    (ngModelChange)="DateRequestedToFormat(DateRequestedTo)">
+                                <div class="input-group-append" (click)="Requested_To_Date.toggle()">
+                                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row mt-2">
+                        <div class="col-xl-6">
+                            <label class="control-label">Due Date From</label>
+                            <div class="input-group clockpicker">
+                                <input ngbDatepicker class="form-control" [(ngModel)]="DueDate"
+                                    (ngModelChange)="DueDateFormat(DueDate)" autoClose="false" placeholder="MM/DD/YYYY"
+                                    #Due_Date="ngbDatepicker">
+                                <div class="input-group-append" (click)="Due_Date.toggle()">
+                                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <label class="control-label">Due Date To</label>
+                            <div class="input-group clockpicker">
+                                <input ngbDatepicker class="form-control" [(ngModel)]="DueDateTo" autoClose="false"
+                                    placeholder="MM/DD/YYYY" #Due_Dat_To="ngbDatepicker"
+                                    (ngModelChange)="DueDateToFormat(DueDateTo)">
+                                <div class="input-group-append" (click)="Due_Dat_To.toggle()">
+                                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-xl-12" style="float: right;">
+
+                            <input type="button" class="btn btn-primary btn-md mr-1 searchbt" value="Search"
+                                id="btnFilter" (click)="onFilter($event)" />
+                            <input type="button" class="btn btn-secondary btn-md searchbt" value="Clear" id="btnClear"
+                                (click)="onClear($event)" />
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </ng-container>
+
+        </ng-sidebar>
+
+        <div ng-sidebar-content>
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-xl-12 text-center">
+                        <img src="assets/images/ah_logo.png " alt=" " height="35">
+
+                        <h4 style="margin-top: 25px;" class="heading">Sales Order By Customer Report</h4>
+
+
+                    </div>
+
+
+
+                </div>
+
+
+                <div class="row">
+
+                    <div class="col-12">
+
+                        <div class="row">
+                            <div class="col-xl-12 text-right">
+
+                                <div class="button-list btn-group-sm fl-right mb-10">
+
+                                    <button class="btn btn-danger waves-effect" routerLink="/admin/reports"
+                                        ngbTooltip="Back" placement="top"><i class="fas fa-arrow-left"></i></button>
+
+                                </div>
+                                <div class="button-list btn-group-sm fl-right mb-10">
+
+                                    <button ngbTooltip="Excel" placement="top" class="btn btn-secondary waves-effect"
+                                        title="Excel" type="button" (click)="onExcel()">
+                                        <i class="far fa-file-excel"></i></button>
+                                        <i class="fa fa-spinner fa-spin spin-loader" *ngIf="spinner"></i>
+
+                                </div>
+
+                                <div class="button-list btn-group-sm fl-right mb-10">
+
+                                    <button class="btn btn-primary waves-effect" (click)="_toggleSidebar()"
+                                        ngbTooltip="Custom Filter" placement="top"><i
+                                            class="fas fa-filter"></i></button>
+
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                        <div class="col-xl-12">
+                            <div class="row">
+                                <div class="col-xl-12 nopad-rt">
+                                    <!-- Table -->
+                                    <div class="table-responsive">
+                                        <table id="datatable-angular-SoByCustomer" datatable [dtOptions]="dtOptions"
+                                            class="table  mb-15  datatables dt-responsive hover nowrap dataTable">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>CustomerId</th>
+                                                    <th>Customer Name</th>
+                                                    <th>SO Count</th>
+                                                    <th>Amount</th>
+                                                    <th>Date Requested</th>
+                                                    <th>DateRequestedTo</th>
+                                                    <th>Due Date</th>
+                                                    <th>DueDateTo</th>
+                                                    <th>Created</th>
+                                                    <th>CreatedTo</th>
+                                                    <th>Status</th>
+                                                    <th>SOType</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody *ngIf="datalen">
+                                                <tr>
+                                                    <td colspan="7" class="no-data-available nodata-center">No data!
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        {{FooterRight}}
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-md-right footer-links d-none d-sm-block">
+                            <a href="javascript:void(0);">{{FooterLeft}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ng-sidebar-container>
+
+</div>

@@ -1,0 +1,77 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="sideNavcontainer">
+    <app-page-title title="Repair Requests"></app-page-title>
+
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-xl-12 text-center">
+
+
+                        <h4 style="margin-top: 25px;" class="heading">{{StatusName.title}}</h4>
+                        <h4 style="margin-top: 25px;" class="Date" *ngIf="DateType!=1">From:
+                            {{FromDate|dateTransform}} To: {{ToDate|dateTransform}}
+                        </h4>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-xl-12">
+                        <!-- Table -->
+                        <div style="padding-right: 15px;" class="table-responsive">
+                            <table id="datatable-angular" datatable [dtOptions]="dtOptions"
+                                class="table datatables dt-responsive hover nowrap">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Repair Request #</th>
+                                        <th>RR Image</th>
+                                        <th>Part #</th>
+                                        <th>Serial #</th>
+                                        <th>Customer Name</th>
+                                        <th>Status</th>
+                                        <th>RR Created Date</th>
+                                        <th>Quote Submitted Date</th>
+                                        <th>RRDescription</th>
+                                        <th>CustomerSONo</th>
+                                        <th>CustomerPartNo1</th>
+                                        <th>CustomerPONo</th>
+                                        <th>IsWarrantyRecovery</th>
+                                        <th>IsRushRepair</th>
+                                        <th>IsRepairTag</th>
+                                        <th>VendorName</th>
+                                        <th>StatusName</th>
+                                        <th>Action</th>
+                                        <th>Customer Reference 1</th>
+                                        <th>Customer Reference 2</th>
+                                        <th>Customer Reference 3</th>
+                                        <th>Customer Reference 4</th>
+                                        <th>Customer Reference 5</th>
+                                        <th>Customer Reference 6</th>
+                                    </tr>
+                                </thead>
+
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

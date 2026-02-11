@@ -1,0 +1,157 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">{{title}}</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg">
+    <form name="form" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+        <div class="row">
+            <div class="col-md-6" *ngIf="showRecomPrice">
+                <div class="form-group">
+                    <label class="control-label">Repair Request #<span class="red">*</span></label>
+                    <ng-autocomplete class="ng-autocomplete" placeholder="Enter Repair Request #" [data]="RRList"
+                        [isLoading]="isLoadingRR" [searchKeyword]="keywordForRR" (selected)='selectRREvent($event)'
+                        (inputCleared)='clearRREvent($event)' [(ngModel)]="model.RRNo" name="RRNo" #RRNo="ngModel"  [required]="true" (inputChanged)='onChangeRRSearch($event)'
+                        (inputFocused)='onFocused($event)' [itemTemplate]="RRitemTemplate"
+                        [notFoundTemplate]="notFoundRRTemplate" debounceTime="1000" [ngClass]="{ 'is-invalid': f.submitted && (RRNo.invalid ||  RRNoErr)}">
+                    </ng-autocomplete>
+                    <ng-template #RRitemTemplate let-item>
+                        <a [innerHTML]="item.RRNo"></a>
+                    </ng-template>
+
+                    <ng-template #notFoundRRTemplate let-notFound>
+                        <div [innerHTML]="notFound"></div>
+                    </ng-template>
+                    <div *ngIf="f.submitted && (RRNo.invalid || RRNoErr)" class="invalid-feedback">
+                        <div style="margin-top: 27px;" *ngIf="RRNo.invalid || RRNoErr">RRNo is required</div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-6" *ngIf="!showRecomPrice">
+                <div class="form-group">
+                    <label class="control-label">Repair Request #<span class="red">*</span></label>
+                    <p>{{model.RRNo}}</p>
+
+                </div>
+            </div>
+            <div class="col-md-6" *ngIf="showRecomPrice">
+                <div class="form-group">
+                    <label>Vendor Name: <span class="red">*</span></label>
+                    <!-- <ng-select [items]="Vendors$ | async" [(ngModel)]="model.VendorId"
+                        bindLabel="VendorName" bindValue="VendorId" [typeahead]="VendorsInput$"
+                        [placeholder]="'Enter Vendor Name'" name="VendorId" #VendorId="ngModel" [required]="true" (change)='selectVendorEvent($event)'
+                        [ngClass]="{ 'is-invalid': f.submitted && VendorId.invalid }">
+                    </ng-select> -->
+                    <ng-select (change)="selectVendorEvent($event)" [items]="RRVendorsList" [multiple]="false" [closeOnSelect]="true" 
+                        [searchable]="true" [virtualScroll]="true" placeholder="Select Vendor" bindLabel="VendorName" [loading]="loadingVendors"
+                        bindValue="VendorId" [(ngModel)]="model.VendorId" #VendorId="ngModel" [ngModelOptions]="{standalone: true}" [required]="true" [ngClass]="{ 'is-invalid': f.submitted && VendorId.invalid }">
+                    </ng-select>
+                    <div *ngIf="f.submitted && VendorId.invalid" class="invalid-feedback">
+                        <div *ngIf="VendorId.invalid">RR Vendor is required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" *ngIf="!showRecomPrice">
+                <div class="form-group">
+                    <label>Vendor Name: <span class="red">*</span></label>
+                    <p>{{model.VendorName}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="field-2" class="control-label">Vendor Cost</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span
+                                class="input-group-text" id="basic-addon1">{{VendorCurrencySymbol}}</span>
+                        </div>
+                        <input type="number" min="0" class="form-control" placeholder="Vendor Cost" [(ngModel)]="model.VendorCost" name="VendorCost" #VendorCost="ngModel">
+
+                    </div>
+
+                </div>
+            </div>
+            <!-- <div class="col-6" *ngIf="showRecomPrice">
+                <div class="form-group">
+                    <label for="field-2" class="control-label">Recommended Price</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span
+                                class="input-group-text" id="basic-addon1">{{VendorCurrencySymbol}}</span>
+                        </div>
+                        <input type="number" min="0" class="form-control" placeholder="Recommended Price" [(ngModel)]="model.RecomPrice" name="RecomPrice" #RecomPrice="ngModel">
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-6" *ngIf="!showRecomPrice">
+                <div class="form-group">
+                    <label for="field-2" class="control-label">Recommended Price</label>
+                    <p>{{VendorCurrencySymbol}} {{model.RecomPrice}}</p>
+
+                </div>
+            </div> -->
+            <div class="col-6">
+                <h5 style="margin:0;" class="m-t-0">Attachment
+                    <span class="red">*</span> &nbsp;&nbsp;&nbsp;<span *ngIf="model.Attachment" class="pointer" ngbTooltip="Click to View Attachment">
+                        <a href="{{model.Attachment}}" target="_blank" style="color: #f1556c"><i class="fa fa-paperclip" aria-hidden="true"></i></a></span>
+                        
+                </h5>
+
+
+                <input type="file" class="form-control" name="Attachment" accept="application/pdf" (change)="fileProgress($event)" [(ngModel)]="model.Attachment" #Attachment="ngModel" [ngClass]="{ 'is-invalid': (f.submitted && Attachment.invalid) || fileFormatMismatchErr }" required>
+                <i class="fa fa-spinner fa-spin" *ngIf="spinner"></i>
+                <div *ngIf="f.submitted && Attachment.invalid" class="invalid-feedback">
+                    <div *ngIf="Attachment.errors.required">Attachment is required</div>
+                </div>
+                <div *ngIf="fileFormatMismatchErr" class="invalid-feedback">
+                    <div *ngIf="fileFormatMismatchErr">{{fileFormatMismatchErr}}</div>
+                </div>
+                
+
+
+            </div>
+        </div>
+        <div class="row">
+            <!-- <div class="col-md-6">
+                <div class="form-group">
+                    <label for="field-2" class="control-label">directed / OEM<span class="red">*</span></label>
+                    <input type="text" class="form-control" placeholder="Directed / OEM" [(ngModel)]="model.Directed" name="Directed" #Directed="ngModel"
+                        [ngClass]="{ 'is-invalid': f.submitted && Directed.invalid }" required>
+                    <div *ngIf="f.submitted && Directed.invalid" class="invalid-feedback">
+                        <div *ngIf="Directed.errors.required">Directed is required</div>
+                    </div>
+
+                </div>
+            </div> -->
+            <div class="col-md-12">
+                <div class="form-group no-margin">
+                    <label for="field-7" class="control-label">Internal Notes</label>
+                    <textarea class="form-control" id="field-7" placeholder="Internal Notes" name="InternalNotes" [(ngModel)]="model.InternalNotes"  #InternalNotes="ngModel"></textarea>
+                    <!-- <div *ngIf="f.submitted && InternalNotes.invalid" class="invalid-feedback">
+                        <div *ngIf="InternalNotes.errors.required">InternalNotes is required</div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group no-margin">
+                    <label for="field-7" class="control-label">Approver Feedback</label>
+                    <textarea class="form-control" id="field-7" placeholder="Approver Feedback" name="ApproverFeedback" [(ngModel)]="model.ApproverFeedback"  #ApproverFeedback="ngModel"></textarea>
+                    <!-- <div *ngIf="f.submitted && InternalNotes.invalid" class="invalid-feedback">
+                        <div *ngIf="InternalNotes.errors.required">InternalNotes is required</div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light" *ngIf="showsave">Save</button>
+        </div>
+    </form>
+</div>

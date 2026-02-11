@@ -1,0 +1,1149 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="container-fluid" *ngIf="IsMROEdit">
+  <app-page-title
+    title="Edit MRO"
+    [breadcrumbItems]="breadCrumbItems"
+  ></app-page-title>
+  <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="EditForm">
+    <div class="row">
+      <div class="col-12">
+        <div class="sticky-container">
+          <div
+            id="so-groups"
+            class="right so-groups-sticky hidden-xs"
+            style="top: 198px"
+          >
+            <a
+              data-target="popup"
+              data-popup="#popup-revert"
+              (click)="reLoad()"
+            >
+              <span>Reload</span> <i class="mdi mdi-refresh"></i>
+            </a>
+            <a
+              class="bg-danger"
+              *ngIf="IsActive == 1"
+              data-target="popup"
+              data-popup="#popup-delete"
+              (click)="onInActiveorActiveMRO(0)"
+            >
+              <span class="bg-danger">Inactivate MRO</span
+              ><i class="far fa-thumbs-down"></i>
+            </a>
+            <a
+              class="bg-success"
+              *ngIf="IsActive == 0"
+              data-target="popup"
+              data-popup="#popup-delete"
+              (click)="onInActiveorActiveMRO(1)"
+            >
+              <span class="bg-success">Activate MRO</span
+              ><i class="far fa-thumbs-up"></i>
+            </a>
+            <!-- <a class="bg-warning">
+                            <span class="bg-warning">Verify MRO</span> <i class="mdi mdi-check-decagram"></i>
+                        </a> -->
+            <a *ngIf="IsActive == 1">
+              <span> Save</span> <i class="mdi mdi-content-save"></i>
+            </a>
+            <!-- <a data-target="popup" data-popup="#popup-qrcode">
+                            <span>QR Code</span> <i class="mdi mdi-qrcode"></i>
+                        </a> -->
+            <!-- <a d ata-target="popup" data-popup="#popup-customer-followup">
+                            <span>Customer Follow Up</span> <i class="mdi mdi-email-outline"></i>
+                        </a>
+                        <a data-target="popup" data-popup="#popup-vendor-follow-up">
+                            <span>Vendor Follow Up</span> <i class="remixicon-mail-unread-line"></i>
+                        </a> -->
+
+            <a
+              class="bg-danger"
+              data-target="popup"
+              data-popup="#popup-delete"
+              (click)="onDelete()"
+              *ngIf="IsActive == 1"
+            >
+              <span class="bg-danger">Delete</span
+              ><i class="remixicon-delete-bin-line"></i>
+            </a>
+            <a routerLink="/admin/mro/list">
+              <span>Back</span><i class="fas fa-arrow-left"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="card-box ribbon-box cbp">
+          <div class="row">
+            <div class="col-xl-8 float-left">
+              <h3 class="page-title bluetxt" style="float: left; margin: 0">
+                <span>
+                  <!-- Repair Request # :  -->
+                  MRO #
+                  <span class="badge badge-success m-2 p-1">{{ MRONo }}</span>
+                </span>
+                <span
+                  class="badge badge-success m-1"
+                  ngbTooltip="Active MRO"
+                  placement="top"
+                  *ngIf="IsActive == 1"
+                >
+                  <i class="far fa-thumbs-up"></i>
+                </span>
+                <span
+                  class="badge badge-danger m-1"
+                  ngbTooltip="Inactive MRO"
+                  placement="top"
+                  *ngIf="IsActive == 0"
+                >
+                  <i class="far fa-thumbs-down"></i>
+                </span>
+                <span class="Repair m-2 p-1">{{ repairMessage }}</span>
+              </h3>
+              <span
+                *ngIf="MRONotesInfo.length > 0"
+                style="float: left; padding-top: 25px"
+              >
+                <ng-template [ngTemplateOutlet]="NotesBar"></ng-template>
+              </span>
+
+              <h4 style="margin: 10px 0 0">
+                <span style="margin: 6px 0 0"
+                  >Current Status:<i
+                    style="cursor: pointer; font-size: 23px"
+                    class="mdi mdi-history bluetxt mr-2"
+                    (click)="MROcurrentstatus()"
+                  ></i
+                ></span>
+                <span
+                  style="font-size: 18px; border-radius: 0.25rem; padding: 5px"
+                  class="{{ MROStatusNameStyle.cstyle }}"
+                  >{{ MROInfo.StatusName }}
+                </span>
+              </h4>
+
+              <!-- {{MROInfo.StatusName}} -->
+            </div>
+            <div class="col-xl-4 float-left">
+              <button
+                type="button"
+                (click)="generatePDF()"
+                style="float: right"
+                *ngIf="IsActive == 1"
+                class="btn btn-pink mrobtn btn-sm waves-effect waves-light mr-1 mb-1"
+              >
+                Export Customer Quote
+              </button>
+
+              <button
+                type="button"
+                (click)="onInvoiceReport()"
+                style="float: right"
+                *ngIf="IsActive == 1"
+                class="btn btn-purple mrobtn btn-sm waves-effect waves-light mr-1 mb-1"
+              >
+                Download Invoice Report
+              </button>
+
+              <button
+                type="button"
+                style="float: right"
+                *ngIf="
+                  MROInfo.Status != MRO_COMPLETED &&
+                  MROInfo.Status != Rejected &&
+                  IsActive == 1
+                "
+                (click)="RejectedMRO()"
+                class="btn btn-danger btn-sm waves-effect waves-light mr-1"
+              >
+                Reject
+              </button>
+              <!-- <span class="alert alert-warning float-right" *ngIf="PriorityNotes != ''">
+                                <i class="mdi mdi-alert-outline mr-1"></i> {{PriorityNotes}}
+                            </span> -->
+            </div>
+          </div>
+
+          <!-- <div class="row ribbon ribbon-warning float-left">
+                        <span><i class="mdi mdi-check-decagram"></i> Verify</span>
+                    </div> -->
+          <div class="row">
+            <div class="col-xl-12 col-lg-12">
+              <div class="row mb-2">
+                <div class="col-xl-6">
+                  <h4 class="page-title bluetxt mb-10">Basic Details</h4>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-6">
+                  <div class="row">
+                    <div class="col-xl-12">
+                      <div class="form-group">
+                        <label for="Customer"
+                          >Customer <span class="red">*</span></label
+                        >
+
+                        <ng-autocomplete
+                          class="ng-autocomplete"
+                          placeholder="Enter Customer Name"
+                          [data]="CustomersList"
+                          [disabled]="true"
+                          [isLoading]="isLoadingCustomer"
+                          [searchKeyword]="keywordForCustomer"
+                          formControlName="Customer"
+                          (selected)="selectCustomerEvent($event)"
+                          (inputChanged)="onChangeCustomerSearch($event)"
+                          (inputCleared)="clearEventCustomer($event)"
+                          [itemTemplate]="CustomeritemTemplate"
+                          [notFoundTemplate]="CustomernotFoundTemplate"
+                          debounceTime="1000"
+                        >
+                        </ng-autocomplete>
+                        <ng-template #CustomeritemTemplate let-item>
+                          <a [innerHTML]="item.CompanyName"></a>
+                        </ng-template>
+
+                        <ng-template #CustomernotFoundTemplate let-notFound>
+                          <div [innerHTML]="notFound"></div>
+                        </ng-template>
+                        <!-- <ng-select [items]="customerList" [searchable]="true"
+                                                    [virtualScroll]="true" formControlName="CustomerId"
+                                                    placeholder="Select" name="CustomerId" (inputCleared)='clearEventCustomer($event)'
+                                                    (change)="getCustomerProperties(CustomerId, $event)"
+                                                    bindLabel="title" bindValue="CustomerId">
+                                                </ng-select> -->
+                        <span
+                          class="text-danger"
+                          *ngIf="
+                            (EditFormControl.CustomerId.touched || submitted) &&
+                            EditFormControl.CustomerId.errors?.required
+                          "
+                        >
+                          Customer is required
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <br />
+
+                  <div class="row" *ngIf="CustomerId">
+                    <div class="col-xl-12">
+                      <div class="form-group">
+                        <label for="Customer">Repair Requet # :</label>
+                        <ng-autocomplete
+                          class="ng-autocomplete"
+                          placeholder="Enter Repair Request #"
+                          [data]="RRList"
+                          [isLoading]="isLoadingRR"
+                          [searchKeyword]="keywordForRR"
+                          (selected)="selectRREvent($event)"
+                          (inputChanged)="onChangeRRSearch($event)"
+                          formControlName="RRNo"
+                          name="RRNo"
+                          [itemTemplate]="RRitemTemplate"
+                          [notFoundTemplate]="notFoundRRTemplate"
+                          debounceTime="1000"
+                        >
+                        </ng-autocomplete>
+                        <input
+                          type="hidden"
+                          class="form-control pad5"
+                          readonly
+                          name="RRId"
+                          formControlName="RRId"
+                        />
+                        <ng-template #RRitemTemplate let-item>
+                          <a [innerHTML]="item.RRNo"></a>
+                        </ng-template>
+
+                        <ng-template #notFoundRRTemplate let-notFound>
+                          <div [innerHTML]="notFound"></div>
+                        </ng-template>
+                        <!-- <input type="text" class="form-control" name="RRNo" formControlName="RRNo"> -->
+                      </div>
+                      <!-- <div class="form-group">
+                                                <label for="Customer">Notes</label>
+                                                <textarea class="form-control" placeholder="Notes..." name="Notes"
+                                                    formControlName="Notes" rows="5"></textarea>
+                                            </div> -->
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-xl-6">
+                  <div class="form-group">
+                    <label for="Customer">Bill To :</label>
+                    <ng-select
+                      [items]="customerAddressList"
+                      [searchable]="true"
+                      formControlName="CustomerBillToId"
+                      placeholder="Select"
+                      bindLabel="title"
+                      bindValue="AddressId"
+                    >
+                    </ng-select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="Customer">Ship To :</label>
+                    <ng-select
+                      [items]="customerAddressList"
+                      [searchable]="true"
+                      formControlName="CustomerShipToId"
+                      placeholder="Select"
+                      bindLabel="title"
+                      bindValue="AddressId"
+                    >
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div class="clear">&nbsp;</div>
+                <div class="col-xl-12 nopad">
+                  <div class="col-xl-8 col-lg-8 float-left nopad">
+                    <h4 class="bluetxt mb-10">
+                      Customer Quote Details-
+
+                      <span class="quotetext page-title mb-10"
+                        >Quote No:
+                        <a
+                          *ngIf="Quote"
+                          [routerLink]="['/admin/sales-quote/list']"
+                          [queryParams]="{ QuoteId: this.Quote.QuoteId }"
+                          target="_blank"
+                          >#{{ Quote.QuoteNo }}</a
+                        ></span
+                      >
+                    </h4>
+                  </div>
+
+                  <div class="col-xl-4 col-lg-4 float-left nopad">
+                    <button
+                      type="button"
+                      (click)="CreateMROSO()"
+                      *ngIf="
+                        !CustomerSOId &&
+                        MROInfo.Status != MRO_COMPLETED &&
+                        MROInfo.Status != Rejected &&
+                        IsActive == 1
+                      "
+                      style="float: right"
+                      class="btn btn-purple mrobtn btn-sm waves-effect waves-light mr-1 mb-1"
+                    >
+                      Create Customer SO
+                    </button>
+                    &nbsp;&nbsp;
+
+                    <button
+                      type="button"
+                      (click)="EditCustomerQuote()"
+                      *ngIf="
+                        !CustomerSOId &&
+                        MROInfo.Status != Rejected &&
+                        IsActive == 1
+                      "
+                      style="float: right"
+                      class="btn btn-primary mrobtn btn-sm waves-effect waves-light mr-1 mb-1"
+                    >
+                      Edit Customer Quote
+                    </button>
+                    &nbsp;&nbsp;
+                    <button
+                      type="button"
+                      (click)="AddCustomerQuote()"
+                      *ngIf="
+                        !CustomerSOId &&
+                        MROInfo.Status != Rejected &&
+                        IsActive == 1
+                      "
+                      style="float: right"
+                      class="btn btn-primary mrobtn btn-sm waves-effect waves-light mr-1 mb-1"
+                    >
+                      <i class="remixicon-add-fill mt-3"></i>Add
+                    </button>
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-bordered table-striped mb-0">
+                    <thead class="thead-light">
+                      <tr>
+                        <th>
+                          <input
+                            type="checkbox"
+                            (change)="isAllSelected($event)"
+                          />
+                        </th>
+                        <th width="10%">Part #</th>
+                        <th width="10%">Type</th>
+                        <th>Part Description</th>
+                        <th>Customer Lead Time</th>
+                        <th>Customer Unit Price</th>
+                        <th>Quantity</th>
+                        <th>{{ VAT_field_Name }}</th>
+                        <th>{{ Shipping_field_Name }}</th>
+                        <th *ngIf="IsDisplayBaseCurrencyValue == 1">
+                          Price({{ BaseCurrencySymbol }})
+                        </th>
+                        <th width="10%">Customer Total Price</th>
+                        <th width="15%">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let quote of QuoteLineItem; let i = index">
+                        <td>
+                          <input
+                            type="checkbox"
+                            [checked]="quote.checked"
+                            (change)="CreateSO($event, i)"
+                          />
+                        </td>
+                        <td>{{ quote.PartNo }}</td>
+                        <td>{{ quote.PartTypeName }}</td>
+                        <td>{{ quote.PartDescription }}</td>
+                        <td>{{ quote.LeadTime }} Days</td>
+                        <td>
+                          {{ quote.ItemLocalCurrencySymbol }} {{ quote.Rate }}
+                        </td>
+                        <td>{{ quote.Quantity }}</td>
+                        <td>
+                          {{ quote.ItemLocalCurrencySymbol }}
+                          {{ quote.Tax }} ({{ quote.ItemTaxPercent }}%)
+                        </td>
+                        <td>
+                          {{ quote.ItemLocalCurrencySymbol }}
+                          {{ quote.ShippingCharge }}
+                        </td>
+                        <td *ngIf="IsDisplayBaseCurrencyValue == 1">
+                          {{ BaseCurrencySymbol }} {{ quote.BasePrice }}
+                        </td>
+                        <td>
+                          {{ quote.ItemLocalCurrencySymbol }} {{ quote.Price }}
+                        </td>
+                        <td>
+                          <span>
+                            <button
+                              (click)="
+                                EditVendor(
+                                  quote.QuoteId,
+                                  quote.QuoteItemId,
+                                  quote.PartId,
+                                  MROInfo.Status
+                                )
+                              "
+                              style="cursor: pointer"
+                              ngbTooltip="Edit Vendor Quote"
+                              *ngIf="IsActive == 1"
+                              class="btn btn-dark btn-sm waves-effect waves-light"
+                            >
+                              Vendor QT
+                            </button>
+                          </span>
+                          &nbsp;
+                          <span>
+                            <a
+                              (click)="deleteQuotes(quote.QuoteId)"
+                              class="fa fa-trash text-danger"
+                              ngbTooltip="Delete Quote"
+                              *ngIf="IsActive == 1"
+                              placement="top"
+                            ></a>
+                          </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div id="Convert-SO" *ngIf="CustomerSOId">
+                <div class="clear">&nbsp;</div>
+                <div class="col-xl-12 nopad">
+                  <div class="col-xl-8 col-lg-8 float-left nopad">
+                    <h4 class="row ml-1 page-title bluetxt mb-10">
+                      SO: &nbsp;&nbsp;
+                      <p class="quotetext page-title mb-10">Customer PO #:</p>
+                      <span
+                        style="color: #333; padding: 0"
+                        *ngIf="
+                          viewResult.SalesOrder[0].CustomerBlanketPOId == 0
+                        "
+                        >{{ viewResult.SalesOrder[0].CustomerPONo || "-" }}
+                      </span>
+                      <a
+                        *ngIf="
+                          viewResult.SalesOrder[0].CustomerBlanketPOId != 0
+                        "
+                        style="padding: 0"
+                        [routerLink]="['/admin/Blanket-PO-History']"
+                        [queryParams]="{
+                          CustomerBlanketPOId:
+                            this.viewResult.SalesOrder[0].CustomerBlanketPOId
+                        }"
+                        target="_blank"
+                        ngbTooltip="Blanket PO"
+                        placement="top"
+                      >
+                        <i
+                          style="float: left"
+                          class="remixicon-wallet-3-fill mr-1 ml-1 blanketpo-icon"
+                        ></i
+                        >{{ viewResult.SalesOrder[0].CustomerPONo || "-" }}</a
+                      >
+                    </h4>
+                  </div>
+                  <div
+                    class="col-xl-4 col-lg-4 float-left nopad"
+                    *ngIf="
+                      MROInfo.Status != MRO_COMPLETED &&
+                      MROInfo.Status != Rejected
+                    "
+                  >
+                    <button
+                      type="button"
+                      (click)="CreateMROPO()"
+                      style="float: right"
+                      *ngIf="IsActive == 1"
+                      class="btn btn-secondary mrobtn btn-sm waves-effect waves-light mr-1 mb-1"
+                    >
+                      Create Vendor PO
+                    </button>
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-bordered table-striped mb-0">
+                    <thead class="thead-light">
+                      <tr>
+                        <th>SO #</th>
+                        <th>Part #</th>
+                        <th>Type</th>
+                        <th width="10%">Customer Total Price</th>
+                        <th>Quantity Summary</th>
+                        <th>Shipping and Invoice Details</th>
+                      </tr>
+                    </thead>
+                    <tbody *ngFor="let item of SOItem; let i = index">
+                      <tr>
+                        <td>
+                          <a
+                            [routerLink]="['/admin/orders/sales-list']"
+                            [queryParams]="{ SOId: item.SOId }"
+                            target="_blank"
+                          >
+                            <p
+                              style="
+                                color: #09518e;
+                                text-decoration: none;
+                                background-color: transparent;
+                              "
+                            >
+                              {{ item.SONo }}
+                            </p>
+                          </a>
+                        </td>
+                        <td>
+                          {{ item.PartNo }} <br />
+                          <p
+                            style="font-size: 16px; margin-top: 10px"
+                            *ngIf="showLocation && item.LocationName != null"
+                          >
+                            <b>Location:</b>
+                            <span class="location_name">{{
+                              item.LocationName
+                            }}</span>
+                          </p>
+                        </td>
+                        <td>{{ item.PartTypeName }}</td>
+                        <td>
+                          {{ item.ItemLocalCurrencySymbol }} {{ item.Price }}
+                        </td>
+
+                        <td>
+                          <b class="qty">Total Quantity :&nbsp;&nbsp;</b>
+                          <span
+                            style="font-size: 16px"
+                            class="badge badge-light-warning"
+                            >{{ item.TotalQuantity }}
+                          </span>
+                          <br />
+                          <b class="qty">Ready for Shipment :&nbsp;&nbsp;</b>
+                          <span
+                            style="font-size: 16px"
+                            class="badge badge-light-info"
+                            >{{ item.ReadyForShipment }}
+                          </span>
+                          <br />
+                          <b class="qty">Shipped :&nbsp;&nbsp;</b>
+                          <span
+                            style="font-size: 16px"
+                            class="badge badge-light-success"
+                            >{{ item.Shipped }}
+                          </span>
+                          <br />
+                          <b class="qty">Pending :&nbsp;&nbsp;</b>
+                          <span
+                            style="font-size: 16px"
+                            class="badge badge-light-danger"
+                            >{{ item.Pending }}
+                          </span>
+                          <br />
+                          <div class="row mt-2 ml-1">
+                            <button
+                              class="btn btn-info btn-sm waves-effect waves-light mr-1 mb-1 ml-1"
+                              type="button"
+                              *ngIf="
+                                item.ReadyForShipment > 0 &&
+                                MROInfo.Status != MRO_COMPLETED &&
+                                MROInfo.Status != Rejected &&
+                                IsActive == 1
+                              "
+                              (click)="onMroShip(item)"
+                            >
+                              Ship
+                            </button>
+                          </div>
+                        </td>
+                        <td>
+                          <div
+                            *ngFor="
+                              let customerInvoiceDetails of CustomerInvoiceDetails;
+                              let j = index
+                            "
+                          >
+                            <div
+                              class="row ml-2"
+                              *ngIf="
+                                item.SOItemId == customerInvoiceDetails.SOItemId
+                              "
+                            >
+                              <div class="col-xl-12 invoicebrd">
+                                <b class="qty"
+                                  >Shipped Quantity : &nbsp; &nbsp;</b
+                                ><span
+                                  style="font-size: 16px"
+                                  class="badge badge-light-success"
+                                  >{{ customerInvoiceDetails.Quantity }}</span
+                                >
+                                &nbsp;&nbsp;
+                                <button
+                                  class="btn btn-pink btn-sm waves-effect waves-light mr-1 mb-1 ml-1"
+                                  (click)="onShippingHistory(j)"
+                                  type="button"
+                                  *ngIf="
+                                    MROShippingHistorylist.length > 0 &&
+                                    IsActive == 1
+                                  "
+                                >
+                                  <i
+                                    class="mdi mdi-history bluetxt"
+                                    style="cursor: pointer"
+                                  ></i>
+                                  &nbsp;<b
+                                    *ngIf="
+                                      customerInvoiceDetails.ReceiveDate == null
+                                    "
+                                    >Shipped by Aibond</b
+                                  >
+                                  <b
+                                    *ngIf="
+                                      customerInvoiceDetails.ReceiveDate != null
+                                    "
+                                    >Received by Customer</b
+                                  >
+                                </button>
+                                &nbsp;&nbsp;
+
+                                <button
+                                  *ngIf="
+                                    customerInvoiceDetails.ReceiveDate ==
+                                      null && IsActive == 1
+                                  "
+                                  class="btn btn-success btn-sm waves-effect waves-light mr-1 mb-1 ml-1"
+                                  (click)="onMroReceive(j)"
+                                  type="button"
+                                >
+                                  Receive By Customer
+                                </button>
+
+                                <p
+                                  *ngIf="
+                                    customerInvoiceDetails.InvoiceId != null
+                                  "
+                                >
+                                  Invoice #:
+                                  <a
+                                    [routerLink]="['/admin/invoice/list']"
+                                    [queryParams]="{
+                                      InvoiceId:
+                                        customerInvoiceDetails.InvoiceId
+                                    }"
+                                    target="_blank"
+                                  >
+                                    <p
+                                      style="
+                                        color: #09518e;
+                                        text-decoration: none;
+                                        background-color: transparent;
+                                      "
+                                    >
+                                      {{ customerInvoiceDetails.InvoiceNo }}
+                                    </p>
+                                  </a>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div id="Convert-SO" *ngIf="VendorPOId">
+                <div class="clear">&nbsp;</div>
+                <div class="col-xl-12 nopad">
+                  <div class="col-xl-8 col-lg-8 float-left nopad">
+                    <h4 class="page-title bluetxt mb-10">PO</h4>
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-bordered table-striped mb-0">
+                    <thead class="thead-light">
+                      <tr>
+                        <th width="10%">PO #</th>
+                        <th width="10%">Part #</th>
+                        <th>Vendor Name</th>
+                        <th width="10%">Total Price</th>
+                        <th>Quantity Summary</th>
+
+                        <th width="30%">Shipping and Vendor Bill Details</th>
+                      </tr>
+                    </thead>
+                    <tbody *ngFor="let item of POItem; let i = index">
+                      <tr>
+                        <td>
+                          <a
+                            [routerLink]="['/admin/orders/purchase-list']"
+                            [queryParams]="{ POId: item.POId }"
+                            target="_blank"
+                          >
+                            <p
+                              style="
+                                color: #09518e;
+                                text-decoration: none;
+                                background-color: transparent;
+                              "
+                            >
+                              {{ item.PONo }}
+                            </p>
+                          </a>
+                        </td>
+                        <td>{{ item.PartNo }}</td>
+                        <td>{{ item.VendorName }}</td>
+                        <th>
+                          {{ item.ItemLocalCurrencySymbol }} {{ item.Price }}
+                        </th>
+
+                        <td>
+                          <b class="qty">Total Quantity :&nbsp;&nbsp;</b
+                          ><span
+                            style="font-size: 16px"
+                            class="badge badge-light-warning"
+                            >{{ item.TotalQuantity }}
+                          </span>
+                          <br />
+                          <b class="qty">Received :&nbsp;&nbsp;</b
+                          ><span
+                            style="font-size: 16px"
+                            class="badge badge-light-success"
+                            >{{ item.Received }}
+                          </span>
+                          <br />
+                          <b class="qty">Pending :&nbsp;&nbsp;</b
+                          ><span
+                            style="font-size: 16px"
+                            class="badge badge-light-danger"
+                            >{{ item.Pending }}
+                          </span>
+                          <br />
+                          <div class="row mt-2 ml-1">
+                            <button
+                              class="btn btn-success btn-sm waves-effect waves-light mr-1 mb-1 ml-1"
+                              type="button"
+                              *ngIf="
+                                item.Pending != 0 &&
+                                MROInfo.Status != MRO_COMPLETED &&
+                                MROInfo.Status != Rejected &&
+                                IsActive == 1
+                              "
+                              (click)="onRRShippingReceive(item)"
+                            >
+                              Receive
+                            </button>
+                          </div>
+                        </td>
+
+                        <td>
+                          <div
+                            *ngFor="
+                              let vendorBillDetails of VendorBillDetails;
+                              let j = index
+                            "
+                          >
+                            <div
+                              class="row ml-2"
+                              *ngIf="
+                                item.POItemId == vendorBillDetails.POItemId
+                              "
+                            >
+                              <div class="col-xl-12 invoicebrd">
+                                <b class="qty"
+                                  >Received Quantity : &nbsp; &nbsp;</b
+                                ><span
+                                  style="font-size: 16px"
+                                  class="badge badge-light-success"
+                                  >{{ vendorBillDetails.Quantity }}
+                                </span>
+                                &nbsp;&nbsp;
+                                <button
+                                  type="button"
+                                  (click)="
+                                    CreateVendorInvoice(
+                                      vendorBillDetails.SOItemId,
+                                      item.VendorId,
+                                      vendorBillDetails.Quantity,
+                                      vendorBillDetails.POId,
+                                      j,
+                                      item.Rate,
+                                      item.ItemLocalCurrencySymbol,
+                                      item
+                                    )
+                                  "
+                                  *ngIf="
+                                    vendorBillDetails.VendorInvoiceId == null &&
+                                    IsActive == 1
+                                  "
+                                  class="btn btn-info btn-sm waves-effect waves-light mr-1 mb-1"
+                                >
+                                  Create Vendor Bill
+                                </button>
+                                <p
+                                  *ngIf="
+                                    vendorBillDetails.VendorInvoiceId != null
+                                  "
+                                >
+                                  Vendor Bill #:
+                                  <a
+                                    [routerLink]="[
+                                      '/admin/invoice/vendor-invoice-list'
+                                    ]"
+                                    [queryParams]="{
+                                      VendorInvoiceId:
+                                        vendorBillDetails.VendorInvoiceId
+                                    }"
+                                    target="_blank"
+                                  >
+                                    <p
+                                      style="
+                                        color: #09518e;
+                                        text-decoration: none;
+                                        background-color: transparent;
+                                      "
+                                    >
+                                      {{ vendorBillDetails.VendorInvoiceNo }}
+                                    </p>
+                                  </a>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- 
+                                                    <div class="row ml-2">
+
+                                                        <b class="qty">Received Quantity : &nbsp; &nbsp;</b> <span
+                                                            style="font-size: 16px;" class="badge badge-light-success">1
+                                                        </span>&nbsp;&nbsp;
+
+                                                        <button type="button" (click)="CreateVendorInvoice()"
+                                                            class="btn btn-info btn-sm waves-effect waves-light mr-1  mb-1">
+                                                            Create Vendor Bill
+                                                        </button>
+                                                    </div> -->
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="clear">&nbsp;</div>
+
+              <div>
+                <h4 class="page-title bluetxt mb-10">
+                  Notes
+                  <button
+                    (click)="addNotes()"
+                    type="button"
+                    class="btn btn-add waves-effect"
+                    *ngIf="IsActive == 1"
+                  >
+                    <i class="remixicon-add-fill mt-3"></i> Add
+                  </button>
+                </h4>
+                <div class="table-responsive mt-15">
+                  <table class="table table-bordered table-striped mb-0">
+                    <thead class="thead-light">
+                      <tr>
+                        <th>Notes Type</th>
+                        <th>Comments</th>
+                        <th>Added By</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody *ngFor="let note of MRONotesInfo; let i = index">
+                      <tr>
+                        <td>{{ note.NotesTypeName }}</td>
+                        <td class="linebreak">{{ note.Notes }}</td>
+
+                        <td>
+                          {{ note.FirstName }} {{ note.LastName }} ({{
+                            note.Created | date : "MMM d, y, h:mm a"
+                          }})
+                        </td>
+                        <td>
+                          <a
+                            (click)="editNotes(note, i)"
+                            class="fa fa-edit"
+                            ngbTooltip="Edit"
+                            *ngIf="IsActive == 1"
+                            placement="top"
+                          ></a
+                          >&nbsp;
+                          <a
+                            (click)="deleteNotes(note.NotesId, i)"
+                            class="fa fa-trash text-danger"
+                            ngbTooltip="Delete"
+                            *ngIf="IsActive == 1"
+                            placement="top"
+                          ></a>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tbody *ngIf="MRONotesInfo?.length == 0">
+                      <tr>
+                        <td colspan="5" class="no-data-available">No data!</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="clear">&nbsp;</div>
+
+              <div class="clear">&nbsp;</div>
+              <div>
+                <h4 class="page-title bluetxt mb-10">
+                  Attachments
+                  <button
+                    type="button"
+                    (click)="addAttachment()"
+                    class="btn btn-add waves-effect"
+                    *ngIf="IsActive == 1"
+                  >
+                    <i class="remixicon-add-fill mt-3"></i>Add
+                  </button>
+                </h4>
+                <div class="table-responsive mt-15">
+                  <table class="table table-bordered table-striped mb-0">
+                    <thead class="thead-light">
+                      <tr>
+                        <th>Type</th>
+                        <th class="linebreak">Description</th>
+                        <th>Attachment</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      *ngFor="let attachment of AttachmentList; let i = index"
+                    >
+                      <tr>
+                        <td>{{ attachment.AttachmentTypeName }}</td>
+                        <td>{{ attachment.AttachmentDesc }}</td>
+                        <td>
+                          <a
+                            href="{{ attachment.Attachment }}"
+                            target="_blank"
+                            >{{ attachment.AttachmentOriginalFile }}</a
+                          >
+                        </td>
+                        <td>
+                          <a
+                            (click)="editAttachment(attachment, i)"
+                            class="fa fa-edit"
+                            *ngIf="IsActive == 1"
+                            ngbTooltip="Edit"
+                            placement="top"
+                          ></a
+                          >&nbsp;
+                          <a
+                            (click)="
+                              deleteAttachment(attachment.AttachmentId, i)
+                            "
+                            *ngIf="IsActive == 1"
+                            class="fa fa-trash text-danger"
+                            ngbTooltip="Delete"
+                            placement="top"
+                          ></a>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tbody *ngIf="AttachmentList?.length == 0">
+                      <tr>
+                        <td colspan="5" class="no-data-available">No data!</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<ng-template #NotesBar *ngIf="IsMROEdit">
+  <div class="dropdown" ngbDropdown>
+    <a
+      href="javascript: void(0);"
+      class="dropdown-toggle arrow-none"
+      ngbDropdownToggle
+      data-toggle="dropdown"
+      aria-expanded="false"
+    >
+      <i class="remixicon-honour-line ri-xl text-danger"></i
+    ></a>
+    <div
+      class="dropdown-menu dropdown-menu-right mt-0 searchbox"
+      ngbDropdownMenu
+    >
+      <div
+        class="alert alert-info"
+        role="alert"
+        *ngIf="notesArr[1] && notesArr[1].length > 0"
+      >
+        <h5 class="text-primary">
+          <i class="mdi mdi-access-point mr-1"></i> Internal
+        </h5>
+        <ul class="toast-list" *ngFor="let note of notesArr[1]; let i = index">
+          <li>
+            {{ i + 1 }}) {{ note.Notes }}
+            <span class="toastdate">
+              - {{ note.FirstName }} {{ note.LastName }} ({{
+                note.Created | date : "MMM d, y, h:mm a"
+              }})</span
+            >
+          </li>
+        </ul>
+      </div>
+
+      <div
+        class="alert alert-warning"
+        role="alert"
+        *ngIf="notesArr[2] && notesArr[2].length > 0"
+      >
+        <h5 class="text-customer">
+          <i class="mdi mdi-access-point mr-1"></i> Customer
+        </h5>
+        <ul class="toast-list" *ngFor="let note of notesArr[2]; let i = index">
+          <li>
+            {{ i + 1 }}) {{ note.Notes }}
+            <span class="toastdate">
+              - {{ note.FirstName }} {{ note.LastName }} ({{
+                note.Created | date : "MMM d,y, h:mm a"
+              }})</span
+            >
+          </li>
+        </ul>
+      </div>
+
+      <div
+        class="alert alert-danger"
+        role="alert"
+        *ngIf="notesArr[3] && notesArr[3].length > 0"
+      >
+        <h5 class="text-vendor">
+          <i class="mdi mdi-access-point mr-1"></i> Vendor
+        </h5>
+        <ul class="toast-list" *ngFor="let note of notesArr[3]; let i = index">
+          <li>
+            {{ i + 1 }}) {{ note.Notes }}
+            <span class="toastdate">
+              - {{ note.FirstName }} {{ note.LastName }} ({{
+                note.Created | date : "MMM d,y, h:mm a"
+              }})</span
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<div class="container-fluid" *ngIf="!IsMROEdit">
+  <div class="account-pages mt-5 mb-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6 col-xl-5">
+          <div class="card bg-pattern">
+            <div class="card-body p-4">
+              <div class="text-center">
+                <a routerLink="/">
+                  <span
+                    ><img
+                      src="assets/projects/ah-group/full_logo.png"
+                      alt=""
+                      height="22"
+                  /></span>
+                </a>
+              </div>
+
+              <div class="text-center mt-4">
+                <h1 class="text-error">401</h1>
+                <h3 class="mt-3 mb-2">Access Denied!</h3>
+                <p class="text-muted mb-3">
+                  You don't have permission to access this page.
+                </p>
+
+                <a
+                  routerLink="/admin/dashboard/ah-dashboard"
+                  class="btn btn-success waves-effect waves-light"
+                  >Back to Dashboard</a
+                >
+              </div>
+            </div>
+            <!-- end card-body -->
+          </div>
+          <!-- end card -->
+        </div>
+        <!-- end col -->
+      </div>
+      <!-- end row -->
+    </div>
+    <!-- end container -->
+  </div>
+</div>

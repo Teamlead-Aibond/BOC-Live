@@ -1,0 +1,46 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">Add Reference</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg">
+    <form name="form" #f="ngForm" (ngSubmit)="onRefSubmit(f)" novalidate>
+
+        <div class="container">
+
+            <div class="form-group">
+                <label for="Customer">Customer Reference # <span class="red">*</span></label>
+                <div class="row col-xl-12">
+
+                    <input id="ReferenceLabelName" [(ngModel)]="model.ReferenceLabelName" name="ReferenceLabelName" type="hidden">
+                    <div class="col-xl-5 nopad-lt">
+
+                        <select class="custom-select" name="CReferenceId" #CReferenceId="ngModel" [(ngModel)]="model.CReferenceId" [ngClass]="{ 'is-invalid': f.submitted && CReferenceId.invalid }" required>
+                            <option value="undefined" disabled>Select Type</option>
+                            <option *ngFor="let creference of customerReferenceList"
+                                value="{{creference.CReferenceId}}">
+                                {{creference.CReferenceName}}
+                            </option>
+                        </select>
+                        <div *ngIf="f.submitted &&CReferenceId.invalid" class="invalid-feedback">
+                            <div *ngIf="CReferenceId.errors.required">Customer Reference Type is required</div>
+                        </div>
+
+                    </div>
+                    <div class="col-xl-7">
+                        <input type="text" class="form-control" name="ReferenceValue" [(ngModel)]="model.ReferenceValue" #ReferenceValue="ngModel" [ngClass]="{ 'is-invalid': f.submitted && ReferenceValue.invalid }" required placeholder="Customer Reference Value">
+                        <div *ngIf="f.submitted &&ReferenceValue.invalid" class="invalid-feedback">
+                            <div *ngIf="ReferenceValue.errors.required">Customer Reference Value is required
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <p class="text-danger">{{responseMessage}}</p>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light">Submit</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,203 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="container-fluid" *ngIf="IsViewEnabled">
+    <app-page-title title="Blanket PO List" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">
+                        <div style="font-size: 15px;position: relative;font-weight: bold;">
+
+                            <ngb-tabset class="nav-bordered" type="tabs">
+                                <ngb-tab title="Search" class="nav-item d-none d-sm-inline-block">
+                                    <ng-template ngbTabContent>
+                                        <ng-template [ngTemplateOutlet]="Search"></ng-template>
+                                    </ng-template>
+                                </ngb-tab>
+
+
+
+                            </ngb-tabset>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card-box">
+                <!-- {{ "test" | monthTransform }} -->
+                <div class="row">
+                    <div style="padding-bottom:15px;" class="col-xl-12">
+                        <button class="btn btn-primary waves-effect addrrbtn" routerLink="/admin/Add-Blanket-PO"
+                           >
+                            <i class="remixicon-add-fill mrg-5"></i> Add PO
+                        </button>
+                        </div>
+                        </div>
+
+                <div class="row">
+                    <div class="col-xl-12">
+                        <!-- Table -->
+                        <div style="padding-right: 15px;" class="table-responsive">
+                            <table id="datatable-angular-po" datatable [dtOptions]="dtOptions" 
+                                class="table datatables dt-responsive hover nowrap">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Customer Blanket PO #</th>
+                                        <th>Customer Name</th>
+                                        <th>Customer PO #</th>
+                                        <th>Blanket PO Notes</th>
+                                        <th>Total Amount</th>
+                                        <th>Current Balance</th>
+                                        <th>Blanket PO Date</th>
+                                        <th>Is Lower Limit Reached</th>
+                                        <th>Lower Limit %</th>
+                                        <th>Customer Id</th>
+                                        <th>Active?</th>
+                                        <th>Created By</th>
+                                        <th>Action</th>
+
+
+
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tab Content -->
+<ng-template #Search>
+    <div class="row collapse pt-2 show">
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Customer Group</label>
+            <ng-select (change)="changeCustomerGroup($event)" [items]="customerGroupList"
+                [multiple]="false" [closeOnSelect]="true" [searchable]="true" [virtualScroll]="true"
+                placeholder="Select" bindLabel="CustomerGroupName" bindValue="CustomerGroupId"
+                [(ngModel)]="CustomerGroupId">
+            </ng-select>
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Customers</label>
+            <ng-select [items]="customers$ | async" [typeahead]="customersInput$" [loading]="loadingCustomers"
+                [multiple]="true" [closeOnSelect]="false" [searchable]="true" [virtualScroll]="true"
+                placeholder="Select" bindLabel="CustomerCode" bindValue="CustomerId" [(ngModel)]="CompanyName">
+                <ng-template ng-header-tmp *ngIf="CustomersList.length > 0">
+                    <button (click)="selectAll()" class="btn btn-sm btn-link">Select all</button>
+                </ng-template>
+                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                    <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                        <span class="ng-value-label">{{item.CompanyName}}</span>
+                        <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                    </div>
+                    <div class="ng-value" *ngIf="items.length > 1">
+                        <span class="ng-value-label">+ {{items.length - 1}} more...</span>
+                    </div>
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                    <input id="item-{{index}}" type="checkbox" [checked]="item$.selected" [ngModel]="item$.selected" />
+                    {{item.CompanyName}}
+                </ng-template>
+            </ng-select>
+
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Customer PO #</label>
+            <!-- <ng-autocomplete class="ng-autocomplete" placeholder="Enter Customer PO #" [data]="CustomerPONoList"
+                [isLoading]="isLoadingCustomerPONo" [searchKeyword]="keywordForCustomerPONo"
+                (selected)='selectCustomerPONoEvent($event)' [(ngModel)]="CustomerPONo"
+                (inputChanged)='onChangeCustomerPONoSearch($event)' [itemTemplate]="CustomerPONoitemTemplate"
+                [notFoundTemplate]="notFoundCustomerPONoTemplate" debounceTime="1000">
+            </ng-autocomplete>
+            <ng-template #CustomerPONoitemTemplate let-item>
+                <a [innerHTML]="item.CustomerPONo"></a>
+            </ng-template>
+
+            <ng-template #notFoundCustomerPONoTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+            </ng-template> -->
+             <input type="text" class="form-control" id="CustomerPONo" [(ngModel)]="CustomerPONo"
+                placeholder="Enter Customer PO #"> 
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Lower Limit Reached?</label>
+            <select class="custom-select" id="IsLowerLimitReached" [(ngModel)]="IsLowerLimitReached">
+                <option value="" selected>Select</option>
+                <option value="1">Yes</option>
+                <option value="2">No</option>
+            </select>
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2">
+            <label class="control-label">Active?</label>
+            <select class="custom-select" id="IsActive" [(ngModel)]="IsActive">
+                <option value="" selected>Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
+
+        <div class="col-12 col-sm-4 col-md-4 col-xl-2"  style="margin-top: 30px;">
+            <input type="button" class="btn btn-primary btn-md mr-1" value="Search" id="btnFilter"
+            (click)="onFilter($event)" />
+        <input type="button" class="btn btn-secondary btn-md" value="Clear" id="btnClear"
+            (click)="onClear($event)" />
+            </div>
+
+    </div>
+</ng-template>
+
+
+<div class="container-fluid" *ngIf="!IsViewEnabled">
+    <div class="account-pages mt-5 mb-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-5">
+                    <div class="card bg-pattern">
+
+                        <div class="card-body p-4">
+
+                            <div class="text-center">
+                                <a routerLink="/">
+                                    <span><img src="assets/projects/ah-group/full_logo.png" alt="" height="22"></span>
+                                </a>
+                            </div>
+
+                            <div class="text-center mt-4">
+                                <h1 class="text-error">401</h1>
+                                <h3 class="mt-3 mb-2">Access Denied!</h3>
+                                <p class="text-muted mb-3">You don't have permission to access this page.</p>
+
+                                <a routerLink="/admin/dashboard/ah-dashboard" class="btn btn-success waves-effect waves-light">Back
+                                    to Dashboard</a>
+                            </div>
+
+                        </div>
+                        <!-- end card-body -->
+                    </div>
+                    <!-- end card -->
+
+                </div>
+                <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+</div>

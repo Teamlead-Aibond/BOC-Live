@@ -1,0 +1,58 @@
+<div class="container-fluid">
+	<app-page-title
+		title="Stock In List"
+		[breadcrumbItems]="breadCrumbItems"
+	></app-page-title>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card-box">
+				<div class="row">
+					<div class="col-xl-12 mt-10 text-right">
+						<div class="button-list btn-group-sm fl-right mb-10">
+							<button
+								class="btn btn-secondary waves-effect"
+								routerLink="/admin/inventory/stockin-add"
+							>
+								<i class="remixicon-add-fill mrg-5"></i> Add Stock In
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<!-- Table -->
+						<div class="table-responsive">
+							<table
+								id="datatable-angular"
+								datatable
+								[dtOptions]="dtOptions"
+								class="table datatables dt-responsive hover nowrap"
+							>
+								<thead class="thead-light">
+									<tr>
+										<th>Part #</th>
+										<th>Serial #</th>
+										<th>RFID Tag #</th>
+										<th>Warehouse</th>
+										<th>Building</th>
+										<th>Room</th>
+										<th>Row</th>
+										<th>Shelf</th>
+										<th>Stocked In</th>
+										<th>Employee</th>
+									</tr>
+								</thead>
+								<!-- <tbody *ngIf="data?.length == 0">
+                                    <tr>
+                                        <td colspan="5" class="no-data-available">{{dataTableMessage}}</td>
+                                    </tr>
+                                <tbody> -->
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

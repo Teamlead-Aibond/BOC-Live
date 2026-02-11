@@ -1,0 +1,25 @@
+.padstock {
+    padding: 1.3rem 1.5rem 1rem;
+}
+
+.pad15 {
+    padding-top: 15px;
+}
+
+.pad30 {
+    padding-top: 30px;
+}
+
+.pad40 {
+    padding: 35px 40px;
+}
+
+table.dataTable.nowrap th,
+table.dataTable.nowrap td {
+    vertical-align: middle;
+}
+
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched {
+    border: 1px solid red;
+}

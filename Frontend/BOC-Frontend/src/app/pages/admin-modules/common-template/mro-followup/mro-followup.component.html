@@ -1,0 +1,53 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">{{followupName}}</h4>
+
+    <button type="button" class="close" (click)="modalRef.hide()">×</button>
+</div>
+<div class="modal-body p-4  modal-lg">
+    <form name="form" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+
+        <div class="form-group">
+            <label>From</label>
+            <input type="email" class="form-control" placeholder="From" [(ngModel)]="model.From" name="From"
+                #From="ngModel" [ngClass]="{ 'is-invalid': f.submitted && From.invalid }" required>
+            <div *ngIf="f.submitted &&From.invalid" class="invalid-feedback">
+                <div *ngIf="From.errors.required">From is required</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>To</label>
+            <input type="email" class="form-control" placeholder="To" [(ngModel)]="model.To" name="To" #To="ngModel"
+                [ngClass]="{ 'is-invalid': f.submitted && To.invalid }" required>
+            <div *ngIf="f.submitted &&To.invalid" class="invalid-feedback">
+                <div *ngIf="To.errors.required">To is required</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>CC</label>
+            <input type="email" class="form-control" placeholder="CC" name="CC" [(ngModel)]="model.CC">
+        </div>
+
+        <div class="form-group">
+            <label>Subject</label>
+            <input type="text" class="form-control" placeholder="Subject" [(ngModel)]="model.Subject" name="Subject"
+                #Subject="ngModel" [ngClass]="{ 'is-invalid': f.submitted && Subject.invalid }" required>
+            <div *ngIf="f.submitted &&Subject.invalid" class="invalid-feedback">
+                <div *ngIf="Subject.errors.required">Subject is required</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <!-- Editor -->
+            <app-ngx-editor placeholder="Message" class="linebreak" [spellcheck]="true" [height]="'250px'"
+                name="Message" [(ngModel)]="model.Message">
+            </app-ngx-editor>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button [disabled]="btnDisabled"
+                [ngClass]="{'class': (btnDisabled)? 'btn btn-success waves-effect waves-light': 'btn btn-light waves-effect waves-light'}"
+                class="btn btn-success waves-effect waves-light">Send</button>
+        </div>
+    </form>
+</div>

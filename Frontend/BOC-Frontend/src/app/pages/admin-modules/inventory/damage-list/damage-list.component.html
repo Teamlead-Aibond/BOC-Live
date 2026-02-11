@@ -1,0 +1,140 @@
+<div class="container-fluid">
+    <app-page-title title="Damage List" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card-box">
+                <div class="col-xl-12 text-right">
+                    <div class="btn-group btn-group-sm mb-2" role="group">
+                        <button class="btn btn-primary waves-effect raa" routerLink="/admin/inventory/damage-add">
+                            <i class="remixicon-add-fill mrg-5"></i> Create Damage</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <!-- Table -->
+                        <div class="table-responsive">
+                            <table id="datatable-angular" datatable [dtOptions]="dtOptions" class="table datatables dt-responsive hover nowrap">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <!-- <th width="5%">S.No</th> -->
+                                        <th width="13%">Part Serial Number</th>
+                                        <th width="10%">Damage Type</th>
+                                        <th width="10%">Date</th>
+                                        <th width="65%">Damage Comments</th>
+                                    </tr>
+                                </thead>
+                                <!-- <tbody *ngIf="data?.length == 0">
+                                    <tr>
+                                        <td colspan="5" class="no-data-available">No data!</td>
+                                    </tr>
+                                </tbody> -->
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Table Action -->
+<!-- <ng-template #TableAction>
+    <div class="btn-group dropdown" ngbDropdown>
+        <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" ngbDropdownToggle data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
+            <a class="dropdown-item" (click)="editCustomer(CustomerId)"><i
+                    class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Edit</a>
+            <a class="dropdown-item" (click)="delete()"><i
+                    class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Remove</a>
+        </div>
+    </div>
+</ng-template> -->
+
+<!-- Search -->
+<!-- <ng-template #Search>
+    <div class="row collapse pt-2 show">
+        <div class="col-12 col-sm-3 col-md-3 col-xl-2">
+            <label class="control-label">Customer Code</label>
+            <input type="text" [(ngModel)]="CustomerCode" class="form-control" id="CustomerCode" placeholder="Enter Customer Code">
+        </div>
+        <div class="col-12 col-sm-3 col-md-3 col-xl-2">
+            <label class="control-label">First Name</label>
+            <input type="text" [(ngModel)]="FirstName" class="form-control" id="Name" placeholder="Enter First Name">
+        </div>
+        <div class="col-12 col-sm-3 col-md-3 col-xl-2">
+            <label class="control-label">Last Name</label>
+            <input type="text" [(ngModel)]="LastName" class="form-control" id="LastName" placeholder="Enter Last Name">
+        </div>
+        <div class="col-12 col-sm-3 col-md-3 col-xl-2">
+            <label class="control-label">Customer Name</label>
+            <input type="text" [(ngModel)]="CompanyName" class="form-control" id="CompanyName" placeholder="Enter Customer Name">
+        </div>
+        <div class="col-12 col-sm-3 col-md-3 col-xl-2">
+            <label class="control-label">Status</label>
+            <select class="custom-select" id="Status" [(ngModel)]="Status">
+                <option value="" selected>Select</option>
+                <option value="1">Active</option>
+                <option value="0">Inactive</option>
+            </select>
+        </div>
+        <div class="col-12 col-sm-3 col-md-3 col-xl-2" style="padding-top:30px;">
+            <input type="button" class="btn btn-primary btn-md mr-1" value="Search" id="btnFilter" (click)="onFilter($event)" />
+            <input type="button" class="btn btn-secondary btn-md" value="Clear" id="btnClear" (click)="onClear($event)" />
+        </div>
+    </div>
+</ng-template> -->
+
+<!-- Statistics -->
+<!-- <ng-template #Statistics>
+    <div class="text-center mb-2">
+        <div class="row">
+            <div class="col-md-6 col-xl-7 mb-20">
+                <div class="row">
+                    <label class="control-label mt-1 ml-2">Select Date Range</label>
+                    <input class="selectpicker" type="text" ngxDaterangepickerMd [(ngModel)]="dateFilter" [showCustomRangeLabel]="true" [keepCalendarOpeningWithRange]="true" [timePicker]="false" [alwaysShowCalendars]="true" [ranges]="ranges" [linkedCalendars]="true" startKey="startDate"
+                        endKey="endDate" [isInvalidDate]="isInvalidDate" (ngModelChange)="onStat()" [showClearButton]="true" readonly>
+                    <div class="clear">&nbsp;</div>
+                    <div class="col-xl-6 text-left nopad">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-xl-3">
+                <div class="card-box">
+                    <i class="fas fa-users font-24"></i>
+                    <h3 class="text-primary">{{statData[0].TotalCount}}</h3>
+                    <p class="text-uppercase mb-1 font-13 font-weight-medium">TOTAL CUSTOMERS</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-3">
+                <div class="card-box">
+                    <i class="fas fa-user-check font-24"></i>
+                    <h3 class="text-success">{{statData[0].ActiveCount}}</h3>
+                    <p class="text-uppercase mb-1 font-13 font-weight-medium">ACTIVE CUSTOMERS</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-3">
+                <div class="card-box">
+                    <i class="fas fa-user-slash font-24"></i>
+                    <h3 class="text-warning">{{statData[0].InactiveCount}}</h3>
+                    <p class="text-uppercase mb-1 font-13 font-weight-medium">INACTIVE CUSTOMERS</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-3">
+                <div class="card-box">
+                    <i class="fe-delete font-24"></i>
+                    <h3 class="text-danger">{{statData[0].DeletedCount}}</h3>
+                    <p class="text-uppercase mb-1 font-13 font-weight-medium">DELETED CUSTOMERS</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template> -->

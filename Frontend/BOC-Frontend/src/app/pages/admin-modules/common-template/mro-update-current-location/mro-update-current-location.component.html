@@ -1,0 +1,138 @@
+<div class="modal-header modal-lg ht">
+  <h4 class="modal-title">Update Part Current Location</h4>
+  <button
+    type="button"
+    class="close"
+    (click)="modalRef.hide()"
+    aria-hidden="true"
+  >
+    ×
+  </button>
+</div>
+<div class="modal-body p-4 modal-lg">
+  <form name="form" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-12 col-md-12">
+          <div class="form-group">
+            <label for="Customer"
+              >Part Location : <span class="red">*</span>
+            </label>
+            <div class="row rc">
+              <div class="col-xl-6" *ngIf="VendorId != ah_groupId">
+                <label
+                  ><input
+                    style="margin-left: 10px"
+                    type="radio"
+                    name="Type"
+                    value="1"
+                    #Type="ngModel"
+                    (change)="setVendorShipAddress(model.Type)"
+                    [ngClass]="{ 'is-invalid': f.submitted && Type.invalid }"
+                    required
+                    [(ngModel)]="model.Type"
+                  />
+                  {{ VendorName }} (Vendor)
+                  <div
+                    *ngIf="f.submitted && Type.invalid"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="Type.errors.required">
+                      Shipping Type is required
+                    </div>
+                  </div>
+                </label>
+              </div>
+
+              <div class="col-xl-6">
+                <label
+                  ><input
+                    style="margin-left: 10px"
+                    type="radio"
+                    name="Type"
+                    value="0"
+                    #Type="ngModel"
+                    (change)="setAhShipAddress(model.Type)"
+                    [ngClass]="{ 'is-invalid': f.submitted && Type.invalid }"
+                    required
+                    [(ngModel)]="model.Type"
+                  />
+                  Aibond
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="row">
+                <div class="col-xl-12 col-md-12">
+
+                    <div class="form-group">
+                        <label for="Customer"></label>
+                        <div class="row rc">
+                            <div class="col-xl-6">
+                                <label>
+                                    {{CustomerName}}
+
+                                </label>
+
+                            </div>
+
+                            <div class="col-xl-6">
+
+                                <label>
+                                    {{VendorName}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div> -->
+      <div class="row">
+        <div class="col-xl-12 col-md-12">
+          <div class="form-group">
+            <label for="Customer"
+              >Part Address :
+              <span class="red">*</span>
+            </label>
+
+            <ng-select
+              [items]="customerAddressList"
+              name="AddressId"
+              placeholder="Select"
+              [(ngModel)]="model.AddressId"
+              #AddressId="ngModel"
+              [ngClass]="{ 'is-invalid': f.submitted && AddressId.invalid }"
+              required
+              bindLabel="title"
+              bindValue="AddressId"
+              [searchable]="true"
+            >
+            </ng-select>
+            <div
+              *ngIf="f.submitted && AddressId.invalid"
+              class="invalid-feedback"
+            >
+              <div *ngIf="AddressId.errors.required">
+                Ship From Address is required
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-secondary waves-effect"
+        (click)="modalRef.hide()"
+      >
+        Close
+      </button>
+      <button class="btn btn-success waves-effect waves-light">Submit</button>
+    </div>
+  </form>
+</div>

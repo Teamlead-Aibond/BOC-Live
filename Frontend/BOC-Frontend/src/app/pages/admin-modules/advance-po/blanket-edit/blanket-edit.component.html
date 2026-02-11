@@ -1,0 +1,295 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="container-fluid">
+    <app-page-title title="Blanklet PO Edit"></app-page-title>
+    <form [formGroup]="EditForm">
+
+
+        <div class="row">
+
+            <div class="col-xl-12 nopad">
+                <div class="col-xl-12 float-left">
+                    <div style="padding-left: 1rem;" class="card-box">
+                        <div class="form-horizontal ng-untouched ng-pristine ng-valid p-0" role="form">
+                            <div class="col-xl-12">
+                                <div class="row ml-2">
+                                    <div style="margin-bottom: 0.5rem;" class="form-group row">
+                                        <div class="col-sm-12 nopad">
+                                            <h4 class="bluetxt">Blanket PO Info</h4>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-xl-12 float-left">
+                                        <div class="form-group row mb-1">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Customer :
+                                            </label>
+                                            <div class="col-sm-8 mt-1">
+                                                {{result.CompanyName}}
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-1">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Created By
+
+                                                :</label>
+                                            <div class="col-sm-8 mt-1">
+                                                {{result.UserContactName}}
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-1">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Created Date
+
+                                                :</label>
+                                            <div class="col-sm-8 mt-1">
+                                                {{result.Created | date:'shortDate'}}
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group row mb-1">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Blanket PO Date
+                                                :</label>
+                                            <div class="col-sm-8 mt-1">
+                                                {{result.BlanketPODate}}
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-1">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Blanket PO
+                                                Atachment :
+                                            </label>
+
+                                            <div class="col-sm-8 mt-1">
+                                                <div class="row">
+                                                    <div class="col-sm-3 img-container">
+
+                                                        <span *ngIf="mimetype == 'image/jpg'">
+                                                            <a href="{{url}}" target="_blank">
+                                                                <img src="{{url}}" class="img-fluid" width="200"
+                                                                    alt="work-thumbnail">
+                                                            </a>
+
+                                                        </span>
+                                                        <span *ngIf="mimetype =='image/png'">
+                                                            <a href="{{url}}" target="_blank">
+                                                                <img src="{{url}}" class="img-fluid" width="200"
+                                                                    alt="work-thumbnail">
+                                                            </a>
+
+                                                        </span>
+                                                        <span *ngIf="mimetype == 'image/jpeg'">
+                                                            <a href="{{url}}" target="_blank">
+                                                                <img src="{{url}}" class="img-fluid" width="200"
+                                                                    alt="work-thumbnail">
+                                                            </a>
+
+                                                        </span>
+
+                                                        <span *ngIf="mimetype == 'application/pdf'">
+                                                            <a href="{{url}}" target="_blank">
+                                                                <img src="assets/images/attachment/PDF.jpg"
+                                                                    class="img-fluid" width="200" alt="work-thumbnail">
+                                                            </a>
+
+                                                        </span>
+                                                        <br>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                       
+                                       
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Customer PO #:
+                                                <span class="red">*</span>
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" type="text" id=""
+                                                    placeholder="Enter Customer PO #" formControlName="CustomerPONo">
+                                                <span class="text-danger"
+                                                    *ngIf="(EditFormControl.CustomerPONo.touched || submitted) && EditFormControl.CustomerPONo.errors?.required">
+                                                    Customer PO # is required
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-1">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Starting
+                                                Balance:
+                                                <span class="red">*</span></label>
+                                            <div class="col-sm-8">
+                                                <div class="row">
+                                                <div class="col-sm-4">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text"
+                                                            id="basic-addon1">{{Symbol}}</span></div>
+                                                    <input aria-describedby="basic-addon1" aria-label="Price" (change)="onCalculatBaseStartingBalance()"
+                                                        formControlName="StartingBalance" class="form-control" 
+                                                        inputmode="numeric" pattern="^\d+(\.\d{1,2})?$"  digitOnly
+                                                        decimal="true"
+                                                        placeholder="Starting Balance" type="text">
+                                                </div>
+                                                <span class="text-danger"
+                                                    *ngIf="(EditFormControl.StartingBalance.touched || submitted) && EditFormControl.StartingBalance.errors?.required">
+                                                    Starting Balance is required
+                                                </span>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend"><span class="input-group-text"
+                                                                id="basic-addon1">{{BaseCurrencySymbol}}</span></div>
+                                                        <input aria-describedby="basic-addon1" aria-label="BaseStartingBalance" readonly
+                                                            formControlName="BaseStartingBalance" class="form-control"
+                                                            placeholder="Base Starting Balance ({{BaseCurrencySymbol}})" type="text">
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+    
+                                        </div>
+                                        <div class="form-group row mb-1">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Current Balance :
+                                                <span class="red">*</span></label>
+                                            <div class="col-sm-8">
+                                                <div class="row">
+                                                <div class="col-sm-4">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text"
+                                                            id="basic-addon1">{{Symbol}}</span></div>
+                                                    <input aria-describedby="basic-addon1" aria-label="Price" (change)="onCalculatBaseCurrentBalance()"
+                                                        inputmode="numeric" pattern="^\d+(\.\d{1,2})?$" digitOnly
+                                                        decimal="true" formControlName="CurrentBalance"
+                                                        class="form-control" placeholder="Enter Current Balance"
+                                                        type="text">
+                                                </div>
+                                                <span class="text-danger"
+                                                    *ngIf="(EditFormControl.CurrentBalance.touched || submitted) && EditFormControl.CurrentBalance.errors?.required">
+                                                    Current Balance is required
+                                                </span>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend"><span class="input-group-text"
+                                                                id="basic-addon1">{{BaseCurrencySymbol}}</span></div>
+                                                        <input aria-describedby="basic-addon1" aria-label="BaseCurrentBalance" readonly
+                                                            formControlName="BaseCurrentBalance" class="form-control"
+                                                            placeholder="Base Current Balance ({{BaseCurrencySymbol}})" type="text">
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group row mb-1">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Total
+                                                Amount:
+                                                <span class="red">*</span></label>
+                                            <div class="col-sm-8">
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text"
+                                                            id="basic-addon1">{{Symbol}}</span></div>
+                                                    <input aria-describedby="basic-addon1" aria-label="Price" (change)="onCalculatBaseTotalAmount()"
+                                                        formControlName="TotalAmount" class="form-control" 
+                                                        inputmode="numeric" pattern="^\d+(\.\d{1,2})?$"  digitOnly
+                                                        decimal="true"
+                                                        placeholder="Total Amount" type="text">
+                                                </div>
+                                                <span class="text-danger"
+                                                    *ngIf="(EditFormControl.TotalAmount.touched || submitted) && EditFormControl.TotalAmount.errors?.required">
+                                                   Total Amount is required
+                                                </span>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text"
+                                                            id="basic-addon1">{{BaseCurrencySymbol}}</span></div>
+                                                    <input aria-describedby="basic-addon1" aria-label="BaseTotalAmount" readonly
+                                                        formControlName="BaseTotalAmount" class="form-control"
+                                                        placeholder="Base Total Amount ({{BaseCurrencySymbol}})" type="text">
+                                                </div>
+                                            </div>
+                                            </div>
+                                            </div>
+    
+                                        </div>
+                                        <div class="form-group row mb-1">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Blanket PO Notes
+
+                                                :</label>
+                                            <div class="col-sm-8">
+                                                <textarea class="form-control ng-pristine ng-valid ng-touched"
+                                                    formControlName="BlanketPONotes" name="BlanketPONotes"
+                                                    placeholder="Blanket PO Notes" rows="4"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row mb-1">
+                                            <label class="col-sm-4 col-form-label" for="simpleinput">Status
+                                                :</label>
+                                            <div class="col-sm-8">
+                                                <select class="custom-select" name="Status" formControlName="IsActive" class="form-control">
+                                                    <option value="" disabled>Select</option>
+                                                    <option value="1">
+                                                        Active
+                                                    </option>
+                                                    <option value="0">
+                                                        InActive
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <span class="text-danger"
+                                                *ngIf="(EditFormControl.IsActive.touched || submitted) && EditFormControl.IsActive.errors?.required">
+                                                Status is required
+                                            </span>
+                                        </div>
+
+
+                                        <div class="row mt-2 mb-2">
+                                            <div class="col-12 text-center">
+                                                <input type="button"
+                                                    class="btn btn-bordered-primary waves-effect width-md waves-light mr-1"
+                                                    (click)="onFormSubmit()" value="Submit" />
+                                                <input type="button"
+                                                    class="btn btn-bordered-secondary waves-effect width-md waves-light"
+                                                    (click)="onback()" value="Cancel" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+
+
+    </form>
+</div>

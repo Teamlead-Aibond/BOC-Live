@@ -1,0 +1,55 @@
+// .coolQRCode img {
+//     height: 144px !important;
+// }
+.rrn {
+    font-size: 17px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.qr-left {
+    width: 50%;
+    float: left;
+    font-size: 17px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.ntt {
+    padding: 0;
+}
+
+.print-container {
+    color: #000000 !important;
+    .print-content .ldiv {
+        color: #000000 !important;
+    }
+    .print-content .rdiv {
+        color: #000000 !important;
+        font-weight: bolder;
+    }
+}
+
+.qrtable th,
+.qrtable td {
+    color: #000000 !important;
+    text-align: left !important;
+    font-family: sans-serif !important;
+    padding: 2px 7px !important;
+    font-weight: bolder !important;
+    font-size: 28px !important;
+}
+
+// @media print {
+//     .print-content .ldiv {
+//         color: #000000 !important;
+//     }
+//     .print-content .rdiv {
+//         color: #000000 !important;
+//         font-weight: bolder;
+//     }
+// }

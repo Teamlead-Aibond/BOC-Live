@@ -1,0 +1,36 @@
+.tool-desc {
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.tool-desc {
+    border-top: 1px solid #e7eaed;
+    padding: 10px;
+    font-size: 14px;
+    line-height: 25px;
+    margin: 0 !important;
+}
+
+.tooltipwrap h2 {
+    //background-color: #1756ff;
+    padding: 10px;
+    font-size: 14px;
+    color: #fff !important;
+    margin-top: 5px;
+    line-height: 20px;
+    border-radius: 5px 5px 0px 0;
+}
+
+@media screen and (max-width:640px) {
+    .btn-group,
+    .btn-group-vertical {
+        position: relative;
+        display: table;
+        vertical-align: middle;
+    }
+    .btn.btn-sm {
+        margin-bottom: 5px;
+        width: 100%;
+    }
+}

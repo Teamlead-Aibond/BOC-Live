@@ -1,0 +1,30 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">Lock Vendor Shipping Address</h4>
+    <button type="button" class="close" (click)="onClose()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg">
+    <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="Form">
+
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="form-group">
+                    <label for="Customer mb-1">Lock Vendor Ship Address (optional): </label>
+                    <ng-select [items]="addressList" name="VendorShipIdLocked" placeholder="Select"
+                        formControlName="VendorShipIdLocked" required bindLabel="title" bindValue="AddressId"
+                        [searchable]="true">
+                    </ng-select>  
+                     <span class="text-danger"
+                        *ngIf="(FormControl.VendorShipIdLocked.touched || submitted) && FormControl.VendorShipIdLocked.errors?.required">
+                        Lock Vendor Ship Address (optional) is required
+                    </span>                
+                </div>
+            </div>
+        </div>
+
+        <div class="text-right pt-2 mt-0">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="onClose()">Close</button>
+            <button class="btn btn-success waves-effect waves-light ml-1">Save</button>
+        </div>
+
+    </form>
+</div>

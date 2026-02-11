@@ -1,0 +1,148 @@
+/* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+#chart {
+    max-width: 650px;
+    margin: 35px auto 0;
+}
+
+.tsy {
+    font-size: 16px;
+    margin: 0px 0 0 0;
+    padding: 0 0 20px;
+    line-height: 25px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.bluedot {
+    background: #008ffb;
+    color: #008ffb;
+    height: 12px !important;
+    width: 12px;
+    left: -1px;
+    top: 6px;
+    border-width: 0px;
+    border-color: white;
+    border-radius: 12px;
+    display: inline-block;
+    position: relative;
+}
+
+tfoot {
+    color: #fff;
+    background-color: #38414a;
+    border-color: #dee2e6;
+}
+
+.table {
+    border-left: 1px solid #dee2e6;
+    border-right: 1px solid #dee2e6;
+    border-bottom: 1px solid #dee2e6;
+}
+
+tfoot td,
+thead th {
+    font-size: 16px;
+}
+
+.tab-bottom {
+    padding: 0 13px;
+}
+
+.rsr {
+    font-size: 1.6rem;
+    padding-bottom: 15px;
+    text-align: center;
+    text-shadow: 1px 0 rgb(0 0 0 / 50%);
+}
+
+@media screen and (max-width:1280px) {
+    .header-title {
+        font-size: 1rem !important;
+    }
+}
+
+.sidebar-heading {
+    padding: 25px;
+    color: #fff;
+    text-align: center;
+    width:430px;
+}
+
+table.datatables {
+    margin-top: 15px !important;
+}
+
+.button-list {
+    position: relative;
+    z-index: 1;
+}
+
+.searchbt {
+    margin-top: 29px;
+}
+
+.customerbg {
+    font-weight: bold;
+    padding: 5px 10px;
+    background-color: #fbcfd6;
+    border: 1px solid #efa0ac;
+    color: #333333;
+    float: center;
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact !important;
+}
+
+.topic {
+    // background-color: #000;
+    font-weight: bold;
+    padding: 5px 10px;
+    background-color: #fbcfd6;
+    border: 1px solid #efa0ac;
+    color: #333333;
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact !important;
+    float: center !important;
+}
+
+.heading {
+    color: #09518e !important;
+    background-color: #fff;
+    border-top: 0px solid #333 !important;
+    border-bottom: 0px solid #333 !important;
+    -webkit-print-color-adjust: exact !important;
+    text-align: center;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.thead-light {
+    background-color: #09518e !important;
+    color: #FFFFFF !important;
+}
+
+.year-summary {
+    color: #6c757d;
+    background-color: #f1f5f7;
+    padding: 0.85rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+    font-size: 16px;
+    font-weight: 500;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.year-cell {
+    padding: 0.75rem 0.1rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+    color: #6c757d;
+    font-size: 0.9rem;
+    font-weight: 400;
+    display: flex;
+    width: 100%;
+}

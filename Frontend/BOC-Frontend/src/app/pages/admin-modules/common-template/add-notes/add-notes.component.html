@@ -1,0 +1,106 @@
+<div class="modal-header">
+    <h4 class="modal-title">Add Notes</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4">
+    <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="NotesForm">
+        <input type="hidden" class="form-control" name="IdentityType" formControlName="IdentityType">
+        <input type="hidden" class="form-control" name="IdentityId" formControlName="IdentityId">
+        <div class="row" *ngIf="IdentityType!=5&&IdentityType!=6&&IdentityType!=4&&IdentityType!=7&&IdentityType!=8">
+            <div class="col-md-6">
+
+                <div class="form-group">
+                    <label for="field-2" class="control-label">Type
+                        <span class="red">*</span>
+                    </label>
+
+
+                    <select class="custom-select" name="NotesType" formControlName="NotesType">
+                        <option value="" disabled>Select</option>
+                        <option *ngFor="let Note of Notes" value="{{Note.NotesType}}">
+                            {{Note.NotesTypeValue}}
+                        </option>
+                    </select>
+
+
+                    <span class="text-danger" *ngIf="(NotesFormControl.NotesType.touched || submitted) && NotesFormControl.NotesType.errors?.required">
+                        Type is required
+                    </span>
+                </div>
+            </div>
+
+
+        </div>
+        <input type="hidden" class="form-control" *ngIf="IdentityType==5||IdentityType==6||IdentityType==4||IdentityType==7||IdentityType==8" name="NotesType" formControlName="NotesType">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group no-margin">
+                    <label for="field-7" class="control-label">Notes
+                        <span class="red">*</span>
+                    </label>
+                    <textarea class="form-control" id="field-7" placeholder="Notes" name="Notes" formControlName="Notes"></textarea>
+                    <span class="text-danger" *ngIf="(NotesFormControl.Notes.touched || submitted) && NotesFormControl.Notes.errors?.required">
+                        Notes is required
+                    </span>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row">
+            <div class="col-12">
+
+                <h5 style="margin: 0;" class="m-t-0">Attachment</h5>
+                <div class="col-sm-3">
+                    <span *ngIf="FileMimeType == 'application/pdf'">
+                        <a href="{{FileUrl}}" target="_blank">
+                            <img src="assets/images/attachment/{{attachmentThumb['application/pdf'].thumb}}"
+                                class="img-fluid" ngbTooltip="{{FileName}}" width="200" alt="work-thumbnail">
+                        </a>
+                    </span>
+                    <span *ngIf="FileMimeType == 'image/jpeg'">
+                        <a href="{{FileUrl}}" target="_blank">
+                            <img src="{{FileUrl}}" class="img-fluid" ngbTooltip="{{FileName}}" width="200"
+                                alt="work-thumbnail">
+                        </a>
+                    </span>
+                    <span *ngIf="FileMimeType == 'image/png'">
+                        <a href="{{FileUrl}}" target="_blank">
+                            <img src="{{FileUrl}}" class="img-fluid" ngbTooltip="{{FileName}}" width="200"
+                                alt="work-thumbnail">
+                        </a>
+                    </span>
+                    <span *ngIf="FileMimeType== 'application/msword'">
+                        <a href="{{FileUrl}}" target="_blank">
+                            <img src="assets/images/attachment/{{attachmentThumb['application/msword'].thumb}}"
+                                class="img-fluid" ngbTooltip="{{FileName}}" width="200" alt="work-thumbnail">
+                        </a>
+                    </span>
+                    <span *ngIf="FileMimeType == 'application/vnd.ms-excel'">
+                        <a href="{{FileUrl}}" target="_blank">
+                            <img src="assets/images/attachment/{{attachmentThumb['application/vnd.ms-excel'].thumb}}"
+                                class="img-fluid" ngbTooltip="{{FileName}}" width="200" alt="work-thumbnail">
+                        </a>
+                    </span>
+                    <span *ngIf="FileMimeType == 'text/csv'">
+                        <a href="{{FileUrl}}" target="_blank">
+                            <img src="assets/images/attachment/{{attachmentThumb['text/csv'].thumb}}" class="img-fluid"
+                                ngbTooltip="{{FileName}}" width="200" alt="work-thumbnail">
+                        </a>
+                    </span>
+                    <br>
+                </div>
+                <input type="file" class="form-control" name="Attachment" (change)="fileProgress($event)" formControlName="Attachment">
+                <i class="fa fa-spinner fa-spin" *ngIf="spinner"></i>
+
+            </div>
+        </div> -->
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light"
+            [disabled] = "btnDisabled"
+        [ngClass]="{'class': (btnDisabled)? 'btn btn-success waves-effect waves-light': 'btn btn-light waves-effect waves-light'}"
+             *ngIf="showsave">Save</button>
+        </div>
+    </form>
+</div>

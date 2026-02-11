@@ -1,0 +1,42 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">MRO QR Code</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body modal-lg {{containerClass}}">
+    <form class="form" role="form" (ngSubmit)="onSubmit()">
+
+        <div class="row print-content" id="print-content">
+            <div class="col-12">
+                <!--<div class="col-4 float-left">-->
+                <div style="width:35%;float:left">
+                    <qrcode cssClass="coolQRCode" qrdata="{{MRONo}}" [width]="256"
+                        [errorCorrectionLevel]="'M'" [elementType]="'img'">
+                    </qrcode>
+                </div>
+                <!-- <div class="col-8 float-left"> -->
+                <div style="width:65%;float:left">
+                    <div class="row">
+                        <div style="width:99%;float:left">
+                            <div class="ldiv"
+                                style="color: #000000;width:49%;float:left;font-family:Roboto; font-weight:600; font-size:26px;font-weight: 500;margin-top:25px;padding: 10px 0 10px 1%;">
+                               MRO No:</div>
+                            <div class="rdiv"
+                                style="color: #000000;width:50%;float:left;font-family:Roboto; font-weight:600; font-size: 26px; font-weight: 500;margin-top:25px; margin-left: 0; padding: 10px 0;">
+                                {{MRONo}}</div>
+
+                         
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="text-right pt-2 mt-0">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light ml-1">Print</button>
+            <!-- <button ngbTooltip="Export to PDF" placement="top" value="Download" class="btn btn-icon waves-effect" (click)="generatePDF()" title="Export to PDF">
+                <i class="mdi mdi-file-pdf-outline"></i></button> -->
+        </div>
+    </form>
+</div>

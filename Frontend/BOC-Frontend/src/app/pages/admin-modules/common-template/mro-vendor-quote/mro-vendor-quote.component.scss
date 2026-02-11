@@ -1,0 +1,148 @@
+.input-group-text {
+    padding: 0.45rem 0.5rem !important;
+}
+
+.pon {
+    position: relative;
+    top: -2px;
+}
+
+.form-group label {
+    padding-bottom: 6px;
+}
+
+.approve-quotedetail-headbg {
+    width: 100%;
+    float: left;
+    background: #333a47;
+    margin: 0;
+    padding: 0;
+}
+
+.approve-quotedetail-headbg .col,
+.approve-quotedetail-headbg .col-1,
+.approve-quotedetail-headbg .col-2 {
+    color: #98a6ad;
+    background-color: #323a46;
+    border: 1px solid #424c5c;
+    border-right: 0px;
+    padding: 0.85rem 0.55rem;
+    width: 100%;
+    margin: 0;
+}
+
+.redclose,
+.red {
+    line-height: 15px;
+    position: relative;
+    top: 4px;
+}
+
+.approve-quotedetail-even,
+.approve-quotedetail-odd {
+    width: 100%;
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+
+.col-onefive {
+    flex: 0 0 12.48333333333%;
+    max-width: 12.48333333333%;
+}
+
+// .approve-quotedetail-odd,
+// .approve-quotedetail-even {
+//     width: 101%;
+//     background: #f2f5f8;
+// }
+.approve-quotedetail-odd .col,
+.approve-quotedetail-odd .col-1,
+.approve-quotedetail-odd .col-2 {
+    padding: 0.85rem 0.55rem;
+    vertical-align: top;
+    background-color: #f1f5f7;
+    border: 1px solid #dee2e6;
+    border-right: 0px;
+    border-bottom: 0;
+    margin: 0;
+}
+
+.approve-quotedetail-even .col,
+.approve-quotedetail-even .col-1,
+.approve-quotedetail-even .col-2 {
+    padding: 0.85rem 0.55rem;
+    margin: 0;
+    vertical-align: top;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-right: 0px;
+}
+
+.approve-quotedetail-even .col:last-child,
+.approve-quotedetail-odd .col:last-child,
+.approve-quotedetail-even .col-1:last-child,
+.approve-quotedetail-odd .col-1:last-child,
+.approve-quotedetail-even .col-2:last-child,
+.approve-quotedetail-odd .col-2:last-child {
+    border-right: 1px solid #dee2e6;
+}
+
+.approve-quotedetail {
+    padding: 13px 0 13px 0px;
+}
+
+.subouter {
+    background: #f1f5f7;
+    border: 1px solid #dee2e6;
+    border-top: 0;
+    width: 100%;
+    margin: 0;
+}
+
+.subtotal-block .col,
+.subtotal-block .col-1,
+.subtotal-block .col-2 {
+    padding: 0.85rem 0.55rem;
+    vertical-align: top;
+    border-left: 1px solid #dee2e6;
+    border-right: 0px;
+    border-bottom: 0;
+}
+
+.subtotal-block .col:last-child,
+.subtotal-block .col-1:last-child,
+.subtotal-block .col-2:last-child {
+    border-left: 0px;
+}
+
+.subtotal-block {
+    width: 28%;
+    float: left;
+    padding-right: 15px;
+}
+
+.subtotal-left {
+    width: 71.1%;
+    float: left;
+}
+
+.pad5 {
+    padding: 5px;
+}
+
+.ng-autocomplete {
+    width: 100%;
+}
+
+.input-text-only {
+    padding: 0px !important;
+    margin: 0px !important;
+    border: none;
+    resize: none;
+}
+
+.input-group-text1 {
+    padding: 5px 3px 0px 0px !important;
+    font-weight: bold;
+}

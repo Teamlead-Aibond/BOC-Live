@@ -1,0 +1,662 @@
+<div class="container-fluid" *ngIf="IsSOViewEnabled">
+  <app-page-title
+    title="Sales Quotes List"
+    [breadcrumbItems]="breadCrumbItems"
+  ></app-page-title>
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div class="card-box">
+        <div class="row">
+          <div class="col-xl-3 sales-left d-print-none">
+            <div class="row" style="color: red">
+              {{ ResponseMessage }}
+            </div>
+            <h2>
+              <div
+                class="btn-group btn-group-sm all-togg mbg"
+                style="padding-top: 10px"
+              >
+                <ng-template [ngTemplateOutlet]="SearchBar"></ng-template>&nbsp;
+              </div>
+              &nbsp;
+
+              <div
+                class="btn-group btn-group-sm all-togg mbg"
+                style="padding-top: 10px"
+              >
+                <button
+                  *ngIf="IsSOEmailEnabled"
+                  ngbTooltip="Email"
+                  placement="top"
+                  class="btn btn-icon waves-effect mailpad"
+                  title="Send Email"
+                  type="button"
+                  (click)="onSendEmailFromList()"
+                >
+                  <i class="mdi mdi-email-outline"></i>
+                </button>
+              </div>
+              &nbsp;&nbsp;
+              <div
+                class="btn-group btn-group-sm all-togg mbg"
+                style="padding-top: 10px"
+              >
+                <button
+                  *ngIf="IsSOPrintPDFEnabled"
+                  style="padding: 8px 12px 3px"
+                  ngbTooltip="Print"
+                  onclick="javascript:window.print()"
+                  placement="top"
+                  class="btn btn-icon waves-effect"
+                  title="Print"
+                >
+                  <i style="font-size: 16px" class="fe-printer"></i>
+                </button>
+              </div>
+              &nbsp;&nbsp;
+
+              <div
+                class="btn-group btn-group-sm all-togg mbg"
+                style="padding-top: 10px"
+              >
+                <button
+                  *ngIf="IsSOExcelEnabled"
+                  ngbTooltip="Excel"
+                  placement="top"
+                  class="btn btn-icon waves-effect"
+                  title="Excel"
+                  type="button"
+                  (click)="exportAsXLSX()"
+                >
+                  <i style="font-size: 20px" class="far fa-file-excel"></i>
+                </button>
+              </div>
+
+              <div
+                class="btn-group btn-group-sm mr-10 float-right"
+                role="group"
+              >
+                <button
+                  *ngIf="IsSOAddEnabled"
+                  class="btn btn-primary waves-effect allsalebtn"
+                  (click)="loadTemplate('add')"
+                >
+                  <i
+                    style="top: 1px; position: relative"
+                    class="remixicon-add-fill font-weight-bold"
+                  ></i>
+                  Add
+                </button>
+              </div>
+            </h2>
+
+            <div class="scrollbar">
+              <div class="table-responsive">
+                <table
+                  id="datatable-angular"
+                  datatable
+                  [dtOptions]="dtOptions"
+                  class="table table-hover mb-0"
+                >
+                  <thead>
+                    <tr>
+                      <!-- <th>#</th> -->
+                      <th>Sales Quotes List</th>
+                      <th>Quote No</th>
+                      <th>Customer Name</th>
+                      <th>Status</th>
+                      <th>Created</th>
+                      <th>Grand Total</th>
+                      <th>Customer Id</th>
+                      <th>RRNo</th>
+                      <th>Quote Type</th>
+                      <th>Description</th>
+                      <th>Quote Date</th>
+                      <th>Quote Date To</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-9 sales-right">
+            <ng-container [ngTemplateOutlet]="templateSettings"></ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #SearchBar>
+  <div class="btn-group dropdown" ngbDropdown>
+    <a
+      (click)="EnableSearch()"
+      class="dropdown-toggle arrow-none btn btn-icon btn-sm"
+      ngbDropdownToggle
+      data-toggle="dropdown"
+      aria-expanded="false"
+      ><i class="remixicon-search-line"></i> Search</a
+    >
+    <div
+      class="dropdown-menu dropdown-menu-right mt-0"
+      ngbDropdownMenu
+      *ngIf="showSearch"
+    >
+      <div class="row collapse show searchbox">
+        <!-- Row 1-->
+
+        <div class="col-12 col-xl-6">
+          <label class="control-label">Repair Request # </label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Repair Request #"
+            [(ngModel)]="RRNo"
+          />
+        </div>
+
+        <div class="col-12 col-xl-6">
+          <label class="control-label">Sales Quote #</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Sales Quote #"
+            [(ngModel)]="QuoteNo"
+          />
+        </div>
+
+        <div class="col-12 col-xl-6 mt-15">
+          <label class="control-label">Customer</label>
+          <ng-select
+            [items]="customerList"
+            [searchable]="true"
+            [(ngModel)]="CustomerId"
+            placeholder="Select"
+            bindLabel="title"
+            bindValue="CustomerId"
+          >
+          </ng-select>
+        </div>
+
+        <div class="col-12 col-xl-6 mt-15">
+          <label class="control-label">Quotes Description</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="Description"
+            placeholder="Enter Quote Description"
+          />
+        </div>
+        <div class="col-12 col-xl-6 mt-15">
+          <label class="control-label">Quotes Date From</label>
+          <div class="input-group clockpicker">
+            <input
+              ngbDatepicker
+              class="form-control"
+              [(ngModel)]="QuoteDate"
+              autoClose="false"
+              placeholder="MM/DD/YYYY"
+              #Quotes_Date_From="ngbDatepicker"
+              (ngModelChange)="QuoteDateFormat(QuoteDate)"
+            />
+            <div class="input-group-append" (click)="Quotes_Date_From.toggle()">
+              <span class="input-group-text"
+                ><i class="mdi mdi-calendar"></i
+              ></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-xl-6 mt-15">
+          <label class="control-label">Quotes Date To</label>
+          <div class="input-group clockpicker">
+            <input
+              ngbDatepicker
+              class="form-control"
+              [(ngModel)]="QuoteDateTo"
+              autoClose="false"
+              placeholder="MM/DD/YYYY"
+              #Quotes_Date_To="ngbDatepicker"
+              (ngModelChange)="QuoteDateToFormat(QuoteDateTo)"
+            />
+            <div class="input-group-append" (click)="Quotes_Date_To.toggle()">
+              <span class="input-group-text"
+                ><i class="mdi mdi-calendar"></i
+              ></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-6 mt-15">
+          <label class="control-label">Quotes Type</label>
+          <select class="custom-select" [(ngModel)]="QuoteType">
+            <option value="undefined">Select</option>
+            <option
+              *ngFor="let Type of QuoteTypeList"
+              value="{{ Type.Quote_TypeId }}"
+            >
+              {{ Type.Quote_TypeName }}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-12 col-xl-6 mt-15">
+          <label class="control-label">Status</label>
+          <select class="custom-select" [(ngModel)]="Status">
+            <option value="undefined">Select all except Quoted</option>
+            <option
+              *ngFor="let SQ_status of SalesQuoteStatusList"
+              value="{{ SQ_status.SalesQuote_StatusId }}"
+            >
+              {{ SQ_status.SalesQuote_StatusName }}
+            </option>
+          </select>
+        </div>
+        <div class="col-12 col-xl-6 mt-15">
+          <input
+            type="button"
+            class="btn btn-primary btn-md mr-2"
+            value="Search"
+            (click)="onFilter($event)"
+          />
+          <input
+            type="button"
+            class="btn btn-secondary btn-md mr-2"
+            value="Clear"
+            (click)="onClear($event)"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #viewTemplate>
+  <div class="row mb-10 d-print-none">
+    <div class="col-xl-6 col-md-6">
+      <h2>Sales Quote #{{ number }}</h2>
+    </div>
+    <div class="col-xl-6 col-md-6">
+      <div class="btn-group btn-group-sm float-right" role="group">
+        <button
+          ngbTooltip="Edit"
+          *ngIf="IsSOEditEnabled"
+          placement="top"
+          class="btn btn-icon waves-effect"
+          title="Edit"
+          (click)="loadTemplate('edit', QuoteId)"
+        >
+          <i class="remixicon-pencil-line"></i>
+        </button>
+
+        <button
+          ngbTooltip="Export to PDF"
+          placement="top"
+          value="Download"
+          class="btn btn-icon waves-effect"
+          (click)="generatePDF()"
+          title="Export to PDF"
+        >
+          <i class="mdi mdi-file-pdf-outline"></i>
+        </button>
+
+        <button
+          *ngIf="IsSOPrintPDFEnabled"
+          ngbTooltip="Print"
+          onclick="javascript:window.print()"
+          placement="top"
+          class="btn btn-icon waves-effect"
+          title="Print"
+        >
+          <i class="fe-printer"></i>
+        </button>
+
+        <button
+          *ngIf="SalesQuoteInfo.Status != 3 && IsSOEmailEnabled"
+          ngbTooltip="Email "
+          placement="top "
+          class="btn btn-icon waves-effect"
+          title="Email"
+          type="button"
+          (click)="QuoteEmail()"
+        >
+          <i class="mdi mdi-email-outline"></i>
+        </button>
+
+        <button
+          *ngIf="IsConvertQuoteToSOEnabled"
+          ngbTooltip="Convert To SO"
+          placement="top"
+          class="btn btn-icon waves-effect"
+          title="Convert To SO"
+          (click)="ConvertSO()"
+        >
+          Convert SO
+        </button>
+        <!-- <button ngbTooltip="Shipping History " placement="top" class="btn btn-icon waves-effect"
+                    title="Shipping History ">
+                    <i class="mdi mdi-history "></i></button> -->
+        <button
+          *ngIf="RRId == 0 && IsSODeleteEnabled"
+          (click)="DeleteQuote()"
+          ngbTooltip="Delete"
+          placement="top"
+          class="btn btn-icon bg-danger waves-effect"
+          title="Delete "
+        >
+          <i class="mdi mdi-delete-outline"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-20">
+    <div class="col-12">
+      <div class="card-box nopad">
+        <div
+          id="contentToConvert"
+          [ngClass]="
+            hideAddress == false ? 'col-12 pdfwrap black' : 'col-12 pdfwrap'
+          "
+        >
+          <!-- Logo & title -->
+
+          <div class="row pdfex">
+            <div class="col-sm-4 col-xl-4">
+              <div class="clearfix">
+                <div class="float-left">
+                  <img
+                    class="img-fluid"
+                    src="assets/images/ah_logo-sm.png"
+                    alt=""
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-8 col-xl-8 text-right">
+              <h2 class="sq">SALES QUOTE</h2>
+              <h1 *ngIf="SalesQuoteInfo.RRId != 0">RR # {{ RRnumber }}</h1>
+              <h1 *ngIf="SalesQuoteInfo.RRId == 0">QT # {{ QTnumber }}</h1>
+
+              <p>
+                {{ SalesQuoteInfo.QuoteDate }}<br />{{
+                  AHAddressList.StreetAddress
+                }}
+                {{ AHAddressList.SuiteOrApt }}, {{ AHAddressList.City }},
+                <br />{{ AHAddressList.StateName }},
+                {{ AHAddressList.CountryName }} - {{ AHAddressList.Zip }}
+                <br />PH: {{ AHAddressList.PhoneNoPrimary }} <br />{{
+                  AHAddressList.Fax
+                }}
+              </p>
+            </div>
+          </div>
+          <!-- end row -->
+
+          <div class="row">
+            <div class="col-xl-6 col-lg-6">
+              <div class="table-responsive">
+                <table class="table mt-2 table-bordered mb-0 print-table">
+                  <thead class="thead-light">
+                    <tr>
+                      <th colspan="2">Sold-To:</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <h5>{{ SalesQuoteInfo.CompanyName }}</h5>
+                        <p>Quotes</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="col-xl-6 col-lg-6">
+              <div class="table-responsive">
+                <table class="table mt-2 table-bordered mb-0 print-table">
+                  <thead class="thead-light">
+                    <tr>
+                      <th colspan="2">Ship-To:</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <h5>{{ SalesQuoteInfo.CompanyName }}</h5>
+                        <p>
+                          {{ ShippingAddress.StreetAddress }}
+                          {{ ShippingAddress.SuiteOrApt }},{{
+                            ShippingAddress.City
+                          }}<br />
+                          {{ ShippingAddress.StateName }},
+                          {{ ShippingAddress.CountryName }} -
+                          {{ ShippingAddress.Zip }}
+                        </p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt3" *ngIf="SalesQuotesCustomerRef.length > 0">
+            <div class="col-12">
+              <div class="table-responsive">
+                <table class="table table-bordered mb-0 print-table">
+                  <thead
+                    class="thead-light"
+                    *ngFor="let item of SalesQuotesCustomerRef; let i = index"
+                  >
+                    <tr>
+                      <th>{{ item.ReferenceLabelName }}</th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    *ngFor="let item of SalesQuotesCustomerRef; let i = index"
+                  >
+                    <tr>
+                      <td>{{ item.ReferenceValue }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt3">
+            <div class="col-12">
+              <div class="table-responsive">
+                <table class="table table-bordered mb-0 idl print-table">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>Item</th>
+                      <th>Description</th>
+                      <th>Lead Time</th>
+                      <th>Warranty</th>
+                      <th>Unit Price</th>
+                      <th>Qty</th>
+                      <th>Line Total</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngFor="let item of QuoteItem; let i = index">
+                    <tr>
+                      <td>{{ item.PartNo }}</td>
+                      <td>{{ item.PartDescription }}</td>
+                      <td>
+                        <p *ngIf="item.LeadTime != ''">
+                          {{ item.LeadTime }} Days
+                        </p>
+                        <p *ngIf="item.LeadTime == ''">-</p>
+                      </td>
+                      <td>{{ item.WarrantyPeriod | monthTransform }}</td>
+                      <td>$ {{ item.Rate }}</td>
+                      <td>{{ item.Quantity }}</td>
+                      <td>$ {{ item.Price }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-xl-12">
+              <div
+                class="col-xl-4 float-left"
+                *ngIf="RRId != 0 && SalesQuoteInfo.RouteCause != ''"
+              >
+                <div class="row">
+                  <div class="col-12 nopad mb20">
+                    <h5>Root Cause</h5>
+                    {{ SalesQuoteInfo.RouteCause || "-" }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="text-right">
+                    <div class="table-responsive">
+                      <table class="table table-borderless bill mb-0">
+                        <tbody>
+                          <tr>
+                            <th width="90%" align="right" scope="row">
+                              <p><b>Sub Total :</b></p>
+                            </th>
+                            <td>
+                              <p>$ {{ SalesQuoteInfo.TotalValue }}</p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th align="right" scope="row">
+                              <p><b>AH Processing Fee :</b></p>
+                            </th>
+                            <td>
+                              <p>$ {{ SalesQuoteInfo.ProcessFee }}</p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th align="right" scope="row">
+                              <p>
+                                <b
+                                  >Total Tax ({{ SalesQuoteInfo.TaxPercent }}.00
+                                  %):</b
+                                >
+                              </p>
+                            </th>
+                            <td>
+                              <p>$ {{ SalesQuoteInfo.TotalTax }}</p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th align="right" scope="row">
+                              <p><b>Discount :</b></p>
+                            </th>
+                            <td>
+                              <p>$ {{ SalesQuoteInfo.Discount }}</p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th align="right" scope="row">
+                              <p><b>Shipping :</b></p>
+                            </th>
+                            <td>
+                              <p>$ {{ SalesQuoteInfo.ShippingFee }}</p>
+                            </td>
+                          </tr>
+
+                          <tr class="grandouter">
+                            <th align="right" scope="row">
+                              <p><b>Grand Total :</b></p>
+                            </th>
+                            <td>
+                              <p>$ {{ SalesQuoteInfo.GrandTotal }}</p>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <!-- end col -->
+              </div>
+
+              <div
+                class="col-xl-4 float-left"
+                *ngIf="SalesQuoteInfo.Notes != ''"
+              >
+                <div class="row">
+                  <div class="col-12 mb20">
+                    <h5>Important Notes</h5>
+                    <p>{{ SalesQuoteInfo.Notes || "-" }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- end row -->
+          <div class="row" *ngIf="IsSONotesEnabled">
+            <div class="col-xl-12">
+              <div class="col-sm-7 noteswrap">
+                <div class="clearfix pt-5">
+                  <h6>Shipping Notes:</h6>
+                  <p>
+                    {{ settingsView.DefaultQuoteNote }}
+                  </p>
+                  <p *ngFor="let note of NotesList">
+                    {{ note.Notes }}
+                  </p>
+                  <p *ngFor="let note of RRNotesList">
+                    {{ note.Notes }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-12 noteswrap text-center">
+              <div class="thank-txt">
+                <p class="leadtime">
+                  Lead-time is based on parts availability at time of quote and
+                  is subject to change. Repair quotes are estimates based on
+                  evaluation at time of quote and are subject to change.
+                  Priced-PO or valid Credit Card must be confirmed prior to
+                  shipment of your approved / repaired item. Please reference
+                  our Work Order # on your PO if possible. We accept Mastercard
+                  and Visa credit cards.
+                </p>
+
+                <p class="thank2">
+                  <b>Thank You for using Aibond.</b>
+                </p>
+                <p class="thank2">
+                  <b
+                    >Please visit us at {{ AHGroupWebsite }} for more
+                    information about other services we offer!</b
+                  >
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ngx-spinner
+  #ngxSpinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-spin-clockwise"
+  [fullScreen]="true"
+></ngx-spinner>

@@ -1,0 +1,511 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="sideNavcontainer">
+    <app-page-title title="View Purchase Orders"></app-page-title>
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card-box">
+
+                <div class="row">
+                    <div class="col-xl-12 sales-right">
+                        <div class="row mb-10 d-print-none">
+                            <div class="col-xl-6 col-sm-6">
+                                <h2>Purchase Order #{{number}}</h2>
+                            </div>
+                            <div class="col-xl-6 col-sm-6">
+                                <div class="btn-group btn-group-sm float-right" role="group">
+
+                                    <button ngbTooltip="Export to PDF" placement="top" value="Download"
+                                        class="btn btn-icon waves-effect" (click)="pdf()" title="Export to PDF">
+                                        <i class="mdi mdi-file-pdf-outline"></i></button>
+                                    <button ngbTooltip="Print" (click)="onprint()" placement="top"
+                                        class="btn btn-icon waves-effect" title="Print">
+                                        <i class="fe-printer "></i></button>
+                                    <button routerLink="/vendor/po-list" ngbTooltip="Back To List" placement="top"
+                                        class="btn btn-icon bg-secondary waves-effect" title="Back To List">
+                                        <i class="fas fa-arrow-left"></i></button>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-20">
+                            <div class="col-12">
+                                <div class="card-box nopad">
+                                    <div id="contentToConvert" style="padding-top: 15px;"
+                                        [ngClass]="(hideAddress==false)?'col-12 pdfwrap black':'col-12 pdfwrap'">
+                                        <!-- Logo & title -->
+
+                                        <div class="row pdfex">
+                                            <div class="col-sm-4 col-xl-4">
+                                                <div class="clearfix">
+                                                    <div class="float-left ">
+                                                        <img class="img-fluid logo" src="assets/images/ah_logo.png"
+                                                            alt="">
+                                                        <div class="mt-6 row" *ngIf="hideAddress">
+
+
+                                                            <div class="col-xl-4 col-md-4">
+                                                                <p class="mtp1"> <span
+                                                                        class="{{POTypeStyle.cstyleview}} btn-xs poibtn">{{POTypeStyle
+                                                                        ?
+                                                                        POTypeStyle.PurchaseOrder_TypeName : ''}}</span>
+                                                                </p>
+                                                            </div>
+
+
+                                                            <div *ngIf="hideAddress" class="col-xl-8 col-md-8 nopad">
+                                                                <div class="col-xl-4 col-md-4 ccs nopad">
+                                                                    <p class="mtp text-right"><strong>Status : </strong>
+                                                                    </p>
+                                                                </div>
+                                                                <p style="margin-left: 8px; float: left;" class="mtp1">
+                                                                    <span
+                                                                        class="badge badge-success btn-xs poibtn">{{PurchaseOrderInfo.StatusName}}</span>
+                                                                </p>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- end col -->
+                                            <div class="col-sm-4 col-xl-4">
+                                                &nbsp;
+                                            </div>
+                                            <!-- end col -->
+
+                                            <div class="col-sm-4 col-xl-4 text-right">
+                                                <h2 class="sq">Purchase Order </h2>
+                                                <h1>Purchase Order# {{PurchaseOrderInfo.PONo}}</h1>
+                                                <p><b>Approved Date :</b>
+                                                    {{(PurchaseOrderInfo.ApprovedDate|dateTransform) || '-'}}<br>
+                                                    <b>Payment Terms
+                                                        :</b> {{PurchaseOrderInfo.TermsName|| '-'}}
+
+                                                    
+                                                </p>
+
+                                            </div>
+                                        </div>
+                                        <!-- end row -->
+
+                                        <div class="row">
+                                            <div class="col-xl-4 col-lg-4">
+                                                <div class="table-responsive">
+                                                    <table class="table mt-2 table-bordered mb-0 print-table">
+                                                        <thead class="thead-light">
+                                                            <tr>
+                                                                <th colspan="2"><b
+                                                                        style="font-weight:bold;">Supplier</b></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <h5>{{PurchaseOrderInfo.VendorName}}</h5>
+                                                                    <p> {{VendorAddress.StreetAddress}} {{VendorAddress.SuiteOrApt}},
+                                                                        {{VendorAddress.City}}
+                                                                        <br>{{VendorAddress.StateName}},
+                                                                       {{VendorAddress.CountryName}} -
+                                                                        {{VendorAddress.Zip}}
+                                                                    </p>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-lg-4">
+                                                <div class="table-responsive">
+                                                    <table class="table mt-2 table-bordered mb-0 print-table">
+                                                        <thead class="thead-light">
+                                                            <tr>
+                                                                <th colspan="2"><b style="font-weight:bold;">Sold To</b>
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <h5>{{BillName}}</h5>
+                                                                    <p>{{BillingAddress.StreetAddress}}  {{BillingAddress.SuiteOrApt}},
+                                                                        {{BillingAddress.City}}<br>
+                                                                        {{BillingAddress.StateName}},
+                                                                        {{BillingAddress.CountryName}} -
+                                                                        {{BillingAddress.Zip}}
+                                                                    </p>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-lg-4">
+                                                <div class="table-responsive">
+                                                    <table class="table mt-2 table-bordered mb-0 print-table">
+                                                        <thead class="thead-light">
+                                                            <tr>
+                                                                <th colspan="2"><b style="font-weight:bold;">Ship To</b>
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <h5>{{ShipName}}</h5>
+                                                                    <p> {{ShippingAddress.StreetAddress}} {{ShippingAddress.SuiteOrApt}}, {{ShippingAddress.City}}<br>
+                                                                        {{ShippingAddress.StateName}},
+                                                                        {{ShippingAddress.CountryName}} - {{ShippingAddress.Zip}}
+                                                                    </p>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt3">
+                                            <div class="col-xl-12 nopad">
+                                                <div class="col-xl-6 nopad float-left">
+                                                    <div class="row">
+                                                        <div class="col-xl-12">
+                                                            <div class="col-xl-6 float-left">
+                                                                <label class="nomrg"><b>Attention</b></label>
+                                                                <p>{{PurchaseOrderInfo.VendorName}}</p>
+                                                            </div>
+                                                            <div class="col-xl-6 float-left"><label
+                                                                    class="nomrg"><b>Phone #</b></label>
+                                                                <p>{{ContactAddress.PhoneNoPrimary}}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div style="border-top: 3px solid #000;"></div>
+                                        <div class="row">
+                                            <div class="col-xl-6 col-lg-6" style="float: left;">
+                                                <div class="table-responsive">
+                                                    <table class="table table-borderless po-detail mb-0">
+                                                        <tbody>
+                                                            <tr *ngIf="PurchaseOrderInfo.RRId !=0">
+                                                                <th class="col-xl-4 float-left">Repair Request #</th>
+                                                                <td class="col-xl-3 float-left">:<a
+                                                                    [routerLink]="['/vendor/RR-edit']"
+                                                                        [queryParams]="{RRId: this.PurchaseOrderInfo.RRId}"
+                                                                        target="_blank" routerLink="#">
+                                                                        {{PurchaseOrderInfo.RRNo}}
+                                                                    </a> <i *ngIf="hideAddress"
+                                                                        class="fas fa-tools RepairTool"></i></td>
+                                                            </tr>
+                                                            <tr *ngIf="PurchaseOrderInfo.MROId !=0">
+                                                                <th class="col-xl-4 float-left"><b>MRO #</b></th>
+                                                                <td class="col-xl-3 float-left">:<a
+                                                                       routerLink="#">
+                                                                        {{PurchaseOrderInfo.MRONo}}
+                                                                    </a> <i *ngIf="hideAddress"
+                                                                        class="fas fa-tools RepairTool"></i></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="col-xl-4 float-left"><b>Vendor Reference
+                                                                        #</b></th>
+                                                                <td class="col-xl-3 float-left">:
+                                                                    {{PurchaseOrderInfo.VendorRefNo}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="col-xl-4 float-left"><b>Vendor Code</b></th>
+                                                                <td class="col-xl-3 float-left">:
+                                                                    {{PurchaseOrderInfo.VendorCode || '-'}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="col-xl-4 float-left"><b>Due Date</b></th>
+                                                                <td class="col-xl-3 float-left">:
+                                                                    {{PurchaseOrderInfo.DueDate|dateTransform}}
+                                                                </td>
+                                                            </tr>
+
+                                                        </tbody>
+
+                                                    </table>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-xl-6 col-lg-6" style="float: right;">
+                                                <div class="table-responsive">
+                                                    <table class="table table-borderless po-detail mb-0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <th class="col-xl-4 float-left"><b>Shipping A/c #</b>
+                                                                </th>
+                                                                <td class="col-xl-3 float-left">:
+                                                                    {{PurchaseOrderInfo.ShippingAccountNumber || '-'}}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="col-xl-4 float-left"><b>Ship Via</b></th>
+                                                                <td class="col-xl-3 float-left">:
+                                                                    {{PurchaseOrderInfo.ShipViaName || '-'}}</td>
+                                                            </tr>
+                                                            <tr *ngIf="Status==6">
+                                                                <th class="col-xl-4 float-left"><b>Approved By</b></th>
+                                                                <td class="col-xl-3 float-left">:
+                                                                    {{PurchaseOrderInfo.ApprovedByName}}</td>
+                                                            </tr>
+                                                            <tr *ngIf="PurchaseOrderInfo.VendorInvoiceNo != ''">
+                                                                <th class="col-xl-4 float-left"><b>Vendor Bill #</b>
+                                                                </th>
+                                                                <td class="col-xl-3 float-left">: <a
+                                                                    [routerLink]="['/vendor/vendor-bill-view']"
+                                                                        [queryParams]="{VendorInvoiceId: this.PurchaseOrderInfo.VendorInvoiceId}"
+                                                                        target="_blank" routerLink="#">
+                                                                        {{PurchaseOrderInfo.VendorInvoiceNo}}
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                            <tr *ngIf="Status==9">
+                                                                <th class="col-xl-4 float-left"><b>ReOpened By</b></th>
+                                                                <td class="col-xl-3 float-left">:
+                                                                    {{PurchaseOrderInfo.ReOpenedByName}}</td>
+                                                            </tr>
+
+                                                        </tbody>
+
+                                                    </table>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="row mt3">
+                                            <div class="col-12">
+                                                <div class="table-responsive">
+
+                                                    <table class="table table-bordered mb-0 print-table"
+                                                        *ngFor="let item of PurchaseOrderItem; let i= index">
+                                                        <thead>
+                                                            <tr>
+                                                                <th width="15%">Part # / Description</th>
+                                                                <th width="11%">Quantity</th>
+                                                                <th width="11%">Unit Price</th>
+                                                                <th>{{VAT_field_Name}}</th>
+                                                                <th width="11%">Price</th>
+                                                                <th *ngIf="IsDisplayBaseCurrencyValue==1">Price({{BaseCurrencySymbol}})<span class="red">*</span></th>
+                                                                <th width="11%" *ngIf="PurchaseOrderInfo.MROId == 0">
+                                                                    Warranty Period</th>
+                                                                <th width="10%">Lead Time</th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td *ngIf="PurchaseOrderInfo.RepairPartId==item.PartId">
+                                                                    {{item.PartNo}}<br>{{item.Description}}
+                                                                    <br> Serial # : {{item.SerialNo}}
+                                                                    <br>
+                                                                    <div *ngIf="item.SOId && RRId==0"><strong>SO
+                                                                            #:</strong>{{item.SONo}}</div>
+
+                                                                </td>
+                                                                <td *ngIf="PurchaseOrderInfo.RepairPartId!=item.PartId">
+                                                                    {{item.PartNo}}<br>{{item.Description}}
+                                                                    <div *ngIf="item.SOId && RRId==0"><strong>SO
+                                                                            #:</strong>{{item.SONo}}</div>
+
+                                                                </td>
+                                                                <td>{{item.Quantity}}</td>
+                                                                <td>{{item.ItemLocalCurrencySymbol}} {{item.Rate}}</td>
+                                                                <td>
+                                   
+                                                                    {{item.ItemLocalCurrencySymbol}} {{item.Tax}} ({{item.ItemTaxPercent}}%)
+                                                                </td>
+                                                                <td>{{item.ItemLocalCurrencySymbol}} {{item.Price}}</td>
+                                                                <td *ngIf="IsDisplayBaseCurrencyValue==1">{{BaseCurrencySymbol}} {{item.BasePrice}}</td>
+
+                                                                <td *ngIf="PurchaseOrderInfo.MROId == 0">
+                                                                    {{item.WarrantyPeriod | monthTransform}}</td>
+                                                                <td>
+                                                                    <p *ngIf="item.LeadTime !=''">{{item.LeadTime}} Days
+                                                                    </p>
+                                                                    <p *ngIf="item.LeadTime ==''">-</p>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <br>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- <div class="row mt3">
+                                            <div class="col-12">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered mb-0 print-table1">
+                                                        <thead class="thead-light">
+                                                            <tr>
+                                                                <th width="15%">Part #</th>
+                                                                <th width="31%">Part Description</th>
+                                                                <th width="10%">Lead Time</th>
+                                                                <th width="11%">Quantity</th>
+                                                                <th width="11%">Unit Price</th>
+                                                                <th width="11%">Price</th>
+                                                                <th width="11%">Warranty Period</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody *ngFor="let item of PurchaseOrderItem; let i= index">
+                                                            <tr>
+                                                                <td>{{item.PartNo}}</td>
+                                                                <td>{{item.Description}}</td>
+                                                                <td>
+                                                                    <p *ngIf="item.LeadTime !=''">{{item.LeadTime}} Days</p>
+                                                                    <p *ngIf="item.LeadTime ==''">-</p>
+                                                                </td>
+                                                                <td>{{item.Quantity}}</td>
+                                                                <td>$ {{item.Rate}}</td>
+                                                                <td>$ {{item.Price}}</td>
+                                                                <td *ngIf="item.WarrantyPeriod==0">No Warranty</td>
+                                                                <td *ngIf="item.WarrantyPeriod>0">{{item.WarrantyPeriod}} Months</td>
+                                                                <td *ngIf="item.WarrantyPeriod== null">-</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="text-right">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-borderless bill mb-0">
+                                                             <tbody>
+                                                               <!-- <tr *ngIf="PurchaseOrderInfo.SubTotal>0">
+                                                                    <th width="90%" align="right" scope="row">
+                                                                        <p><b>Sub Total :</b></p>
+                                                                    </th>
+                                                                    <td>
+                                                                        <p><b>$ {{PurchaseOrderInfo.SubTotal}}</b></p>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr *ngIf="PurchaseOrderInfo.AHFees>0">
+                                                                    <th align="right" scope="row">
+                                                                        <p><b>AH Processing Fee :</b></p>
+                                                                    </th>
+                                                                    <td>
+                                                                        <p>$ {{PurchaseOrderInfo.AHFees}}</p>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr *ngIf="PurchaseOrderInfo.TotalTax>0">
+                                                                    <th align="right" scope="row">
+                                                                        <p><b>Total Tax
+                                                                                ({{PurchaseOrderInfo.TaxPercent}}.00
+                                                                                %):</b></p>
+                                                                    </th>
+                                                                    <td>
+                                                                        <p>$ {{PurchaseOrderInfo.TotalTax}}</p>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr *ngIf="PurchaseOrderInfo.Discount>0">
+                                                                    <th align="right" scope="row">
+                                                                        <p><b>Discount :</b></p>
+                                                                    </th>
+                                                                    <td>
+                                                                        <p>$ {{PurchaseOrderInfo.Discount}}</p>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr *ngIf="PurchaseOrderInfo.Shipping>0">
+                                                                    <th align="right" scope="row">
+                                                                        <p><b>Shipping :</b></p>
+                                                                    </th>
+                                                                    <td>
+                                                                        <p>$ {{PurchaseOrderInfo.Shipping}}</p>
+                                                                    </td>
+                                                                </tr> -->
+
+                                                                <tr class="grandouter">
+                                                                    <th align="right" scope="row">
+                                                                        <p><b>Grand Total :</b></p>
+                                                                    </th>
+                                                                    <td>
+                                                                        <p><b>{{PurchaseOrderInfo.CurrencySymbol}} {{PurchaseOrderInfo.GrandTotal}}</b></p>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr class="grandouter" *ngIf="IsDisplayBaseCurrencyValue==1" >
+                                                                    <th  width="90%" scope="row">
+                                                                        <p><b>Grand Total ({{BaseCurrencySymbol}}) :</b></p>
+                                                                    </th>
+                                                                    <td>
+                                                                        <p>{{BaseCurrencySymbol}} {{PurchaseOrderInfo.BaseGrandTotal}} </p>
+                                                                        
+                                                                    </td>
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+
+
+
+
+
+                                                </div>
+                                                <div class="clearfix"></div>
+
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+
+                                        <!-- <div class="row mt-4">
+                                            <div class="col-xl-12 noteswrap text-center">
+                                                <p style="padding-bottom: 0 !important;">
+                                                    <b>We have received your PO Number PO053944 for the item listed above.</b>
+                                                </p>
+                                            </div>
+                                        </div> -->
+
+                                        <div class="row">
+                                            <div class="col-xl-12">
+                                                <div class="col-sm-12 noteswrap">
+                                                    <div class="clearfix pt-5">
+                                                        <h6>Shipping Notes:</h6>
+
+                                                        <p *ngFor="let note of NotesList" class="linebreak">
+                                                            {{note.Notes}}
+                                                        </p>
+                                                        <p *ngFor="let note of RRNotesList" class="linebreak">
+                                                            {{note.Notes}}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<ngx-spinner #ngxSpinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-spin-clockwise"
+    [fullScreen]="true"></ngx-spinner>

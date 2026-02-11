@@ -1,0 +1,129 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="container">
+    <app-page-title title="Request For Quotes" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+    <form action="" [formGroup]="Form">
+        <div class="row d-flex justify-content-center my-4">
+            <div class="col-md-7">
+                <div class="card p-4">
+                    <div class="form-group">
+                        <label class="mb-2">Part Number <span class="text-danger">*</span></label>
+                        <input type="text" [readonly]="userType != '1'" class="form-control" name="part_number" placeholder="Enter Part Number"
+                            required formControlName="PartNo">
+                        <span class="text-danger"
+                            *ngIf="(FormControl.PartNo.touched || submitted) && FormControl.PartNo.errors?.required">
+                            Part Number is required
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label class="mb-2">Request Quote No <span class="text-danger">*</span></label>
+                        <input type="text" [readonly]="userType != '1'" class="form-control" name="part_number" placeholder="Enter Request Quote No"
+                            required formControlName="RequestQuoteNo">
+                        <span class="text-danger"
+                            *ngIf="(FormControl.RequestQuoteNo.touched || submitted) && FormControl.RequestQuoteNo.errors?.required">
+                            Request Quote No is required
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label class="mb-2">Manufacturer <span class="text-danger">*</span></label>
+                        <input type="text" [readonly]="userType != '1'" class="form-control" name="manufacturer" placeholder="Enter Manufacturer" required
+                            formControlName="Manufacturer">
+                        <span class="text-danger"
+                            *ngIf="(FormControl.Manufacturer.touched || submitted) && FormControl.Manufacturer.errors?.required">
+                            Manufacturer is required
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label class="mb-2">Priority <span class="text-danger">*</span></label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" [disabled]="userType != 1" type="radio" name="Priority" id="inlineRadio1" value="1"
+                                formControlName="Priority" />
+                            <label class="form-check-label" for="inlineRadio1">Urgent - Machine down </label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" [disabled]="userType != 1" type="radio" name="Priority" id="inlineRadio2" value="2"
+                                formControlName="Priority" />
+                            <label class="form-check-label" for="inlineRadio2">High</label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" [disabled]="userType != 1" type="radio" name="Priority" id="inlineRadio3" value="3"
+                                formControlName="Priority" />
+                            <label class="form-check-label" for="inlineRadio3">Low</label>
+                        </div>
+                    </div>
+                    <span class="text-danger"
+                        *ngIf="(FormControl.Priority.touched || submitted) && FormControl.Priority.errors?.required">
+                        Priority is required
+                    </span>
+                    <div class="form-group">
+                        <label class="mb-2">Contact Person Name <span class="text-danger">*</span></label>
+                        <input type="text" [readonly]="userType != '1'" class="form-control" name="ContactName"
+                            placeholder="Enter Contact Person Name" required formControlName="ContactName">
+                        <span class="text-danger"
+                            *ngIf="(FormControl.ContactName.touched || submitted) && FormControl.ContactName.errors?.required">
+                            Contact Person Name is required
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label class="mb-2">Phone Contact Number <span class="text-danger">*</span></label>
+                        <input type="number" [readonly]="userType != '1'" class="form-control" name="ContactNumber"
+                            placeholder="Enter Phone Contact Number" required formControlName="ContactNumber">
+                        <span class="text-danger"
+                            *ngIf="(FormControl.ContactNumber.touched || submitted) && FormControl.ContactNumber.errors?.required">
+                            Phone Contact Number is required
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label class="mb-2">Email Address <span class="text-danger">*</span></label>
+                        <input type="tel" [readonly]="userType != '1'" class="form-control" name="ContactEmail" placeholder="Enter Email Address"
+                            required formControlName="ContactEmail">
+                        <span class="text-danger"
+                            *ngIf="(FormControl.ContactEmail.touched || submitted) && FormControl.ContactEmail.errors?.required">
+                            Email Address is required
+                        </span>
+                        <span class="text-danger" *ngIf="FormControl.ContactEmail.errors?.email">Email must be a valid email address</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="mb-2">Site/ Plant Name <span class="text-danger">*</span></label>
+                        <input [readonly]="userType != '1'" type="text" class="form-control" name="ContactPlant" placeholder="Enter Site/ Plant Name"
+                            required formControlName="ContactPlant">
+                        <span class="text-danger"
+                            *ngIf="(FormControl.ContactPlant.touched || submitted) && FormControl.ContactPlant.errors?.required">
+                            Site/ Plant Name is required
+                        </span>
+                    </div>
+                    <div *ngIf="userType == '1'" class="form-group">
+                        <label class="mb-2"> Commands</label>
+                      <textarea name="" id="" formControlName="Comments" class="form-control"></textarea>
+                    </div>
+                    <div *ngIf="userType != '1'" class="form-group">
+                        <label class="mb-2">Status</label>
+                       <select name="" id="" class="form-control" formControlName="Status">
+                           <option value="">Select</option>
+                           <option value="{{item.id}}" *ngFor="let item of requestQuotesStatus">{{item.Name}}</option>
+                       </select>                     
+                      
+                    </div>
+                    <div *ngIf="userType != '1'" class="form-group">
+                        <label class="mb-2">Admin Comments</label>
+                      <textarea name="" id="" formControlName="AdminComments" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group text-center mt-2">
+                        <button *ngIf="userType != '1'" type="button" class="btn btn-secondary btn-lg" routerLink="/admin/shop/list-request-a-quote">Cancel</button>
+                        <button type="button" class="btn btn-primary btn-lg ml-2" (click)="onSubmit()">Submit</button>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>

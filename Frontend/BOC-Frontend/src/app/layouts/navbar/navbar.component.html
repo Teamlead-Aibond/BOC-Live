@@ -1,0 +1,42 @@
+<div class="topbar-menu">
+    <div class="container-fluid">
+        <div id="navigation" [ngbCollapse]="!showMobileMenu">
+            <!-- Navigation Menu-->
+            <ul class="navigation-menu">
+                <li *ngFor="let link of menulist; let i=index;" [class]="(link.children.length > 0) ? 'has-submenu' : ''">
+                    <a *ngIf="link.children.length > 0 && link.href == '#'" href="javascript: void(0);" (click)="onMenuClick($event)">
+                        <i class="{{link.icon}}"></i>{{link.name}}
+                        <div class="arrow-down"></div>
+                    </a>
+                    <a *ngIf="link.children.length == 0 && link.href != '#'" routerLink="{{link.href}}" (click)="onMenuClick($event)">
+                        <i class="{{link.icon}}"></i>{{link.name}}
+                    </a>
+                    <ul class="submenu">
+                        <li *ngFor="let childLink of link.children" [class]="(childLink.children.length > 0) ? 'has-submenu' : ''">
+                            <a *ngIf="childLink.children.length == 0 " routerLink="{{childLink.href}}" class="side-nav-link-ref" routerLinkActive="active">{{childLink.name}}</a>
+                            <a *ngIf="childLink.children.length > 0 && childLink.href == '#'" href="javascript: void(0);">
+                                {{childLink.name}} <div class="arrow-down"></div>
+                            </a>
+                            <a *ngIf="childLink.children.length > 0 && childLink.href != '#'" routerLink="{{childLink.href}}">
+                                {{childLink.name}} <div class="arrow-down"></div>
+                            </a>
+                            <ul class="submenu" *ngIf="childLink.children.length > 0">
+                                <li *ngFor="let childLink1 of childLink.children">
+                                    <a routerLink="{{childLink1.href}}" class="side-nav-link-ref" routerLinkActive="active">
+                                        {{childLink1.name}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- End navigation menu -->
+
+            <div class="clearfix"></div>
+        </div>
+        <!-- end #navigation -->
+    </div>
+    <!-- end container -->
+</div>
+<!-- end navbar-custom -->

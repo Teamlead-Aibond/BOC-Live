@@ -1,0 +1,109 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">Add Attachment</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg">
+    <form name="form" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="field-2" class="control-label">Attachment Type
+                        <span class="red">*</span>
+                    </label>
+                    <input type="hidden" class="form-control" [(ngModel)]="model.IdentityType" name="IdentityType">
+                    <input type="hidden" class="form-control" name="IdentityId" [(ngModel)]="model.IdentityType">
+
+                    <select class="custom-select" name="AttachmentType" [(ngModel)]="model.AttachmentType" #AttachmentType="ngModel" [ngClass]="{ 'is-invalid': f.submitted && AttachmentType.invalid }" required>
+                        <option value="undefined" disabled>Select</option>
+                        <option *ngFor="let Note of Notes" value="{{Note.NotesType}}">
+                            {{Note.NotesTypeValue}}
+                        </option>
+                    </select>
+                    <div *ngIf="f.submitted &&AttachmentType.invalid" class="invalid-feedback">
+                        <div *ngIf="AttachmentType.errors.required">Attachment Type is required</div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group no-margin">
+                    <label for="field-7" class="control-label">Description
+
+                    </label>
+                    <textarea class="form-control" id="field-7" placeholder="Description" name="AttachmentDesc" [(ngModel)]="model.AttachmentDesc"></textarea>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+
+                <h5 style="margin:0;" class="m-t-0">Attachment
+                    <span class="red">*</span>
+                </h5>
+
+                <div class="col-sm-3">
+                    <span *ngIf="AttachmentMimeType == 'application/pdf'">
+                        <a href="{{url}}" target="_blank">
+                            <img src="assets/images/attachment/{{attachmentThumb['application/pdf'].thumb}}"
+                                class="img-fluid" ngbTooltip="{{AttachmentOriginalFile}}" width="200"
+                                alt="work-thumbnail">
+                        </a>
+                    </span>
+                    <span *ngIf="AttachmentMimeType == 'image/jpeg'">
+                        <a href="{{url}}" target="_blank">
+                            <img src="{{url}}" class="img-fluid" ngbTooltip="{{AttachmentOriginalFile}}"
+                                width="200" alt="work-thumbnail">
+                        </a>
+                    </span>
+                    <span *ngIf="AttachmentMimeType == 'image/png'">
+                        <a href="{{url}}" target="_blank">
+                            <img src="{{url}}" class="img-fluid" ngbTooltip="{{AttachmentOriginalFile}}"
+                                width="200" alt="work-thumbnail">
+                        </a>
+                    </span>
+                    <span *ngIf="AttachmentMimeType== 'application/msword'">
+                        <a href="{{url}}" target="_blank">
+                            <img src="assets/images/attachment/{{attachmentThumb['application/msword'].thumb}}"
+                                class="img-fluid" ngbTooltip="{{AttachmentOriginalFile}}" width="200"
+                                alt="work-thumbnail">
+                        </a>
+                    </span>
+                    <span *ngIf="AttachmentMimeType == 'application/vnd.ms-excel'">
+                        <a href="{{url}}" target="_blank">
+                            <img src="assets/images/attachment/{{attachmentThumb['application/vnd.ms-excel'].thumb}}"
+                                class="img-fluid" ngbTooltip="{{AttachmentOriginalFile}}" width="200"
+                                alt="work-thumbnail">
+                        </a>
+                    </span>
+                    <span *ngIf="AttachmentMimeType == 'text/csv'">
+                        <a href="{{url}}" target="_blank">
+                            <img src="assets/images/attachment/{{attachmentThumb['text/csv'].thumb}}" class="img-fluid"
+                                ngbTooltip="{{AttachmentOriginalFile}}" width="200" alt="work-thumbnail">
+                        </a>
+                    </span>
+
+                    <br>
+                </div>
+
+
+                <input type="file" class="form-control" name="Attachment" (change)="fileProgress($event)" [(ngModel)]="model.Attachment" #Attachment="ngModel" [ngClass]="{ 'is-invalid': f.submitted && Attachment.invalid }" required>
+                <i class="fa fa-spinner fa-spin" *ngIf="spinner"></i>
+                <div *ngIf="f.submitted &&Attachment.invalid" class="invalid-feedback">
+                    <div *ngIf="Attachment.errors.required">Attachment is required</div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light" *ngIf="showsave">Save</button>
+        </div>
+    </form>
+</div>

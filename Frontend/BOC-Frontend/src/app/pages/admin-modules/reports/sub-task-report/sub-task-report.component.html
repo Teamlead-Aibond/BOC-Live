@@ -1,0 +1,215 @@
+<div class="container-fluid">
+    <app-page-title title="Sub Status Reports"></app-page-title>
+
+    <ng-sidebar-container style="height: 100vh;">
+
+
+
+        <div ng-sidebar-content>
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-xl-12 text-center">
+                        <img src="assets/images/ah_logo.png " alt=" " height="35">
+
+                        <h4 style="margin-top: 25px;" class="heading">Sub Status Report</h4>
+
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+
+                    <div class="col-12">
+
+                        <div class="row">
+                            <div class="col-xl-12 text-right">
+
+                                <div class="button-list btn-group-sm fl-right mb-10">
+
+                                    <button class="btn btn-danger waves-effect" routerLink="/admin/reports"
+                                        ngbTooltip="Back" placement="top"><i class="fas fa-arrow-left"></i></button>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-12">
+                            <div class="col-xl-6 mtf" style="float:left">
+                                <div class="card" [class.fullscreen]="isOpen == true">
+                                    <div class="card-body" style="z-index: 0;">
+                                        <h4 class="header-title bluetxt mb-3">Average days Sub Status</h4>
+
+                                        <div class="card-widgets">
+
+                                            <a href="javascript: void(0);" (click)="_toggleWindow()"
+                                                class="mdi mdi-arrow-expand ml-1"></a>
+                                        </div>
+
+                                        <div id="cardCollpaseWidget5" class="collapse pt-3 show"
+                                            [ngbCollapse]="isCollapsed">
+                                            <div *ngIf="Task.length>0">
+
+
+                                                <apx-chart [series]="basicColumChart.series"
+                                                    [chart]="basicColumChart.chart"
+                                                    [dataLabels]="basicColumChart.dataLabels"
+                                                    [plotOptions]="basicColumChart.plotOptions"
+                                                    [xaxis]="basicColumChart.xaxis" [stroke]="basicColumChart.stroke"
+                                                    [fill]="basicColumChart.fill" [yaxis]="basicColumChart.yaxis"
+                                                    [tooltip]="basicColumChart.tooltip"
+                                                    [legend]="basicColumChart.legend" [colors]="basicColumChart.colors">
+                                                </apx-chart>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" *ngIf="Task?.length == 0">
+                                        <span style="text-align: center;">No Data Avaliable</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 mtf" style="float: right;">
+                                <div class="card" [class.fullscreen]="isOpen == true">
+                                    <div class="card-body" style="z-index: 0;">
+                                        <h4 class="header-title bluetxt mb-3">Number of Sub Status By User</h4>
+
+                                        <div class="card-widgets">
+
+                                            <a href="javascript: void(0);" (click)="_toggleWindow()"
+                                                class="mdi mdi-arrow-expand ml-1"></a>
+                                        </div>
+
+                                        <div id="cardCollpaseWidget5" class="collapse pt-3 show"
+                                            [ngbCollapse]="isCollapsed">
+                                            <div *ngIf="Task.length>0">
+
+
+                                                <apx-chart [series]="TaskByUserChart.series"
+                                                    [chart]="TaskByUserChart.chart"
+                                                    [dataLabels]="TaskByUserChart.dataLabels"
+                                                    [plotOptions]="TaskByUserChart.plotOptions"
+                                                    [xaxis]="TaskByUserChart.xaxis" [stroke]="TaskByUserChart.stroke"
+                                                    [fill]="TaskByUserChart.fill" [yaxis]="TaskByUserChart.yaxis"
+                                                    [tooltip]="TaskByUserChart.tooltip"
+                                                    [legend]="TaskByUserChart.legend" [colors]="TaskByUserChart.colors">
+                                                </apx-chart>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" *ngIf="Task?.length == 0">
+                                        <span style="text-align: center;">No Data Avaliable</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-12">
+                            <div class="col-xl-12 mtf" style="float:left">
+                                <div class="card" [class.fullscreen]="isOpen == true">
+                                    <div class="card-body" style="z-index: 0;">
+                                        <h4 class="header-title bluetxt mb-3">Monthly Sub Status Completed By Users</h4>
+
+                                        <div class="card-widgets">
+
+                                            <a href="javascript: void(0);" (click)="_toggleWindow()"
+                                                class="mdi mdi-arrow-expand ml-1"></a>
+                                        </div>
+
+                                        <div id="cardCollpaseWidget5" class="collapse pt-3 show"
+                                            [ngbCollapse]="isCollapsed">
+                                            <div *ngIf="Task.length>0">
+
+
+                                                <apx-chart [series]="CompletedTaskByUserChart.series"
+                                                    [chart]="CompletedTaskByUserChart.chart"
+                                                    [dataLabels]="CompletedTaskByUserChart.dataLabels"
+                                                    [plotOptions]="CompletedTaskByUserChart.plotOptions"
+                                                    [xaxis]="CompletedTaskByUserChart.xaxis"
+                                                    [stroke]="CompletedTaskByUserChart.stroke"
+                                                    [fill]="CompletedTaskByUserChart.fill"
+                                                    [yaxis]="CompletedTaskByUserChart.yaxis"
+                                                    [tooltip]="CompletedTaskByUserChart.tooltip"
+                                                    [legend]="CompletedTaskByUserChart.legend"
+                                                    [colors]="CompletedTaskByUserChart.colors">
+                                                </apx-chart>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" *ngIf="Task?.length == 0">
+                                        <span style="text-align: center;">No Data Avaliable</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <br>
+                <div class="row">
+
+                    <div class="col-xl-12">
+
+                        <div class="row">
+                            <div class="col-xl-12 nopad-rt">
+                                <h4 class="header-title bluetxt mb-3">Most Active Sub Status</h4>
+                                <div class="row collapse pt-2 mb-4 show">
+
+                                    <div class="col-12 col-sm-3 col-md-3 col-xl-2">
+                                        <label class="control-label">Number of Sub Status</label>
+                                        <input type="text" class="form-control" placeholder="Enter Number of Task"
+                                            [(ngModel)]="NumberofTask">
+                                    </div>
+
+                                    <div class="col-12 col-sm-3 col-md-3 col-xl-2">
+                                        <label for="control-label">User:</label>
+                                        <ng-select class="" name="AssigneeUserId" [(ngModel)]="UserId"
+                                            [ngModelOptions]="{standalone: true}" bindLabel="title" bindValue="UserId"
+                                            [items]="adminListddl" [searchable]="true" placeholder="Select Assign To">
+                                        </ng-select>
+                                    </div>
+
+
+                                    <div class="col-12 col-sm-3 col-md-3 col-xl-4" style="padding-top:29px;">
+                                        <input type="button" class="btn btn-primary btn-md mr-1" value="Search"
+                                            id="btnFilter" (click)="rerender()" />
+                                        <input type="button" class="btn btn-secondary btn-md mr-1" value="Clear"
+                                            id="btnClear" (click)="onClear()" />
+                                    </div>
+                                </div>
+                                <!-- Table -->
+                                <div class="table-responsive">
+                                    <table id="datatable-angular-ActiveTaskList" datatable [dtOptions]="dtOptions"
+                                        [dtTrigger]="dtTrigger" class="table datatables dt-responsive hover nowrap">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>RRNo</th>
+                                                <th>Customer</th>
+                                                <th>PartNo</th>
+                                                <th>Sub Status</th>
+                                                <th>Assigned By </th>
+
+
+                                            </tr>
+                                        </thead>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </ng-sidebar-container>
+
+</div>

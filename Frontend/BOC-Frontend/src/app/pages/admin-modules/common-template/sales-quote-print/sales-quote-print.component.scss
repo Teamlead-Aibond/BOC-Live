@@ -1,0 +1,716 @@
+        body {
+            -webkit-print-color-adjust: exact !important;
+        }
+        .so-wrap p{
+            display: inline-flex;
+        }
+        .linebreak {
+            white-space: pre-line;
+            color: #000;
+            font-size: 14px;
+        }
+        
+        table.dataTable {
+            width: 100% !important;
+        }
+        
+        table.dataTable tbody th,
+        table.dataTable tbody td {
+            padding: 8px 10px !important;
+        }
+        
+        div#collapseExample {
+            visibility: visible !important;
+        }
+        
+        .linebreak {
+            white-space: pre-line;
+            color: #000;
+            font-size: 14px;
+        }
+        
+        .btn-group .btn-group-sm .btn .mbg:hover i {
+            color: #09518e !important;
+        }
+        
+        .RepairTool {
+            font-weight: bold;
+            padding: 0px;
+            color: #09518e;
+        }
+        
+        .dropdown-menu {
+            width: 600px !important;
+            height: auto !important;
+        }
+        
+        .searchbox {
+            padding: 10px 20px 10px 20px !important;
+        }
+        
+        .mnp {
+            padding: 0;
+        }
+        
+        .Repair {
+            font-weight: bold;
+            padding: 5px;
+            color: red;
+        }
+        
+        .order {
+            background: #ececec;
+            color: #000;
+            padding: 1px 5px;
+            margin-right: 8px;
+        }
+        
+        .bill p {
+            width: 100%;
+            float: left;
+            line-height: 25px;
+            font-weight: 400;
+            font-size: 15px;
+            font-style: normal;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        address {
+            font-size: 16px;
+            margin: 0;
+            color: #000;
+        }
+        
+        .additem {
+            position: relative;
+            top: 30px;
+            z-index: 1;
+        }
+        
+        .idt .thead-dark th {
+            border-color: #dee2e6;
+        }
+        
+        #contentToConvert.black {
+            padding: 35px 59px 38px 50px;
+        }
+        
+        .form-group label {
+            padding-bottom: 6px;
+        }
+        
+        .mailpad {
+            padding: 0.2rem 0.8rem 0.1rem;
+        }
+        
+        .table.bill td {
+            padding: 0.4rem 5px;
+        }
+        
+        .table.bill th {
+            text-align: right;
+            padding: 0.4rem 15px;
+        }
+        
+        .table.bill1 th {
+            text-align: right;
+            padding: 0rem 15px;
+        }
+        
+        .table.bill1 td {
+            padding: 0rem 5px;
+        }
+        
+        .bill1 p {
+            width: 100%;
+            float: left;
+            line-height: 25px;
+            font-weight: 400;
+            font-size: 16px;
+            font-style: normal;
+            margin: 0;
+            padding: 0 0 3px 5px;
+        }
+        
+        .bill1 {
+            margin-top: 0px;
+        }
+        
+        .table thead th {
+            vertical-align: middle;
+        }
+        
+        .order-date {
+            padding-bottom: 1px;
+            display: inline-block;
+        }
+        
+        .mt-6 {
+            margin-top: 6px !important;
+            margin-right: 5px;
+        }
+        
+        .crd {
+            float: left;
+            padding: 8px 0 0 0;
+        }
+        
+        .ccs p {
+            width: 100%;
+            float: left;
+            line-height: 20px;
+            font-weight: 400;
+            font-size: 15px;
+            font-style: normal;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .btntype {
+            padding: 0.25rem 0.9rem;
+        }
+        
+        .rrnpo {
+            position: relative;
+            left: -5px;
+        }
+        
+        .mtp {
+            margin-top: 5px !important;
+        }
+        
+        p.mtp1 {
+            margin: 0 0 13px;
+        }
+        
+        .mb20 {
+            margin-bottom: 16px !important;
+            margin-top: 25px;
+        }
+        
+        .poibtn {
+            padding: 0.5rem 1rem 0.6rem;
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+        
+        .pdfwrap h6 {
+            font-size: 16px;
+            color: #000;
+        }
+        
+        .table {
+            color: #000;
+            font-family: "Roboto", sans-serif !important;
+        }
+        
+        .idl .table td {
+            font-weight: bold !important;
+        }
+        
+        .noteswrap p {
+            padding-bottom: 15px !important;
+            line-height: 25px;
+        }
+        
+        .table .thead-light th {
+            color: #000;
+        }
+        
+        .leadtime {
+            padding-bottom: 0 !important;
+            border-top: 2px solid #000;
+            text-align: left;
+            padding-top: 10px;
+            float: left;
+            width: 100%;
+            font-size: 15px !important;
+            color: #000;
+        }
+        
+        .leadtime1 {
+            padding-bottom: 0 !important;
+            float: left;
+            width: 100%;
+            font-size: 15px !important;
+            color: #000;
+        }
+        
+        table.print-table td,
+        table.print-table th {
+            font-size: 17px;
+        }
+        
+        .thank-txt {
+            margin-top: 50px;
+            border-top: 19px solid #f1f5f7;
+        }
+        
+        .pdfwrap p {
+            font-size: 16px;
+            line-height: 28px !important;
+            color: #000;
+            padding-bottom: 5px;
+            margin: 0;
+            font-family: "Roboto", sans-serif !important;
+        }
+        
+        .mt1r {
+            margin-top: 1rem !important;
+        }
+        
+        .table.bill td {
+            padding: 0.4rem 5px;
+        }
+        
+        .table.bill th {
+            text-align: right;
+            padding: 0.4rem 15px;
+        }
+        
+        .idetail p {
+            padding-bottom: 4px;
+            margin: 0;
+        }
+        
+        .editbill p {
+            padding: 0;
+            margin: 0;
+            font-size: 1rem;
+        }
+        
+        .table.editbill td {
+            padding: 0.2rem 5px;
+            text-align: left;
+        }
+        
+        .table.editbill th {
+            text-align: left !important;
+            padding: 0.2rem 0px;
+        }
+        
+        .mb-18 {
+            margin-bottom: 18px !important;
+        }
+        
+        .equlaization {
+            padding-top: 65px;
+        }
+        
+        .customerbg {
+            font-weight: 700;
+            font-size: 15px;
+            padding: 5px 0px;
+            background-color: #fbcfd6;
+            border: 1px solid #efa0ac;
+            color: #000;
+            -webkit-print-color-adjust: exact;
+            color-adjust: exact !important;
+            display: block;
+            margin-top: -8px;
+            text-align: center;
+        }
+        
+        .approvebg {
+            font-weight: bold;
+            padding: 5px;
+            background-color: rgba(0, 0, 0, 0.075);
+            border: 1px solid rgba(0, 0, 0, 0.075);
+            color: #000;
+            text-transform: uppercase;
+            -webkit-print-color-adjust: exact;
+            color-adjust: exact !important;
+        }
+        
+        .fw25 {
+            width: 25%;
+            float: left;
+        }
+        
+        .fw50 {
+            width: 50%;
+            float: left;
+        }
+        
+        .fw100 {
+            width: 100%;
+        }
+        
+        .f-left {
+            float: left;
+            padding: 0;
+        }
+        
+        #contentToConvert {
+            padding: 35px 49px 38px 50px;
+            margin: 0;
+        }
+        
+        .allsalebtn {
+            padding-left: 10px !important;
+        }
+        
+        .table thead th {
+            background-color: #f1f5f7;
+        }
+        
+        .btn-success {
+            -webkit-print-color-adjust: exact;
+            color-adjust: exact !important;
+        }
+        
+        .table tbody+tbody {
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .grandouter p {
+            font-size: 18px !important;
+            padding: 7px 0 5px !important;
+        }
+        
+        .black address {
+            font-size: 16px;
+            margin: 0;
+        }
+        
+        .black .grandouter {
+            color: #000 !important;
+            background-color: #ffffff;
+            border-top: 1px solid #333 !important;
+            border-bottom: 2px solid #333 !important;
+            -webkit-print-color-adjust: exact !important;
+            color-adjust: exact !important;
+        }
+        
+        .black .thank-txt {
+            margin-top: 50px;
+            border-top: 19px solid #d9d9d9;
+        }
+        
+        .black .print-table th {
+            font-size: 1.3rem;
+        }
+        
+        .black .linebreak {
+            color: #000 !important;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        
+        .black .table th {
+            font-size: 1.3rem;
+        }
+        
+        .black h2.sq {
+            color: #000;
+            font-size: 50px !important;
+        }
+        
+        .black address {
+            font-size: 17px;
+        }
+        
+        .black h6 {
+            font-size: 18px;
+        }
+        
+        .black address,
+        .black .bill p,
+        .black .ccs p,
+        .pdfwrap h5,
+        .black .table td,
+        .black .text-muted {
+            color: #000 !important;
+        }
+        
+        .black .bill p,
+        .black .bill1 p,
+        .black .ccs p {
+            width: 100%;
+            float: left;
+            line-height: 25px;
+            font-weight: 500;
+            font-style: normal;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .black .bill1 p {
+            padding-bottom: 5px;
+        }
+        
+        .black .table-bordered th {
+            border-top: 0;
+            border-left: 0;
+            border-right: 0;
+            border-bottom: 2px solid #000000;
+            background-color: #d9d9d9;
+            color: #000000;
+        }
+        
+        .black .table-bordered td {
+            border: 1px solid #333;
+            padding-top: 0;
+            border: 0 !important;
+            border-right: 0 !important;
+        }
+        
+        .black .table td {
+            font-size: 16px !important;
+        }
+        
+        .black .d-print-none {
+            display: none;
+        }
+        
+        .black .pdfex h1 {
+            font-size: 28px;
+        }
+        
+        .black p {
+            color: #000;
+            font-size: 22px !important;
+            font-weight: 400 !important;
+        }
+        
+        .black h5 {
+            padding-top: 10px;
+            font-size: 1.3rem;
+            margin: 0;
+            color: #000;
+        }
+        
+        @media screen and (max-width: 1680px) {
+            .sales-left .scrollbar {
+                margin-top: 5px;
+            }
+            table.print-table td,
+            table.print-table th {
+                font-size: 15px;
+                padding: 0.85rem 0.85rem 0.5rem !important;
+            }
+        }
+        
+        @media screen and (max-width: 1440px) {
+            .sales-left .scrollbar {
+                margin-top: 5px;
+            }
+            table.print-table td,
+            table.print-table th {
+                font-size: 15px;
+                padding: 0.85rem 0.85rem 0.7rem;
+            }
+            #contentToConvert {
+                padding: 35px 30px 38px 30px;
+            }
+            .pdfwrap p {
+                padding-bottom: 0;
+            }
+            p.mtp {
+                font-size: 14px !important;
+            }
+            .poibtn {
+                padding: 0.5rem 0.6rem 0.5rem;
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media screen and (max-width: 1366px) {
+            .black h2.sq {
+                color: #000;
+                font-size: 39px !important;
+            }
+            .black .table th {
+                font-size: 1.1rem;
+            }
+            .black h5 {
+                font-size: 1.15rem;
+            }
+            .black p,
+            .black .table-bordered td {
+                font-size: 1rem !important;
+            }
+        }
+        
+        @media screen and (max-width: 1280px) {
+            .btn-group.btn-group-sm .btn {
+                margin-right: -13px;
+            }
+            .sales-left .scrollbar {
+                margin-top: 5px;
+            }
+            .mailpad {
+                padding: 0.2rem 0.4rem 0.1rem !important;
+            }
+            .rrnos {
+                padding-bottom: 5px !important;
+            }
+            .customerbg {
+                padding: 5px 0px;
+                display: block;
+            }
+            .mt1r {
+                margin-top: 0.75rem !important;
+            }
+            .black h2.sq {
+                color: #000;
+                font-size: 39px !important;
+            }
+            .black .table th {
+                font-size: 1.1rem;
+            }
+            .black h5 {
+                font-size: 1.15rem;
+            }
+            .black p,
+            .black .table-bordered td {
+                font-size: 1rem !important;
+            }
+            table.print-table td,
+            table.print-table th {
+                font-size: 15px;
+                padding: 0.85rem 0.85rem 0.7rem;
+            }
+            #contentToConvert {
+                padding: 35px 30px 38px 30px;
+            }
+            .pdfwrap p {
+                padding-bottom: 0;
+            }
+            p.mtp {
+                font-size: 14px !important;
+            }
+            .poibtn {
+                padding: 0.5rem 0.6rem 0.5rem;
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media screen and (max-width: 1024px) {
+            // table.idt {
+            //     width: 1000px;
+            // }
+            // .bill1 p {
+            //     font-size: 14px;
+            //     padding: 0px;
+            // }
+            .mb20 {
+                margin-top: 20px;
+            }
+            .customerbg {
+                font-size: 11px !important;
+            }
+        }
+        
+        @media screen and (max-width: 768px) {
+            .mb20 {
+                margin-top: 20px;
+            }
+            // table.bill th p {
+            //     font-size: 14px !important;
+            // }
+            // .bill1 p {
+            //     font-size: 14px;
+            //     padding: 0 0 0px;
+            // }
+            .customerbg {
+                padding: 5px 0px;
+                display: inline;
+                font-size: 11px !important;
+            }
+        }
+        
+        @media screen and (max-width: 640px) {
+            h4.page-title {
+                padding-left: 20px;
+            }
+            .table.bill th {
+                width: 50%;
+            }
+            #contentToConvert {
+                padding: 20px 20px 38px 20px;
+            }
+            p.m-b-10.text-right {
+                text-align: left !important;
+            }
+            .customerbg {
+                display: block;
+            }
+            .lpol {
+                width: 60%;
+                float: left;
+            }
+            .lpor {
+                width: 40%;
+                float: left;
+            }
+            .ccs p {
+                padding-bottom: 5px !important;
+            }
+            .lpor p {
+                padding-left: 5px !important;
+            }
+        }
+        
+        @media print {
+            .card-box {
+                background-color: #fff;
+                background-clip: border-box;
+                border: 0px solid #e7eaed;
+                padding: 0px !important;
+                margin: 0px !important;
+                border-radius: 0rem;
+            }
+            .pdfwrap {
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            #contentToConvert {
+                padding: 0px !important;
+                margin: 0 !important;
+            }
+            .table {
+                float: left;
+            }
+            .table thead th {
+                background-color: #38414a !important;
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact !important;
+                color: #fff;
+            }
+            body {
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact !important;
+            }
+            @page {
+                size: A4 landscape;
+                margin-left: 0px;
+                margin-right: 0px;
+                margin-top: 0px;
+                margin-bottom: 0px;
+                margin: 0;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+        
+        .pdfex h1 {
+            font-size: 22px;
+        }
+        
+        .sq {
+            font-size: 39px;
+            font-weight: 400;
+        }
+        
+        .qah {
+            border-bottom: 2px solid #333;
+        }
+        
+        .mt3 {
+            margin-top: 1.5rem !important;
+        }

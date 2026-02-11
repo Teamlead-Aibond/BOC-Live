@@ -1,0 +1,240 @@
+<div class="modal-header modal-lg ht">
+	<h4 class="modal-title">Blanket PO Details</h4>
+	<button
+		type="button"
+		class="close"
+		(click)="modalRef.hide()"
+		aria-hidden="true"
+	>
+		×
+	</button>
+</div>
+<div
+	class="modal-body p-1 modal-xl modal-dialog modal-content bd-example-modal-lg"
+>
+	<form
+		class="shipto-vendor"
+		name="form"
+		#f="ngForm"
+		(ngSubmit)="onSubmit(f)"
+		novalidate
+	>
+		<!-- <span class="fa fa-spinner fa-spin fa-3x" *ngIf="showSpinner"></span> -->
+		<div class="container">
+			<div class="row text-center font-16">
+				<div class="col-xl-12 col-md-12">
+					<div class="form-group">
+						<label for="">Quote Amount: {{ CurrencySymbol }} {{ GrandTotal }}</label>
+					</div>
+				</div>
+			</div>
+			<div class="row" *ngIf="showBlanketPO">
+				<div class="col-xl-12 col-md-12">
+					<div class="form-group">
+						<!-- <label for="">Approve Type: <span class="red">*</span></label> -->
+						<div class="row rc">
+							<div class="col-xl-4">
+								<label for="">Approve Type: <span class="red">*</span></label>
+								<label
+									><input
+										style="margin-left: 10px"
+										type="radio"
+										name="Type"
+										value="1"
+										#Type="ngModel"
+										(change)="setBlanketCutomer(model.Type)"
+										[ngClass]="{ 'is-invalid': f.submitted && Type.invalid }"
+										required
+										[(ngModel)]="model.Type"
+									/>
+									Blanket PO
+									<div *ngIf="f.submitted && Type.invalid" class="invalid-feedback">
+										<div *ngIf="Type.errors.required">Approve Type is required</div>
+									</div>
+								</label>
+
+								<label
+									><input
+										style="margin-left: 10px"
+										type="radio"
+										name="Type"
+										value="0"
+										#Type="ngModel"
+										(change)="setCustomerPO(model.Type)"
+										[ngClass]="{ 'is-invalid': f.submitted && Type.invalid }"
+										required
+										[(ngModel)]="model.Type"
+									/>
+									Custom PO
+								</label>
+							</div>
+							<!-- <div class="col-xl-4">
+                                <label>Lock Customer Ship Address</label>
+                                <select class="custom-select d-block w-100" id="CustomerShipIdLocked" name="CustomerShipIdLocked" [(ngModel)]="model.CustomerShipIdLocked" #CustomerShipIdLocked="ngModel">
+                                <option value="">Select...</option>
+                                <option *ngFor="let ship of ShipAddressList" [value]="ship.AddressId">
+                                    {{ship.title}}</option></select>
+                                
+                            </div>
+                            <div class="col-xl-4">
+                                <label>Move to Aibond Store</label>
+                                <select class="custom-select d-block w-100" id="IsMoveToStore" name="IsMoveToStore" [(ngModel)]="model.IsMoveToStore" #IsMoveToStore="ngModel">
+                                    <option value="{{item.id}}" *ngFor="let item of booleanValues">{{item.Name}}</option>
+                                </select>
+                            </div> -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" *ngIf="!showBlanketPO">
+				<div class="col-xl-12 col-md-12">
+					<div class="form-group">
+						<label for="">Approve Type:</label>
+						<div class="row rc">
+							<div class="col-xl-4">Custom PO</div>
+							<!-- <div class="col-xl-4">
+                                <label>Lock Customer Ship Address</label>
+                                <select class="custom-select d-block w-100" id="CustomerShipIdLocked" name="CustomerShipIdLocked" [(ngModel)]="model.CustomerShipIdLocked" #CustomerShipIdLocked="ngModel">
+                                <option value="">Select...</option>
+                                <option *ngFor="let ship of ShipAddressList" [value]="ship.AddressId">
+                                    {{ship.title}}</option>
+                            </select>
+                                
+                            </div>
+                            <div class="col-xl-4">
+                                <label>Move to Aibond Store</label>
+                                <select class="custom-select d-block w-100" id="IsMoveToStore" name="IsMoveToStore" [(ngModel)]="model.IsMoveToStore" #IsMoveToStore="ngModel">
+                                    <option value="{{item.id}}" *ngFor="let item of booleanValues">{{item.Name}}</option>
+                                </select>
+                            </div> -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col-xl-6 col-md-6" *ngIf="BlanketPO">
+					<div class="form-group">
+						<label for="Customer"
+							>Select Blanket PO #:
+							<span class="red">*</span>
+						</label>
+						<ng-select
+							[items]="BlanketddlList"
+							name="CustomerBlanketPOId"
+							placeholder="Select"
+							[(ngModel)]="model.CustomerBlanketPOId"
+							#CustomerBlanketPOId="ngModel"
+							(change)="onPOValidation(this.model.CustomerBlanketPOId)"
+							[ngClass]="{ 'is-invalid': f.submitted && CustomerBlanketPOId.invalid }"
+							required
+							bindLabel="title"
+							bindValue="CustomerBlanketPOId"
+							[searchable]="true"
+						>
+						</ng-select>
+						<div
+							*ngIf="f.submitted && CustomerBlanketPOId.invalid"
+							class="invalid-feedback"
+						>
+							<div *ngIf="CustomerBlanketPOId.errors.required">
+								Blanket PO # is required
+							</div>
+						</div>
+						<div class="text-danger" *ngIf="POValidationError == 'Error'">
+							{{ POValidationErrorMessage }}
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-12 col-md-12" *ngIf="CustomPO">
+					<div class="form-group">
+						<label for="Customer"
+							>Enter Custom PO #
+							<span class="red">*</span>
+						</label>
+						<div class="row rc ml-0">
+							<div>
+								<input
+									type="text"
+									class="form-control"
+									id="CustomerPONo"
+									placeholder="Customer PO  #"
+									[(ngModel)]="model.CustomerPONo"
+									name="CustomerPONo"
+									#CustomerPONo="ngModel"
+									[ngClass]="{ 'is-invalid': f.submitted && CustomerPONo.invalid }"
+									required
+									[readonly]="CustomerPONoIsReadOnly"
+								/>
+							</div>
+							<div class="row ml-0" *ngIf="this.RRId > 0">
+								<div class="p-1" *ngFor="let custompooption of custompooptions">
+									<label>
+										<input
+											type="checkbox"
+											name="{{ custompooption.name }}"
+											value="{{ custompooption.value }}"
+											[(ngModel)]="custompooption.checked"
+											(change)="updateCheckedCustomPOOptions(custompooption, $event)"
+										/>
+										{{ custompooption.displayName }}
+									</label>
+								</div>
+							</div>
+						</div>
+
+						<div *ngIf="f.submitted && CustomerPONo.invalid" class="invalid-feedback">
+							<div *ngIf="CustomerPONo.errors.required">Custom PO # is required</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row mt-2" *ngIf="BlanketPO">
+				<div class="col-xl-6 col-md-6">
+					<div class="form-group">
+						<label for="Customer">Comments: </label>
+						<textarea
+							class="form-control"
+							row="2"
+							[(ngModel)]="model.Comments"
+							name="Comments"
+						></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="row mt-2" *ngIf="CustomPO">
+				<div class="col-xl-6 col-md-6">
+					<div class="form-group">
+						<label for="Customer">Comments: </label>
+						<textarea
+							class="form-control"
+							row="2"
+							[(ngModel)]="model.Comments"
+							name="Comments"
+						></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal-footer">
+			<button
+				type="button"
+				class="btn btn-secondary waves-effect"
+				(click)="modalRef.hide()"
+			>
+				Close
+			</button>
+			<button
+				[disabled]="btnDisabled"
+				[ngClass]="{
+					class: btnDisabled
+						? 'btn btn-success waves-effect waves-light'
+						: 'btn btn-light waves-effect waves-light'
+				}"
+				class="btn btn-success waves-effect waves-light"
+			>
+				Submit
+			</button>
+		</div>
+	</form>
+</div>

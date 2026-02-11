@@ -1,0 +1,94 @@
+/* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+
+        .tab-content {
+            padding: 10px 0 0 0 !important;
+        }
+        
+        span.imageprv {
+            height: 260px !important;
+        }
+        
+        .mb-15 {
+            margin-bottom: 15px;
+        }
+        
+        .pam {
+            padding: 10px 10px 10px 15px !important;
+        }
+        
+        .sepick {
+            padding: 0 10px;
+            background: #565d66;
+            color: #fff;
+            font-weight: bold;
+        }
+        
+        .table-responsive {
+            overflow: auto;
+        }
+        
+        .selectpicker {
+            font-size: 13px;
+        }
+        
+        @media screen and (max-width: 1680px) {
+            .header-title {
+                font-size: 1rem;
+                padding: 11px 9px 11px;
+                text-align: center;
+            }
+            .statpad {
+                padding: 0rem 0.8rem 0.8rem;
+            }
+        }
+        
+        @media screen and (max-width:1536px) {
+            .header-title {
+                font-size: 1rem;
+                padding: 11px 9px 11px;
+                text-align: center;
+            }
+            .statpad {
+                padding: 0rem 0.8rem 0.8rem;
+            }
+        }
+        
+        @media screen and (max-width:1440px) {
+            .header-title {
+                font-size: 1rem;
+                padding: 11px 9px 11px;
+                text-align: center;
+            }
+            .statpad {
+                padding: 0rem 0.8rem 0.8rem;
+            }
+        }
+        
+        @media screen and (max-width:1366px) {
+            .header-title {
+                font-size: 1rem;
+                padding: 11px 9px 11px;
+                text-align: center;
+            }
+            .statpad {
+                padding: 0rem 0.8rem 0.8rem;
+            }
+        }
+        
+        @media screen and (max-width:1024px) {
+            .dollarsp h2 {
+                font-size: 1rem;
+            }
+        }
+        
+        @media screen and (max-width:768px) {
+            .statpad h3 {
+                padding: 0;
+                margin: 0;
+            }
+        }

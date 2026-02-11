@@ -1,0 +1,148 @@
+.trans-five {
+    flex: 0 0 45.7666666667% !important;
+    max-width: 45.7666666667% !important;
+}
+
+.f5 {
+    flex: 0 0 5.3333333333%;
+    max-width: 5.3333333333%;
+}
+
+.f43 {
+    flex: 0 0 43.6666666667%;
+    max-width: 43.6666666667%;
+}
+
+.mtm-5 p {
+    margin: 0;
+}
+
+#datatable-angular-selectedparts p {
+    margin: 0;
+}
+
+div#datatable-angular-selectedparts_wrapper span a.current {
+    color: #fff !important;
+}
+
+.padstock {
+    padding: 2rem 1.5rem 1rem;
+}
+
+.pad15 {
+    padding-top: 15px;
+}
+
+.pad30 {
+    padding-top: 30px;
+}
+
+.pad40 {
+    padding: 35px 40px;
+}
+
+.col-split-5 {
+    flex: 0 0 20%;
+    max-width: 20%;
+    padding-right: 10px;
+}
+
+.pad12 {
+    padding: 0 12px;
+}
+
+.trans-five .datatables p {
+    margin: 0;
+    padding: 0;
+}
+
+.col-20 {
+    flex: 0 0 15%;
+    width: 15%;
+    float: left;
+    text-align: center;
+}
+
+.col-15 {
+    flex: 0 0 5%;
+    width: 5%;
+    float: left;
+    text-align: center;
+    min-height: 38px;
+    padding-top: 8px;
+}
+
+.edit-data p {
+    margin-bottom: 0;
+    line-height: 15px;
+    font-size: 0.9rem;
+}
+
+.mtm-5 {
+    margin-top: -5px;
+}
+
+.f-15 {
+    font-size: 16px;
+    color: #0a406d;
+}
+
+.f-16 {
+    font-size: 17px;
+    color: #0a406d;
+}
+
+.f-17 {
+    font-size: 20px;
+    line-height: 6px;
+    position: relative;
+    top: 5px;
+    color: #0a406d;
+}
+
+.f-18 {
+    font-size: 27px;
+    line-height: 6px;
+    position: relative;
+    top: 5px;
+    color: #0a406d;
+}
+
+.f-19 {
+    font-size: 19px;
+    line-height: 6px;
+    position: relative;
+    top: 3px;
+    color: #0a406d;
+}
+@media screen and (max-width:1600px) {
+    .pt-2, .py-2 {
+        padding-top: 0rem !important;
+    }
+    .mtm-5 {
+        width: 547px;
+    }
+    .table-responsive {
+        overflow: auto;
+    }
+    
+    table.dataTable thead.thead-light tr th {
+        padding: 0.85rem 1.3rem 0.85rem 0.85rem !important;
+    }
+}
+
+@media screen and (max-width:1440px) {
+    .pt-2, .py-2 {
+        padding-top: 0rem !important;
+    }
+    .mtm-5 {
+        width: 547px;
+    }
+    .table-responsive {
+        overflow: auto;
+    }
+    
+    table.dataTable thead.thead-light tr th {
+        padding: 0.85rem 1.3rem 0.85rem 0.85rem !important;
+    }
+}

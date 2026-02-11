@@ -1,0 +1,306 @@
+/* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+
+
+            .dash-wrap {
+                width: 14.285%;
+                flex: 0 0 14.285%;
+                max-width: 14.285%;
+                float: left;
+            }
+            
+            .col-7 {
+                flex: 0 0 20%;
+                max-width: 20%;
+            }
+            
+            .sepick {
+                padding: 0 10px;
+                background: #565d66;
+                color: #fff;
+                font-weight: bold;
+            }
+            
+            .sepickchart {
+                padding: 0 10px;
+                width: 30%;
+                background: #565d66;
+                color: #fff;
+                font-weight: bold;
+            }
+            
+            .card-dashpad {
+                padding: 0.9rem 1rem 0.3rem 1.3rem;
+                float: left;
+                width: 100%;
+            }
+            
+            .dash-wrap:last-child {
+                margin-right: 0;
+            }
+            
+            .dash-in {
+                background-color: #f9f9f9;
+                border: 1px solid #d9d9d9;
+                width: 92%;
+                padding: 12px 10px 10px;
+                border-radius: 7px;
+            }
+            
+            .dhh {
+                min-height: 120px;
+            }
+            
+            .text-mute-blue {
+                font-size: 16px;
+                text-align: center;
+            }
+            
+            .pl15 {
+                padding-left: 15px;
+            }
+            
+            .clear15 {
+                height: 1px;
+                clear: both;
+                width: 100%;
+                float: left;
+                padding-bottom: 15px;
+            }
+            
+            .avatar-title {
+                display: flex !important;
+            }
+            
+            .tdd {
+                font-size: 1.875rem;
+                color: #09518e !important;
+                line-height: 23px;
+                text-align: center;
+            }
+            
+            .pad-line {
+                font-size: 1.5rem;
+                line-height: 20px;
+                text-align: center;
+            }
+            
+            .rct {
+                float: right;
+                padding: 0;
+                text-align: center;
+            }
+            
+            .dh3 {
+                font-size: 1.3rem;
+                text-align: center;
+                margin-bottom: 0px;
+            }
+            
+            .md-drppicker .calendar {
+                max-width: 230px;
+            }
+            
+            .dash-in h2 {
+                font-size: 1.3rem;
+                margin: 5px 0 10px 0;
+                text-align: center;
+                color: #09518e;
+            }
+            
+            .dash-in h3 {
+                font-size: 1.5rem;
+                margin: 0 0 5px 0;
+                text-align: center;
+            }
+            
+            .dash-in h5 {
+                font-size: 1.05rem;
+                margin: 6px 0 21px 0;
+                text-align: center;
+            }
+            
+            .font-24 {
+                font-size: 22px !important;
+            }
+            
+            .greybg-icon {
+                border: 6px solid rgba(50, 58, 70, .3)!important;
+                background-color: rgba(50, 58, 70, .75)!important;
+            }
+            
+            .card-dashpad .avatar-lg {
+                height: 3.5rem !important;
+                width: 3.5rem !important;
+            }
+            
+            .cpd {
+                font-size: 0.8rem !important;
+                line-height: 19px;
+                padding: 2px 15px 5px !important;
+                float: right;
+                margin-top: 22px !important;
+            }
+            
+            ul.chart-list {
+                padding: 0;
+                margin: 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            ul.chart-list li {
+                color: #fff;
+                display: inline;
+                list-style-position: inside;
+                list-style-type: none;
+                margin: 0 5px 0 0;
+                padding: 2px 10px 5px;
+                font-size: 11px;
+                line-height: 18px;
+                text-transform: uppercase;
+                height: 12px;
+                width: 12px;
+                left: 0px;
+                top: 0px;
+                border-width: 0px;
+                border-color: rgb(255, 255, 255);
+                border-radius: 12px;
+            }
+            
+            @media screen and (max-width:1600px) {
+                .nrp {
+                    font-size: 13px !important;
+                }
+                .card-dashpad {
+                    padding: 0.9rem 0.5rem 0.3rem !important;
+                }
+                .dh3 {
+                    font-size: 1.1rem;
+                }
+                .card-dashpad .avatar-lg {
+                    height: 3rem !important;
+                    width: 3rem !important;
+                }
+                .mh99 {
+                    min-height: 120px !important;
+                }
+                .col-7 {
+                    padding-right: 0 !important;
+                }
+                .col-7:last-child {
+                    padding-right: 10px !important;
+                }
+            }
+            
+            @media screen and (max-width:1440px) {
+                .table-responsive {
+                    overflow: auto !important;
+                }
+                .card-dashpad {
+                    padding: 0.9rem 0.5rem 0.3rem !important;
+                }
+                .dh3 {
+                    font-size: 1.1rem;
+                }
+                .card-dashpad .avatar-lg {
+                    height: 2.6rem !important;
+                    width: 2.6rem !important;
+                }
+                .col-7 {
+                    padding-right: 0 !important;
+                }
+                .col-7:last-child {
+                    padding-right: 10px !important;
+                }
+                .mh99 {
+                    min-height: 99px;
+                }
+            }
+            
+            @media screen and (max-width:1366px) {
+                .table-responsive {
+                    overflow: auto !important;
+                }
+                .dh3 {
+                    font-size: 1.1rem;
+                }
+                .nrp {
+                    font-size: 11px !important;
+                }
+                .card-dashpad {
+                    padding: 0.9rem 0.5rem 0.3rem !important;
+                }
+                .card-dashpad .avatar-lg {
+                    height: 2.5rem !important;
+                    width: 2.5rem !important;
+                }
+                .col-7 {
+                    padding-right: 0 !important;
+                }
+                .mh99 {
+                    min-height: 120px;
+                }
+            }
+            
+            @media screen and (max-width:1280px) {
+                .table-responsive {
+                    overflow: auto !important;
+                }
+            }
+            
+            @media screen and (max-width:1024px) {
+                .datatables thead tr th:before {
+                    top: 5px;
+                }
+                .datatables thead tr th:after {
+                    top: 14px;
+                }
+            }
+            
+            @media screen and (max-width:768px) {
+                .col-7 {
+                    flex: 0 0 33%;
+                    max-width: 33%;
+                }
+                .dhh {
+                    min-height: 123px !important;
+                }
+                .datatables thead tr th:before {
+                    right: -3px;
+                    top: 5px;
+                }
+                .datatables thead tr th:after {
+                    right: -2px;
+                    top: 14px;
+                }
+            }
+            
+            @media screen and (max-width:640px) {
+                .col-7 {
+                    flex: 0 0 100%;
+                    max-width: 100%;
+                }
+                .dhh {
+                    min-height: auto !important;
+                }
+                .avatar-lg {
+                    margin: 23px 0 0 30px !important;
+                }
+                .card-dashpad {
+                    padding: 0 0 0.8rem !important;
+                }
+                .datatables thead tr th:before {
+                    right: -3px;
+                    top: 6px;
+                }
+                .vdash {
+                    position: relative;
+                    left: 50px;
+                    top: 3px;
+                }
+            }

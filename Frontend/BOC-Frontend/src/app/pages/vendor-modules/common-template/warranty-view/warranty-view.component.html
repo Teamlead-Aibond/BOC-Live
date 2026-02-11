@@ -1,0 +1,70 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">View Warranty</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg">
+
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label class="control-label">Repair Request #:
+
+                    </label>
+                    <p>{{viewResult.RRNo||'-'}}</p>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label class="control-label">Customer Name #:
+                    </label>
+                    <p>{{viewResult.CustomerName||'-'}}</p>
+                </div>
+            </div>
+
+
+
+            <div class="col-6">
+                <div class="form-group">
+                    <label class="control-label">Part #:
+                    </label>
+                    <p> {{viewResult.PartNo||'-' }}</p>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="form-group">
+                    <label class="control-label">Serial #
+
+                    </label>
+                    <p>{{viewResult.SerialNo||'-'}}</p>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label class="control-label">Warranty Start Date
+                    </label>
+                    <p>{{viewResult.WarrantyStartDate||'-'}}</p>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label class="control-label">Warranty End Date 
+                    </label>
+                    <p>{{viewResult.WarrantyEndDate||'-'}}</p>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label class="control-label">Warranty Period :
+                    </label>
+                    <p *ngIf="viewResult.WarrantyPeriod==0">No Warranty</p>
+                    <p *ngIf="viewResult.WarrantyPeriod>0">{{viewResult.WarrantyPeriod}} Months</p>
+                    <p *ngIf="viewResult.WarrantyPeriod== null">-</p>
+                </div>
+            </div>
+           
+        </div> 
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+    </div>
+</div>

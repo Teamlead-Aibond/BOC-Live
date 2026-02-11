@@ -1,0 +1,199 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="container-fluid">
+	<app-page-title title="Sales Order"></app-page-title>
+
+	<div class="row">
+		<div style="width: 100%" class="d-flex justify-content-center">
+			<div class="col-xl-9">
+				<div class="fn-btns d-print-none">
+					<a
+						href="javascript:window.print()"
+						class="btn btn-primary waves-effect waves-light"
+						><i class="mdi mdi-printer mr-1"></i> Print</a
+					>
+					<input
+						type="button"
+						value="Download"
+						class="btn btn-success waves-effect waves-light ml-1"
+						(click)="generatePDF()"
+					/>
+				</div>
+				<div class="card-box">
+					<div id="contentToConvert" class="col-12 pdfwrap">
+						<div class="row">
+							<div class="col-xl-12 text-center pdflogo">
+								<img
+									style="height: 116px; width: 115px"
+									class="img-fluid"
+									src="assets/images/ahlogo.png"
+									alt=""
+								/>
+								<p>+91 8489813526 - info@aibond.ai</p>
+								<div class="greybgpdf">&nbsp;</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-4">
+								<img src="assets/images/barcode1.png" alt="" class="barimg" />
+							</div>
+							<div class="col-md-4 text-center">
+								<h3 class="pdftitle">Sales Order</h3>
+							</div>
+							<div class="col-md-4">&nbsp;</div>
+						</div>
+
+						<div class="row mt16">
+							<div class="col-md-4">
+								<p><b>Sales Order No:</b> SO018712</p>
+							</div>
+							<div class="col-md-4">
+								<p><b>Current Status :</b> Open</p>
+							</div>
+							<div class="col-md-4">
+								<p><b>Due Date:</b> 12/23/2020</p>
+							</div>
+						</div>
+
+						<div class="row mt161">
+							<div class="col-md-4">
+								<h4>Billing Address:</h4>
+								<p class="m-b-5 mt-20">
+									CJ Automotive Indiana,LLC<br />
+									100 COMMERCE STREET<br />
+									POBOX 100<br />
+									BUTLER, Indiana, 46721-1367
+								</p>
+							</div>
+
+							<div class="col-md-4">
+								<h4>Shipping Address</h4>
+								<p class="m-b-5">
+									CJ Automotive Indiana,LLC<br />
+									100 Commerce Street<br />
+									BUTLER, Indiana, 46721-0100
+								</p>
+								<h4>Shipping Method:</h4>
+							</div>
+
+							<div class="col-md-4">
+								<div class="po-cs">
+									<p>
+										<span class="split60 text-right"><b>Customer PO #:</b></span>
+										<span class="split40 nopad">&nbsp;</span>
+									</p>
+									<p><b>Customer Contact Name:</b> AngelaMoreno</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-12 mt25">
+								<div class="table-responsive">
+									<h6>Item Details</h6>
+									<table class="table table-centered popdf">
+										<thead>
+											<tr>
+												<th width="14%">Part No</th>
+												<th width="30.5%">Part Description</th>
+												<th width="10%">Serial #</th>
+												<th width="9%">UOM</th>
+												<th width="10%">Status</th>
+												<th width="9%">Lead Time</th>
+												<th width="9%" class="text-right">Quantity</th>
+												<th width="10%" class="text-right">Unit Price(US$)</th>
+												<th width="9.5%" class="text-right">Total Price(US$)</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>BX101010</td>
+												<td>SINGLE WALL 10 X 10 X 10 CTN EACH (25/BUNDLE</td>
+												<td>&nbsp;</td>
+												<td>EA</td>
+												<td>Closed</td>
+												<td>&nbsp;</td>
+												<td class="text-right">1.00</td>
+												<td class="text-right">0.83</td>
+												<td class="text-right">0.83</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-9">&nbsp;</div>
+							<div class="col-md-3">
+								<div class="mt-3 float-right po-cs">
+									<p>
+										<span class="sp60 text-right"><b>Sub Total : </b></span>
+										<span class="sp40 nopad">0.83</span>
+									</p>
+									<p>
+										<span class="sp60 text-right"><b>Total Tax : </b></span>
+										<span class="sp40 nopad">0.00</span>
+									</p>
+									<p>
+										<span class="sp60 text-right"><b>AH Processing Fee : </b></span>
+										<span class="sp40 nopad">0.00</span>
+									</p>
+									<p>
+										<span class="sp60 text-right"><b>Discount : </b></span>
+										<span class="sp40 nopad">0.00</span>
+									</p>
+									<p>
+										<span class="sp60 text-right"><b>Shipping : </b></span>
+										<span class="sp40 nopad">0.00</span>
+									</p>
+									<p>
+										<span class="sp60 text-right"><b>FET : </b></span>
+										<span class="sp40 nopad">0.00</span>
+									</p>
+									<p>
+										<span class="sp60 text-right"><b>Grand Total : </b></span>
+										<span class="sp40 nopad">0.83</span>
+									</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-12">
+								<!-- <div class="clearfix pt-2">
+                                <h6>Notes:</h6>
+                                <p style="padding:0 0 43px 3px;">
+                                    <b>Shipping/Expediting:</b> Inmostcases AH can provide an expedited delivery, expediting mayresult in a rush fee. Deliverytime frame quoted is an estimate based on current parts availability. AH will provide a firmdelivery
+                                    date once the POhas been issued
+                                </p>
+                                <p><b>Shipping:</b> Shipping Charges are not included in the cost of repair andwill be added at the time of invoice.
+                                </p>
+
+                                <div class="text-center sincere">
+                                    <p><b>We sincerely appreciate the opportunity to quote, please let us know if there is anything we can do to earn your business.</b></p>
+                                </div>
+                            </div> -->
+								<div class="greybgpdf">&nbsp;</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- <div class="mt-4 mb-1">
+            <div class="text-right d-print-none">
+                <a href="javascript:window.print()" class="btn btn-primary waves-effect waves-light"><i class="mdi mdi-printer mr-1"></i> Print</a>
+                <a href="javascript: void(0);" class="btn btn-success waves-effect waves-light ml-1">Submit</a>
+
+            </div>
+        </div> -->
+	</div>
+</div>

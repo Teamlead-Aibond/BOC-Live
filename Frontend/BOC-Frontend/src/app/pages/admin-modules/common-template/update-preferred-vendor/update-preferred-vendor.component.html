@@ -1,0 +1,111 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">Update Preferred Vendor</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg">
+    <form name="form" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+
+        <div class="container">
+
+
+            <div>
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="form-group row">
+                            <label>Part # :</label>
+                            <div class="col-sm-12 nopad-lt mt-1">
+                                {{item.PartNo}}
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6">
+                        <div class="form-group row">
+                            <!-- <label>AH Price :</label> -->
+                            <label>Part Description:</label>
+                            <div class="col-sm-12 nopad-lt mt-1">
+                                {{item.Description}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="form-group row">
+                            <label for="">Manufacturer Part # :</label>
+                            <div class="col-sm-12 nopad-lt mt-1">
+                                {{item.ManufacturerPartNo}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="form-group row">
+                            <label for="">Master DB PON ($) :</label>
+                            {{BaseCurrencySymbol}} {{item.Price}}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                 
+                        <div class="col-xl-12">
+                            <div class="form-group row">
+                            <label>Preferred
+                                Vendor: <span class="red">*</span></label>
+
+                            <!-- <ng-select [items]="vendorList" formControlName="PrimaryVendorId"
+                                name="PrimaryVendorId" placeholder="Select" bindLabel="title"
+                                bindValue="VendorId" [multiple]="true">
+                            </ng-select> -->
+                            <ng-select [items]="vendors$ | async" [typeahead]="vendorsInput$" [loading]="loadingVendors"
+                                [multiple]="true" [closeOnSelect]="false" [searchable]="true" [virtualScroll]="true"
+                                placeholder="Select" bindLabel="VendorName" [(ngModel)]="this.model.PrimaryVendorId"
+                                #PrimaryVendorId="ngModel"   bindValue="VendorId"
+                                [ngClass]="{ 'is-invalid': f.submitted && PrimaryVendorId.invalid }" required
+                                name="PrimaryVendorId">
+                                <ng-template ng-header-tmp *ngIf="VendorsList.length > 0">
+                                    <button type="button" (click)="selectAll()" class="btn btn-sm btn-link">Select all</button>
+                                </ng-template>
+                                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                    <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                                        <span class="ng-value-label">{{item.VendorName}}</span>
+                                        <span class="ng-value-icon right" (click)="clear(item)"
+                                            aria-hidden="true">×</span>
+                                    </div>
+                                    <div class="ng-value" *ngIf="items.length > 1">
+                                        <span class="ng-value-label">+ {{items.length - 1}} more...</span>
+                                    </div>
+                                </ng-template>
+                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <input id="item-{{index}}" type="checkbox" [checked]="item$.selected"
+                                        [ngModel]="item$.selected" [ngModelOptions]="{standalone: true}" />
+                                    {{item.VendorName}}
+                                </ng-template>
+                            </ng-select>
+                            <div *ngIf="f.submitted &&PrimaryVendorId.invalid" class="invalid-feedback">
+                                <div *ngIf="PrimaryVendorId.errors.required">Preferred Vendor is required</div>
+                            </div>
+                        </div>
+                        </div>
+
+                  
+                </div>
+            </div>
+
+
+        </div>
+        <br>
+
+
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button  class="btn btn-success waves-effect waves-light" [disabled]="btnDisabled"
+             [ngClass]="{'class': (btnDisabled)? 'btn btn-success waves-effect waves-light': 'btn btn-light waves-effect waves-light'}">Submit</button>
+        </div>
+    </form>
+</div>
+
+<ngx-spinner #ngxSpinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-spin-clockwise"
+    [fullScreen]="true"></ngx-spinner>

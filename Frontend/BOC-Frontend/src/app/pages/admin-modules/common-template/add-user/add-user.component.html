@@ -1,0 +1,533 @@
+<div class="modal-header modal-lg ">
+    <h4 class="modal-title" *ngIf="IdentityType==1">Add Customer Portal User
+        <span class="text-pink text-center ml-2">Customer : {{UserNamedisplay}}</span>
+    </h4>
+    <h4 class="modal-title" *ngIf="IdentityType==2">Add Vendor Portal User<span class="text-pink text-center ml-2">Vendor
+            : {{UserNamedisplay}}</span>
+    </h4>
+    <h4 class="modal-title" *ngIf="IdentityType==0">Add User</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-2 modal-lg">
+    <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="UserForm">
+        <div class="col-xl-12">
+
+
+            <div class="row">
+
+                <div class="col-xl-12 form-lbox">
+                    <div class="row">
+                        <div class="col-xl-6 float-left">
+                            <h4 class="form-title-text bluetxt mb-20">Basic Details</h4>
+                        </div>
+
+                        <div class="col-xl-6 mt-2">
+                            <div class="custom-control custom-switch float-right">
+                                <input type="checkbox" class="custom-control-input" id="Status" name="Status"
+                                    formControlName="Status">
+                                <label class="custom-control-label" for="Status">Is Active</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-border">
+                        <div class="row">
+                            <div class="col-xl-4">
+                                <div class="form-group">
+                                    <label>Title : <span class="red">*</span></label>
+                                    <input type="hidden" class="form-control" placeholder="Enter IdentityType"
+                                        name="IdentityType" formControlName="IdentityType">
+                                    <select class="custom-select" name="Title" formControlName="Title">
+                                        <option value="" disabled>Select</option>
+                                        <option value="1">Mr.</option>
+                                        <option value="2">Mrs.</option>
+                                        <option value="3">Ms.</option>
+                                    </select>
+                                    <span class="text-danger"
+                                        *ngIf="(UserFormControl.Title.touched || submitted) && UserFormControl.Title.errors?.required">
+                                        Title is required
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-xl-4">
+                                <div class="form-group">
+                                    <label for="Customer">First Name : <span class="red">*</span></label>
+                                    <input type="hidden" class="form-control" placeholder="Enter IdentityType"
+                                        name="IdentityType" formControlName="IdentityType">
+                                    <input type="text" class="form-control" placeholder="Enter First Name"
+                                        name="FirstName" formControlName="FirstName">
+                                    <span class="text-danger"
+                                        *ngIf="(UserFormControl.FirstName.touched || submitted) && UserFormControl.FirstName.errors?.required">
+                                        First Name is required
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-xl-4">
+                                <div class="form-group">
+                                    <label for="Customer">Last Name :</label>
+                                    <input type="text" class="form-control" placeholder="Enter Last Name"
+                                        name="LastName" formControlName="LastName">
+                                    <!-- <span class="text-danger"
+                                        *ngIf="(UserFormControl.LastName.touched || submitted) && UserFormControl.LastName.errors?.required">
+                                        Last Name is required
+                                    </span> -->
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-4" *ngIf="IdentityType==0">
+                                <div class="form-group">
+                                    <label for="Customer">Department :</label>
+                                    <select class="custom-select" name="DepartmentId" formControlName="DepartmentId">
+                                        <option value="" disabled>Select</option>
+                                        <option *ngFor="let Department of DepartmentList"
+                                            value={{Department.DepartmentId}}>
+                                            {{Department.DepartmentName}}
+                                        </option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="col-xl-4">
+                                <div class="form-group">
+                                    <label for="Customer">Email: <span class="red">*</span></label>
+                                    <input type="text" class="form-control" name="Email" formControlName="Email"
+                                        placeholder="Enter Email">
+                                    <span class="text-danger"
+                                        *ngIf="(UserFormControl.Email.touched || submitted) && UserFormControl.Email.errors?.required">
+                                        Email is required
+                                    </span>
+                                    <span class="text-danger"
+                                        *ngIf="(UserFormControl.Email.touched || submitted) && UserFormControl.Email.errors?.email">
+                                        Enter a valid email address
+                                    </span>
+                                </div>
+                            </div>
+                           
+
+                            <div class="col-xl-4" *ngIf="IdentityType==0">
+                                <div class="form-group">
+                                    <label for="RoleId">User Role : <span class="red">*</span></label>
+                                    <select class="custom-select" name="RoleId" [(ngModel)]="RoleId"
+                                        formControlName="RoleId">
+                                        <option value="undefined" disabled>Select</option>
+                                        <option *ngFor="let role of roleList" value={{role.RoleId}}>
+                                            {{role.RoleName}}
+                                        </option>
+                                    </select>
+                                    <span class="text-danger"
+                                        *ngIf="(UserFormControl.RoleId.touched || submitted) && UserFormControl.RoleId.errors?.required">
+                                        User Role is required
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-xl-8">
+                                <div class="form-group">
+                                    <label for="Customer">Warehouse: <span class="red" *ngIf="IdentityType!=0">*</span></label>
+                                    <ng-select [items]="warehouseList" [multiple]="true" [closeOnSelect]="false"
+                                        [searchable]="true" [virtualScroll]="true" formControlName="WarehouseIds"
+                                        name="WarehouseIds" placeholder="Select"  bindLabel="name"
+                                        bindValue="id" [selectableGroup]="true" [selectableGroup]="true"
+                                        [required]="this.IdentityType!='0'? true : undefined">
+                                        <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                            <div class="ng-value" *ngFor="let item of items | slice:0:2">
+                                                <span class="ng-value-label">{{item.name}}{{item.login}}</span>
+                                                <span class="ng-value-icon right" (click)="clear(item)"
+                                                    aria-hidden="true">×</span>
+                                            </div>
+                                            <div class="ng-value" *ngIf="items.length > 2">
+                                                <span class="ng-value-label">+ {{items.length - 2}} more...</span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                            <input id="item-{{index}}" type="checkbox" [checked]="item$.selected"
+                                                [ngModel]="item$.selected" />
+                                            {{item.name}}
+                                        </ng-template>
+                                    </ng-select>
+                                    <span *ngIf="IdentityType!=0">
+                                    <span class="text-danger"  
+                                        *ngIf="(UserFormControl.WarehouseIds?.touched || submitted) && UserFormControl.WarehouseIds?.errors?.required">
+                                        Warehouse is required
+                                    </span>
+                                </span>
+                                </div>
+                            </div>
+                            <div class="col-xl-12" *ngIf="isSelectCustomer">
+                                <div class="form-group">
+                                    <label for="Customer">Customer Accounts :</label>
+                                    <ng-select [items]="customers$ | async" [typeahead]="customersInput$" [loading]="loadingCustomers" [multiple]="true"
+                                    [closeOnSelect]="false" [searchable]="true" [virtualScroll]="true" placeholder="Select"
+                                    bindLabel="CustomerCode" bindValue="CustomerId"  formControlName="MultipleAccessIdentityIds" name="MultipleAccessIdentityIds">
+                                    <ng-template ng-header-tmp *ngIf="CustomersList.length > 0">
+                                        <button type="button" (click)="selectAll()" class="btn btn-sm btn-link">Select all</button>
+                                    </ng-template>
+                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                        <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                                            <span class="ng-value-label">{{item.CompanyName}}</span>
+                                            <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                                        </div>
+                                        <div class="ng-value" *ngIf="items.length > 1">
+                                            <span class="ng-value-label">+ {{items.length - 1}} more...</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                        <input id="item-{{index}}" type="checkbox" [checked]="item$.selected" [ngModel]="item$.selected" />
+                                        {{item.CompanyName}}
+                                    </ng-template>
+                                </ng-select>
+                                    <!-- <ng-select [items]="customerList" bindLabel="CompanyName" [virtualScroll]="true"
+                                        [multiple]="true" [searchable]="true" [placeholder]="'Enter Customer Name'"
+                                        formControlName="MultipleAccessIdentityIds" name="MultipleAccessIdentityIds"
+                                        bindValue="CustomerId">
+                                    </ng-select> -->
+
+
+                                </div>
+                            </div>
+                            <div class="col-xl-8" *ngIf="IdentityType!=0">
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" type="checkbox"
+                                            id="IsRestrictExportReports" name="IsRestrictExportReports"
+                                            formControlName="IsRestrictExportReports">
+                                        <label class="custom-control-label" for="IsRestrictExportReports">
+                                            Restrict Export Reports
+                                        </label>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-4" *ngIf="IdentityType==0">
+                                <div class="form-group">
+                                    <label for="">Restricted Customer Access : <span class="red">*</span></label>
+                                    <div class="row rc">
+                                        <div class="col-xl-6">
+            
+                                            <label><input  type="radio" name="IsRestrictedCustomerAccess" value="1"
+                                                formControlName="IsRestrictedCustomerAccess"  (change)="onRestrictedCustomerAccess($event)"
+                                                    />
+                                                Yes
+                                             
+                                            </label> 
+                                        </div>
+                                        <div class="col-xl-6">
+            
+                                            <label><input  type="radio" name="IsRestrictedCustomerAccess" value="0"  formControlName="IsRestrictedCustomerAccess"
+                                                   (change)="onRestrictedCustomerAccess($event)"
+                                                    
+                                             />
+                                                No
+                                            </label> 
+                                        </div>
+                                    </div>
+                                    <span class="text-danger"
+                                        *ngIf="(UserFormControl.IsRestrictedCustomerAccess.touched || submitted) && UserFormControl.IsRestrictedCustomerAccess.errors?.required">
+                                        Restricted Customer Access is required
+                                    </span>
+                                </div>
+            
+                            </div>
+
+
+                            <div class="col-xl-12" *ngIf="ShowMultipleCustomerIds">
+                                <div class="form-group">
+                                    <label for="Customer">Customer:</label>
+                                    <ng-select [items]="customers$ | async" [typeahead]="customersInput$" [loading]="loadingCustomers" [multiple]="true"
+                                    [closeOnSelect]="false" [searchable]="true" [virtualScroll]="true" placeholder="Select"
+                                    bindLabel="CustomerCode" bindValue="CustomerId"  formControlName="MultipleCustomerIds" name="MultipleCustomerIds">
+                                    <ng-template ng-header-tmp *ngIf="CustomersList.length > 0">
+                                        <button  type="button" (click)="selectAllMultipleCustomerIds()" class="btn btn-sm btn-link">Select all</button>
+                                    </ng-template>
+                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                        <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                                            <span class="ng-value-label">{{item.CompanyName}}</span>
+                                            <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                                        </div>
+                                        <div class="ng-value" *ngIf="items.length > 1">
+                                            <span class="ng-value-label">+ {{items.length - 1}} more...</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                        <input id="item-{{index}}" type="checkbox" [checked]="item$.selected" [ngModel]="item$.selected" />
+                                        {{item.CompanyName}}
+                                    </ng-template>
+                                </ng-select>
+                               </div>
+                            </div>
+
+                             <div class="col-xl-8"  *ngIf="IdentityType==0">
+                                <div class="form-group">
+                                    <label for="Customer">Allow Country :<span class="red">*</span></label>
+                                    <ng-select [items]="countryList" [multiple]="true" (change)="onAllowLocationsChange($event)"
+                                    [closeOnSelect]="false" [searchable]="true" [virtualScroll]="true" placeholder="Select"
+                                    bindLabel="CountryName" bindValue="CountryId"  formControlName="AllowLocations" name="AllowLocations">
+                                    </ng-select>
+                                    <span class="text-danger"
+                                    *ngIf="(UserFormControl.AllowLocations.touched || submitted) && UserFormControl.AllowLocations.errors?.required">
+                                    Allow Country is required
+                                </span>
+                                </div>
+                            </div>
+                            <div class="col-xl-4"  *ngIf="IdentityType==0">
+                                <div class="form-group">
+                                    <label for="Customer">Default Country:<span class="red">*</span></label>
+                                    <select class="custom-select" name="DefaultLocation" formControlName="DefaultLocation" (change)="getCurrencyCode($event)">
+                                        <option value="" disabled>Select</option>
+                                        <option *ngFor="let country of DefaultCountryList" value={{country.CountryId}}>
+                                            {{country.CountryName}}
+                                        </option>
+                                    </select>
+                                    <!-- <ng-select [items]="DefaultCountryList" [multiple]="false" (change)="getCurrencyCode($event)"
+                                    [closeOnSelect]="false" [searchable]="true" [virtualScroll]="true" placeholder="Select"
+                                    bindLabel="CountryName" bindValue="CountryId"  formControlName="DefaultLocation" name="DefaultLocation">
+                                    </ng-select> -->
+                                    <span class="text-danger"
+                                    *ngIf="(UserFormControl.DefaultLocation.touched || submitted) && UserFormControl.DefaultLocation.errors?.required">
+                                    Default Country is required
+                                </span>
+                                </div>
+                            </div>
+                            <div class="col-xl-4"  *ngIf="IdentityType==0">
+                                <div class="form-group">
+                                    <label for="Customer">Currency:</label>
+                                    <br>
+                                    {{CurrencyCode}}
+                                    <!-- <select class="custom-select" name="CurrencyCode" formControlName="CurrencyCode">
+                                        <option value="" disabled>Select</option>
+                                        <option *ngFor="let item of CurrencyList"
+                                            value={{item.CurrencyCode}}>
+                                            {{item.CurrencyCode}}&nbsp;-{{item.CurrencySymbol}}
+                                        </option>
+                                    </select>
+                                    <span class="text-danger"
+                                    *ngIf="(UserFormControl.CurrencyCode.touched || submitted) && UserFormControl.CurrencyCode.errors?.required">
+                                    Currency is required
+                                </span> -->
+                                </div>
+                            </div> 
+                            <div class="col-xl-4" *ngIf="IdentityType==0">
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" type="checkbox"
+                                            id="IsDisplayBaseCurrencyValue" name="IsDisplayBaseCurrencyValue"
+                                            formControlName="IsDisplayBaseCurrencyValue">
+                                        <label class="custom-control-label" for="IsDisplayBaseCurrencyValue">
+                                            Show base currency value :
+                                        </label>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4" *ngIf="IdentityType==0">
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" type="checkbox"
+                                            id="IsUserUPSEnable" name="IsUserUPSEnable"
+                                            formControlName="IsUserUPSEnable">
+                                        <label class="custom-control-label" for="IsUserUPSEnable">
+                                            Show UPS :
+                                        </label>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xl-12 form-lbox">
+                    <div class="row">
+                        <div class="col-xl-6 float-left">
+                            <h4 class="form-title-text bluetxt mb-20">Address Details</h4>
+                        </div>
+                        <div class="col-xl-6 mt-2">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div class="form-border">
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <div class="form-group">
+                                    <label for="Customer">Street Address :</label>
+                                    <input type="text" class="form-control" id="Address1"
+                                        placeholder="Enter Street Address" name="Address1" formControlName="Address1">
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="form-group">
+                                    <label for="Customer">Suite/Apt/Other :</label>
+                                    <input type="text" class="form-control" id="Address2" name="Address2"
+                                        formControlName="Address2" placeholder="Enter Suite/Apt/Other">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-3">
+                                <div class="form-group">
+                                    <label for="Customer">Country :</label>
+                                    <select class="custom-select" name="CountryId" [(ngModel)]="CountryId"
+                                        formControlName="CountryId" (change)="getState($event,CountryId)">
+                                        <option value="undefined" disabled>Select</option>
+                                        <option *ngFor="let country of countryList" value={{country.CountryId}}>
+                                            {{country.CountryName}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-4">
+                                <div class="form-group">
+                                    <label for="Customer">State/Province/Region :</label>
+                                    <select class="custom-select" name="StateId" formControlName="StateId"
+                                        [(ngModel)]="StateId">
+                                        <option value="undefined" disabled>Select</option>
+                                        <option *ngFor="let State of StateList" value={{State.StateId}}>
+                                            {{State.StateName}}
+                                        </option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="col-xl-3">
+                                <div class="form-group">
+                                    <label for="Customer">City :</label>
+                                    <input type="text" class="form-control" id="City" placeholder="Enter City"
+                                        name="City" formControlName="City">
+
+                                </div>
+                            </div>
+                            <div class="col-xl-2">
+                                <div class="form-group">
+                                    <label for="Customer">Zip:</label>
+                                    <input type="text" class="form-control" id="Zip" placeholder="Enter Zip" name="Zip"
+                                        formControlName="Zip">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-4">
+                                <div class="form-group">
+                                    <label for="Customer">Primary Phone: <span class="red">*</span></label>
+                                    <input type="text" class="form-control" name="PhoneNo" formControlName="PhoneNo">
+                                    <span class="text-danger"
+                                        *ngIf="(UserFormControl.PhoneNo.touched || submitted) && UserFormControl.PhoneNo.errors?.required">
+                                        Primary Phone is required
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-4">
+                                <div class="form-group">
+                                    <label for="Customer">Fax : </label>
+                                    <input type="text" class="form-control" id="Fax" placeholder="Enter Fax" name="Fax"
+                                        formControlName="Fax">
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 form-lbox">
+                    <h4 class="form-title-text bluetxt mb-20">Profile Image</h4>
+
+                    <div class="form-border">
+                        <div class="row">
+                            <div class="form-group">
+                                <label>Image : </label>
+                                <img [src]="ProfilePhoto" *ngIf="ProfilePhoto" width="300">
+
+                                <input type="file" class="form-control" name="ProfilePhoto"
+                                    (change)="fileProgress($event)" formControlName="ProfilePhoto">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xl-12 form-lbox">
+                    <h4 class="form-title-text bluetxt mb-20">Login Details</h4>
+                    <div class="form-border">
+                        <div class="row">
+                            <div class="col-xl-4">
+                                <div class="form-group">
+                                    <label>
+                                        Username: <span class="red">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" placeholder="Enter Username" name="Username"
+                                        formControlName="Username">
+                                    <span class="text-danger"
+                                        *ngIf="(UserFormControl.Username.touched || submitted) && UserFormControl.Username.errors?.required">
+                                        User Name is required
+                                    </span>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-xl-4">
+                                <div class="form-group">
+                                    <label>
+                                        Password : <span class="red">*</span>
+                                    </label>
+                                    <input type="password" class="form-control" id="Customer_password"
+                                        placeholder="Enter Password" name="Password" formControlName="Password">
+
+
+                                    <span class="text-danger"
+                                        *ngIf="(UserFormControl.Password.touched || submitted) && UserFormControl.Password.errors?.required">
+                                        Password is required
+                                    </span>
+                                    <span class="text-danger"
+                                        *ngIf="UserFormControl.Password.touched && UserFormControl.Password.errors?.invalidPassword">
+                                        Password should have minimum 8 characters, at least 1 uppercase
+                                        letter, 1
+                                        lowercase
+                                        letter and 1 number
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-xl-4">
+                                <div class="form-group">
+                                    <label>
+                                        Confirm Password : <span class="red">*</span>
+                                    </label>
+                                    <input type="password" class="form-control" id="cendor_cpassword"
+                                        placeholder="Enter Confirm Password" name="ConfirmPassword"
+                                        formControlName="ConfirmPassword">
+                                    <span class="text-danger"
+                                        *ngIf="(UserFormControl.ConfirmPassword.touched || submitted)&& UserFormControl.ConfirmPassword.errors?.required">
+                                        Confirm Password is required
+                                    </span>
+                                    <span class="text-danger"
+                                        *ngIf="UserFormControl.ConfirmPassword.touched && UserFormControl.ConfirmPassword.errors?.confirmedValidator">
+                                        Passwords doesnot match
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer modal-lg">
+                <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+                <button class="btn btn-success waves-effect waves-light">Save</button>
+            </div>
+        </div>
+
+
+
+    </form>
+</div>

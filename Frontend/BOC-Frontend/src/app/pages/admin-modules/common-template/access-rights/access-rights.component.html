@@ -1,0 +1,111 @@
+<form class="form" role="form" (ngSubmit)="onSubmit()">
+    <div class="modal-header modal-xl">
+        <h4 class="modal-title">{{title}} - {{accessRightsName}}</h4>
+        <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+    </div>
+
+    <div class="modal-body p-2 modal-xl">
+        <div class="col-xl-12">
+            <div style="font-size: 15px;position: relative;font-weight: bold;">
+                <ngb-tabset class="nav-bordered" type="tabs">
+                    <ngb-tab *ngFor="let Group of PermissionGroups" [title]="Group.Name" class="nav-item">
+                        <ng-template ngbTabContent>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="card-box">
+                                        <h4 class="header-title">{{Group.Name}} Rights
+                                        </h4>
+
+                                        <div class="table-responsive">
+                                            <table class="table table-striped mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Access Rights</th>
+                                                        <th>
+                                                            <input type="checkbox"
+                                                                [checked]="isAllVerticalChecked(Group.PermissionIdentityType, 0)"
+                                                                (change)="checkListVertical($event, Group.PermissionIdentityType, 0)" />
+                                                            List/View
+                                                        </th>
+                                                        <th>
+                                                            <input type="checkbox"
+                                                                [checked]="isAllVerticalChecked(Group.PermissionIdentityType, 1)"
+                                                                (change)="checkListVertical($event, Group.PermissionIdentityType, 1)" />
+                                                            Create
+                                                        </th>
+                                                        <th>
+                                                            <input type="checkbox"
+                                                                [checked]="isAllVerticalChecked(Group.PermissionIdentityType, 2)"
+                                                                (change)="checkListVertical($event, Group.PermissionIdentityType, 2)" />
+                                                            Modify
+                                                        </th>
+                                                        <th>
+                                                            <input type="checkbox"
+                                                                [checked]="isAllVerticalChecked(Group.PermissionIdentityType, 3)"
+                                                                (change)="checkListVertical($event, Group.PermissionIdentityType, 3)" />
+                                                            Delete
+                                                        </th>
+                                                        <th *ngIf="Group.PermissionIdentityType != 12">
+                                                            <input type="checkbox"
+                                                                [checked]="isAllVerticalChecked(Group.PermissionIdentityType, 4)"
+                                                                (change)="checkListVertical($event, Group.PermissionIdentityType, 4)" />
+                                                            Approve
+                                                        </th>
+                                                        <th *ngIf="Group.PermissionIdentityType == 12">
+                                                            <input type="checkbox"
+                                                                [checked]="isAllVerticalChecked(Group.PermissionIdentityType, 4)"
+                                                                (change)="checkListVertical($event, Group.PermissionIdentityType, 4)" />
+                                                            Download
+                                                        </th>
+                                                        <th>
+                                                            <input type="checkbox"
+                                                                [checked]="isAllVerticalChecked(Group.PermissionIdentityType, 5)"
+                                                                (change)="checkListVertical($event, Group.PermissionIdentityType, 5)" />
+                                                            View Cost
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr *ngFor="let permission of PermissionList; let i=index;">
+                                                        <ng-container
+                                                            *ngIf="permission.PermissionIdentityType == Group.PermissionIdentityType">
+                                                            <td>
+                                                                <label>
+                                                                    <input type="checkbox"
+                                                                        [checked]="isAllHorizontalChecked(i)"
+                                                                        (change)="checkListHorizontal($event, i)" />
+                                                                    {{permission.PermissionName}}
+                                                                </label>
+                                                            </td>
+                                                            <td
+                                                                *ngFor="let p of permission.Permission; let j=index; trackBy: trackByIdx">
+                                                                <input type="checkbox"
+                                                                    name="{{permission.PermissionCode}}{{i}}-{{j}}"
+                                                                    [checked]="p == 1 && permission.PermissionMode[j] != 0"
+                                                                    [disabled]="permission.PermissionMode[j] == 0"
+                                                                    (change)="onCheckboxChange(permission.PermissionIdentityType, i, j, $event)" />
+                                                            </td>
+                                                        </ng-container>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                </ngb-tabset>
+            </div>
+
+            <div class="modal-footer modal-xl">
+                <input type="hidden" name="UserId" [(ngModel)]="UserId">
+                <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+                <button class="btn btn-success waves-effect waves-light" *ngIf="IsEditEnabled">Save</button>
+            </div>
+        </div>
+    </div>
+
+</form>

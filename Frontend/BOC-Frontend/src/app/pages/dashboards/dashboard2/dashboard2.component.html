@@ -1,0 +1,230 @@
+<!-- 
+  /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="container-fluid">
+  <app-page-title title="Dashboard 2" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+  <div class="row">
+    <!-- widget -->
+    <ng-template [ngTemplateOutlet]="WidgetData" [ngTemplateOutletContext]="{widget: widget}"
+      *ngFor="let widget of widgetData">
+    </ng-template>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body">
+          <div class="float-right d-none d-md-inline-block">
+            <div class="btn-group mb-2">
+              <button type="button" class="btn btn-xs btn-light">Today</button>
+              <button type="button" class="btn btn-xs btn-secondary">Weekly</button>
+              <button type="button" class="btn btn-xs btn-light">Monthly</button>
+            </div>
+          </div>
+          <h4 class="header-title">Recent Revenue</h4>
+
+          <div class="row mt-4 text-center">
+            <div class="col-4">
+              <p class="text-muted font-15 mb-1 text-truncate">Target</p>
+              <h4><i class="fe-arrow-down text-danger mr-1"></i>$7.8k</h4>
+            </div>
+            <div class="col-4">
+              <p class="text-muted font-15 mb-1 text-truncate">Last week</p>
+              <h4><i class="fe-arrow-up text-success mr-1"></i>$1.4k</h4>
+            </div>
+            <div class="col-4">
+              <p class="text-muted font-15 mb-1 text-truncate">Last Month</p>
+              <h4><i class="fe-arrow-down text-danger mr-1"></i>$15k</h4>
+            </div>
+          </div>
+
+          <div class="mt-2" dir="ltr">
+            <!-- Revenue Area Chart -->
+            <apx-chart [xaxis]="revenueAreaChart.xaxis" [chart]="revenueAreaChart" [series]="revenueAreaChart.series"
+              [dataLabels]="revenueAreaChart.dataLabels" [legend]="revenueAreaChart.legend"
+              [stroke]="revenueAreaChart.stroke" [fill]="revenueAreaChart.fill" [colors]="revenueAreaChart.colors"
+              [yaxis]="revenueAreaChart.yaxis" [tooltip]="revenueAreaChart.tooltip">
+            </apx-chart>
+            <!-- end chart -->
+          </div>
+        </div> <!-- end card-body-->
+      </div> <!-- end card-->
+    </div> <!-- end col -->
+
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="float-right d-none d-md-inline-block">
+            <div class="btn-group mb-2">
+              <button type="button" class="btn btn-xs btn-secondary">Today</button>
+              <button type="button" class="btn btn-xs btn-light">Weekly</button>
+              <button type="button" class="btn btn-xs btn-light">Monthly</button>
+            </div>
+          </div>
+          <h4 class="header-title">Projections Vs Actuals</h4>
+          <div class="row mt-4 text-center">
+            <div class="col-4">
+              <p class="text-muted font-15 mb-1 text-truncate">Target</p>
+              <h4><i class="fe-arrow-down text-danger mr-1"></i>$3.8k</h4>
+            </div>
+            <div class="col-4">
+              <p class="text-muted font-15 mb-1 text-truncate">Last week</p>
+              <h4><i class="fe-arrow-up text-success mr-1"></i>$1.1k</h4>
+            </div>
+            <div class="col-4">
+              <p class="text-muted font-15 mb-1 text-truncate">Last Month</p>
+              <h4><i class="fe-arrow-down text-danger mr-1"></i>$25k</h4>
+            </div>
+          </div>
+          <div class="mt-3 mb-2" dir="ltr">
+            <!-- Projections Donut chart -->
+            <apx-chart [chart]="projectionsDonutChart" [series]="projectionsDonutChart.series"
+              [labels]="projectionsDonutChart.labels" [legend]="projectionsDonutChart.legend"
+              [colors]="projectionsDonutChart.colors" [responsive]="projectionsDonutChart.responsive"></apx-chart>
+          </div>
+        </div>
+      </div> <!-- end card-->
+    </div> <!-- end col -->
+  </div>
+  <!-- end row -->
+
+  <div class="row">
+    <div class="col-xl-4">
+      <div class="card-box">
+        <div class="row">
+          <div class="col-6">
+            <div class="avatar-sm bg-primary rounded-circle">
+              <i class="fe-aperture avatar-title font-22 text-white"></i>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="text-right">
+              <h3 class="text-dark my-1">$<span [CountTo]="8145" [from]="0" [duration]="1"></span></h3>
+              <p class="text-muted mb-1 text-truncate">Income Status</p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4">
+          <!-- Income Status Bar chart -->
+          <apx-chart [chart]="incomeBarChart" [series]="incomeBarChart.series" [tooltip]="incomeBarChart.tooltip"
+            [colors]="incomeBarChart.colors" [dataLabels]="incomeBarChart.dataLabels"
+            [plotOptions]="incomeBarChart.plotOptions"></apx-chart>
+          <!-- End chart -->
+        </div>
+      </div> <!-- end card-box-->
+    </div> <!-- end col -->
+
+    <div class="col-xl-4">
+      <div class="card-box">
+        <div class="row">
+          <div class="col-6">
+            <div class="avatar-sm bg-success rounded-circle">
+              <i class="fe-users avatar-title font-22 text-white"></i>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="text-right">
+              <h3 class="text-dark my-1"><span [CountTo]="7204" [from]="0" [duration]="1"></span></h3>
+              <p class="text-muted mb-1 text-truncate">Recent Users</p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4">
+          <!-- Recent User Area Chart -->
+          <apx-chart [chart]="recentuserAreaChart" [series]="recentuserAreaChart.series"
+            [colors]="recentuserAreaChart.colors" [dataLabels]="recentuserAreaChart.dataLabels"
+            [stroke]="recentuserAreaChart.stroke" [tooltip]="recentuserAreaChart.tooltip">
+          </apx-chart>
+          <!-- End chat -->
+        </div>
+      </div> <!-- end card-box-->
+    </div> <!-- end col -->
+
+    <div class="col-xl-4">
+      <div class="card-box">
+        <div class="row">
+          <div class="col-6">
+            <div class="avatar-sm bg-secondary rounded-circle">
+              <i class="fe-shopping-bag avatar-title font-22 text-white"></i>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="text-right">
+              <h3 class="text-dark my-1"><span [CountTo]="367" [from]="0" [duration]="1"></span></h3>
+              <p class="text-muted mb-1 text-truncate">Sales Status</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 text-center">
+          <!-- Sales Status chart -->
+          <apx-chart [chart]="salesStatusChart" [series]="salesStatusChart.series" [colors]="salesStatusChart.colors"
+            [dataLabels]="salesStatusChart.dataLabels" [stroke]="salesStatusChart.stroke"
+            [tooltip]="salesStatusChart.tooltip">
+          </apx-chart>
+          <!-- end chart -->
+        </div>
+      </div> <!-- end card-box-->
+    </div> <!-- end col -->
+
+  </div>
+  <!-- end row -->
+
+  <div class="row">
+    <!-- Table -->
+    <div class="col-xl-12">
+      <app-portlet title="Top Selling Products" color="white" (onContentRefresh)="onTableContentRefresh()"
+        headerClass="h5 m-0 p-3 border-0 header-title">
+        <div class="card-body pt-1">
+          <div class="table-responsive">
+            <table class="table table-hover table-centered mb-0">
+              <thead>
+                <tr>
+                  <th>Product Id</th>
+                  <th>Product Name</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>Amount</th>
+                  <th>Date</th>
+                  <th>Sales</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let sellingData of productData">
+                  <td>{{ sellingData.productid }}</td>
+                  <td>{{ sellingData.name }}</td>
+                  <td>{{ sellingData.price }}</td>
+                  <td>{{ sellingData.quantity }}</td>
+                  <td>{{ sellingData.amount }}</td>
+                  <td>{{ sellingData.date }}</td>
+                  <td>{{ sellingData.sales }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </app-portlet>
+    </div>
+    <!-- End table -->
+  </div>
+</div>
+<!-- widget data -->
+<ng-template #WidgetData let-widget='widget'>
+  <div class="col-md-6 col-xl-3">
+    <div class="card-box">
+      <i class="fa fa-info-circle text-muted float-right" placement="bottom" ngbTooltip="More Info"></i>
+      <h4 class="mt-0 font-16">{{widget.title}}</h4>
+      <h2 class="text-primary my-3 text-center"><span [CountTo]="widget.value" [from]="0"
+          [duration]="1">{{widget.value}}</span></h2>
+      <p class="text-muted mb-0">{{widget.text}} <span class="float-right"><i
+            class="fa fa-caret-up text-success mr-1"></i>{{widget.revenue}}</span></p>
+    </div>
+  </div>
+</ng-template>

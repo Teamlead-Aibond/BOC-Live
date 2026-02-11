@@ -1,0 +1,140 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+
+<div class="account-pages mt-4 mb-5">
+	<div class="container">
+		<div class="row">
+			<div class="col-xl-12 mb-3">
+				<div class="col-xl-4 col-sm-4 float-left">
+					<button class="btn mangebtn btn-block" type="submit">
+						Repair Management
+					</button>
+				</div>
+				<div class="col-xl-4 col-sm-4 float-left">
+					<button class="btn mangebtn btn-block" type="submit">
+						Inventory Management
+					</button>
+				</div>
+				<div class="col-xl-4 col-sm-4 float-left">
+					<button class="btn mangebtn btn-block" type="submit">
+						RFID Management
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="row justify-content-center">
+			<div class="col-lg-5 col-sm-7">
+				<div class="card">
+					<div class="card-body p-4">
+						<!-- Logo -->
+						<div class="text-center w-75 m-auto">
+							<a routerLink="/">
+								<img src="{{ juno }}" alt="" height="40" />
+							</a>
+							<p class="text-muted mb-4 mt-3">
+								Enter your User Name and Password to access admin panel.
+							</p>
+						</div>
+						<div class="alert alert-danger ng-star-inserted" *ngIf="responseMessage">
+							{{ responseMessage }}
+						</div>
+
+						<form
+							class="needs-validation"
+							name="loginForm"
+							[formGroup]="loginForm"
+							(ngSubmit)="onSubmit()"
+							novalidate
+						>
+							<app-ui-preloader [display]="loading"></app-ui-preloader>
+							<ngb-alert type="danger" *ngIf="error" [dismissible]="false">{{
+								error
+							}}</ngb-alert>
+							<div class="form-group mb-3">
+								<label for="username">User Name</label>
+
+								<input
+									type="email"
+									formControlName="username"
+									class="form-control"
+									[ngClass]="{ 'is-invalid': submitted && f.username.errors }"
+									id="username"
+									placeholder="Username"
+								/>
+
+								<div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+									<div *ngIf="f.username.errors.required">User Name is required</div>
+								</div>
+							</div>
+
+							<div class="form-group mb-3">
+								<label for="password">Password</label>
+
+								<input
+									type="password"
+									formControlName="password"
+									class="form-control"
+									[ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+									id="password"
+									placeholder="Password"
+								/>
+
+								<div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+									<div *ngIf="f.password.errors.required">Password is required</div>
+								</div>
+							</div>
+
+							<div class="form-group mb-3">
+								<label for="Domain">Domain</label>
+								<input type="text" class="form-control" placeholder="Domain" />
+							</div>
+
+							<div class="form-group mb-0 text-center">
+								<button class="btn btn-primary btn-block" type="submit">Log In</button>
+							</div>
+						</form>
+
+						<!-- <p class="mt-2 text-muted"><strong>Username:</strong> info@aibond.ai, <strong>Password:</strong> test
+                        </p> -->
+					</div>
+					<!-- end card-body -->
+				</div>
+				<!-- end card -->
+
+				<div class="row mt-3">
+					<div class="col-12 text-center">
+						<p>
+							<a routerLink="/account/reset-password" class="text-muted ml-1"
+								>Forgot your password?</a
+							>
+						</p>
+						<p class="text-muted">
+							Don't have an account?
+							<a routerLink="/account/signup" class="text-muted ml-1"
+								><b>Sign Up</b></a
+							>
+						</p>
+					</div>
+					<!-- end col -->
+				</div>
+				<!-- end row -->
+			</div>
+			<!-- end col -->
+		</div>
+		<!-- end row -->
+	</div>
+	<!-- end container -->
+</div>
+<!-- end page -->
+
+<footer class="footer footer-alt">
+	Copyright © {{ year }} Aibond Corp. All rights reserved.
+	<p><a href="#">About</a> <a href="#">Privacy</a> <a href="#">Terms</a></p>
+</footer>

@@ -1,0 +1,140 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="sideNavcontainer">
+    <app-page-title title="Warranty List" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card-box">
+
+                <div class="row">
+                    <div class="col-xl-12 nopad">
+                        <div class="col-xl-6 btn-group btn-group-sm mbg mb-2" style="padding-top: 10px;float: left;">
+                            <ng-template [ngTemplateOutlet]="Search"></ng-template>&nbsp;
+                        </div>
+                        <!-- <div class="col-xl-6 text-right"  style="float: right;">
+                        <button style="margin-right:15px;margin-top: 10px;  padding-bottom: 5px;" class="btn btn-icon btn-sm btn-primary" type="button"><i style="margin-right: 10px;" class="fas fa-certificate"></i>Add Warranty</button>
+                    </div> -->
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-12">
+                        <!-- Table -->
+                        <div style="padding-right: 15px;" class="table-responsive">
+                            <table id="datatable-angular" datatable [dtOptions]="dtOptions"
+                                class="table datatables dt-responsive hover nowrap">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Repair Request #</th>
+                                        <th>Part #</th>
+                                        <th>Serial #</th>
+                                        <th>Warrant Start Date</th>
+                                        <th>Warranty End Date</th>
+                                        <th>Warranty From</th>
+                                        <th>Warranty To</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Tab Content -->
+<ng-template #Search>
+
+    <div class="btn-group dropdown" ngbDropdown>
+        <a (click)="EnableSearch()" class="dropdown-toggle arrow-none btn btn-icon btn-sm" ngbDropdownToggle
+            data-toggle="dropdown" aria-expanded="false"><i class="remixicon-search-line"></i> Search</a>
+        <div class="dropdown-menu dropdown-menu-right mt-0" ngbDropdownMenu *ngIf="showSearch">
+            <div class="row collapse show searchbox">
+                <!-- Row 1-->
+                <div class="col-12 col-xl-12">
+                    <label class="control-label">Repair Request #</label>
+                    <input type="text" class="form-control" id="RRNo" [(ngModel)]="RRNo"
+                        placeholder="Enter Repair Request #">
+                </div>
+
+                <div class="col-12 col-xl-6 mt-15">
+                    <label class="control-label">Part #</label>
+                    <input type="text" class="form-control" id="PartNo" [(ngModel)]="PartNo" placeholder="Enter Part #">
+                </div>
+                <div class="col-12 col-xl-6 mt-15">
+                    <label class="control-label">Serial #</label>
+                    <input type="text" class="form-control" id="SerialNo" [(ngModel)]="SerialNo"
+                        placeholder="Enter Serial #">
+                </div>
+                <div class="col-12 col-xl-6 mt-15">
+                    <label class="control-label"> Warranty Start Date</label>
+                    <div class="input-group clockpicker">
+                        <input class="form-control" placeholder="MM/DD/YYYY" autoClose="false"
+                            (ngModelChange)="WarrantyStart(WarrantyStartDate)" [(ngModel)]="WarrantyStartDate"
+                            ngbDatepicker #Warranty_Start="ngbDatepicker">
+                        <div class="input-group-append" (click)="Warranty_Start.toggle()">
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-xl-6 mt-15">
+                    <label class="control-label"> Warranty End Date</label>
+                    <div class="input-group clockpicker">
+                        <input class="form-control" placeholder="MM/DD/YYYY" autoClose="false"
+                            (ngModelChange)="WarrantyEnd(WarrantyEndDate)" [(ngModel)]="WarrantyEndDate" ngbDatepicker
+                            #Warranty_End="ngbDatepicker">
+                        <div class="input-group-append" (click)="Warranty_End.toggle()">
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-12 col-xl-6 mt-15">
+                    <label class="control-label"> Warranty From</label>
+                    <div class="input-group clockpicker">
+                        <input class="form-control" placeholder="MM/DD/YYYY" autoClose="false"
+                            (ngModelChange)="WarrantyFromDate(WarrantyFrom)" [(ngModel)]="WarrantyFrom" ngbDatepicker
+                            #Warranty_From="ngbDatepicker">
+                        <div class="input-group-append" (click)="Warranty_From.toggle()">
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-xl-6 mt-15">
+                    <label class="control-label"> Warranty To</label>
+                    <div class="input-group clockpicker">
+                        <input class="form-control" placeholder="MM/DD/YYYY" autoClose="false"
+                            (ngModelChange)="WarrantyToDate(WarrantyTo)" [(ngModel)]="WarrantyTo" ngbDatepicker
+                            #Warranty_To="ngbDatepicker">
+                        <div class="input-group-append" (click)="Warranty_To.toggle()">
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-xl-6 mt-15">
+                    <input type="button" class="btn btn-primary btn-md mr-2" value="Search" id="btnFilter"
+                        (click)="onFilter($event)" />&nbsp;
+                    <input type="button" class="btn btn-secondary btn-md mr-2" value="Clear" id="btnClear"
+                        (click)="onClear($event)" />
+                </div>
+
+            </div>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,75 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+<div class="container-fluid">
+    <app-page-title title="Blanket PO History-{{result.CustomerPONo}}" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="card-box popupscroll">
+    <div id="contentToConvert" style="padding-top: 20px;" class="col-12 pdfwrap">
+
+        <div class="row">
+            <div class="col-md-4 col-xl-4 invoicepara">
+                    <table class="table mt-2 table-bordered mb-0 inv-table print-table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th colspan="2">Basic Info</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <p><b>Customer :</b>{{result.CompanyName}}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p><b>PO # :</b>  {{result.CustomerPONo}}</p>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>
+                                    <p><b>Starting Balance :</b> {{result.CurrencySymbol}} {{result.StartingBalance}}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p><b>Total Amount :</b> {{result.CurrencySymbol}} {{result.TotalAmount}}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p><b>Current Balance :</b> {{result.CurrencySymbol}} {{result.CurrentBalance}}</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>             
+            </div>
+        </div>
+      
+        <div class="row mt-2">
+            <div class="col-xl-12">
+                <div style="padding-right: 15px;" class="table-responsive">
+                    <table id="datatable-historyofbalnketPO" datatable [dtOptions]="dtOptions" 
+                        class="table datatables dt-responsive hover nowrap">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Date</th>
+                                <th>RR / MRO # / Quote #</th>
+                                <th>Payment Type</th>
+                                <th>Amount</th>
+                                <th>Comments</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>

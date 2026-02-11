@@ -1,0 +1,325 @@
+<div class="container-fluid">
+	<app-page-title
+		title="Inventory"
+		[breadcrumbItems]="breadCrumbItems"
+	></app-page-title>
+	<!-- <div class="row">
+        <div class="col-12">
+            <div class="button-list fl-right mb-15">
+                <button class="btn btn-secondary waves-effect"><i class="remixicon-add-fill mt-3"></i> Add Vendor</button>
+                <button class="btn btn-secondary waves-effect"><i class="remixicon-search-line mt-3"></i> Search</button>
+            </div>
+        </div>
+    </div> -->
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-body">
+					<div class="card-title">
+						<div style="font-size: 15px; position: relative; font-weight: bold">
+							<ngb-tabset class="nav-bordered" type="tabs">
+								<ngb-tab title="Search" class="nav-item d-none d-sm-inline-block">
+									<ng-template ngbTabContent>
+										<ng-template [ngTemplateOutlet]="Search"></ng-template>
+									</ng-template>
+								</ngb-tab>
+
+								<ngb-tab title="Statistics" class="nav-item">
+									<ng-template ngbTabContent>
+										<ng-template [ngTemplateOutlet]="Statistics"></ng-template>
+									</ng-template>
+								</ngb-tab>
+							</ngb-tabset>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card-box">
+				<div class="row">
+					<div class="col-sm-12">
+						<!-- Table -->
+						<div class="table-responsive">
+							<div
+								style="margin-right: 10px"
+								class="btn-group btn-group-sm mb-2 float-right"
+								role="group"
+							>
+								<button
+									class="btn btn-primary waves-effect raa"
+									routerLink="/admin/inventory/add"
+								>
+									<i class="remixicon-add-fill mrg-5"></i> Inventory Add
+								</button>
+							</div>
+							<table
+								id="datatable-angular-inv"
+								datatable
+								[dtOptions]="dtOptions"
+								width="100%"
+							>
+								<thead class="thead-light" style="display: none">
+									<tr>
+										<!-- <th>Picture</th> -->
+										<th>Details</th>
+										<th>Part #</th>
+										<th>Image</th>
+										<th>Description</th>
+										<th>Warehouse</th>
+										<th>Manufacturer</th>
+										<th>Vendor</th>
+										<th>Items Count</th>
+										<th>Opening Stock</th>
+										<th>Total Price</th>
+									</tr>
+								</thead>
+								<!-- <tbody *ngIf="tableData?.length != 0">
+                                    <tr *ngFor="let item of tableData">
+                                        <td>
+                                            <a routerLink="/admin/inventory/view"> <img src="{{ item.Img }}" alt="contact-img" title="contact-img" class="rounded img-thumbnail avatar-xl" /> </a>
+                                        </td>
+
+                                        <td><a routerLink="/admin/inventory/view"> {{ item.Part }}</a></td>
+                                        <td>
+
+                                            {{ item.Manufacturer }}
+                                        </td>
+
+                                        <td>
+                                            {{ item.Desc }}
+
+                                        </td>
+                                        <td>
+                                            {{ item.New }}
+                                        </td>
+                                        <td>
+                                            {{ item.Reburbished }}
+                                        </td>
+
+                                        <td>
+                                            {{ item.Qty }}
+                                        </td>
+
+                                        <td>
+                                            {{ item.Price }}
+                                        </td>
+
+                                        <td>
+                                            <span class="badge badge-secondary" [ngClass]="{
+                                        'badge-warning': item.Status === 'Inactive',
+                                        'badge-success': item.Status === 'Active'
+                                        }">
+                                                {{ item.Status }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <ng-template [ngTemplateOutlet]="TableAction"></ng-template>
+                                            
+                                        </td>
+                                    </tr>
+                                </tbody> -->
+								<tbody *ngIf="tableData?.length == 0">
+									<tr>
+										<td colspan="5" class="no-data-available">No data!</td>
+									</tr>
+								</tbody>
+
+								<tbody></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Table Action -->
+<ng-template #TableAction>
+	<div class="btn-group dropdown" ngbDropdown>
+		<a
+			href="javascript: void(0);"
+			class="dropdown-toggle arrow-none btn btn-light btn-sm"
+			ngbDropdownToggle
+			data-toggle="dropdown"
+			aria-expanded="false"
+			><i class="mdi mdi-dots-horizontal"></i
+		></a>
+		<div class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
+			<a class="dropdown-item" routerLink="/admin/inventory/edit"
+				><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i
+				>Edit</a
+			>
+			<a class="dropdown-item" (click)="delete()"
+				><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i
+				>Remove</a
+			>
+		</div>
+	</div>
+</ng-template>
+
+<!-- Tab Content -->
+<ng-template #Search>
+	<div class="row collapse pt-2 show">
+		<div class="col-12 col-sm-4 col-md-4 col-xl-2">
+			<label class="control-label">Part #</label>
+			<input
+				type="text"
+				class="form-control"
+				id="PartNo"
+				[(ngModel)]="PartNo"
+				placeholder="Enter Part No"
+			/>
+		</div>
+		<div class="col-12 col-sm-4 col-md-4 col-xl-2">
+			<label class="control-label">Warehouse</label>
+			<ng-select
+				[items]="warehouseList"
+				placeholder="Select"
+				[(ngModel)]="WarehouseId"
+				bindLabel="name"
+				bindValue="id"
+				[searchable]="true"
+			>
+			</ng-select>
+			<!-- <select class="custom-select" id="WarehouseId" [(ngModel)]="WarehouseId">
+                <option disabled>Select</option>
+                <option *ngFor="let w of warehouseList" [value]="w.id" ng-reflect-value="1">{{w.name}}</option>
+            </select> -->
+		</div>
+		<div class="col-12 col-sm-4 col-md-4 col-xl-2">
+			<label class="control-label">Manufacturer</label>
+			<ng-select
+				[items]="manufacturerList"
+				placeholder="Select"
+				[(ngModel)]="ManufacturerId"
+				bindLabel="name"
+				bindValue="id"
+				[searchable]="true"
+			>
+			</ng-select>
+			<!-- <select class="custom-select" id="ManufactuerId" [(ngModel)]="ManufacturerId">
+                <option disabled>Select</option>
+                <option *ngFor="let v of manufacturerList" [value]="v.VendorId" ng-reflect-value="1"> {{v.title}}
+                </option>
+            </select> -->
+		</div>
+		<div class="col-12 col-sm-4 col-md-4 col-xl-2">
+			<label for="lastname">Vendor</label>
+			<ng-select
+				[items]="vendorList"
+				placeholder="Select"
+				[(ngModel)]="VendorId"
+				bindLabel="name"
+				bindValue="id"
+				[searchable]="true"
+			>
+			</ng-select>
+			<!-- <select class="custom-select" id="VendorId" [(ngModel)]="VendorId">
+                <option disabled>Select</option>
+                <option *ngFor="let v of vendorList" [value]="v.VendorId" ng-reflect-value="1"> {{v.title}}
+                </option>
+            </select> -->
+		</div>
+
+		<div class="col-12 col-sm-4 col-md-4 col-xl-2" style="padding-top: 30px">
+			<input
+				type="button"
+				class="btn btn-primary btn-md mr-1"
+				value="Search"
+				id="btnFilter"
+				(click)="onFilter($event)"
+			/>
+			<input
+				type="button"
+				class="btn btn-secondary btn-md"
+				value="Clear"
+				id="btnClear"
+				(click)="onClear($event)"
+			/>
+		</div>
+	</div>
+</ng-template>
+
+<!-- Tab Content -->
+<ng-template #Statistics>
+	<div class="text-center mb-2">
+		<div class="row">
+			<div class="col-md-8 col-xl-7 mb-20">
+				<div class="row">
+					<div class="col-xl-5 col-sm-5 col-md-5 col-12">
+						<label class="control-label col-xl-3 pad7">From Date</label>
+						<div style="padding: 0" class="input-group col-xl-9 clockpicker">
+							<input
+								class="form-control"
+								placeholder="MM/DD/YYYY"
+								name="d2"
+								ngbDatepicker
+								#d2="ngbDatepicker"
+							/>
+							<div class="input-group-append">
+								<button class="blackbg" (click)="d2.toggle()" type="button">
+									<i class="mdi blackbg white mdi-calendar"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-5 col-sm-5 col-md-5 col-12">
+						<label class="control-label col-xl-3 pad7">To Date</label>
+						<div style="padding: 0" class="input-group col-xl-9 clockpicker">
+							<input
+								class="form-control"
+								placeholder="MM/DD/YYYY"
+								name="d3"
+								ngbDatepicker
+								#d3="ngbDatepicker"
+							/>
+							<div class="input-group-append">
+								<button class="blackbg" (click)="d3.toggle()" type="button">
+									<i class="mdi white mdi-calendar"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-2 col-sm-2 col-md-2 col-12 text-left nopad">
+						<button
+							type="button"
+							class="btn btn-primary waves-effect waves-light msub"
+						>
+							Submit
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<!-- Card -->
+			<div class="col-md-6 col-xl-3" *ngFor="let carddata of cardData">
+				<div class="card-box">
+					<i class="{{ carddata.icon }} font-24"></i>
+					<h3
+						class="text-warning"
+						[ngClass]="{
+							'text-warning': carddata.text === 'warning',
+							'text-success': carddata.text === 'success',
+							'text-danger': carddata.text === 'danger',
+							'text-pink': carddata.text === 'pink',
+							'text-info': carddata.text === 'info',
+							'text-purple': carddata.text === 'purple'
+						}"
+					>
+						{{ carddata.tickets }}
+					</h3>
+					<p class="text-uppercase mb-1 font-13 font-weight-medium">
+						{{ carddata.title }}
+					</p>
+				</div>
+			</div>
+			<!-- End card -->
+		</div>
+	</div>
+</ng-template>

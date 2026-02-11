@@ -1,0 +1,418 @@
+<div class="container-fluid inv-dahboard">
+    <app-page-title title="Inventory Dashboard" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card-box is-wrap">
+                <h4 style="font-size:1.1rem;" class="header-title mb-3">Inventory Summary</h4>
+                <div class="w20 float-left nopad-lt">
+                    <div class="widget-simple text-center card-box greyl">
+                        <h3 class="ist mt-0"><span>Ready for Shipping</span>
+                        </h3>
+                        <p class="f-25 mb-0">{{InventorySummary.ReadyForShipping || 0}}</p>
+                    </div>
+                </div>
+                <div class="w20 float-left nopad-lt">
+                    <div class="widget-simple text-center card-box greyl">
+                        <h3 class="ist mt-0"><span>Orders Placed</span>
+                        </h3>
+                        <p class="f-25 mb-0">{{InventorySummary.OrdersPlaced || 0}}</p>
+                    </div>
+                </div>
+
+                <div class="w20 float-left nopad-lt">
+                    <div class="widget-simple text-center card-box greyl">
+                        <h3 class="ist mt-0"><span>Orders Received</span>
+                        </h3>
+                        <p class="f-25 mb-0">{{InventorySummary.OrdersReceived || 0}}</p>
+                    </div>
+                </div>
+
+                <div class="w20 float-left">
+                    <div class="widget-simple text-center card-box greyl">
+                        <h3 class="ist mt-0"><span>Low Stock Items</span>
+                        </h3>
+                        <p class="f-25 mb-0">{{InventorySummary.LowStockItems || 0}}</p>
+                    </div>
+                </div>
+
+                <div class="w20 float-left">
+                    <div class="widget-simple text-center card-box greyl">
+                        <h3 class="ist mt-0"><span>Out Of Stock Items</span>
+                        </h3>
+                        <p class="f-25 mb-0">{{InventorySummary.OutOfStockItems || 0}}</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-12 nopad">
+            <h4 class="header-title text-center pl15" style="width:100%;font-size:1.2rem;"><span class="mt-2">Today</span> <input class="selectpicker sepick" type="text" ngxDaterangepickerMd [(ngModel)]="dateTodayFilter" [showCustomRangeLabel]="true" [keepCalendarOpeningWithRange]="true" [timePicker]="false" [alwaysShowCalendars]="true"
+                    [ranges]="ranges" [linkedCalendars]="true" startKey="FromDate" endKey="ToDate" [isInvalidDate]="isInvalidDate" (ngModelChange)="onTodayStatisticsCount()" [showClearButton]="true" readonly>
+            </h4>
+
+            <span class="clear15"></span>
+            <div class="col-12 col-xl-2 col-sm-4 col-md-3 float-left">
+                <div class="widget-bg-color-icon card-box card-dashpad dhh">
+                    <div class="float-left col-4">
+                        <div class="avatar-lg rounded-circle bg-icon-danger float-left">
+                            <i class="fas fa-truck-loading font23 avatar-title text-white"></i>
+                        </div>
+                    </div>
+                    <div class="rct col-8">
+                        <h3 class="tdd mt-1"><span>{{TodayStatisticsCount.StockIn||0}}</span></h3>
+                        <p class="text-mute-blue mb-0">Stock In</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+            <div class="col-12 col-xl-2 col-sm-4 col-md-3 float-left">
+                <div class="widget-bg-color-icon card-box card-dashpad dhh">
+                    <div class="float-left col-4">
+                        <div class="avatar-lg rounded-circle bg-icon-info float-left">
+                            <i class="mdi mdi-truck-fast font35 avatar-title text-white"></i>
+                        </div>
+                    </div>
+                    <div class="rct col-8">
+                        <h3 class="tdd mt-1"><span>{{TodayStatisticsCount.StockOut||0}}</span></h3>
+                        <p class="text-mute-blue mb-0">Stock Out</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+            <div class="col-12 col-xl-2 col-sm-4 col-md-3 float-left">
+                <div class="widget-bg-color-icon card-box card-dashpad dhh">
+                    <div class="col-4 float-left">
+                        <div class="avatar-lg rounded-circle bg-icon-warning float-left">
+                            <i class="fas fa-tasks font28 avatar-title text-white"></i>
+                        </div>
+                    </div>
+                    <div class="rct col-8">
+                        <h3 class="tdd mt-1"><span>{{TodayStatisticsCount.IntentRaised||0}}</span></h3>
+                        <p class="text-mute-blue mb-0">Intent Raised</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+            <div class="col-12 col-xl-2 col-sm-4 col-md-3 float-left">
+                <div class="widget-bg-color-icon card-box card-dashpad dhh">
+                    <div class="float-left col-4">
+                        <div class="avatar-lg rounded-circle bg-icon-pink float-left">
+                            <i class="mdi mdi-bank-transfer-in font35 avatar-title text-white"></i>
+                        </div>
+                    </div>
+                    <div class="rct col-8">
+                        <h3 class="tdd mt-1"><span>{{TodayStatisticsCount.TranferProduct||0}}</span></h3>
+                        <p class="text-mute-blue mb-0">Transfer Product</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+            <div class="col-12 col-xl-2 col-sm-4 col-md-3 float-left">
+                <div class="widget-bg-color-icon card-box card-dashpad dhh">
+                    <div class="float-left col-4">
+                        <div class="avatar-lg rounded-circle bg-icon-purple float-left">
+                            <i class="mdi mdi-bank-transfer font35 avatar-title text-white"></i>
+                        </div>
+                    </div>
+                    <div class="rct col-8">
+                        <h3 class="tdd mt-1"><span>{{TodayStatisticsCount.ReceiveProduct||0}}</span></h3>
+                        <p class="text-mute-blue mb-0">Receive Product</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+            <div class="col-12 col-xl-2 col-sm-4 col-md-3 float-left">
+                <div class="widget-bg-color-icon card-box card-dashpad dhh">
+                    <div class="float-left col-4">
+                        <div class="avatar-lg rounded-circle bg-icon-success float-left">
+                            <i class="fas fa-house-damage font23 avatar-title text-white"></i>
+                        </div>
+                    </div>
+                    <div class="rct col-8">
+                        <h3 class="tdd mt-1"><span>{{TodayStatisticsCount.Damage||0}}</span></h3>
+                        <p class="text-mute-blue mb-0">Damage</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-xl-12 nopad">
+            <h4 class="header-title text-center pl15" style="width:100%;font-size:1.2rem;"><span class="mt-2">Yesterday</span> <input class="selectpicker sepick" type="text" ngxDaterangepickerMd [(ngModel)]="dateYesterdayFilter" [showCustomRangeLabel]="true" [keepCalendarOpeningWithRange]="true" [timePicker]="false" [alwaysShowCalendars]="true"
+                    [ranges]="ranges" [linkedCalendars]="true" startKey="FromDate" endKey="ToDate" [isInvalidDate]="isInvalidDate" (ngModelChange)="onYesterdayStatisticsCount()" [showClearButton]="true" readonly>
+            </h4>
+
+            <span class="clear15"></span>
+            <div class="col-12 col-xl-2 col-sm-4 col-md-3 float-left">
+                <div class="widget-bg-color-icon card-box card-dashpad dhh">
+                    <div class="float-left col-4">
+                        <div class="avatar-lg rounded-circle bg-icon-danger float-left">
+                            <i class="fas fa-truck-loading font23 avatar-title text-white"></i>
+                        </div>
+                    </div>
+                    <div class="rct col-8">
+                        <h3 class="tdd mt-1"><span>{{YesterdayStatisticsCount.StockIn || 0}}</span></h3>
+                        <p class="text-mute-blue mb-0">Stock In</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+            <div class="col-12 col-xl-2 col-sm-4 col-md-3 float-left">
+                <div class="widget-bg-color-icon card-box card-dashpad dhh">
+                    <div class="float-left col-4">
+                        <div class="avatar-lg rounded-circle bg-icon-info float-left">
+                            <i class="mdi mdi-truck-fast font35 avatar-title text-white"></i>
+                        </div>
+                    </div>
+                    <div class="rct col-8">
+                        <h3 class="tdd mt-1"><span>{{YesterdayStatisticsCount.StockOut || 0}}</span></h3>
+                        <p class="text-mute-blue mb-0">Stock Out</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+            <div class="col-12 col-xl-2 col-sm-4 col-md-3 float-left">
+                <div class="widget-bg-color-icon card-box card-dashpad dhh">
+                    <div class="float-left col-4">
+                        <div class="avatar-lg rounded-circle bg-icon-warning float-left">
+                            <i class="fas fa-tasks font28 avatar-title text-white"></i>
+                        </div>
+                    </div>
+                    <div class="rct col-8">
+                        <h3 class="tdd mt-1"><span>{{YesterdayStatisticsCount.IntentRaised || 0}}</span></h3>
+                        <p class="text-mute-blue mb-0">Intent Raised</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+            <div class="col-12 col-xl-2 col-sm-4 col-md-3 float-left">
+                <div class="widget-bg-color-icon card-box card-dashpad dhh">
+                    <div class="float-left col-4">
+                        <div class="avatar-lg rounded-circle bg-icon-pink float-left">
+                            <i class="mdi mdi-bank-transfer-in font35 avatar-title text-white"></i>
+                        </div>
+                    </div>
+                    <div class="rct col-8">
+                        <h3 class="tdd mt-1"><span>{{YesterdayStatisticsCount.TranferProduct || 0}}</span></h3>
+                        <p class="text-mute-blue mb-0">Transfer Product</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+            <div class="col-12 col-xl-2 col-sm-4 col-md-3 float-left">
+                <div class="widget-bg-color-icon card-box card-dashpad dhh">
+                    <div class="float-left col-4">
+                        <div class="avatar-lg rounded-circle bg-icon-purple float-left">
+                            <i class="mdi mdi-bank-transfer font35 avatar-title text-white"></i>
+                        </div>
+                    </div>
+                    <div class="rct col-8">
+                        <h3 class="tdd mt-1"><span>{{YesterdayStatisticsCount.ReceiveProduct || 0}}</span></h3>
+                        <p class="text-mute-blue mb-0">Receive Product</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+            <div class="col-12 col-xl-2 col-sm-4 col-md-3 float-left">
+                <div class="widget-bg-color-icon card-box card-dashpad dhh">
+                    <div class="float-left col-4">
+                        <div class="avatar-lg rounded-circle bg-icon-success float-left">
+                            <i class="fas fa-house-damage font23 avatar-title text-white"></i>
+                        </div>
+                    </div>
+                    <div class="rct col-8">
+                        <h3 class="tdd mt-1"><span>{{YesterdayStatisticsCount.Damage || 0}}</span></h3>
+                        <p class="text-mute-blue mb-0">Damage</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-12 nopad">
+            <div class="col-xl-6 col-md-6 float-left">
+                <!-- <div style="padding-bottom:0; " class="card-box">
+                    <app-portlet title="Low Stock Items & Out of Stock " (onContentRefresh)="contentRefresh() " color="white " headerClass="header-title h4 border-0 my-1 ">
+                        <div class="card-body pt-0 ">
+                            <apx-chart [series]="stackedAreaChart.series " [chart]="stackedAreaChart.chart " [stroke]="stackedAreaChart.stroke " [dataLabels]="stackedAreaChart.dataLabels " [xaxis]="stackedAreaChart.xaxis " [legend]="stackedAreaChart.legend
+                            " [colors]="stackedAreaChart.colors " [fill]="stackedAreaChart.fill ">
+                            </apx-chart>
+                        </div>
+                    </app-portlet>
+                </div> -->
+                <div style="padding-bottom: 0; " class="card-box">
+                    <app-portlet title="Warehouse Wise Stock %" (onContentRefresh)="contentRefresh() " color="white " headerClass="header-title h4 border-0 my-1 ">
+                        <div class="card-body pt-0 ">
+                            <div class="form-group pnn row"><label class="col-sm-2 col-form-label">Part Number</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control form-control3">
+                                        <option>PRF001</option>
+                                        <option>PRT00110</option>
+                                        <option>PRT007</option>
+                                        <option>MATI</option>
+                                        <option>AH78954</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <apx-chart [series]="simplePieChart.series " [chart]="simplePieChart.chart " [labels]="simplePieChart.labels " [dataLabels]="simplePieChart.dataLabels " [legend]="simplePieChart.legend " [colors]="simplePieChart.colors
+                            " [responsive]="simplePieChart.responsive ">
+                            </apx-chart>
+                        </div>
+                    </app-portlet>
+                </div>
+            </div>
+
+            <div class="col-xl-6 col-md-6 float-left">
+                <div style="padding-bottom:0;" class="card-box">
+                    <app-portlet title="Top Selling Items" (onContentRefresh)="contentRefresh()" color="white" headerClass="header-title h4 border-0 my-1">
+                        <div class="card-body pt-0">
+                            <apx-chart [series]="basicColumChart.series" [chart]="basicColumChart.chart" [plotOptions]="basicColumChart.plotOptions" [yaxis]="basicColumChart.yaxis" [grid]="basicColumChart.grid" [tooltip]="basicColumChart.tooltip" [stroke]="basicColumChart.stroke"
+                                [dataLabels]="basicColumChart.dataLabels" [xaxis]="basicColumChart.xaxis" [legend]="basicColumChart.legend" [colors]="basicColumChart.colors" [fill]="basicColumChart.fill">
+                            </apx-chart>
+                        </div>
+                    </app-portlet>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-12 nopad">
+            <div class="col-xl-6 col-md-6 float-left">
+
+                <app-portlet title="Product Arrival Trends" headerClass="header-title h4 border-0 my-1" (onContentRefresh)="contentRefresh()" color="white" headerClass="header-title h4 border-0 my-1">
+                    <!-- Gradient Line Chart -->
+                    <div class="card-body pt-0">
+                        <apx-chart [series]="gradientLineChart.series" [chart]="gradientLineChart.chart" [stroke]="gradientLineChart.stroke" [title]="gradientLineChart.title" [grid]="gradientLineChart.grid" [responsive]="gradientLineChart.responsive" [xaxis]="gradientLineChart.xaxis"
+                            [yaxis]="gradientLineChart.yaxis" [markers]="gradientLineChart.markers" [fill]="gradientLineChart.fill">
+                        </apx-chart>
+                    </div>
+                </app-portlet>
+
+            </div>
+
+            <div class="col-xl-6 col-md-6 float-left">
+
+                <app-portlet title="Product in Stock" (onContentRefresh)="contentRefresh()" color="white" headerClass="header-title h4 border-0 my-1">
+                    <!-- basic column chart -->
+                    <div class="card-body pt-0">
+                        <apx-chart [series]="basicColumChart1.series" [chart]="basicColumChart1.chart" [plotOptions]="basicColumChart1.plotOptions" [yaxis]="basicColumChart1.yaxis" [grid]="basicColumChart1.grid" [tooltip]="basicColumChart1.tooltip" [stroke]="basicColumChart1.stroke"
+                            [dataLabels]="basicColumChart1.dataLabels" [xaxis]="basicColumChart1.xaxis" [legend]="basicColumChart1.legend" [colors]="basicColumChart1.colors" [fill]="basicColumChart1.fill">
+                        </apx-chart>
+                    </div>
+                </app-portlet>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="row">
+        <div class="col-xl-12 nopad">
+            <div class="col-xl-6 col-md-6 float-left">
+                <div style="padding-bottom: 0; " class="card-box">
+                    <app-portlet title="Warehouse Wise Stock %" (onContentRefresh)="contentRefresh() " color="white " headerClass="header-title h4 border-0 my-1 ">
+                        <div class="card-body pt-0 ">
+                            <apx-chart [series]="simplePieChart.series " [chart]="simplePieChart.chart " [labels]="simplePieChart.labels " [dataLabels]="simplePieChart.dataLabels " [legend]="simplePieChart.legend " [colors]="simplePieChart.colors
+                            " [responsive]="simplePieChart.responsive ">
+                            </apx-chart>
+                        </div>
+                    </app-portlet>
+                </div>
+            </div>
+
+            <div class="col-xl-6 col-md-6 float-left">
+                <div style="padding-bottom: 0; " class="card-box">
+                    <app-portlet title="Avg Price & Units Per Transaction" (onContentRefresh)="contentRefresh() " color="white " headerClass="header-title h4 border-0 my-1 ">
+                        <div style="padding-bottom:0; " class="card-body pt-0 ">
+                            <div id="chart ">
+                                <apx-chart [series]="chartOptions.series " [chart]="chartOptions.chart " [yaxis]="chartOptions.yaxis " [xaxis]="chartOptions.xaxis " [labels]="chartOptions.labels " [stroke]="chartOptions.stroke " [markers]="chartOptions.markers
+                            " [fill]="chartOptions.fill " [tooltip]="chartOptions.tooltip "></apx-chart>
+                            </div>
+                        </div>
+                    </app-portlet>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card-box is-wrap">
+                <h4 class="header-title mb-3">Part Availability</h4>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="col-xl-5 col-lg-5 nopad-lt float-left">
+                            <div class="form-group row mb-3"><label class="col-md-3 col-form-label text-right">Part
+                                    No</label>
+                                <div class="col-md-9"><input class="form-control2" name="PartNo" type="text"></div>
+                            </div>
+                        </div>
+                        <div class="col-xl-5 col-lg-5 nopad-lt float-left">
+                            <div class="form-group row mb-3"><label class="col-md-3 col-form-label text-right">Serial
+                                    Number</label>
+                                <div class="col-md-9"><input class="form-control2" name="PartNo" type="text"></div>
+                            </div>
+                        </div>
+                        <div class="col-xl-2 col-lg-2 nopad-lt float-left">
+                            <button class="btn btn-secondary" type="button">Submit</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 pb-2">
+                        <div class="col-20">
+                            <i class="fas fa-warehouse f-15"></i>
+                            <p>Warehouse</p>
+                        </div>
+                        <div class="col-15">-></div>
+                        <div class="col-20">
+                            <i class="fas fa-building f-16"></i>
+                            <p>Building</p>
+                        </div>
+                        <div class="col-15">-></div>
+                        <div class="col-20">
+                            <i class="remixicon-building-2-fill f-17"></i>
+                            <p>Room</p>
+                        </div>
+                        <div class="col-15">-></div>
+                        <div class="col-20">
+                            <i class="mdi mdi-table-row f-18"></i>
+                            <p>Row</p>
+                        </div>
+                        <div class="col-15">-></div>
+                        <div class="col-20">
+                            <i class="mdi mdi-file-cabinet f-19"></i>
+                            <p>Shelf</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,37 @@
+<div class="modal-header modal-lg">
+    <h4 class="modal-title">Edit Customer Reference</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-lg">
+    <form name="form" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+
+        <div class="container">
+            <div class="form-group">
+
+                <div class="row col-xl-12">
+                    <div class="col-xl-6">
+                        <label for="Customer">Reference Name</label>
+                        {{result.ReferenceLabelName}}
+
+                    </div>
+                    <div class="col-xl-6">
+                        <label for="Customer">Reference Value<span class="red">*</span></label>
+                        <input id="CReferenceName" [(ngModel)]="model.ReferenceValue" name="ReferenceValue"
+                            #ReferenceValue="ngModel" type="text" class="form-control"
+                            [ngClass]="{ 'is-invalid': f.submitted && ReferenceValue.invalid }" required>
+
+                        <div *ngIf="f.submitted &&ReferenceValue.invalid" class="invalid-feedback">
+                            <div *ngIf="ReferenceValue.errors.required">Reference Value is required</div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light">Submit</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,112 @@
+{
+	"data": [
+
+		{
+			"Quote": "Q00001314",
+			"Description": "Dell laptop charger",
+            "QuoteType": "REGULAR-Regular",
+            "CustomerID":"UTC-Mikro",
+            "CompanyName":"UTC-Mikro Systems, Inc.",
+            "SONo":"SO018543",
+			"Status": "Coverted to Order",
+            "CreateDate": "02/12/2020",
+            "FacilityCode":"MIKRO SYB",
+			"price": "5536.00"
+			
+        },
+        {
+			"Quote": "Q00001313",
+			"Description": "Test PR",
+            "QuoteType": "REGULAR-Regular",
+            "CustomerID":"CJ AUTOMOTIVE",
+            "CompanyName":"CJ Automotive Indiana, LLC.",
+            "SONo":"SO018527,SO018598",
+			"Status": "Converted to Order",
+            "CreateDate": "02/04/2020",
+            "FacilityCode":"CJ Automotive",
+			"price": "1.06"
+			
+        },
+        {
+			"Quote": "Q00001311",
+			"Description": "922863 Seal KitSO018506",
+            "QuoteType": "REGULAR-Regular",
+            "CustomerID":"Flex-N-Gate Salem",
+            "CompanyName":"Salem Flex-N-Gate Salem",
+            "SONo":"SO018506",
+			"Status": "Converted to Order",
+            "CreateDate": "11/04/2020",
+            "FacilityCode":"American Hydrostatic",
+			"price": "132.22"
+			
+        },
+        {
+			"Quote": "Q00001312",
+			"Description": "DENISON T6CR017-3R03B20A1-P31",
+            "QuoteType": "REGULAR-Regular",
+            "CustomerID":"Flex-N-Gate Salem",
+            "CompanyName":"Salem Flex-N-Gate Salem",
+            "SONo":"",
+			"Status": "Open",
+            "CreateDate": "11/05/2019",
+            "FacilityCode":"American Hydrostatic",
+			"price": "1569.75"
+			
+        },
+      
+        {
+			"Quote": "Q00001309",
+			"Description": "test",
+            "QuoteType": "REGULAR-Regular",
+            "CustomerID":"Flex-N-Gate Salem",
+            "CompanyName":"Salem Flex-N-Gate Salem",
+            "SONo":"",
+			"Status": "Open",
+            "CreateDate": "11/04/2019",
+            "FacilityCode":"American Hydrostatic",
+			"price": "2850.00"
+			
+        },
+        {
+			"Quote": "Q00001308",
+			"Description": "Mitsubishi Spindle Motor",
+            "QuoteType": "REGULAR-Regular",
+            "CustomerID":"PSMI ABG",
+            "CompanyName":"PSMI ABG",
+            "SONo":"",
+			"Status": "Open",
+            "CreateDate": "11/01/2019",
+            "FacilityCode":"American Hydrostatic",
+			"price": "4500.00"
+			
+        },
+        {
+			"Quote": "Q00001303",
+			"Description": "This is rebuild kit for CY3B40-300-X324SO018243",
+            "QuoteType": "REGULAR-Regular",
+            "CustomerID":"Amazon SMF1",
+            "CompanyName":"Amazon - SMF1 Metro Airpark - 400KW",
+            "SONo":"SO018243",
+			"Status": "Converted to Order",
+            "CreateDate": "10/30/2019",
+            "FacilityCode":"American Hydrostatic",
+			"price": "0.00"
+			
+        },
+        {
+			"Quote": "Q00001301",
+			"Description": "STAUFF COUPLING",
+            "QuoteType": "REGULAR-Regular",
+            "CustomerID":"DETDIE",
+            "CompanyName":"DETROIT DIESEL",
+            "SONo":"",
+			"Status": "Open",
+            "CreateDate": "10/29/2019",
+            "FacilityCode":"American Hydrostatic",
+			"price": "39.62"
+			
+        }
+       
+
+    ]
+}

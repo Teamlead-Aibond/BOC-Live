@@ -1,0 +1,35 @@
+/* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+
+  .fixed-height{
+    height: 250px;
+    overflow: scroll;
+  }
+
+  .flex-rev{
+    display: flex;
+    flex-direction: row-reverse;
+  }
+  .smore {
+    border: 0 !important;
+    box-shadow: none !important;
+}

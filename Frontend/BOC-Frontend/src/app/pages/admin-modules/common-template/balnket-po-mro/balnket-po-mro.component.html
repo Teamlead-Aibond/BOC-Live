@@ -1,0 +1,193 @@
+<div class="modal-header modal-lg ht">
+    <h4 class="modal-title">Blanket PO Details</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-1 modal-xl modal-dialog modal-content bd-example-modal-lg">
+
+    <form class="shipto-vendor" name="form" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+        <!-- <span class="fa fa-spinner fa-spin fa-3x" *ngIf="showSpinner"></span> -->
+        <div class="container">
+            <div class="row text-center font-16">
+                <div class="col-xl-12 col-md-12">
+                    <div class="form-group">
+                        <label for="">Quote Amount: {{CurrencySymbol}} {{GrandTotal}}</label>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="showBlanketPO">
+                <div class="col-xl-12 col-md-12">
+                    <div class="form-group">
+                        <label for="">Approve Type: <span class="red">*</span></label>
+                        <div class="row rc">
+                            <div class="col-xl-6">
+
+                                <label><input style="margin-left:10px;" type="radio" name="Type" value="1"
+                                        #Type="ngModel" (change)="setBlanketCutomer(model.Type)"
+                                        [ngClass]="{ 'is-invalid': f.submitted && Type.invalid }" required
+                                        [(ngModel)]="model.Type" />
+                                    Blanket PO
+                                    <div *ngIf="f.submitted && Type.invalid" class="invalid-feedback">
+                                        <div *ngIf="Type.errors.required">Approve Type is required</div>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="col-xl-6">
+
+                                <label><input style="margin-left:10px;" type="radio" name="Type" value="0"
+                                        #Type="ngModel" (change)="setCustomerPO(model.Type)"
+                                        [ngClass]="{ 'is-invalid': f.submitted &&Type.invalid }" required
+                                        [(ngModel)]="model.Type" />
+                                    Custom PO
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="!showBlanketPO">
+                <div class="col-xl-12 col-md-12">
+                    <div class="form-group">
+                        <label for="">Approve Type:</label>
+                        <div class="row rc">
+                            <div class="col-xl-6">
+
+                                Custom PO
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-xl-6 col-md-6" *ngIf="BlanketPO">
+
+                    <div class="form-group">
+                        <label for="Customer">Select Blanket PO #:
+                            <span class="red">*</span>
+                        </label>
+                        <ng-select [items]="BlanketddlList" name="CustomerBlanketPOId" placeholder="Select"
+                            [(ngModel)]="model.CustomerBlanketPOId" #CustomerBlanketPOId="ngModel"
+                            (change)="onPOValidation(this.model.CustomerBlanketPOId)"
+                            [ngClass]="{ 'is-invalid': f.submitted && CustomerBlanketPOId.invalid }" required
+                            bindLabel="title" bindValue="CustomerBlanketPOId" [searchable]="true">
+
+                        </ng-select>
+                        <div *ngIf="f.submitted &&CustomerBlanketPOId.invalid" class="invalid-feedback">
+                            <div *ngIf="CustomerBlanketPOId.errors.required">Blanket PO # is required</div>
+                        </div>
+                        <div class="text-danger" *ngIf="POValidationError == 'Error'">
+                            {{POValidationErrorMessage}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-md-6" *ngIf="CustomPO">
+                    <div class="form-group">
+                        <label for="Customer">Enter Custom PO #
+                            <span class="red">*</span>
+                        </label>
+
+                        <input type="text" class="form-control" id="CustomerPONo" placeholder="Customer PO  #"
+                            [(ngModel)]="model.CustomerPONo" name="CustomerPONo" #CustomerPONo="ngModel"
+                            [ngClass]="{ 'is-invalid': f.submitted && CustomerPONo.invalid }" required>
+
+
+                        <div *ngIf="f.submitted &&CustomerPONo.invalid" class="invalid-feedback">
+                            <div *ngIf="CustomerPONo.errors.required">Custom PO # is required</div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row mt-2" *ngIf="BlanketPO">
+                <div class="col-xl-4 col-md-4">
+                    <div class="form-group">
+                        <label for="field-2" class="control-label">Due Date
+                            <span class="red">*</span>
+                        </label>
+                        <div class="input-group clockpicker">
+                            <input ngbDatepicker class="form-control" name="DueDate" #DueDate="ngModel"
+                                [ngClass]="{ 'is-invalid': f.submitted && DueDate.invalid }" required
+                                [(ngModel)]="model.DueDate" autoClose="true" placeholder="MM/DD/YYYY"
+                                #due_Date="ngbDatepicker">
+                            <div class="input-group-append" (click)="due_Date.toggle()">
+                                <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                            </div>
+                            <div *ngIf="f.submitted &&DueDate.invalid" class="invalid-feedback">
+                                <div *ngIf="DueDate.errors.required">Due Date is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+                <div class="col-xl-2 col-md-2">
+                    &nbsp;
+                </div>
+                <div class="col-xl-6 col-md-6">
+
+                    <div class="form-group">
+                        <label for="Customer">Comments:
+
+                        </label>
+                        <textarea class="form-control" row="2" [(ngModel)]="model.Comments" name="Comments"></textarea>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-2" *ngIf="CustomPO">
+                <div class="col-xl-4 col-md-4">
+                    <div class="form-group">
+                        <label for="field-2" class="control-label">Due Date
+                            <span class="red">*</span>
+                        </label>
+                        <div class="input-group clockpicker">
+                            <input ngbDatepicker class="form-control" name="DueDate" #DueDate="ngModel"
+                                [ngClass]="{ 'is-invalid': f.submitted && DueDate.invalid }" required
+                                [(ngModel)]="model.DueDate" autoClose="true" placeholder="MM/DD/YYYY"
+                                #due_Date="ngbDatepicker">
+                            <div class="input-group-append" (click)="due_Date.toggle()">
+                                <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                            </div>
+                            <div *ngIf="f.submitted &&DueDate.invalid" class="invalid-feedback">
+                                <div *ngIf="DueDate.errors.required">Due Date is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+                <div class="col-xl-2 col-md-2">
+                    &nbsp;
+                </div>
+                <div class="col-xl-6 col-md-6">
+
+                    <div class="form-group">
+                        <label for="Customer">Comments:
+
+                        </label>
+                        <textarea class="form-control" row="2" [(ngModel)]="model.Comments" name="Comments"></textarea>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button [disabled]="btnDisabled"
+                [ngClass]="{'class': (btnDisabled)? 'btn btn-success waves-effect waves-light': 'btn btn-light waves-effect waves-light'}"
+                class="btn btn-success waves-effect waves-light"> Submit</button>
+
+
+
+        </div>
+    </form>
+</div>

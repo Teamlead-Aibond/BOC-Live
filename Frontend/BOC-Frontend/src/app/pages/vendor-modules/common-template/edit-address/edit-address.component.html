@@ -1,0 +1,175 @@
+<div class="modal-header modal-lg ">
+    <h4 class="modal-title">Edit Address</h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-2 modal-lg">
+    <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="AddressForm">
+        <div class="col-xl-12">
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="form-group">
+                        <label for="Customer">Street Address : <span class="red">*</span></label>
+                        
+                        <input type="hidden" class="form-control" id="" value="Guru" name="StateName"
+                            formControlName="StateName">
+                        <input type="hidden" class="form-control" id="" placeholder="Enter Address" name="AddressId"
+                            formControlName="AddressId">
+                        <input type="hidden" class="form-control" id="" placeholder="Enter Address"
+                            name="IsBillingAddress" formControlName="IsBillingAddress">
+                        <input type="hidden" class="form-control" id="" placeholder="Enter Address"
+                            name="IsShippingAddress" formControlName="IsShippingAddress">
+                        <input type="hidden" class="form-control" id="" placeholder="Enter Address"
+                            name="IsContactAddress" formControlName="IsContactAddress">
+                        <input type="text" class="form-control" id="" placeholder="Enter Street Address"
+                            name="StreetAddress" formControlName="StreetAddress">
+                        <span class="text-danger"
+                            *ngIf="(AddressFormControl.StreetAddress.touched || submitted) && AddressFormControl.StreetAddress.errors?.required">
+                            Street Address is required
+                        </span>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="form-group">
+                        <label for="Customer">Suite/Apt/Other :</label>
+                        <input type="text" class="form-control" id="" name="SuiteOrApt" formControlName="SuiteOrApt"
+                            placeholder="Enter Suite/Apt/Other">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-xl-3">
+                    <div class="form-group">
+                        <label for="Customer">Country : <span class="red">*</span></label>
+                        <select class="custom-select" name="CountryId" formControlName="CountryId"
+                            [(ngModel)]="CountryId" (change)="getState($event,CountryId)">
+                            <option value="" disabled>Select</option>
+                            <option *ngFor="let country of countryList" value={{country.CountryId}}>
+                                {{country.CountryName}}
+                            </option>
+                        </select>
+                        <span class="text-danger"
+                            *ngIf="(AddressFormControl.CountryId.touched || submitted) && AddressFormControl.CountryId.errors?.required">
+                            Country is required
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-xl-4">
+                    <div class="form-group">
+                        <label for="Customer">State/Province/Region : <span class="red">*</span></label>
+                        <select class="custom-select" name="StateId" formControlName="StateId" [(ngModel)]="StateId"
+                            (change)="getStateName($event,StateId)">
+                            <option value="" disabled>Select</option>
+                            <option *ngFor="let State of StateList" value={{State.StateId}}>
+                                {{State.StateName}}
+                            </option>
+                        </select>
+                        <span class="text-danger"
+                            *ngIf="(AddressFormControl.StateId.touched || submitted) && AddressFormControl.StateId.errors?.required">
+                            State is required
+                        </span>
+                    </div>
+                </div>
+                <div class="col-xl-3">
+                    <div class="form-group">
+                        <label for="Customer">City : <span class="red">*</span></label>
+                        <input type="text" class="form-control" id="" placeholder="Enter City" name="City"
+                            formControlName="City">
+                        <span class="text-danger"
+                            *ngIf="(AddressFormControl.City.touched || submitted) && AddressFormControl.City.errors?.required">
+                            Country is required
+                        </span>
+                    </div>
+                </div>
+                <div class="col-xl-2">
+                    <div class="form-group">
+                        <label for="Customer">Zip: <span class="red">*</span></label>
+                        <input type="text" class="form-control" id="" placeholder="Enter Zip" name="Zip"
+                            formControlName="Zip">
+                        <span class="text-danger"
+                            *ngIf="(AddressFormControl.Zip.touched || submitted) && AddressFormControl.Zip.errors?.required">
+                            Zip is required
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xl-4">
+                    <div class="form-group">
+                        <label for="Customer">Primary Phone: <span class="red">*</span></label>
+                        <input type="text" class="form-control" name="PhoneNoPrimary" formControlName="PhoneNoPrimary">
+                        <span class="text-danger"
+                            *ngIf="(AddressFormControl.PhoneNoPrimary.touched || submitted) && AddressFormControl.PhoneNoPrimary.errors?.required">
+                            Primary Phone is required
+                        </span>
+                    </div>
+                </div>
+                <div class="col-xl-4">
+                    <div class="form-group">
+                        <label for="Customer">Secondary Phone : </label>
+                        <input type="text" class="form-control" name="PhoneNoSecondary"
+                            formControlName="PhoneNoSecondary">
+                    </div>
+                </div>
+                <div class="col-xl-4">
+                    <div class="form-group">
+                        <label for="Customer">Fax : </label>
+                        <input type="text" class="form-control" placeholder="Enter Fax" name="Fax"
+                            formControlName="Fax">
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="row">
+                <div class="col-xl-4">
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" id="IsContactAddress" type="checkbox"
+                                name="IsContactAddress" formControlName="IsContactAddress">
+                            <label class="custom-control-label" for="IsContactAddress">
+                                Default Contact Address
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4">
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" id="IsBillingAddress" type="checkbox"
+                                name="IsBillingAddress" formControlName="IsBillingAddress">
+                            <label class="custom-control-label" for="IsBillingAddress">
+                                Default Billing Address
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input" id="IsShippingAddress" type="checkbox"
+                                    name="IsShippingAddress" formControlName="IsShippingAddress">
+                                <label class="custom-control-label" for="IsShippingAddress">
+                                    Default Shipping Address
+                                </label>
+                            </div>
+                        </div>
+                        <div *ngIf="displayRemoveIcon">
+                            <i (click)="removeAddress(i)" class="remixicon-delete-bin-line delete-btn-ico"></i>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+
+        <div class="modal-footer modal-lg">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success waves-effect waves-light">Save</button>
+        </div>
+
+    </form>
+</div>

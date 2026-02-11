@@ -1,0 +1,2198 @@
+<div class="container-fluid" *ngIf="IsAddEnabled">
+	<div class="row">
+		<div class="col-xl-9 float-left">
+			<app-page-title
+				title="Bulk Shipping"
+				[breadcrumbItems]="breadCrumbItems"
+			></app-page-title>
+		</div>
+		<div class="col-xl-3 float-right">
+			<div
+				class="btn-group btn-group-sm mr-2 mb-2 float-right mt-15"
+				role="group"
+				*ngIf="IsViewEnabled"
+			>
+				<button
+					class="btn btn-primary waves-effect raa"
+					routerLink="/admin/repair-request/bulk-shipping-list"
+				>
+					Bulk Shipping List
+				</button>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12">
+			<form
+				class="shipto-vendor"
+				name="form1"
+				#f="ngForm"
+				(ngSubmit)="onSearch(f)"
+				novalidate
+			>
+				<div class="card">
+					<div style="padding-bottom: 15px; padding-top: 25px" class="card-body">
+						<div class="row">
+							<div class="col-xl-12 nopad">
+								<div class="col-xl-3 float-left">
+									<div class="form-group">
+										<label class="mb-2"
+											>Customer Name:
+											<span class="red" *ngIf="this.model.ShipTo == 'Customer'">*</span>
+										</label>
+										<ng-select
+											[items]="customers$ | async"
+											[typeahead]="customersInput$"
+											[loading]="loadingCustomers"
+											[multiple]="false"
+											[closeOnSelect]="true"
+											[searchable]="true"
+											[virtualScroll]="true"
+											placeholder="Enter Customer Name"
+											name="CustomerId"
+											bindLabel="CustomerCode"
+											bindValue="CustomerId"
+											[(ngModel)]="model.CustomerId"
+											#CustomerId="ngModel"
+											[required]="this.model.ShipTo == 'Customer' ? true : undefined"
+											[ngClass]="{
+												'is-invalid': f.submitted && CustomerId.invalid
+											}"
+										></ng-select>
+										<div
+											*ngIf="f.submitted && CustomerId.invalid"
+											class="invalid-feedback"
+										>
+											<div *ngIf="CustomerId.errors.required">RR Customer is required</div>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="mb-2"
+											>Vendor Name:
+											<span
+												class="red"
+												*ngIf="
+													this.model.ShipTo == 'Vendor' || this.model.ShipTo == 'Aibond'
+												"
+												>*</span
+											>
+										</label>
+										<ng-select
+											[items]="Vendors$ | async"
+											[(ngModel)]="model.VendorId"
+											bindLabel="VendorName"
+											[typeahead]="VendorsInput$"
+											[placeholder]="'Enter Vendor Name'"
+											name="VendorId"
+											#VendorId="ngModel"
+											[required]="
+												this.model.ShipTo == 'Vendor'
+													? true
+													: undefined || this.model.ShipTo == 'Aibond'
+													? true
+													: undefined
+											"
+											[ngClass]="{
+												'is-invalid': f.submitted && VendorId.invalid
+											}"
+										>
+										</ng-select>
+										<div *ngIf="f.submitted && VendorId.invalid" class="invalid-feedback">
+											<div *ngIf="VendorId.errors.required">RR Vendor is required</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-xl-3 float-left">
+									<div class="form-group">
+										<label class="mb-2"
+											>RR Numbers(Add Multiple RRs separated by comma):</label
+										>
+										<textarea
+											style="height: 120px"
+											#textarea
+											class="form-control"
+											rows="3"
+											[(ngModel)]="model.RRNo"
+											name="RRNo"
+										></textarea>
+									</div>
+								</div>
+
+								<div class="col-xl-2 float-left">
+									<div class="form-group">
+										<label class="mb-2">RR Status:</label>
+										<select
+											class="custom-select"
+											[(ngModel)]="model.Status"
+											name="Status"
+										>
+											<option value="undefined">Select</option>
+											<option [value]="status.id" *ngFor="let status of RRStatus">
+												{{ status.title }}
+											</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label class="mb-2">
+											Ship Via :
+											<span class="red">*</span>
+										</label>
+										<select
+											class="custom-select"
+											[(ngModel)]="model.ShipViaId"
+											name="ShipViaId"
+											#ShipViaId="ngModel"
+											[ngClass]="{
+												'is-invalid': f.submitted && ShipViaId.invalid
+											}"
+											required
+										>
+											<option value="undefined" disabled>Select</option>
+											<option
+												*ngFor="let item of ShipViaList"
+												value="{{ item.ShipViaId }}"
+											>
+												{{ item.ShipViaName }}
+											</option>
+										</select>
+										<div
+											*ngIf="f.submitted && ShipViaId.invalid"
+											class="invalid-feedback"
+										>
+											<div *ngIf="ShipViaId.errors.required">Ship Via is required</div>
+										</div>
+									</div>
+									<!-- <div class="form-group">
+                                    <label for="Customer"><span class="float-left">Show Customer Reference:</span>
+                                        <input class="form-control checkinput checkbox-outer" name="ShowCustomerReference"
+                                            type="checkbox" [(ngModel)]="model.ShowCustomerReference"
+                                            #ShowCustomerReference="ngModel">
+                                    </label>
+            
+                                </div> -->
+								</div>
+
+								<div class="col-xl-2 float-left">
+									<div class="form-group">
+										<label class="mb-2">Ship From:<span class="red">*</span></label>
+										<select
+											(change)="shipFromChange()"
+											class="custom-select"
+											[(ngModel)]="model.ShipFrom"
+											name="ShipFrom"
+											#ShipFrom="ngModel"
+											[ngClass]="{
+												'is-invalid': f.submitted && ShipFrom.invalid
+											}"
+											required
+										>
+											<option value="undefined">Select</option>
+											<option
+												[value]="item.user_type_id"
+												*ngFor="let item of UserTypeList"
+											>
+												{{ item.user_type_Name }}
+											</option>
+										</select>
+										<div *ngIf="f.submitted && ShipFrom.invalid" class="invalid-feedback">
+											<div *ngIf="ShipFrom.errors.required">Ship From is required</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="mb-2"> Ship To :<span class="red">*</span> </label>
+										<select
+											(change)="shipToChange()"
+											class="custom-select"
+											[(ngModel)]="model.ShipTo"
+											name="ShipTo"
+											#ShipTo="ngModel"
+											[ngClass]="{
+												'is-invalid': f.submitted && ShipTo.invalid
+											}"
+											required
+										>
+											<option value="undefined" disabled>Select</option>
+											<option
+												[value]="item.user_type_id"
+												*ngFor="let item of UserTypeList"
+											>
+												{{ item.user_type_Name }}
+											</option>
+										</select>
+										<div *ngIf="f.submitted && ShipTo.invalid" class="invalid-feedback">
+											<div *ngIf="ShipTo.errors.required">Ship To is required</div>
+										</div>
+									</div>
+									<div class="text-danger" *ngIf="ShippingError == 'Error'">
+										Ship From and Ship To Should not be same
+									</div>
+									<!-- <div class="form-group">
+                                    <label for="Customer"><span class="float-left">Show Eval Notes:</span>
+                                        <input class="form-control checkinput checkbox-outer" name="ShowRootCause" type="checkbox"
+                                            [(ngModel)]="model.ShowRootCause" #ShowRootCause="ngModel">
+                                    </label>
+            
+                                </div> -->
+								</div>
+
+								<div class="col-xl-2 float-left">
+									<!-- ShipFromAddress Start -->
+									<div class="form-group" *ngIf="ShowShipFromAddress">
+										<label class="mb-2"
+											>Ship From Address:<span class="red">*</span></label
+										>
+										<select
+											class="custom-select"
+											[(ngModel)]="model.ShipFromAddressId"
+											name="ShipFromAddressId"
+											#ShipFromAddressId="ngModel"
+											[ngClass]="{
+												'is-invalid': f.submitted && ShipFromAddressId.invalid
+											}"
+											required
+										>
+											<option value="undefined">Select</option>
+											<option
+												[value]="item.Address"
+												*ngFor="let item of ShipFromAddressList"
+											>
+												{{ item.title }}
+											</option>
+										</select>
+										<div
+											*ngIf="f.submitted && ShipFromAddressId.invalid"
+											class="invalid-feedback"
+										>
+											<div *ngIf="ShipFromAddressId.errors.required">
+												Ship From Address is required
+											</div>
+										</div>
+									</div>
+									<!-- ShipFromAddress End -->
+
+									<!-- ShipToAddress Start -->
+									<div class="form-group" *ngIf="ShowShipToAddress">
+										<label class="mb-2">Ship To Address:<span class="red">*</span></label>
+										<select
+											(change)="shipToChange()"
+											class="custom-select"
+											[(ngModel)]="model.ShipToAddressId"
+											name="ShipToAddressId"
+											#ShipToAddressId="ngModel"
+											[ngClass]="{
+												'is-invalid': f.submitted && ShipToAddressId.invalid
+											}"
+											required
+										>
+											<option value="undefined" disabled>Select</option>
+											<option
+												[value]="item.Address"
+												*ngFor="let item of ShipToAddressList"
+											>
+												{{ item.title }}
+											</option>
+										</select>
+										<div
+											*ngIf="f.submitted && ShipToAddressId.invalid"
+											class="invalid-feedback"
+										>
+											<div *ngIf="ShipToAddressId.errors.required">
+												Ship To Address is required
+											</div>
+										</div>
+									</div>
+									<!-- ShipToAddress End -->
+									<div class="text-danger" *ngIf="ShippingError == 'Error'">
+										Ship From and Ship To Should not be same
+									</div>
+									<!-- <div class="form-group">
+                                    <label for="Customer"><span class="float-left">Show Eval Notes:</span>
+                                        <input class="form-control checkinput checkbox-outer" name="ShowRootCause" type="checkbox"
+                                            [(ngModel)]="model.ShowRootCause" #ShowRootCause="ngModel">
+                                    </label>
+            
+                                </div> -->
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-xl-12 text-center nopad">
+								<button class="btn btn-primary btn-md mr-1" value="Search">
+									Search
+								</button>
+								<input
+									type="button"
+									class="btn btn-secondary btn-md"
+									value="Clear"
+									(click)="onClear()"
+								/>
+								<!-- <button  type="button" class="btn btn-pink btn-md ml-1" (click)="isAllSelected()" *ngIf="!selectalldisable">Select All</button>
+                                <button  type="button" class="btn btn-pink btn-md ml-1" (click)="isAllUnSelected()" *ngIf="selectalldisable">UnSelect All</button> -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="row" *ngIf="RRDetails.length > 0">
+		<div class="col-xl-12 bulkwrap">
+			<form
+				class="shipto-vendor"
+				name="form"
+				#f1="ngForm"
+				(ngSubmit)="onSubmitStatic(f1)"
+				novalidate
+			>
+				<div class="row" *ngIf="RRDetails.length > 0">
+					<div class="col-12">
+						<div class="sticky-container">
+							<div
+								id="so-groups"
+								class="right so-groups-sticky hidden-xs"
+								style="top: 198px"
+							>
+								<button class="btn-group btn-group-sm float-right">
+									<span>Submit</span> <i class="mdi mdi-content-save"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row mt-2">
+					<div class="col-xl-8">
+						<label>
+							<input
+								type="checkbox"
+								class="mr-2 checkinput checkbox-outer"
+								[(ngModel)]="hideRRs"
+								(change)="hideNotReadyRrs()"
+								[ngModelOptions]="{ standalone: true }"
+							/>
+							Hide Not ready to ship RRs
+						</label>
+						<button
+							type="button"
+							class="btn btn-pink btn-md ml-1"
+							(click)="isAllSelected()"
+							*ngIf="!selectalldisable"
+						>
+							Select All
+						</button>
+						<button
+							type="button"
+							class="btn btn-pink btn-md ml-1"
+							(click)="isAllUnSelected()"
+							*ngIf="selectalldisable"
+						>
+							UnSelect All
+						</button>
+					</div>
+					<div style="float: right">
+						<label>
+							Search RR #:
+							<input
+								type="text"
+								class="mr-2"
+								placeholder="Enter RR #"
+								[(ngModel)]="RRNoSearch"
+								[ngModelOptions]="{ standalone: true }"
+							/>
+						</label>
+					</div>
+
+					<input
+						type="button"
+						class="btn btn-primary btn-md mr-1"
+						value="Search"
+						id="btnFilter"
+						(click)="onSearchRR()"
+					/>
+					<input
+						type="button"
+						class="btn btn-secondary btn-md"
+						value="Clear"
+						id="btnClear"
+						(click)="onClearSearch()"
+					/>
+				</div>
+				<div class="clear">&nbsp;</div>
+
+				<div
+					*ngIf="
+						(this.model.ShipFrom == 'Aibond' && this.model.ShipTo == 'Vendor') ||
+						(this.model.ShipFrom == 'Aibond' && this.model.ShipTo == 'Customer')
+					"
+				>
+					<!-- Ship From Aibond and shipto is customer or vendor above card working -->
+					<div class="card" *ngFor="let item of RRDetails; let i = index">
+						<div
+							[ngClass]="{ hideClass: item.IsAvailable == 0 }"
+							style="padding-top: 7px; padding-bottom: 7px !important"
+							class="card-body"
+						>
+							<div class="row" style="margin-top: 5px">
+								<div class="col-xl-12">
+									<!-- 1st Column -->
+									<div class="col-xl-2 float-left">
+										<h2 class="nobrdm">
+											<i
+												ngbTooltip="Address is locked!"
+												*ngIf="
+													item.IsAvailable == 0 &&
+													((this.model.ShipTo == 'Vendor' &&
+														item.VendorShipIdLocked > 0 &&
+														item.VendorShipIdLocked != this.model.ShipToAddressIdNew) ||
+														(this.model.ShipTo == 'Customer' &&
+															item.CustomerShipIdLocked > 0 &&
+															item.CustomerShipIdLocked != this.model.ShipToAddressIdNew))
+												"
+												class="fa fa-sm fa-lock"
+												aria-hidden="true"
+											></i>
+											<input
+												style="margin: 2px 5px 0 0"
+												id="check"
+												class="form-control checkinput checkbox-outer"
+												[checked]="item.checked"
+												(change)="CreateBulkitem($event, i)"
+												type="checkbox"
+												[disabled]="item.IsAvailable == 0"
+											/>
+											Ship -
+											<a
+												[routerLink]="['/admin/repair-request/edit']"
+												[queryParams]="{ RRId: item.RRId }"
+												target="_blank"
+												>{{ item.RRNo }}</a
+											>
+											<i class="fas fa-check-circle" *ngIf="item.IsAvailable == 1"></i>
+											<i class="mdi mdi-close-circle" *ngIf="item.IsAvailable == 0"></i>
+										</h2>
+									</div>
+
+									<!-- 2nd Column -->
+									<div class="col-xl-2 float-left">
+										<div
+											*ngIf="
+												((item.ShippingStatus != 0 || item.ShippingStatus != null) &&
+													item.ShippingIdentityId == this.ah_groupId &&
+													item.ShipFromId == null &&
+													item.Status == 5 &&
+													item.CustomerSOId != 0) ||
+												(item.Status != 5 &&
+													this.model.ShipTo == 'Customer' &&
+													item.ShippingStatus == 2 &&
+													item.ReceiveDate != null &&
+													item.ShipToId == this.ah_groupId) ||
+												(item.ShippingStatus == 2 &&
+													item.ReceiveDate != null &&
+													item.ShipToId == this.ah_groupId &&
+													item.Status == 5 &&
+													item.CustomerSOId != 0 &&
+													this.model.ShipTo == 'Customer') ||
+												(this.model.ShipTo != 'Customer' &&
+													item.ShippingStatus == 2 &&
+													item.ReceiveDate != null &&
+													item.ShipToId == this.ah_groupId) ||
+												(item.ShippingIdentityId == this.ah_groupId &&
+													item.ShipFromId == null &&
+													item.CustomerSOId != 0) ||
+												(item.ShippingIdentityId == this.ah_groupId &&
+													item.ShipFromId == null &&
+													(item.Status == 6 ||
+														item.Status == 2 ||
+														item.Status == 4 ||
+														item.Status == 8))
+											"
+										>
+											<div class="row">
+												<div class="col-xl-5 text-right nopad-rt float-left">
+													<label class="mt-1" for="Customer"
+														>Package Weight :
+														<span
+															class="red"
+															*ngIf="
+																((this.model.ShipFrom == 'Aibond' &&
+																	this.model.ShipTo == 'Customer') ||
+																	(this.model.ShipFrom == 'Aibond' &&
+																		this.model.ShipTo == 'Vendor')) &&
+																this.model.ShipViaId == UPSId &&
+																IsUPSEnable == '1' &&
+																IsUserUPSEnable == 1
+															"
+															>*</span
+														>
+													</label>
+												</div>
+												<div class="col-xl-7 float-left">
+													<input
+														type="text"
+														style="width: 90%"
+														class="form-control"
+														id="PackWeight"
+														placeholder="Package Weight"
+														[(ngModel)]="item.PackWeight"
+														name="PackWeight[{{ i }}]"
+														#PackWeight="ngModel"
+														[required]="
+															((this.model.ShipFrom == 'Aibond' &&
+																this.model.ShipTo == 'Customer') ||
+																(this.model.ShipFrom == 'Aibond' &&
+																	this.model.ShipTo == 'Vendor')) &&
+															this.model.ShipViaId == UPSId &&
+															item.checked &&
+															IsUPSEnable == '1'
+																? true
+																: undefined && IsUserUPSEnable == '1'
+																? true
+																: undefined
+														"
+														[ngClass]="{
+															'is-invalid': f.submitted && PackWeight.invalid
+														}"
+														inputmode="numeric"
+														pattern="^\d+(\.\d{1,2})?$"
+														placeholder="0.00"
+														digitOnly
+														decimal="true"
+													/>
+													<div
+														*ngIf="f1.submitted && PackWeight.invalid"
+														class="invalid-feedback"
+													>
+														<div *ngIf="PackWeight.errors.required">
+															Package Weight is required
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div>&nbsp;</div>
+									</div>
+
+									<div class="col-xl-5 float-left nopad">
+										<!-- Condition 1 -->
+										<div
+											style="margin-top: 8px"
+											class=""
+											*ngIf="
+												(item.ShippingStatus != 0 || item.ShippingStatus != null) &&
+												((item.ShippingIdentityId == this.ah_groupId &&
+													item.ShipFromId == null) ||
+													(item.ShippingStatus == 2 &&
+														item.ReceiveDate != null &&
+														item.ShipToId == this.ah_groupId))
+											"
+										>
+											<p
+												style="margin-bottom: 0; margin-top: 5px"
+												class="float-left ml-60"
+											>
+												Part Current Location:
+												<span
+													class="badge badge-light-secondary"
+													style="font-size: 13px"
+													*ngIf="item.ShipToName != null"
+												>
+													<span *ngIf="item.ShippingStatus == 1"
+														>Shipped : {{ item.ShipFromName }}
+													</span>
+													<span *ngIf="item.ShippingStatus == 2"
+														>Received : {{ item.ShipToName }}</span
+													>
+												</span>
+												<span
+													class="badge badge-light-secondary"
+													style="font-size: 13px"
+													*ngIf="item.ShipToName == null"
+												>
+													<span *ngIf="item.ShippingStatus == 1">Shipped : Aibond </span>
+													<span *ngIf="item.ShippingStatus == 2">Received : Aibond </span>
+												</span>
+											</p>
+										</div>
+
+										<!-- Condition 2 -->
+										<p
+											*ngIf="item.ShippingStatus == 0 || item.ShippingStatus == null"
+											class="float-left ml-60"
+										>
+											Part Current Location:
+											<span
+												style="font-weight: normal"
+												class="badge badge-light-secondary"
+												style="font-size: 13px"
+												>Not Yet Started</span
+											>
+										</p>
+										<button
+											*ngIf="item.ShippingStatus == 0 || item.ShippingStatus == null"
+											type="button"
+											class="btn btn-primary rdr btn-md ml-1 float-left"
+											(click)="
+												onUpdatePartCurrentLocation(
+													item.RRId,
+													item.VendorId,
+													item.CustomerId,
+													item,
+													i
+												)
+											"
+										>
+											Add Current Location
+										</button>
+										<!-- Condition 4 -->
+										<div
+											*ngIf="
+												(item.ShippingStatus == 2 &&
+													item.ReceiveDate != null &&
+													item.ShipToId != this.ah_groupId) ||
+												(item.ShippingStatus == 2 &&
+													item.ShippingIdentityId == this.model.CustomerId &&
+													item.ShippingIdentityType == 1)
+											"
+										>
+											<p style="margin-top: 5px" class="float-left ml-60">
+												Part Current Location:
+												<span
+													class="badge badge-light-secondary"
+													style="font-size: 13px"
+													*ngIf="item.ShipFromName != null"
+												>
+													<span *ngIf="item.ShippingStatus == 1"
+														>Shipped : {{ item.ShipFromName }}</span
+													>
+													<span *ngIf="item.ShippingStatus == 2"
+														>Received : {{ item.ShipToName }}</span
+													>
+												</span>
+												<span
+													class="badge badge-light-secondary"
+													style="font-size: 13px"
+													*ngIf="item.ShipFromName == null"
+												>
+													<span *ngIf="item.ShippingStatus == 1"
+														>Shipped : {{ CustomerName }}</span
+													>
+													<span *ngIf="item.ShippingStatus == 2"
+														>Received : {{ CustomerName }}</span
+													>
+												</span>
+											</p>
+
+											<button
+												style="padding: 1px 13px !important; border-radius: 15px"
+												type="button"
+												(click)="onShip(item, i)"
+												class="btn ml-1 float-left btn-success waves-effect waves-light"
+											>
+												Ship
+											</button>
+										</div>
+
+										<!-- Condition 3 -->
+										<div *ngIf="item.ShippingStatus == 1 && item.ReceiveDate == null">
+											<p style="margin-top: 5px" class="float-left ml-60">
+												Part Current Location:
+												<span class="badge badge-light-secondary" style="font-size: 13px">
+													<span *ngIf="item.ShippingStatus == 1">
+														In Transit : {{ item.ShipToName }}</span
+													>
+												</span>
+											</p>
+
+											<button
+												style="padding: 2px 15px !important; border-radius: 15px"
+												type="button"
+												(click)="onRRShippingReceive(item, i)"
+												class="btn ml-1 float-left btn-info waves-effect waves-light"
+											>
+												Receive
+											</button>
+										</div>
+									</div>
+
+									<!-- 4th  Column -->
+									<div class="col-xl-3 float-left">
+										<p style="margin-top: 5px" class="float-left ml-60">
+											Status:
+											<span class="badge-light btn-xs poibtn">{{
+												item.statusObj ? item.statusObj.title : ''
+											}}</span>
+										</p>
+
+										<p style="margin-top: 5px" class="float-left ml-60">
+											<button
+												type="button"
+												*ngIf="
+													(item.ShippingStatus != 0 || item.ShippingStatus != null) &&
+													((item.ShippingIdentityId == this.ah_groupId &&
+														item.ShipFromId == null) ||
+														(item.ShippingStatus == 2 &&
+															item.ReceiveDate != null &&
+															item.ShipToId == this.ah_groupId)) &&
+													item.Status == 5 &&
+													item.CustomerSOId == 0 &&
+													this.model.ShipTo == 'Customer' &&
+													RRSalesOrder[CREATE_ACCESS] == 1
+												"
+												(click)="CreateSO(item)"
+												class="btn btn-purple cvpo btn-sm waves-effect waves-light mr-1 mb-1"
+											>
+												Create SO
+											</button>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div
+					*ngIf="this.model.ShipFrom == 'Vendor' && this.model.ShipTo == 'Customer'"
+				>
+					<!-- Ship From Vendor && Customer and shipto is Vendor && Customer above card working -->
+
+					<div class="card" *ngFor="let item of RRDetails; let i = index">
+						<div
+							[ngClass]="{ hideClass: item.IsAvailable == 0 }"
+							style="padding-top: 7px; padding-bottom: 7px !important"
+							class="card-body"
+						>
+							<div class="row" style="margin-top: 5px">
+								<div class="col-xl-12">
+									<!-- 1st Column -->
+									<div class="col-xl-2 float-left">
+										<h2 class="nobrdm">
+											<i
+												ngbTooltip="Address is locked!"
+												*ngIf="
+													item.IsAvailable == 0 &&
+													item.CustomerShipIdLocked > 0 &&
+													item.CustomerShipIdLocked != this.model.ShipToAddressIdNew
+												"
+												class="fa fa-sm fa-lock"
+												aria-hidden="true"
+											></i>
+											<input
+												style="margin: 2px 5px 0 0"
+												id="check"
+												class="form-control checkinput checkbox-outer"
+												[checked]="item.checked"
+												(change)="CreateBulkitem($event, i)"
+												type="checkbox"
+												[disabled]="item.IsAvailable == 0"
+											/>
+											Ship -
+											<a
+												[routerLink]="['/admin/repair-request/edit']"
+												[queryParams]="{ RRId: item.RRId }"
+												target="_blank"
+												>{{ item.RRNo }}</a
+											>
+											<i class="fas fa-check-circle" *ngIf="item.IsAvailable == 1"></i>
+											<i class="mdi mdi-close-circle" *ngIf="item.IsAvailable == 0"></i>
+										</h2>
+									</div>
+
+									<!-- 2nd Column -->
+									<div class="col-xl-2 float-left">
+										<div
+											*ngIf="
+												((item.ShippingStatus != 0 || item.ShippingStatus != null) &&
+													item.Status != 5 &&
+													this.model.ShipTo == 'Customer' &&
+													item.ShippingStatus == 2 &&
+													item.ReceiveDate != null &&
+													item.ShipToId == item.VendorId) ||
+												(item.ShippingStatus == 2 &&
+													item.ReceiveDate != null &&
+													item.ShipToId == item.VendorId &&
+													item.Status == 5 &&
+													item.CustomerSOId != 0 &&
+													this.model.ShipTo == 'Customer') ||
+												(this.model.ShipTo != 'Customer' &&
+													item.ShippingStatus == 2 &&
+													item.ReceiveDate != null &&
+													item.ShipToId == item.VendorId) ||
+												(item.ShippingIdentityId == item.VendorId &&
+													item.ShipFromId == null &&
+													item.CustomerSOId != 0) ||
+												(item.ShippingIdentityId == item.VendorId &&
+													item.ShipFromId == null &&
+													(item.Status == 6 ||
+														item.Status == 2 ||
+														item.Status == 4 ||
+														item.Status == 8))
+											"
+										>
+											<div class="row">
+												<div class="col-xl-5 text-right nopad-rt float-left">
+													<label class="mt-1" for="Customer"
+														>Package Weight :
+														<span
+															class="red"
+															*ngIf="
+																((this.model.ShipFrom == 'Aibond' &&
+																	this.model.ShipTo == 'Customer') ||
+																	(this.model.ShipFrom == 'Aibond' &&
+																		this.model.ShipTo == 'Vendor')) &&
+																this.model.ShipViaId == UPSId &&
+																IsUPSEnable == '1' &&
+																IsUserUPSEnable == 1
+															"
+															>*</span
+														>
+													</label>
+												</div>
+												<div class="col-xl-7 float-left">
+													<input
+														type="text"
+														style="width: 90%"
+														class="form-control"
+														id="PackWeight"
+														placeholder="Package Weight"
+														[(ngModel)]="item.PackWeight"
+														name="PackWeight[{{ i }}]"
+														#PackWeight="ngModel"
+														[required]="
+															((this.model.ShipFrom == 'Aibond' &&
+																this.model.ShipTo == 'Customer') ||
+																(this.model.ShipFrom == 'Aibond' &&
+																	this.model.ShipTo == 'Vendor')) &&
+															this.model.ShipViaId == UPSId &&
+															item.checked &&
+															IsUPSEnable == '1'
+																? true
+																: undefined && IsUserUPSEnable == '1'
+																? true
+																: undefined
+														"
+														[ngClass]="{
+															'is-invalid': f.submitted && PackWeight.invalid
+														}"
+														inputmode="numeric"
+														pattern="^\d+(\.\d{1,2})?$"
+														placeholder="0.00"
+														digitOnly
+														decimal="true"
+													/>
+													<div
+														*ngIf="f1.submitted && PackWeight.invalid"
+														class="invalid-feedback"
+													>
+														<div *ngIf="PackWeight.errors.required">
+															Package Weight is required
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div>&nbsp;</div>
+									</div>
+
+									<div class="col-xl-5 float-left nopad">
+										<!-- Condition 1 -->
+										<div
+											style="margin-top: 8px"
+											class=""
+											*ngIf="
+												(item.ShippingStatus != 0 || item.ShippingStatus != null) &&
+												((item.ShippingIdentityId == this.ah_groupId &&
+													item.ShipFromId == null) ||
+													(item.ShippingStatus == 2 &&
+														item.ReceiveDate != null &&
+														item.ShipToId == this.ah_groupId) ||
+													(item.ShippingIdentityId == item.VendorId &&
+														item.ShipToId == item.VendorId))
+											"
+										>
+											<p
+												style="margin-bottom: 0; margin-top: 5px"
+												class="float-left ml-60"
+											>
+												<span
+													*ngIf="
+														item.ShippingStatus == 2 &&
+														item.ShippingIdentityId != this.ah_groupId
+													"
+												>
+													Part Current Location:</span
+												>
+												<span
+													class="badge badge-light-secondary"
+													style="font-size: 13px"
+													*ngIf="item.ShipToName != null"
+												>
+													<span *ngIf="item.ShippingStatus == 1"
+														>Shipped : {{ item.ShipFromName }}
+													</span>
+													<span
+														*ngIf="
+															item.ShippingStatus == 2 &&
+															item.ShippingIdentityId != this.ah_groupId
+														"
+														>Received : {{ item.ShipToName }}</span
+													>
+												</span>
+												<span
+													class="badge badge-light-secondary"
+													style="font-size: 13px"
+													*ngIf="
+														item.ShipToName == null &&
+														item.ShippingIdentityId != this.ah_groupId
+													"
+												>
+													<span *ngIf="item.ShippingStatus == 1"
+														>Shipped : {{ item.ShipToName }}
+													</span>
+													<span *ngIf="item.ShippingStatus == 2"
+														>Received : {{ item.ShipToName }}
+													</span>
+												</span>
+												<span
+													*ngIf="
+														item.ShipToName == null &&
+														item.ShippingIdentityId == this.ah_groupId
+													"
+												>
+													Part Current Location
+													<span
+														class="badge badge-light-secondary"
+														style="font-size: 13px"
+														*ngIf="item.ShippingStatus == 1"
+														>Shipped : Aibond
+													</span>
+													<span
+														class="badge badge-light-secondary"
+														style="font-size: 13px"
+														*ngIf="item.ShippingStatus == 2"
+														>Received : Aibond
+													</span>
+												</span>
+											</p>
+											<button
+												style="padding: 1px 13px !important; border-radius: 15px"
+												type="button"
+												*ngIf="
+													item.ShipToName == null &&
+													item.ShippingIdentityId == this.ah_groupId &&
+													item.ShippingStatus == 2
+												"
+												(click)="onShip(item, i)"
+												class="btn ml-1 float-left btn-success waves-effect waves-light"
+											>
+												Ship
+											</button>
+										</div>
+
+										<!-- Condition 2 -->
+										<p
+											*ngIf="item.ShippingStatus == 0 || item.ShippingStatus == null"
+											class="float-left ml-60"
+										>
+											Part Current Location:
+											<span
+												style="font-weight: normal"
+												class="badge badge-light-secondary"
+												style="font-size: 13px"
+												>Not Yet Started</span
+											>
+										</p>
+										<button
+											*ngIf="item.ShippingStatus == 0 || item.ShippingStatus == null"
+											type="button"
+											class="btn btn-primary rdr btn-md ml-1 float-left"
+											(click)="
+												onUpdatePartCurrentLocation(
+													item.RRId,
+													item.VendorId,
+													item.CustomerId,
+													item,
+													i
+												)
+											"
+										>
+											Add Current Location
+										</button>
+										<!-- Condition 4 -->
+										<div
+											*ngIf="
+												(item.ShippingStatus == 2 &&
+													item.ReceiveDate != null &&
+													item.ShipToId != item.VendorId) ||
+												(item.ShippingStatus == 2 &&
+													item.ShippingIdentityId == this.model.CustomerId &&
+													item.ShippingIdentityType == 1)
+											"
+										>
+											<p style="margin-top: 5px" class="float-left ml-60">
+												Part Current Location:
+												<span
+													class="badge badge-light-secondary"
+													style="font-size: 13px"
+													*ngIf="item.ShipFromName != null"
+												>
+													<span *ngIf="item.ShippingStatus == 1"
+														>Shipped : {{ item.ShipFromName }}</span
+													>
+													<span *ngIf="item.ShippingStatus == 2"
+														>Received : {{ item.ShipToName }}</span
+													>
+												</span>
+												<span
+													class="badge badge-light-secondary"
+													style="font-size: 13px"
+													*ngIf="item.ShipFromName == null"
+												>
+													<span *ngIf="item.ShippingStatus == 1"
+														>Shipped : {{ CustomerName }}</span
+													>
+													<span *ngIf="item.ShippingStatus == 2"
+														>Received : {{ CustomerName }}</span
+													>
+												</span>
+											</p>
+
+											<button
+												style="padding: 1px 13px !important; border-radius: 15px"
+												type="button"
+												(click)="onShip(item, i)"
+												class="btn ml-1 float-left btn-success waves-effect waves-light"
+											>
+												Ship
+											</button>
+										</div>
+
+										<!-- Condition 3 -->
+										<div *ngIf="item.ShippingStatus == 1 && item.ReceiveDate == null">
+											<p style="margin-top: 5px" class="float-left ml-60">
+												Part Current Location:
+												<span class="badge badge-light-secondary" style="font-size: 13px">
+													<span *ngIf="item.ShippingStatus == 1">
+														In Transit : {{ item.ShipToName }}</span
+													>
+												</span>
+											</p>
+
+											<button
+												style="padding: 2px 15px !important; border-radius: 15px"
+												type="button"
+												(click)="onRRShippingReceive(item, i)"
+												class="btn ml-1 float-left btn-info waves-effect waves-light"
+											>
+												Receive
+											</button>
+										</div>
+									</div>
+
+									<!-- 4th  Column -->
+									<div class="col-xl-3 float-left">
+										<p style="margin-top: 5px" class="float-left ml-60">
+											Status:
+											<span class="badge-light btn-xs poibtn">{{
+												item.statusObj ? item.statusObj.title : ''
+											}}</span>
+										</p>
+
+										<p style="margin-top: 5px" class="float-left ml-60">
+											<button
+												type="button"
+												*ngIf="
+													(item.ShippingStatus != 0 || item.ShippingStatus != null) &&
+													((item.ShippingIdentityId == this.ah_groupId &&
+														item.ShipFromId == null) ||
+														(item.ShippingStatus == 2 &&
+															item.ReceiveDate != null &&
+															item.ShipToId == this.ah_groupId)) &&
+													item.Status == 5 &&
+													item.CustomerSOId == 0 &&
+													this.model.ShipTo == 'Customer' &&
+													RRSalesOrder[CREATE_ACCESS] == 1
+												"
+												(click)="CreateSO(item)"
+												class="btn btn-purple cvpo btn-sm waves-effect waves-light mr-1 mb-1"
+											>
+												Create SO
+											</button>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div
+					*ngIf="this.model.ShipFrom == 'Customer' && this.model.ShipTo == 'Vendor'"
+				>
+					<!-- Ship From Customer and shipto is Vendor  above card working -->
+
+					<div class="card" *ngFor="let item of RRDetails; let i = index">
+						<div
+							[ngClass]="{ hideClass: item.IsAvailable == 0 }"
+							style="padding-top: 7px; padding-bottom: 7px !important"
+							class="card-body"
+						>
+							<div class="row" style="margin-top: 5px">
+								<div class="col-xl-12">
+									<!-- 1st Column -->
+									<div class="col-xl-2 float-left">
+										<h2 class="nobrdm">
+											<i
+												ngbTooltip="Address is locked!"
+												*ngIf="
+													item.IsAvailable == 0 &&
+													item.VendorShipIdLocked > 0 &&
+													item.VendorShipIdLocked != this.model.ShipToAddressIdNew
+												"
+												class="fa fa-sm fa-lock"
+												aria-hidden="true"
+											></i>
+											<input
+												style="margin: 2px 5px 0 0"
+												id="check"
+												class="form-control checkinput checkbox-outer"
+												[checked]="item.checked"
+												(change)="CreateBulkitem($event, i)"
+												type="checkbox"
+												[disabled]="item.IsAvailable == 0"
+											/>
+											Ship -
+											<a
+												[routerLink]="['/admin/repair-request/edit']"
+												[queryParams]="{ RRId: item.RRId }"
+												target="_blank"
+												>{{ item.RRNo }}</a
+											>
+											<i class="fas fa-check-circle" *ngIf="item.IsAvailable == 1"></i>
+											<i class="mdi mdi-close-circle" *ngIf="item.IsAvailable == 0"></i>
+										</h2>
+									</div>
+
+									<!-- 2nd Column -->
+									<div class="col-xl-2 float-left">
+										<div
+											*ngIf="
+												((item.ShippingStatus != 0 || item.ShippingStatus != null) &&
+													item.ShippingIdentityId == item.CustomerId &&
+													item.ShipFromId == null &&
+													item.Status == 5 &&
+													item.CustomerSOId != 0) ||
+												(item.ShippingStatus == 2 &&
+													item.ReceiveDate != null &&
+													item.ShipToId == item.CustomerId) ||
+												item.ShippingIdentityId == item.CustomerId ||
+												item.ShipToId == item.CustomerId
+											"
+										>
+											<div class="row">
+												<div class="col-xl-5 text-right nopad-rt float-left">
+													<label class="mt-1" for="Customer"
+														>Package Weight :
+														<span
+															class="red"
+															*ngIf="
+																((this.model.ShipFrom == 'Aibond' &&
+																	this.model.ShipTo == 'Customer') ||
+																	(this.model.ShipFrom == 'Aibond' &&
+																		this.model.ShipTo == 'Vendor')) &&
+																this.model.ShipViaId == UPSId &&
+																IsUPSEnable == '1' &&
+																IsUserUPSEnable == 1
+															"
+															>*</span
+														>
+													</label>
+												</div>
+												<div class="col-xl-7 float-left">
+													<input
+														type="text"
+														style="width: 90%"
+														class="form-control"
+														id="PackWeight"
+														placeholder="Package Weight"
+														[(ngModel)]="item.PackWeight"
+														name="PackWeight[{{ i }}]"
+														#PackWeight="ngModel"
+														[required]="
+															((this.model.ShipFrom == 'Aibond' &&
+																this.model.ShipTo == 'Customer') ||
+																(this.model.ShipFrom == 'Aibond' &&
+																	this.model.ShipTo == 'Vendor')) &&
+															this.model.ShipViaId == UPSId &&
+															item.checked &&
+															IsUPSEnable == '1'
+																? true
+																: undefined && IsUserUPSEnable == '1'
+																? true
+																: undefined
+														"
+														[ngClass]="{
+															'is-invalid': f.submitted && PackWeight.invalid
+														}"
+														inputmode="numeric"
+														pattern="^\d+(\.\d{1,2})?$"
+														placeholder="0.00"
+														digitOnly
+														decimal="true"
+													/>
+													<div
+														*ngIf="f1.submitted && PackWeight.invalid"
+														class="invalid-feedback"
+													>
+														<div *ngIf="PackWeight.errors.required">
+															Package Weight is required
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div>&nbsp;</div>
+									</div>
+
+									<div class="col-xl-5 float-left nopad">
+										<!-- Condition 1 -->
+										<div
+											style="margin-top: 8px"
+											class=""
+											*ngIf="
+												((item.ShippingStatus != 0 || item.ShippingStatus != null) &&
+													((item.ShippingIdentityId == item.CustomerId &&
+														item.ShipFromId == null) ||
+														(item.ShippingStatus == 2 &&
+															item.ReceiveDate != null &&
+															item.ShipToId == item.CustomerId) ||
+														(item.ShippingIdentityId == item.CustomerId &&
+															item.ShipToId == item.CustomerId))) ||
+												(item.ShippingIdentityId == this.ah_groupId &&
+													item.ShipFromId == null)
+											"
+										>
+											<p
+												style="margin-bottom: 0; margin-top: 5px"
+												class="float-left ml-60"
+											>
+												Part Current Location:
+												<span
+													class="badge badge-light-secondary"
+													style="font-size: 13px"
+													*ngIf="item.ShipToName != null"
+												>
+													<span *ngIf="item.ShippingStatus == 1"
+														>Shipped : {{ item.ShipFromName }}
+													</span>
+													<span *ngIf="item.ShippingStatus == 2"
+														>Received : {{ item.ShipToName }}</span
+													>
+												</span>
+												<span
+													class="badge badge-light-secondary"
+													style="font-size: 13px"
+													*ngIf="item.ShipToName == null"
+												>
+													<span *ngIf="item.ShippingStatus == 1">Shipped : Aibond </span>
+													<span
+														*ngIf="
+															item.ShippingStatus == 2 &&
+															item.ShippingIdentityId == item.CustomerId
+														"
+														>Received :{{ item.ShippingIdentityName }}
+													</span>
+													<span
+														*ngIf="
+															item.ShippingStatus == 2 &&
+															item.ShippingIdentityId != item.CustomerId
+														"
+														>Received : Aibond</span
+													>
+												</span>
+											</p>
+											<button
+												style="padding: 1px 13px !important; border-radius: 15px"
+												type="button"
+												(click)="onShip(item, i)"
+												*ngIf="
+													item.ShippingStatus == 2 &&
+													item.ShippingIdentityId != item.CustomerId
+												"
+												class="btn ml-1 float-left btn-success waves-effect waves-light"
+											>
+												Ship
+											</button>
+										</div>
+
+										<!-- Condition 2 -->
+										<p
+											*ngIf="item.ShippingStatus == 0 || item.ShippingStatus == null"
+											class="float-left ml-60"
+										>
+											Part Current Location:
+											<span
+												style="font-weight: normal"
+												class="badge badge-light-secondary"
+												style="font-size: 13px"
+												>Not Yet Started</span
+											>
+										</p>
+										<button
+											*ngIf="item.ShippingStatus == 0 || item.ShippingStatus == null"
+											type="button"
+											class="btn btn-primary rdr btn-md ml-1 float-left"
+											(click)="
+												onUpdatePartCurrentLocation(
+													item.RRId,
+													item.VendorId,
+													item.CustomerId,
+													item,
+													i
+												)
+											"
+										>
+											Add Current Location
+										</button>
+										<!-- Condition 4 -->
+										<div
+											*ngIf="
+												item.ShippingStatus == 2 &&
+												item.ReceiveDate != null &&
+												item.ShipToId != item.CustomerId
+											"
+										>
+											<p style="margin-top: 5px" class="float-left ml-60">
+												Part Current Location:
+												<span
+													class="badge badge-light-secondary"
+													style="font-size: 13px"
+													*ngIf="item.ShipFromName != null"
+												>
+													<span *ngIf="item.ShippingStatus == 1"
+														>Shipped : {{ item.ShipFromName }}</span
+													>
+													<span *ngIf="item.ShippingStatus == 2"
+														>Received : {{ item.ShipToName }}</span
+													>
+												</span>
+												<span
+													class="badge badge-light-secondary"
+													style="font-size: 13px"
+													*ngIf="item.ShipFromName == null"
+												>
+													<span *ngIf="item.ShippingStatus == 1"
+														>Shipped : {{ item.ShipToName }}</span
+													>
+													<span *ngIf="item.ShippingStatus == 2"
+														>Received : {{ item.ShipToName }}</span
+													>
+												</span>
+											</p>
+
+											<button
+												style="padding: 1px 13px !important; border-radius: 15px"
+												type="button"
+												(click)="onShip(item, i)"
+												class="btn ml-1 float-left btn-success waves-effect waves-light"
+											>
+												Ship
+											</button>
+										</div>
+
+										<!-- Condition 3 -->
+										<div *ngIf="item.ShippingStatus == 1 && item.ReceiveDate == null">
+											<p style="margin-top: 5px" class="float-left ml-60">
+												Part Current Location:
+												<span class="badge badge-light-secondary" style="font-size: 13px">
+													<span *ngIf="item.ShippingStatus == 1">
+														In Transit : {{ item.ShipToName }}</span
+													>
+												</span>
+											</p>
+
+											<button
+												style="padding: 2px 15px !important; border-radius: 15px"
+												type="button"
+												(click)="onRRShippingReceive(item, i)"
+												class="btn ml-1 float-left btn-info waves-effect waves-light"
+											>
+												Receive
+											</button>
+										</div>
+									</div>
+
+									<!-- 4th  Column -->
+									<div class="col-xl-3 float-left">
+										<p style="margin-top: 5px" class="float-left ml-60">
+											Status:
+											<span class="badge-light btn-xs poibtn">{{
+												item.statusObj ? item.statusObj.title : ''
+											}}</span>
+										</p>
+
+										<p style="margin-top: 5px" class="float-left ml-60">
+											<button
+												type="button"
+												*ngIf="
+													(item.ShippingStatus != 0 || item.ShippingStatus != null) &&
+													((item.ShippingIdentityId == this.ah_groupId &&
+														item.ShipFromId == null) ||
+														(item.ShippingStatus == 2 &&
+															item.ReceiveDate != null &&
+															item.ShipToId == this.ah_groupId)) &&
+													item.Status == 5 &&
+													item.CustomerSOId == 0 &&
+													this.model.ShipTo == 'Customer' &&
+													RRSalesOrder[CREATE_ACCESS] == 1
+												"
+												(click)="CreateSO(item)"
+												class="btn btn-purple cvpo btn-sm waves-effect waves-light mr-1 mb-1"
+											>
+												Create SO
+											</button>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div
+					*ngIf="this.model.ShipFrom == 'Vendor' && this.model.ShipTo == 'Aibond'"
+				>
+					<!-- Ship From Vendor && Customer and shipto is Vendor && Customer above card working -->
+
+					<div class="card" *ngFor="let item of RRDetails; let i = index">
+						<div
+							[ngClass]="{ hideClass: item.IsAvailable == 0 }"
+							style="padding-top: 7px; padding-bottom: 7px !important"
+							class="card-body"
+						>
+							<div class="row" style="margin-top: 5px">
+								<div class="col-xl-12">
+									<!-- 1st Column -->
+									<div class="col-xl-2 float-left">
+										<h2 class="nobrdm">
+											<input
+												style="margin: 2px 5px 0 0"
+												id="check"
+												class="form-control checkinput checkbox-outer"
+												[checked]="item.checked"
+												(change)="CreateBulkitem($event, i)"
+												type="checkbox"
+												[disabled]="item.IsAvailable == 0"
+											/>
+											Ship -
+											<a
+												[routerLink]="['/admin/repair-request/edit']"
+												[queryParams]="{ RRId: item.RRId }"
+												target="_blank"
+												>{{ item.RRNo }}</a
+											>
+											<i class="fas fa-check-circle" *ngIf="item.IsAvailable == 1"></i>
+											<i class="mdi mdi-close-circle" *ngIf="item.IsAvailable == 0"></i>
+										</h2>
+									</div>
+
+									<!-- 2nd Column -->
+									<div class="col-xl-2 float-left">
+										<div
+											*ngIf="
+												((item.ShippingStatus != 0 || item.ShippingStatus != null) &&
+													item.Status != 5 &&
+													this.model.ShipTo == 'Customer' &&
+													item.ShippingStatus == 2 &&
+													item.ReceiveDate != null &&
+													item.ShipToId == item.VendorId) ||
+												(item.ShippingStatus == 2 &&
+													item.ReceiveDate != null &&
+													item.ShipToId == item.VendorId &&
+													item.Status == 5 &&
+													item.CustomerSOId != 0 &&
+													this.model.ShipTo == 'Customer') ||
+												(this.model.ShipTo != 'Customer' &&
+													item.ShippingStatus == 2 &&
+													item.ReceiveDate != null &&
+													item.ShipToId == item.VendorId) ||
+												(item.ShippingIdentityId == item.VendorId &&
+													item.ShipFromId == null &&
+													item.CustomerSOId != 0) ||
+												(item.ShippingIdentityId == item.VendorId &&
+													item.ShipFromId == null &&
+													(item.Status == 6 ||
+														item.Status == 2 ||
+														item.Status == 4 ||
+														item.Status == 8)) ||
+												(item.ShipFromId == null && item.ShipToId == item.VendorId)
+											"
+										>
+											<div class="row">
+												<div class="col-xl-5 text-right nopad-rt float-left">
+													<label class="mt-1" for="Customer"
+														>Package Weight :
+														<span
+															class="red"
+															*ngIf="
+																((this.model.ShipFrom == 'Aibond' &&
+																	this.model.ShipTo == 'Customer') ||
+																	(this.model.ShipFrom == 'Aibond' &&
+																		this.model.ShipTo == 'Vendor')) &&
+																this.model.ShipViaId == UPSId &&
+																IsUPSEnable == '1' &&
+																IsUserUPSEnable == 1
+															"
+															>*</span
+														>
+													</label>
+												</div>
+												<div class="col-xl-7 float-left">
+													<input
+														type="text"
+														style="width: 90%"
+														class="form-control"
+														id="PackWeight"
+														placeholder="Package Weight"
+														[(ngModel)]="item.PackWeight"
+														name="PackWeight[{{ i }}]"
+														#PackWeight="ngModel"
+														[required]="
+															((this.model.ShipFrom == 'Aibond' &&
+																this.model.ShipTo == 'Customer') ||
+																(this.model.ShipFrom == 'Aibond' &&
+																	this.model.ShipTo == 'Vendor')) &&
+															this.model.ShipViaId == UPSId &&
+															item.checked &&
+															IsUPSEnable == '1'
+																? true
+																: undefined && IsUserUPSEnable == '1'
+																? true
+																: undefined
+														"
+														[ngClass]="{
+															'is-invalid': f.submitted && PackWeight.invalid
+														}"
+														inputmode="numeric"
+														pattern="^\d+(\.\d{1,2})?$"
+														placeholder="0.00"
+														digitOnly
+														decimal="true"
+													/>
+													<div
+														*ngIf="f1.submitted && PackWeight.invalid"
+														class="invalid-feedback"
+													>
+														<div *ngIf="PackWeight.errors.required">
+															Package Weight is required
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div>&nbsp;</div>
+									</div>
+
+									<div class="col-xl-5 float-left nopad">
+										<!-- Condition 1 -->
+										<div
+											style="margin-top: 8px"
+											class=""
+											*ngIf="
+												(item.ShippingStatus != 0 || item.ShippingStatus != null) &&
+												((item.ShippingIdentityId == this.ah_groupId &&
+													item.ShipFromId == null) ||
+													(item.ShippingStatus == 2 &&
+														item.ReceiveDate != null &&
+														item.ShipToId == this.ah_groupId) ||
+													(item.ShippingIdentityId == item.VendorId &&
+														item.ShipToId == item.VendorId))
+											"
+										>
+											<p
+												style="margin-bottom: 0; margin-top: 5px"
+												class="float-left ml-60"
+											>
+												<span
+													*ngIf="
+														item.ShippingStatus == 2 &&
+														item.ShippingIdentityId != this.ah_groupId
+													"
+												>
+													Part Current Location:</span
+												>
+												<span
+													class="badge badge-light-secondary"
+													style="font-size: 13px"
+													*ngIf="item.ShipToName != null"
+												>
+													<span *ngIf="item.ShippingStatus == 1"
+														>Shipped : {{ item.ShipFromName }}
+													</span>
+													<span
+														*ngIf="
+															item.ShippingStatus == 2 &&
+															item.ShippingIdentityId != this.ah_groupId
+														"
+														>Received : {{ item.ShipToName }}</span
+													>
+												</span>
+												<span
+													class="badge badge-light-secondary"
+													style="font-size: 13px"
+													*ngIf="
+														item.ShipToName == null &&
+														item.ShippingIdentityId != this.ah_groupId
+													"
+												>
+													<span *ngIf="item.ShippingStatus == 1"
+														>Shipped : {{ item.ShipToName }}
+													</span>
+													<span *ngIf="item.ShippingStatus == 2"
+														>Received : {{ item.ShipToName }}
+													</span>
+												</span>
+												<span
+													*ngIf="
+														item.ShipToName == null &&
+														item.ShippingIdentityId == this.ah_groupId
+													"
+												>
+													Part Current Location
+													<span
+														class="badge badge-light-secondary"
+														style="font-size: 13px"
+														*ngIf="item.ShippingStatus == 1"
+														>Shipped : Aibond
+													</span>
+													<span
+														class="badge badge-light-secondary"
+														style="font-size: 13px"
+														*ngIf="item.ShippingStatus == 2"
+														>Received : Aibond
+													</span>
+												</span>
+											</p>
+											<button
+												style="padding: 1px 13px !important; border-radius: 15px"
+												type="button"
+												*ngIf="
+													item.ShipToName == null &&
+													item.ShippingIdentityId == this.ah_groupId &&
+													item.ShippingStatus == 2
+												"
+												(click)="onShip(item, i)"
+												class="btn ml-1 float-left btn-success waves-effect waves-light"
+											>
+												Ship
+											</button>
+										</div>
+
+										<!-- Condition 2 -->
+										<p
+											*ngIf="item.ShippingStatus == 0 || item.ShippingStatus == null"
+											class="float-left ml-60"
+										>
+											Part Current Location:
+											<span
+												style="font-weight: normal"
+												class="badge badge-light-secondary"
+												style="font-size: 13px"
+												>Not Yet Started</span
+											>
+										</p>
+										<button
+											*ngIf="item.ShippingStatus == 0 || item.ShippingStatus == null"
+											type="button"
+											class="btn btn-primary rdr btn-md ml-1 float-left"
+											(click)="
+												onUpdatePartCurrentLocation(
+													item.RRId,
+													item.VendorId,
+													item.CustomerId,
+													item,
+													i
+												)
+											"
+										>
+											Add Current Location
+										</button>
+										<!-- Condition 4 -->
+										<div
+											*ngIf="
+												(item.ShippingStatus == 2 &&
+													item.ReceiveDate != null &&
+													item.ShipToId != item.VendorId) ||
+												(item.ShippingStatus == 2 &&
+													item.ShippingIdentityId == this.model.CustomerId &&
+													item.ShippingIdentityType == 1) ||
+												(item.ShippingStatus == 2 &&
+													item.ShippingIdentityId != this.model.CustomerId &&
+													item.ShippingIdentityType == 1 &&
+													item.ShipFromId == null)
+											"
+										>
+											<p style="margin-top: 5px" class="float-left ml-60">
+												Part Current Location:
+												<span
+													class="badge badge-light-secondary"
+													style="font-size: 13px"
+													*ngIf="item.ShipFromName != null"
+												>
+													<span *ngIf="item.ShippingStatus == 1"
+														>Shipped : {{ item.ShipFromName }}</span
+													>
+													<span *ngIf="item.ShippingStatus == 2"
+														>Received : {{ item.ShipToName }}</span
+													>
+												</span>
+												<span
+													class="badge badge-light-secondary"
+													style="font-size: 13px"
+													*ngIf="item.ShipFromName == null"
+												>
+													<span *ngIf="item.ShippingStatus == 1"
+														>Shipped : {{ CustomerName || item.ShippingIdentityName }}</span
+													>
+													<span *ngIf="item.ShippingStatus == 2"
+														>Received : {{ CustomerName || item.ShippingIdentityName }}</span
+													>
+												</span>
+											</p>
+
+											<button
+												style="padding: 1px 13px !important; border-radius: 15px"
+												type="button"
+												(click)="onShip(item, i)"
+												class="btn ml-1 float-left btn-success waves-effect waves-light"
+											>
+												Ship
+											</button>
+										</div>
+
+										<!-- Condition 3 -->
+										<div *ngIf="item.ShippingStatus == 1 && item.ReceiveDate == null">
+											<p style="margin-top: 5px" class="float-left ml-60">
+												Part Current Location:
+												<span class="badge badge-light-secondary" style="font-size: 13px">
+													<span *ngIf="item.ShippingStatus == 1">
+														In Transit : {{ item.ShipToName }}</span
+													>
+												</span>
+											</p>
+
+											<button
+												style="padding: 2px 15px !important; border-radius: 15px"
+												type="button"
+												(click)="onRRShippingReceive(item, i)"
+												class="btn ml-1 float-left btn-info waves-effect waves-light"
+											>
+												Receive
+											</button>
+										</div>
+									</div>
+
+									<!-- 4th  Column -->
+									<div class="col-xl-3 float-left">
+										<p style="margin-top: 5px" class="float-left ml-60">
+											Status:
+											<span class="badge-light btn-xs poibtn">{{
+												item.statusObj ? item.statusObj.title : ''
+											}}</span>
+										</p>
+
+										<p style="margin-top: 5px" class="float-left ml-60">
+											<button
+												type="button"
+												*ngIf="
+													(item.ShippingStatus != 0 || item.ShippingStatus != null) &&
+													((item.ShippingIdentityId == this.ah_groupId &&
+														item.ShipFromId == null) ||
+														(item.ShippingStatus == 2 &&
+															item.ReceiveDate != null &&
+															item.ShipToId == this.ah_groupId)) &&
+													item.Status == 5 &&
+													item.CustomerSOId == 0 &&
+													this.model.ShipTo == 'Customer' &&
+													RRSalesOrder[CREATE_ACCESS] == 1
+												"
+												(click)="CreateSO(item)"
+												class="btn btn-purple cvpo btn-sm waves-effect waves-light mr-1 mb-1"
+											>
+												Create SO
+											</button>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div
+					*ngIf="this.model.ShipFrom == 'Customer' && this.model.ShipTo == 'Aibond'"
+				>
+					<!-- Ship From Customer and shipto is Vendor  above card working -->
+
+					<div class="card" *ngFor="let item of RRDetails; let i = index">
+						<div
+							[ngClass]="{ hideClass: item.IsAvailable == 0 }"
+							style="padding-top: 7px; padding-bottom: 7px !important"
+							class="card-body"
+						>
+							<div class="row" style="margin-top: 5px">
+								<div class="col-xl-12">
+									<!-- 1st Column -->
+									<div class="col-xl-2 float-left">
+										<h2 class="nobrdm">
+											<input
+												style="margin: 2px 5px 0 0"
+												id="check"
+												class="form-control checkinput checkbox-outer"
+												[checked]="item.checked"
+												(change)="CreateBulkitem($event, i)"
+												type="checkbox"
+												[disabled]="item.IsAvailable == 0"
+											/>
+											Ship -
+											<a
+												[routerLink]="['/admin/repair-request/edit']"
+												[queryParams]="{ RRId: item.RRId }"
+												target="_blank"
+												>{{ item.RRNo }}</a
+											>
+											<i class="fas fa-check-circle" *ngIf="item.IsAvailable == 1"></i>
+											<i class="mdi mdi-close-circle" *ngIf="item.IsAvailable == 0"></i>
+										</h2>
+									</div>
+
+									<!-- 2nd Column -->
+									<div class="col-xl-2 float-left">
+										<div
+											*ngIf="
+												((item.ShippingStatus != 0 || item.ShippingStatus != null) &&
+													item.ShippingIdentityId == item.CustomerId &&
+													item.ShipFromId == null &&
+													item.Status == 5 &&
+													item.CustomerSOId != 0) ||
+												(item.ShippingStatus == 2 &&
+													item.ReceiveDate != null &&
+													item.ShipToId == item.CustomerId) ||
+												item.ShippingIdentityId == item.CustomerId ||
+												item.ShipToId == item.CustomerId
+											"
+										>
+											<div class="row">
+												<div class="col-xl-5 text-right nopad-rt float-left">
+													<label class="mt-1" for="Customer"
+														>Package Weight :
+														<span
+															class="red"
+															*ngIf="
+																((this.model.ShipFrom == 'Aibond' &&
+																	this.model.ShipTo == 'Customer') ||
+																	(this.model.ShipFrom == 'Aibond' &&
+																		this.model.ShipTo == 'Vendor')) &&
+																this.model.ShipViaId == UPSId &&
+																IsUPSEnable == '1' &&
+																IsUserUPSEnable == 1
+															"
+															>*</span
+														>
+													</label>
+												</div>
+												<div class="col-xl-7 float-left">
+													<input
+														type="text"
+														style="width: 90%"
+														class="form-control"
+														id="PackWeight"
+														placeholder="Package Weight"
+														[(ngModel)]="item.PackWeight"
+														name="PackWeight[{{ i }}]"
+														#PackWeight="ngModel"
+														[required]="
+															((this.model.ShipFrom == 'Aibond' &&
+																this.model.ShipTo == 'Customer') ||
+																(this.model.ShipFrom == 'Aibond' &&
+																	this.model.ShipTo == 'Vendor')) &&
+															this.model.ShipViaId == UPSId &&
+															item.checked &&
+															IsUPSEnable == '1'
+																? true
+																: undefined && IsUserUPSEnable == '1'
+																? true
+																: undefined
+														"
+														[ngClass]="{
+															'is-invalid': f.submitted && PackWeight.invalid
+														}"
+														inputmode="numeric"
+														pattern="^\d+(\.\d{1,2})?$"
+														placeholder="0.00"
+														digitOnly
+														decimal="true"
+													/>
+													<div
+														*ngIf="f1.submitted && PackWeight.invalid"
+														class="invalid-feedback"
+													>
+														<div *ngIf="PackWeight.errors.required">
+															Package Weight is required
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div>&nbsp;</div>
+									</div>
+
+									<div class="col-xl-5 float-left nopad">
+										<!-- Condition 1 -->
+										<div
+											style="margin-top: 8px"
+											class=""
+											*ngIf="
+												((item.ShippingStatus != 0 || item.ShippingStatus != null) &&
+													((item.ShippingIdentityId == item.CustomerId &&
+														item.ShipFromId == null) ||
+														(item.ShippingStatus == 2 &&
+															item.ReceiveDate != null &&
+															item.ShipToId == item.CustomerId) ||
+														(item.ShippingIdentityId == item.CustomerId &&
+															item.ShipToId == item.CustomerId))) ||
+												(item.ShippingIdentityId == this.ah_groupId &&
+													item.ShipFromId == null)
+											"
+										>
+											<p
+												style="margin-bottom: 0; margin-top: 5px"
+												class="float-left ml-60"
+											>
+												Part Current Location:
+												<span
+													class="badge badge-light-secondary"
+													style="font-size: 13px"
+													*ngIf="item.ShipToName != null"
+												>
+													<span *ngIf="item.ShippingStatus == 1"
+														>Shipped : {{ item.ShipFromName }}
+													</span>
+													<span *ngIf="item.ShippingStatus == 2"
+														>Received : {{ item.ShipToName }}</span
+													>
+												</span>
+												<span
+													class="badge badge-light-secondary"
+													style="font-size: 13px"
+													*ngIf="item.ShipToName == null"
+												>
+													<span *ngIf="item.ShippingStatus == 1">Shipped : Aibond </span>
+													<span
+														*ngIf="
+															item.ShippingStatus == 2 &&
+															item.ShippingIdentityId == item.CustomerId
+														"
+														>Received :{{ item.ShippingIdentityName }}
+													</span>
+													<span
+														*ngIf="
+															item.ShippingStatus == 2 &&
+															item.ShippingIdentityId != item.CustomerId
+														"
+														>Received : Aibond</span
+													>
+												</span>
+											</p>
+											<button
+												style="padding: 1px 13px !important; border-radius: 15px"
+												type="button"
+												(click)="onShip(item, i)"
+												*ngIf="
+													item.ShippingStatus == 2 &&
+													item.ShippingIdentityId != item.CustomerId
+												"
+												class="btn ml-1 float-left btn-success waves-effect waves-light"
+											>
+												Ship
+											</button>
+										</div>
+
+										<!-- Condition 2 -->
+										<p
+											*ngIf="item.ShippingStatus == 0 || item.ShippingStatus == null"
+											class="float-left ml-60"
+										>
+											Part Current Location:
+											<span
+												style="font-weight: normal"
+												class="badge badge-light-secondary"
+												style="font-size: 13px"
+												>Not Yet Started</span
+											>
+										</p>
+										<button
+											*ngIf="item.ShippingStatus == 0 || item.ShippingStatus == null"
+											type="button"
+											class="btn btn-primary rdr btn-md ml-1 float-left"
+											(click)="
+												onUpdatePartCurrentLocation(
+													item.RRId,
+													item.VendorId,
+													item.CustomerId,
+													item,
+													i
+												)
+											"
+										>
+											Add Current Location
+										</button>
+										<!-- Condition 4 -->
+										<div
+											*ngIf="
+												item.ShippingStatus == 2 &&
+												item.ReceiveDate != null &&
+												item.ShipToId != item.CustomerId
+											"
+										>
+											<p style="margin-top: 5px" class="float-left ml-60">
+												Part Current Location:
+												<span
+													class="badge badge-light-secondary"
+													style="font-size: 13px"
+													*ngIf="item.ShipFromName != null"
+												>
+													<span *ngIf="item.ShippingStatus == 1"
+														>Shipped : {{ item.ShipFromName }}</span
+													>
+													<span *ngIf="item.ShippingStatus == 2"
+														>Received : {{ item.ShipToName }}</span
+													>
+												</span>
+												<span
+													class="badge badge-light-secondary"
+													style="font-size: 13px"
+													*ngIf="item.ShipFromName == null"
+												>
+													<span *ngIf="item.ShippingStatus == 1"
+														>Shipped : {{ item.ShipToName }}</span
+													>
+													<span *ngIf="item.ShippingStatus == 2"
+														>Received : {{ item.ShipToName }}</span
+													>
+												</span>
+											</p>
+
+											<button
+												style="padding: 1px 13px !important; border-radius: 15px"
+												type="button"
+												(click)="onShip(item, i)"
+												class="btn ml-1 float-left btn-success waves-effect waves-light"
+											>
+												Ship
+											</button>
+										</div>
+
+										<!-- Condition 3 -->
+										<div *ngIf="item.ShippingStatus == 1 && item.ReceiveDate == null">
+											<p style="margin-top: 5px" class="float-left ml-60">
+												Part Current Location:
+												<span class="badge badge-light-secondary" style="font-size: 13px">
+													<span *ngIf="item.ShippingStatus == 1">
+														In Transit : {{ item.ShipToName }}</span
+													>
+												</span>
+											</p>
+
+											<button
+												style="padding: 2px 15px !important; border-radius: 15px"
+												type="button"
+												(click)="onRRShippingReceive(item, i)"
+												class="btn ml-1 float-left btn-info waves-effect waves-light"
+											>
+												Receive
+											</button>
+										</div>
+									</div>
+
+									<!-- 4th  Column -->
+									<div class="col-xl-3 float-left">
+										<p style="margin-top: 5px" class="float-left ml-60">
+											Status:
+											<span class="badge-light btn-xs poibtn">{{
+												item.statusObj ? item.statusObj.title : ''
+											}}</span>
+										</p>
+
+										<p style="margin-top: 5px" class="float-left ml-60">
+											<button
+												type="button"
+												*ngIf="
+													(item.ShippingStatus != 0 || item.ShippingStatus != null) &&
+													((item.ShippingIdentityId == this.ah_groupId &&
+														item.ShipFromId == null) ||
+														(item.ShippingStatus == 2 &&
+															item.ReceiveDate != null &&
+															item.ShipToId == this.ah_groupId)) &&
+													item.Status == 5 &&
+													item.CustomerSOId == 0 &&
+													this.model.ShipTo == 'Customer' &&
+													RRSalesOrder[CREATE_ACCESS] == 1
+												"
+												(click)="CreateSO(item)"
+												class="btn btn-purple cvpo btn-sm waves-effect waves-light mr-1 mb-1"
+											>
+												Create SO
+											</button>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="account-pages mt-5 mb-5" *ngIf="!IsAddEnabled">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-8 col-lg-6 col-xl-5">
+				<div class="card bg-pattern">
+					<div class="card-body p-4">
+						<div class="text-center">
+							<a routerLink="/">
+								<span
+									><img src="assets/projects/ah-group/full_logo.png" alt="" height="22"
+								/></span>
+							</a>
+						</div>
+
+						<div class="text-center mt-4">
+							<h1 class="text-error">401</h1>
+							<h3 class="mt-3 mb-2">Access Denied!</h3>
+							<p class="text-muted mb-3">
+								You don't have permission to access this page.
+							</p>
+
+							<a
+								routerLink="/admin/dashboard/ah-dashboard"
+								class="btn btn-success waves-effect waves-light"
+								>Back to Dashboard</a
+							>
+						</div>
+					</div>
+					<!-- end card-body -->
+				</div>
+				<!-- end card -->
+			</div>
+			<!-- end col -->
+		</div>
+		<!-- end row -->
+	</div>
+	<!-- end container -->
+</div>

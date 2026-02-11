@@ -1,0 +1,111 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+
+<div class="sideNavcontainer">
+    <app-page-title title="Shipping Tacking"></app-page-title>
+
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card-box">
+                <form class="form" role="form"  [formGroup]="Form">
+
+                    <div class="col-xl-12">
+                        
+                        <div class="row">
+                            <div class="col-xl-12 form-lbox">
+                                <div class="row">
+                                    <div class="col-xl-4">
+                                        <div class="form-group">
+                                            <label>
+                                               Tracking No: <span class="red">*</span>
+                                            </label>
+                                            <input type="text" class="form-control" placeholder="Enter Tracking No" name="TrackingNo" formControlName="TrackingNo">
+                                            <span class="text-danger" *ngIf="(FormControl.TrackingNo.touched || submitted) && FormControl.TrackingNo.errors?.required">
+                                                Tracking No is required
+                                            </span>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-xl-4">
+                                        <div class="form-group" style="margin-top: 16px!important">
+                                        <input type="button" class="btn btn-primary btn-md mr-1" value="Search" id="btnFilter"
+                (click)="onSubmit()" />
+            </div>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ng-container *ngFor="let shipment of upsTrackingData?.trackResponse?.shipment; let shipIdx = index">
+                                    <ng-container *ngFor="let package of shipment?.package; let packIdx = index">
+                                        <div class="header">
+                                            <h4 class="page-title bluetxt mb-20 tnn">Tracking #: {{ package?.trackingNumber }}</h4>
+                                        </div>
+                                        <ng-container *ngFor="let activity of package?.activity; let activIdx = index">
+                                            <ul class="left-timeline">
+                                                <li>
+                                                    <time class="left-time" datetime="2017-11-04T18:30"><span class="hidden">{{
+                                                            getDateTime(activity?.date, activity?.time) | date }}</span>
+                                                        <span class="large">{{ getDateTime(activity?.date, activity?.time) |
+                                                            date:'shortTime' }}</span>
+                                                    </time>
+                                                <div class="left-icon">
+                                                    <i class="mdi mdi-adjust fo-1"></i>
+                                                </div>
+                                                <div class="left-label">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="col-6 float-left">
+                                                                <span style="font-weight:bold;color:black;">{{ activity?.status?.description }}</span>
+                                                                <h2>{{activity?.location?.address?.city}}
+                                                                    <span>{{activity?.location?.address?.stateProvince}},
+                                                                {{activity?.location?.address?.postalCode}},
+                                                                {{activity?.location?.address?.country}}</span>
+                                                                </h2>
+                                                            </div>
+                                                            <div class="col-6 float-left">
+                                                                <strong>Status</strong>
+                                                                <div class="row">
+                                                                    <div class="col-6 float-left">
+                                                                        <p>
+                                                                            Type : {{activity?.status?.type}}
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="col-6 float-left">
+                                                                        <p>Code : {{activity?.status?.code}}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </div>
+                    </div>
+
+                  
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

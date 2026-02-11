@@ -1,0 +1,108 @@
+<!-- 
+    /* ===================================================
+* @copyright Copyright  2020 - 2023 Aibond Corp.
+*
+* All Rights Reserved.
+*
+* ========================================================== */
+ -->
+
+<div class="container-fluid">
+	<div class="col-xl-12 mb-3">
+		<div class="col-xl-3 col-sm-4 float-left">
+			<button class="btn mangebtn btn-block" type="submit">
+				Repair Management
+			</button>
+		</div>
+		<div class="col-xl-3 col-sm-4 float-left">
+			<button class="btn mangebtn btn-block" type="submit">
+				Inventory Management
+			</button>
+		</div>
+		<div class="col-xl-3 col-sm-4 float-left">
+			<button class="btn mangebtn btn-block" type="submit">RFID Management</button>
+		</div>
+		<div class="col-xl-3 col-sm-4 float-left">
+			<button class="btn mangebtn btn-block" type="submit">
+				Asset Management
+			</button>
+		</div>
+	</div>
+	<div class="row justify-content-center">
+		<div class="col-lg-5 col-sm-7">
+			<div class="card-body p-4">
+				<!-- Logo -->
+				<div class="text-center w-75 m-auto">
+					<a routerLink="/">
+						<img src="{{ juno }}" alt="" height="60" />
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="aboutPageHeader">
+		<h3 class="aboutPageTitle">About</h3>
+	</div>
+	<div class="aboutPageBody">
+		<p>
+			We are a digital transformation technology provider delivering real time
+			intelligence.
+		</p>
+		<h4>Passion of Aibond</h4>
+		<p>
+			These are our core values that define and make us. Our Persona are fueled by
+			our values.
+			<br />
+			Dedicated to transparent, empowering relationships with stakeholders, we
+			employ technological problem-solving to elevate both human standards and
+			environmental impact.
+			<br />
+			Our commitment is demonstrated through continuous delivery of valuable,
+			innovative software solutions, all grounded in unwavering customer-centric
+			values.
+		</p>
+		<h4>Our Habits</h4>
+		<ul>
+			<li>Knowledgeable</li>
+			<li>Trustworthiness</li>
+			<li>Speed Wins</li>
+			<li>Empathy</li>
+			<li>Reliable</li>
+		</ul>
+		<h4>Mission & Vision</h4>
+		<p>
+			Our vision is to empower individuals, organizations and society to thrive and
+			work towards a better future, one that is more equitable and empathetic for
+			all.
+			<br />
+			Our mission is to leverage cutting edge AI technologies with integrated
+			sensors to bring innovative resolution for solving tough problems and
+			promoting sustainable living.
+		</p>
+	</div>
+	<div class="row mt-3">
+		<div class="col-12 text-center">
+			<p style="color: #3f79fe">
+				Already have account?
+				<a routerLink="/account/login"><b style="color: #c90303">Log In</b></a>
+			</p>
+		</div>
+	</div>
+	<div class="row mt-3">
+		<div class="col-12 text-center">
+			<p style="color: #3f79fe">
+				Don't have an account?
+				<a routerLink="/account/signup"><b style="color: #c90303">Sign Up</b></a>
+			</p>
+		</div>
+	</div>
+</div>
+
+<footer class="footer footer-alt">
+	Copyright © {{ year }} Aibond Corp. All rights reserved.
+	<p>
+		<a routerLink="/account/about-page">About</a>
+		<a routerLink="/account/privacy-page">Privacy</a>
+		<a routerLink="/account/terms-page">Terms</a>
+	</p>
+</footer>

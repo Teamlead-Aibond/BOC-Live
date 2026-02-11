@@ -1,0 +1,126 @@
+<div class="modal-header modal-xl">
+    <h4 class="modal-title"> GM Repair Tracker Info
+
+    </h4>
+    <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">×</button>
+</div>
+<div class="modal-body p-4 modal-xl">
+
+    <div class="row">
+        <div class="col-xl-4">
+            <div class="form-group">
+                <label for="Customer">Broken? : </label><br>
+                <span *ngIf="GMTrackerDetails.IsBroken != null || GMTrackerDetails.IsBroken == 0">{{GMTrackerDetails.IsBroken == 1 ? 'Yes' : 'No'}}</span>
+                <span *ngIf="GMTrackerDetails.IsBroken == null"  >-</span>
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div class="form-group">
+                <label for="Customer">Approved for : </label><br>
+                <span>{{GMTrackerDetails.ApprovedFor || '-'}}</span>
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div class="form-group">
+                <label for="Customer">Reason for Failure : </label><br>
+                <span>{{GMTrackerDetails.ReasonForFailure || '-'}}</span>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-4">
+            <div class="form-group">
+                <label for="Customer">Failed on Install? : </label><br>
+                <span *ngIf="GMTrackerDetails.FailedOnInstall != null || GMTrackerDetails.FailedOnInstall == 0">
+                    {{GMTrackerDetails.FailedOnInstall == 1 ? 'Yes' : 'No'}}</span>
+                <span *ngIf="GMTrackerDetails.FailedOnInstall == null">-</span>
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div class="form-group">
+                <label for="Customer">Failed on Install Notes : </label><br>
+                <span>{{GMTrackerDetails.FailedOnInstallNotes || '-'}}</span>
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div class="form-group">
+                <label for="Customer">Requestor : </label><br>
+                <span>{{GMTrackerDetails.Requestor || '-'}}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-4">
+            <div class="form-group">
+                <label for="Customer">GCCL Item? :</label><br>
+                <span>{{GMTrackerDetails.GCCLItem || '-'}}</span>
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div class="form-group">
+                <label for="Customer">Repair Warranty Expiration : </label><br>
+                <span>{{GMTrackerDetails.RepairWarrantyExpiration|| '-'}}</span>
+
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div class="form-group">
+                <label for="Customer">Open Order Status : </label><br>
+                <span *ngIf="GMTrackerDetails.OpenOrderStatus == 1 && GMTrackerDetails.OpenOrderStatus">Status1</span>
+                <span *ngIf="GMTrackerDetails.OpenOrderStatus == 2 && GMTrackerDetails.OpenOrderStatus">Status2</span>
+                <span *ngIf="!GMTrackerDetails.OpenOrderStatus">-</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-4">
+            <div class="form-group">
+                <label for="Customer">Account Valuation Class : </label><br>
+                <span>{{GMTrackerDetails.AccountValuationClass || '-'}}</span>
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div class="form-group">
+                <label for="Customer">Receipt Month : </label><br>
+                <span>{{ toMonthName(GMTrackerDetails.ReceiptMonth) }}</span>
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div class="form-group">
+                <label for="Customer">Receipt Year : </label><br>
+                <span>{{GMTrackerDetails.ReceiptYear || '-'}}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-xl-4">
+            <div class="form-group">
+                <label for="Customer">Core Return Month : </label><br>
+                <span>{{ toMonthName(GMTrackerDetails.CoreReturnMonth)}}</span>
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div class="form-group">
+                <label for="Customer">Core Return Year : </label><br>
+                <span>{{GMTrackerDetails.CoreReturnYear || '-'}}</span>
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div class="form-group">
+                <label for="Customer">Scrap? : </label><br>
+                <span *ngIf="GMTrackerDetails.IsScrap != null || GMTrackerDetails.IsScrap == 0">{{GMTrackerDetails.IsScrap == 1 ? 'Yes' : 'No'}}</span>
+                <span *ngIf="GMTrackerDetails.IsScrap == null"  >-</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-right pt-2 mt-0">
+        <button type="button" class="btn btn-secondary waves-effect" (click)="modalRef.hide()">Close</button>
+    </div>
+</div>
